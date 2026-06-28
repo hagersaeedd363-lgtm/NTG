@@ -1,0 +1,3 @@
+# Netlify SPA fallback — every path serves index.html so Angular path-based routing
+# (/products, /services, /projects, /clients, /about, /search, /product/:id, ...) deep-links work.
+/*    /index.html   200
