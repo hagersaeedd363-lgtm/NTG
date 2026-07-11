@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>FC Mobile Hub — EA SPORTS FC Mobile Fan Site</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="FC Mobile Hub — your unofficial guide to EA SPORTS FC Mobile: game modes, Ultimate Team building, live events, pro tips, and the latest meta." />
+  <meta name="theme-color" content="#0a0e14" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230a0e14'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%2300f5a0' stroke-width='2'/%3E%3Cpath d='M16 9l2.5 1.8-1 2.9h-3l-1-2.9z' fill='%2300f5a0'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Background decoration -->
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-glow" aria-hidden="true"></div>
+
+  <!-- Header / Nav -->
+  <header class="site-header" id="top">
+    <nav class="nav container">
+      <a class="brand" href="#top" aria-label="FC Mobile Hub home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" width="30" height="30"><rect width="32" height="32" rx="8" fill="#0f1622"/><circle cx="16" cy="16" r="9" fill="none" stroke="#00f5a0" stroke-width="2"/><path d="M16 9l2.6 1.9-1 3h-3.2l-1-3z" fill="#00f5a0"/></svg>
+        </span>
+        <span class="brand-text">FC&nbsp;Mobile<em>Hub</em></span>
+      </a>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#modes">Game Modes</a></li>
+        <li><a href="#builder">Squad Builder</a></li>
+        <li><a href="#events">Events</a></li>
+        <li><a href="#tips">Pro Tips</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a class="btn btn-sm" href="#download">Play Free</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero container">
+      <div class="hero-copy">
+        <span class="pill">⚽ Unofficial fan hub · Season 2026</span>
+        <h1>Build your dream squad in <span class="grad">EA SPORTS FC&nbsp;Mobile</span></h1>
+        <p class="lead">
+          Everything you need to dominate the pitch — game modes explained, an interactive
+          squad chemistry builder, live event calendar, and pro tips that actually move the
+          needle. Free to play, on your phone.
+        </p>
+        <div class="hero-cta">
+          <a class="btn btn-lg" href="#download">Start Playing</a>
+          <a class="btn btn-ghost btn-lg" href="#modes">Explore Modes</a>
+        </div>
+        <ul class="hero-stats">
+          <li><strong data-count="700">0</strong><span>Million+ downloads</span></li>
+          <li><strong data-count="15000">0</strong><span>Real players</span></li>
+          <li><strong data-count="650">0</strong><span>Licensed teams</span></li>
+        </ul>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="card-glow"></div>
+            <div class="player-card">
+              <div class="pc-rating"><span class="pc-ovr">98</span><span class="pc-pos">ST</span></div>
+              <div class="pc-avatar">
+                <svg viewBox="0 0 64 64" width="88" height="88"><circle cx="32" cy="22" r="12" fill="#0a0e14"/><path d="M12 60c0-13 9-20 20-20s20 7 20 20z" fill="#0a0e14"/></svg>
+              </div>
+              <div class="pc-name">YOUR ICON</div>
+              <div class="pc-stats">
+                <span>PAC<b>99</b></span><span>SHO<b>97</b></span><span>PAS<b>93</b></span>
+                <span>DRI<b>98</b></span><span>DEF<b>45</b></span><span>PHY<b>90</b></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="orbit orbit-1">TOTY</div>
+        <div class="orbit orbit-2">UCL</div>
+        <div class="orbit orbit-3">99 OVR</div>
+      </div>
+    </section>
+
+    <!-- Trust bar -->
+    <section class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>ULTIMATE TEAM</span><span>·</span><span>HEAD TO HEAD</span><span>·</span>
+        <span>MANAGER MODE</span><span>·</span><span>LIVE EVENTS</span><span>·</span>
+        <span>ICONS &amp; HEROES</span><span>·</span><span>UCL &amp; UEL</span><span>·</span>
+        <span>ULTIMATE TEAM</span><span>·</span><span>HEAD TO HEAD</span><span>·</span>
+        <span>MANAGER MODE</span><span>·</span><span>LIVE EVENTS</span><span>·</span>
+        <span>ICONS &amp; HEROES</span><span>·</span><span>UCL &amp; UEL</span><span>·</span>
+      </div>
+    </section>
+
+    <!-- Game Modes -->
+    <section class="section container" id="modes">
+      <div class="section-head">
+        <span class="eyebrow">Game Modes</span>
+        <h2>Play it your way</h2>
+        <p>From quick solo matches to ranked online battles, FC Mobile packs a full football experience into your pocket.</p>
+      </div>
+
+      <div class="grid grid-modes">
+        <article class="mode-card">
+          <div class="mode-icon">🏆</div>
+          <h3>Ultimate Team</h3>
+          <p>Collect players, chase chemistry links, and assemble the ultimate 11 from thousands of stars across every era.</p>
+        </article>
+        <article class="mode-card">
+          <div class="mode-icon">⚔️</div>
+          <h3>Head to Head</h3>
+          <p>Real-time 90-second-per-half matches against players worldwide. Climb the Division Rivals ladder for rewards.</p>
+        </article>
+        <article class="mode-card">
+          <div class="mode-icon">🧠</div>
+          <h3>Manager Mode</h3>
+          <p>Sit back and call the shots. Set tactics and formations, then watch your squad execute the game plan.</p>
+        </article>
+        <article class="mode-card">
+          <div class="mode-icon">🎯</div>
+          <h3>Skill Games</h3>
+          <p>Sharpen shooting, passing and dribbling in bite-sized drills — the fastest way to earn early XP.</p>
+        </article>
+        <article class="mode-card">
+          <div class="mode-icon">🌍</div>
+          <h3>Live Events</h3>
+          <p>Fresh challenges tied to real-world fixtures. Grab limited players, coins and packs before the timer runs out.</p>
+        </article>
+        <article class="mode-card">
+          <div class="mode-icon">⭐</div>
+          <h3>VS Attack</h3>
+          <p>Turn-based attacking duels where every possession counts. Outscore your rival with clinical finishing.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Squad Builder (interactive) -->
+    <section class="section container" id="builder">
+      <div class="section-head">
+        <span class="eyebrow">Interactive</span>
+        <h2>Squad chemistry builder</h2>
+        <p>Pick a formation and tap players to fill the pitch. Watch your team rating and chemistry update live.</p>
+      </div>
+
+      <div class="builder">
+        <div class="builder-controls">
+          <label class="field">
+            <span>Formation</span>
+            <select id="formationSelect">
+              <option value="433">4-3-3</option>
+              <option value="442">4-4-2</option>
+              <option value="4231">4-2-3-1</option>
+              <option value="352">3-5-2</option>
+            </select>
+          </label>
+
+          <div class="builder-readout">
+            <div class="readout">
+              <span class="readout-label">Team Rating</span>
+              <span class="readout-value" id="teamRating">—</span>
+            </div>
+            <div class="readout">
+              <span class="readout-label">Chemistry</span>
+              <span class="readout-value" id="teamChem">0<i>/33</i></span>
+            </div>
+          </div>
+
+          <button class="btn btn-ghost btn-sm" id="autoFill">⚡ Auto-fill best XI</button>
+          <button class="btn btn-ghost btn-sm" id="clearPitch">Clear</button>
+          <p class="builder-hint">Tap a spot on the pitch to drop in a random meta player.</p>
+        </div>
+
+        <div class="pitch" id="pitch" role="group" aria-label="Football pitch formation">
+          <div class="pitch-lines" aria-hidden="true">
+            <div class="pl-circle"></div>
+            <div class="pl-box pl-box-top"></div>
+            <div class="pl-box pl-box-bottom"></div>
+            <div class="pl-mid"></div>
+          </div>
+          <!-- slots injected by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Events -->
+    <section class="section container" id="events">
+      <div class="section-head">
+        <span class="eyebrow">This Season</span>
+        <h2>Live event calendar</h2>
+        <p>Filter the campaigns worth grinding. Times reset daily — plan your energy around the big drops.</p>
+      </div>
+
+      <div class="filters" id="eventFilters">
+        <button class="chip is-active" data-filter="all">All</button>
+        <button class="chip" data-filter="league">League</button>
+        <button class="chip" data-filter="promo">Promo</button>
+        <button class="chip" data-filter="pvp">PvP</button>
+      </div>
+
+      <div class="grid grid-events" id="eventGrid"><!-- injected by JS --></div>
+    </section>
+
+    <!-- Tips -->
+    <section class="section container" id="tips">
+      <div class="section-head">
+        <span class="eyebrow">Pro Tips</span>
+        <h2>Level up faster</h2>
+        <p>Small habits that compound into a stronger squad and a healthier coin balance.</p>
+      </div>
+
+      <div class="grid grid-tips">
+        <article class="tip"><span class="tip-num">01</span><h3>Chase chemistry, not just OVR</h3><p>A linked 84-rated side often beats a mismatched 90 one. Prioritise same-league and same-nation cores early.</p></article>
+        <article class="tip"><span class="tip-num">02</span><h3>Never let energy sit full</h3><p>Energy caps out and wastes regen. Burn it on Live Events or Skill Games before you log off.</p></article>
+        <article class="tip"><span class="tip-num">03</span><h3>Sell duplicates, don't hoard</h3><p>Untradeable dupes feed Skill Boosts and training; tradeable ones fund your next big pull on the market.</p></article>
+        <article class="tip"><span class="tip-num">04</span><h3>Master the skill moves</h3><p>Two or three reliable moves — a quick roll, a ball-roll, a feint — beat spamming flashy combos you can't land.</p></article>
+        <article class="tip"><span class="tip-num">05</span><h3>Defend with positioning</h3><p>Hold the line and jockey. Auto-tackle spam gets punished online — contain, then strike on the loose ball.</p></article>
+        <article class="tip"><span class="tip-num">06</span><h3>Do the daily grind</h3><p>Login rewards, daily objectives and a couple of VS Attack runs stack up huge over a full season.</p></article>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section container" id="faq">
+      <div class="section-head">
+        <span class="eyebrow">Questions</span>
+        <h2>FAQ</h2>
+        <p>The quick answers new managers ask most.</p>
+      </div>
+
+      <div class="faq" id="faqList">
+        <details class="faq-item">
+          <summary>Is FC Mobile free to play?</summary>
+          <p>Yes. EA SPORTS FC Mobile is free to download and play on iOS and Android. Optional in-app purchases exist, but a competitive squad is fully achievable through play.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What phones can run it?</summary>
+          <p>Most modern iOS and Android devices from the last few years handle it comfortably. A stable connection matters most for online modes like Head to Head.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How is it different from FIFA Mobile?</summary>
+          <p>FC Mobile is the successor to FIFA Mobile following EA's rebrand to EA SPORTS FC. It carries the same core loop with updated engines, licenses, presentation and seasonal content.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is chemistry and why does it matter?</summary>
+          <p>Chemistry rewards squads whose players share leagues, nations or clubs. Higher chemistry boosts in-match attributes, so a well-linked team punches above its raw rating.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do I get better players for free?</summary>
+          <p>Grind Live Events, complete objectives, climb Division Rivals for rank rewards, and reinvest market profits. Patience and consistency beat one-off spending.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- Download / CTA -->
+    <section class="cta container" id="download">
+      <div class="cta-inner">
+        <h2>Ready to take the pitch?</h2>
+        <p>Download EA SPORTS FC Mobile free and start building your Ultimate Team today.</p>
+        <div class="store-buttons">
+          <a class="store-btn" href="https://apps.apple.com/app/ea-sports-fc-mobile-soccer/id1094930513" target="_blank" rel="noopener">
+            <span class="store-ico">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M16.4 12.7c0-2 1.6-3 1.7-3-.9-1.4-2.4-1.6-2.9-1.6-1.2-.1-2.4.7-3 .7s-1.6-.7-2.6-.7C8.3 8.1 7 8.8 6.3 10c-1.5 2.5-.4 6.3 1.1 8.3.7 1 1.5 2.1 2.6 2.1s1.4-.7 2.7-.7 1.6.7 2.7.7 1.8-1 2.5-2c.8-1.1 1.1-2.2 1.1-2.3 0 0-2.1-.8-2.1-3.4zM14.5 6.3c.6-.7 1-1.7.9-2.7-.9 0-1.9.6-2.5 1.3-.5.6-1 1.6-.9 2.6 1 .1 2-.5 2.5-1.2z"/></svg>
+            </span>
+            <span class="store-txt"><small>Download on the</small><strong>App Store</strong></span>
+          </a>
+          <a class="store-btn" href="https://play.google.com/store/apps/details?id=com.ea.gp.fifamobile" target="_blank" rel="noopener">
+            <span class="store-ico">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M3.6 2.3c-.2.2-.3.5-.3.9v17.6c0 .4.1.7.3.9l.1.1L13 12.1v-.2L3.7 2.2l-.1.1zM16.3 15.4l-3-3v-.2l3-3 .1.1 3.6 2c1 .6 1 1.5 0 2.1l-3.7 2zM14.9 13.9l-3.1 3.1 8.1 4.6c.5.3 1 .3 1.4 0l-6.4-7.7zM14.9 10.1l6.4-7.7c-.4-.3-.9-.3-1.4 0L11.8 7l3.1 3.1z"/></svg>
+            </span>
+            <span class="store-txt"><small>Get it on</small><strong>Google Play</strong></span>
+          </a>
+        </div>
+        <p class="cta-fine">Free to play. Optional in-app purchases.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <span class="brand-text">FC&nbsp;Mobile<em>Hub</em></span>
+        <p>An independent fan-made guide to EA SPORTS FC Mobile.</p>
+      </div>
+      <nav class="footer-nav" aria-label="Footer">
+        <a href="#modes">Game Modes</a>
+        <a href="#builder">Squad Builder</a>
+        <a href="#events">Events</a>
+        <a href="#tips">Pro Tips</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <p class="footer-legal">
+        Not affiliated with, endorsed, or sponsored by EA or EA SPORTS.
+        “EA SPORTS FC” and related marks are trademarks of Electronic Arts Inc.
+        <br />© <span id="year">2026</span> FC Mobile Hub — fan project.
+      </p>
+    </div>
+  </footer>
+
+  <a class="to-top" href="#top" id="toTop" aria-label="Back to top">↑</a>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

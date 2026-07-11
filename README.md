@@ -1,3 +1,15 @@
+> **Deployed site: FC Mobile Hub.** This branch also ships a standalone,
+> zero-build static website about **EA SPORTS FC Mobile** under [`public/`](public/)
+> (`index.html`, `styles.css`, `script.js`). It is a self-contained fan guide —
+> game modes, an interactive squad-chemistry builder, a filterable live-event
+> calendar, pro tips and an FAQ — with no dependencies. Netlify (`netlify.toml`)
+> and Vercel (`vercel.json`) are configured to publish `public/` directly.
+> Open `public/index.html` in a browser, or run `python3 -m http.server` from
+> `public/`, to preview it locally. The Angular application below is retained
+> as-is for reference.
+
+---
+
 # NTG Clarity Networks — Angular 17 Application
 
 Production-ready Angular 17 implementation of the approved NTG Clarity Networks design
