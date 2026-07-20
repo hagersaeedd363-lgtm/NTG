@@ -1,15 +1,7 @@
-# Netlify deployment config — import this repo at https://app.netlify.com (Add new site →
-# Import from Git) and these settings are picked up automatically.
+# Netlify deployment — FC Mobile Hub (static site).
+# Import this repo at https://app.netlify.com (Add new site → Import from Git)
+# and these settings are picked up automatically. No build step: the site under
+# public/ is plain HTML/CSS/JS and is served as-is.
 [build]
-  command = "npm run build:prod"
-  publish = "dist/ntg-clarity-networks"
-
-[build.environment]
-  NODE_VERSION = "20"
-
-# SPA fallback so path-based routes (/products, /product/:id, ...) deep-link correctly.
-# (src/_redirects is also copied into the publish dir; this is the explicit equivalent.)
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+  command = ""
+  publish = "public"
