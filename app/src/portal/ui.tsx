@@ -694,6 +694,41 @@ export function DataRows({ rows, title, aside }: { rows: Row[]; title?: string; 
 }
 
 /**
+ * A titled group of read-only values inside a larger card: tinted panel, small icon header and
+ * up to three values per line, so several groups in one card stay clearly apart.
+ */
+export function DataGroup({ icon, title, aside, rows }: { icon: string; title: string; aside?: ReactNode; rows: Row[] }) {
+  return (
+    <section style={{ borderRadius: 16, background: 'var(--card-2)', boxShadow: 'inset 0 0 0 1px var(--line)', overflow: 'hidden', minWidth: 0 }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 10, padding: '12px 16px', borderBottom: '1px solid var(--line)' }}>
+        <span style={{ width: 32, height: 32, flexShrink: 0, borderRadius: 10, background: 'var(--card)', boxShadow: 'inset 0 0 0 1px var(--line)', color: 'var(--gold-2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Icon d={icon} size={17} />
+        </span>
+        <h3 style={{ margin: 0, fontSize: 15, fontWeight: 600, lineHeight: '24px', color: 'var(--ink)' }}>{title}</h3>
+        {aside ? <span style={{ marginInlineStart: 'auto' }}>{aside}</span> : null}
+      </div>
+      <dl style={{ margin: 0, padding: '14px 16px', display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(max(min(100%,200px),calc(25% - 15px)),1fr))', gap: '14px 20px' }}>
+        {rows.map((r) => (
+          <div key={r.k} style={{ display: 'flex', flexDirection: 'column', gap: 2, minWidth: 0 }}>
+            <dt style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, lineHeight: '20px', color: 'var(--muted)' }}>
+              {r.k}
+              {r.lock ? (
+                <span style={{ display: 'flex', opacity: 0.7 }}>
+                  <Icon d={ICON.lock} size={13} sw={1.8} />
+                </span>
+              ) : null}
+            </dt>
+            <dd dir={r.ltr ? 'ltr' : undefined} style={{ margin: 0, fontSize: 15, fontWeight: 600, lineHeight: '24px', color: r.v ? 'var(--ink)' : 'var(--muted)', textAlign: 'right', overflowWrap: 'anywhere' }}>
+              {r.v || '—'}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+  );
+}
+
+/**
  * Data card in the profile style: icon header with an optional tag, then label/value cells
  * two per row with hairline dividers (one per row on phones).
  */

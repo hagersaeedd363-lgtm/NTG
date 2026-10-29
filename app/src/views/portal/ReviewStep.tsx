@@ -115,7 +115,7 @@ export function ReviewStep({ v }: { v: V }) {
               </div>
             </div>
             <div style={{ height: '1px', background: 'var(--line)', margin: '0 calc(-1*clamp(18px,2.5vw,28px))' }} />
-            <div role="radiogroup" aria-label="طريقة الاستلام" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(min(100%,240px),1fr))', gap: '12px' }}>
+            <div role="radiogroup" aria-label="طريقة الاستلام" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               {list(v.ox?.deliveries).map((d: any, $index: number) => (
                 <Fragment key={$index}>
                   <button

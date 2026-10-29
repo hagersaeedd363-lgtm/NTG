@@ -7,7 +7,7 @@ import {
   Card,
   CardHeader,
   ChoiceCards,
-  DataRows,
+  DataGroup,
   Field,
   Hint,
   ICON,
@@ -262,9 +262,16 @@ function companyRows(a: Account) {
     { k: 'السجل التجاري', v: c.cr, ltr: true, lock: true },
     { k: 'نوع الجهة', v: c.entityType, lock: true },
     { k: 'المنطقة والمدينة', v: [c.region, c.city].filter(Boolean).join(' — '), lock: true },
-    { k: 'ممثل المؤسسة', v: c.repName, lock: true },
-    { k: 'جوال الممثل', v: c.repPhone, ltr: true, lock: true },
-    { k: 'بريد الممثل', v: c.repEmail, ltr: true, lock: true },
+  ];
+}
+
+function repRows(a: Account) {
+  const c = a.company!;
+  return [
+    { k: 'الاسم', v: c.repName, lock: true },
+    { k: 'رقم ' + (c.repIdType || 'الهوية'), v: c.repId, ltr: true, lock: true },
+    { k: 'رقم الجوال', v: c.repPhone, ltr: true, lock: true },
+    { k: 'البريد الإلكتروني', v: c.repEmail, ltr: true, lock: true },
   ];
 }
 
@@ -309,9 +316,14 @@ function ExistingSummary({ s, a }: { s: PortalState; a: Account }) {
           </button>
         </div>
         {open ? (
-          <div id="acct-details" style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-            <DataRows title="البيانات الشخصية" aside={<NafathTag>من نفاذ</NafathTag>} rows={personalRows(a)} />
-            {company ? <DataRows title="بيانات المنشأة" aside={<Tag tone="muted">{company.registryMatch ? 'من السجل التجاري' : 'معتمدة'}</Tag>} rows={companyRows(a)} /> : null}
+          <div id="acct-details" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            <DataGroup icon={ICON.user} title="البيانات الشخصية" aside={<NafathTag>من نفاذ</NafathTag>} rows={personalRows(a)} />
+            {company ? (
+              <>
+                <DataGroup icon={ICON.bld} title="بيانات المنشأة" aside={<Tag tone="muted">{company.registryMatch ? 'من السجل التجاري' : 'معتمدة'}</Tag>} rows={companyRows(a)} />
+                <DataGroup icon={ICON.shield} title="ممثل المؤسسة" aside={<Tag tone="muted">معتمد</Tag>} rows={repRows(a)} />
+              </>
+            ) : null}
           </div>
         ) : null}
       </Card>
