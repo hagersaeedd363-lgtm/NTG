@@ -9,7 +9,7 @@ import { ReviewStep } from '../views/portal/ReviewStep';
 import { DemoPanel } from './DemoPanel';
 import { AccountStep, RegisterScreen } from './screens/Account';
 import { AuthScreen, NafathDialog } from './screens/Auth';
-import { AccountStatusScreen, DoneScreen, EditProfileScreen } from './screens/Status';
+import { AccountStatusScreen, BlockedOrderScreen, DoneScreen, EditProfileScreen } from './screens/Status';
 import { createOrderBlockReason } from './rules';
 import { portal, usePortal, type PortalState } from './store';
 import { Alert, ICON, SecondaryButton, Stepper } from './ui';
@@ -77,7 +77,7 @@ export function PortalPage({ v }: { v: V }) {
       break;
     case 'flow':
       if (!a && !s.verified) body = <AuthScreen s={s} />;
-      else if (a && createOrderBlockReason(a, s.db.orders)) body = <AccountStatusScreen s={s} />;
+      else if (a && createOrderBlockReason(a, s.db.orders)) body = <BlockedOrderScreen s={s} />;
       else
         body = (
           <>
@@ -93,6 +93,9 @@ export function PortalPage({ v }: { v: V }) {
       break;
     case 'status':
       body = <AccountStatusScreen s={s} />;
+      break;
+    case 'blocked':
+      body = <BlockedOrderScreen s={s} />;
       break;
     case 'profile':
       body = (

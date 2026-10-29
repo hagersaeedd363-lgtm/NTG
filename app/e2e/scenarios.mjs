@@ -221,11 +221,15 @@ const scenarios = [
       await c.see('الوصول محدود حتى اعتماد حسابك');
       await c.see('مراحل اعتماد الحساب');
       await c.startOrderFromHome();
-      await c.see('حسابك قيد المراجعة');
+      await c.see('لا يمكنك إنشاء طلب جديد الآن');
+      await c.notSee('البيانات الشخصية');
+      await c.see('متابعة طلبي');
+      await c.shot('blocked');
+      await c.click('عرض بيانات حسابي');
+      await c.see('الوصول محدود حتى اعتماد حسابك');
       await c.goto('#order');
       await c.notSee('متابعة إلى المنتجات');
-      await c.shot('blocked');
-      return 'Order entry and #order both land on the status page.';
+      return 'Order entry shows a short blocked screen; account data stays under «حسابي».';
     },
   },
   {
@@ -421,6 +425,9 @@ const scenarios = [
       await c.see('سبب الرفض');
       await c.see('تواصل معنا');
       await c.shot('account-rejected');
+      await c.startOrderFromHome();
+      await c.see('لا يمكن إنشاء طلبات بهذا الحساب');
+      await c.see('تواصل معنا');
       await c.p.locator('.zz-header-account').click();
       await c.tick();
       await c.click('تسجيل الخروج', { role: 'menuitem' });

@@ -10,7 +10,7 @@ import { DEMO_IDS, initialDb, sampleIdentity } from './fixtures';
 import { canCreateOrder, computeTotals, createOrderBlockReason, isPayable } from './rules';
 import type { Account, AccountType, AuthMethod, ChangeRequest, Company, Db, Identity, Order, PaymentMethod } from './types';
 
-export type View = 'auth' | 'register' | 'flow' | 'done' | 'status' | 'profile' | 'editProfile' | 'password' | 'orders' | 'pay';
+export type View = 'auth' | 'register' | 'flow' | 'done' | 'status' | 'blocked' | 'profile' | 'editProfile' | 'password' | 'orders' | 'pay';
 export type Entry = 'order' | 'login' | 'register';
 export type Step = 'account' | 'products' | 'review';
 export type Errors = Record<string, string>;
@@ -285,10 +285,7 @@ export class PortalStore {
     this.set((s) => ({ acctMenu: false, draft: { ...emptyDraft(), cart: cart ?? s.draft.cart } }));
     if (a) {
       if (canCreateOrder(a)) this.beginExistingFlow();
-      else {
-        this.set({ view: 'status' });
-        this.toast(createOrderBlockReason(a, this.state.db.orders));
-      }
+      else this.set({ view: 'blocked' });
     } else if (this.state.verified) {
       this.set({ view: 'flow', flow: { step: 'account', detailsOpen: false }, errors: {} });
     } else {
@@ -344,14 +341,18 @@ export class PortalStore {
     this.toast('تم تسجيل الخروج');
   }
 
+  goHome() {
+    this.navigate('home');
+  }
+
   /** Direct visits to #order: show the screen the user is allowed to see. */
   guardView(view: View): View {
     const a = this.account();
     if (!a) return ['auth', 'register', 'flow', 'done'].includes(view) ? view : 'auth';
     if (a.status !== 'approved') {
-      return ['status', 'orders', 'done', 'password'].includes(view) ? view : 'status';
+      return ['status', 'blocked', 'orders', 'done', 'password'].includes(view) ? view : 'status';
     }
-    return view === 'auth' || view === 'register' ? 'profile' : view;
+    return view === 'auth' || view === 'register' || view === 'blocked' ? 'profile' : view;
   }
 
   // ------------------------------------------------------------------ authentication
@@ -463,7 +464,7 @@ export class PortalStore {
     }
     // Signed in from the navbar (or an order that cannot continue): land on the home page;
     // «حسابي» in the header is ready on the right screen.
-    this.set({ view: this.landingView(acct) });
+    this.set({ view: entry === 'order' ? 'blocked' : this.landingView(acct) });
     if (entry === 'order') {
       this.toast(msg + status);
       this.scrollTop();
@@ -969,7 +970,7 @@ export class PortalStore {
     }));
     this.toast(status === 'approved' ? 'تم اعتماد الحساب (محاكاة لقرار الجهة)' : 'تم رفض الحساب (محاكاة لقرار الجهة)');
     // When the decision changes the screen, fold the panel so it does not cover the new page.
-    if (status === 'approved' && this.state.view === 'status') this.set((s) => ({ view: 'profile', demo: { ...s.demo, panelOpen: false } }));
+    if (status === 'approved' && ['status', 'blocked'].includes(this.state.view)) this.set((s) => ({ view: 'profile', demo: { ...s.demo, panelOpen: false } }));
     if (status === 'rejected' && ['profile', 'flow', 'editProfile', 'pay'].includes(this.state.view)) this.set((s) => ({ view: 'status', demo: { ...s.demo, panelOpen: false } }));
   }
 
@@ -1023,7 +1024,9 @@ export class PortalStore {
       case 'register':
         return { tag: 'حساب جديد', title: 'إنشاء حساب جديد', lead: 'اختر نوع الحساب وأكمل البيانات المطلوبة، ثم أرسلها للمراجعة.', inAccount: false };
       case 'flow':
-        return a && a.status !== 'approved' ? acct('حسابي', 'حالة حسابك وطلباتك.') : order;
+      case 'blocked':
+        if (!a || a.status === 'approved') return order;
+        return { ...order, lead: a.status === 'rejected' ? 'تعذّر اعتماد حسابك، لذلك لا يمكن إنشاء طلبات.' : 'يمكنك الطلب بعد اعتماد حسابك.' };
       case 'done':
         return order;
       case 'status':

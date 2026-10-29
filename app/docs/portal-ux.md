@@ -22,7 +22,8 @@ flowchart TD
   A -- from header --> HM[Home page<br/>«حسابي» in the header opens the account]
   HM -- approved --> P[حسابي]
   HM -- pending / rejected --> ST[Account status page<br/>restrictions · read-only data · existing orders]
-  A -- pending / rejected, from Home order --> ST
+  A -- pending / rejected, from Home order --> BL[لا يمكنك إنشاء طلب جديد الآن<br/>reason · approval steps · متابعة طلبي / عرض بيانات حسابي]
+  BL -- «عرض بيانات حسابي» --> ST
   P -- «طلب جديد» --> SUM
   SUM --> PR[المنتجات] --> RV[المراجعة<br/>delivery · recipient · notes · totals]
   REG1 --> PR
@@ -94,7 +95,7 @@ All 19 run automatically: `node e2e/scenarios.mjs` (demo build). Demo IDs are li
 | 2 | New user, individual | Signed out | «اقتن» → Nafath new ID → فرد → products → review → send | «أنت غير مسجّل بعد»; read-only identity; type required; no order purpose for individuals | Account pending + order in review, shown separately |
 | 3 | New user, company | Signed out | جهة → «بيانات الجهة» card: نوع الجهة, غرض الطلب, company lookup (found) → rep ID type → send | Registry fields locked; rep fields prefilled from Nafath, editable; 50% discount | Account pending + order in review |
 | 4 | New user submits while pending | After #2 | Open the order | «حسابك وطلبك قيد المراجعة» | No pay action |
-| 5 | Pending user tries another order | Pending with order | «اقتن», `#order` | Redirected to status page with reason | No order created |
+| 5 | Pending user tries another order | Pending with order | «اقتن», `#order` | Short blocked screen (reason, approval steps, «متابعة طلبي», «عرض بيانات حسابي»); no account data | No order created |
 | 6 | Login by Nafath | Signed out | Header → Nafath `1023456789` → «حسابي» | Lands on home; profile with «طلب جديد» | Can start orders |
 | 7 | Login by email | Signed out | Email tab → `a.alharbi@example.com` / `123456` → «حسابي» | Lands on home; profile | Signed in |
 | 8 | Register from header | Signed out | «إنشاء حساب جديد» (Nafath only, notice shown first) → type → send | Type required | Lands on home; «حسابي» shows the pending status |
@@ -121,6 +122,8 @@ All 19 run automatically: `node e2e/scenarios.mjs` (demo build). Demo IDs are li
 - The 8-second automatic approval was replaced by explicit back-office controls in the demo panel.
 - «غرض الطلب» is asked only from companies. For a new company it sits in the «بيانات الجهة» card,
   under «نوع الجهة» and above the company lookup; individuals never see it.
+- Pending or rejected users who press «اقتن» see a short screen explaining why they cannot order and
+  what happens next; their full data stays on the status page under «حسابي».
 - Every visit to the portal starts on the home page, whatever page or link was used last.
 - Signing in or registering from the navbar lands on the home page; «حسابي» in the header opens
   the profile (or the status page for pending and rejected accounts).
