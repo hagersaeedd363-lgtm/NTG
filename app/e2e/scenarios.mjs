@@ -213,7 +213,8 @@ const scenarios = [
     run: async (c) => {
       await c.login(ID.pendingOrder);
       await c.see('حسابك قيد المراجعة');
-      await c.see('لديك طلب قيد المراجعة مع بيانات حسابك');
+      await c.see('الوصول محدود حتى اعتماد حسابك');
+      await c.see('مراحل اعتماد الحساب');
       await c.startOrderFromHome();
       await c.see('حسابك قيد المراجعة');
       await c.goto('#order');

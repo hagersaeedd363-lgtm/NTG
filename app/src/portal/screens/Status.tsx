@@ -2,7 +2,7 @@ import { ACCOUNT_STATUS_LABEL, createOrderBlockReason, orderStatusLabel, orderTo
 import { portal, type PortalState } from '../store';
 import type { Account } from '../types';
 import { ETYPES, PILL_ICONS, REGIONS } from '../../data/portal';
-import { ActionBar, Alert, Card, CardHeader, DataRows, Field, ICON, Icon, PageTitle, Pills, PrimaryButton, SecondaryButton, SelectField, Tag, formGrid } from '../ui';
+import { ActionBar, Alert, Card, CardHeader, DataCard, DataRows, Field, GOLD, ICON, Icon, IconTile, LockTag, NafathTag, PageTitle, Pills, PrimaryButton, SecondaryButton, SelectField, Tag, cardStyle, formGrid } from '../ui';
 import { IdentityCard } from './Account';
 
 const AR = (n: number) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[+d]);
@@ -104,21 +104,50 @@ export function DoneScreen({ s }: { s: PortalState }) {
   );
 }
 
-/** Pending or rejected account: status, restrictions, submitted data read-only. */
+/** Approval steps for a pending or rejected account, drawn like the order timeline. */
+function ApprovalSteps({ a }: { a: Account }) {
+  const rejected = a.status === 'rejected';
+  const steps = [
+    { t: 'تم استلام بيانات التسجيل', sub: a.submittedAt, state: 'done' as const },
+    rejected
+      ? { t: 'تعذّر اعتماد الحساب', sub: 'راجعت الجهة المختصة بياناتك', state: 'bad' as const }
+      : { t: 'قيد المراجعة', sub: 'تراجع الجهة المختصة بياناتك', state: 'cur' as const },
+    ...(rejected ? [] : [{ t: 'اعتماد الحساب', sub: 'تُتاح الطلبات والدفع بعد الاعتماد', state: 'todo' as const }]),
+  ];
+  return (
+    <ol aria-label="مراحل اعتماد الحساب" style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', width: '100%' }}>
+      {steps.map((st, i) => {
+        const bg = st.state === 'bad' ? 'var(--danger)' : st.state === 'todo' ? 'var(--card)' : GOLD;
+        const ring = st.state === 'cur' ? '0 0 0 4px var(--gold-soft)' : st.state === 'bad' ? '0 0 0 4px rgba(180,55,42,.18)' : st.state === 'todo' ? 'inset 0 0 0 1.5px var(--line)' : 'none';
+        return (
+          <li key={st.t} style={{ display: 'flex', gap: 12, alignItems: 'stretch' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: 24, flexShrink: 0 }}>
+              <span style={{ width: 24, height: 24, borderRadius: '50%', background: bg, boxShadow: ring, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                {st.state === 'done' ? <Icon d={ICON.check} size={14} sw={2} /> : st.state === 'bad' ? <Icon d={ICON.x} size={12} sw={2.2} /> : st.state === 'cur' ? <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#fff' }} /> : null}
+              </span>
+              {i < steps.length - 1 ? <span style={{ flex: 1, width: 2, minHeight: 16, background: st.state === 'done' ? GOLD : 'var(--line)' }} /> : null}
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', paddingBottom: i < steps.length - 1 ? 14 : 0, minWidth: 0 }}>
+              <span style={{ fontSize: 14, fontWeight: st.state === 'cur' || st.state === 'bad' ? 700 : 500, lineHeight: '24px', color: st.state === 'todo' ? 'var(--muted)' : 'var(--ink)' }}>{st.t}</span>
+              <span style={{ fontSize: 13, lineHeight: '20px', color: st.state === 'cur' ? 'var(--gold-on-soft)' : st.state === 'bad' ? 'var(--danger)' : 'var(--muted)' }}>{st.sub}</span>
+            </div>
+          </li>
+        );
+      })}
+    </ol>
+  );
+}
+
+/** Pending or rejected account: status, restrictions, submitted data read-only. Same layout as «حسابي». */
 export function AccountStatusScreen({ s }: { s: PortalState }) {
   const a = portal.account(s);
   if (!a) return null;
   const orders = portal.myOrders(s);
   const pending = a.status === 'pending';
+  const c = a.company;
+  const readOnly = <LockTag>للاطلاع فقط</LockTag>;
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24, animation: 'zzfade .3s ease both' }}>
-      <PageTitle
-        icon={pending ? ICON.clock : ICON.alert}
-        eyebrow={'حسابي · ' + a.identity.fullName}
-        title={pending ? 'حسابك قيد المراجعة' : 'تعذّر اعتماد حسابك'}
-        desc={pending ? 'استلمنا بيانات تسجيلك في ' + a.submittedAt + '، وتراجعها الجهة المختصة الآن. سنُشعرك بالقرار.' : 'راجعت الجهة المختصة بيانات تسجيلك ولم تعتمد الحساب.'}
-        aside={<Tag tone={pending ? 'info' : 'bad'} dot>{ACCOUNT_STATUS_LABEL[a.status]}</Tag>}
-      />
       {pending ? (
         <Alert tone="warn" title="الوصول محدود حتى اعتماد حسابك.">
           لا يمكنك إنشاء طلبات جديدة أو الدفع قبل الاعتماد.{orders.length ? ' يمكنك متابعة طلبك المقدَّم.' : ''}
@@ -133,45 +162,111 @@ export function AccountStatusScreen({ s }: { s: PortalState }) {
             </SecondaryButton>
           }
         >
-          لا يمكن إنشاء طلبات بهذا الحساب. للاستفسار تواصل معنا.
+          لا يمكن إنشاء طلبات بهذا الحساب.
         </Alert>
       )}
-
-      <Card>
-        <CardHeader icon={ICON.box} title="طلباتك" desc={orders.length ? 'الطلبات المرتبطة بحسابك وحالتها.' : 'لا توجد طلبات مرتبطة بحسابك.'} />
-        {orders.length ? (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {orders.map((o) => (
-              <div key={o.id} style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 12, padding: '12px 16px', borderRadius: 16, background: 'var(--card-2)', boxShadow: 'inset 0 0 0 1px var(--line)' }}>
-                <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 12 }}>
-                  <strong dir="ltr" style={{ fontSize: 15, color: 'var(--ink)' }}>
-                    {o.id}
-                  </strong>
-                  <span style={{ fontSize: 14, color: 'var(--muted)' }}>{o.date}</span>
-                  <span style={{ fontSize: 14, color: 'var(--ink-2)' }}>{portal.sar(o.total)}</span>
-                  <Tag tone={orderTone(o, a) === 'prog' ? 'prog' : orderTone(o, a)}>{orderStatusLabel(o, a)}</Tag>
-                </div>
-                <SecondaryButton onClick={() => portal.openOrders(o.id)} style={{ height: 40 }}>
-                  عرض الطلب
-                </SecondaryButton>
-              </div>
-            ))}
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 24, alignItems: 'flex-start' }}>
+        <aside style={{ ...cardStyle, flex: '1 1 300px', maxWidth: '100%', alignItems: 'center', textAlign: 'center', padding: 24, gap: 16 }}>
+          <span style={{ width: 64, height: 64, borderRadius: '50%', background: 'var(--gold-soft)', boxShadow: '0 0 0 2px var(--card),0 0 0 3px var(--gold-3)', color: 'var(--gold-2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Icon d={c ? ICON.bld : ICON.user} size={28} />
+          </span>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+            <span style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 600, lineHeight: '24px', color: 'var(--ink)' }}>{a.identity.fullName}</span>
+            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 8 }}>
+              <NafathTag>موثّق عبر نفاذ</NafathTag>
+              <Tag tone={pending ? 'info' : 'bad'} dot>
+                {pending ? 'حسابك قيد المراجعة' : 'حساب مرفوض'}
+              </Tag>
+            </div>
+            <span style={{ fontSize: 13, color: 'var(--muted)' }}>{c ? 'جهة · ' + c.name : 'فرد'}</span>
           </div>
-        ) : null}
-        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 12 }}>
-          <PrimaryButton disabled>طلب جديد</PrimaryButton>
-          <span style={{ fontSize: 14, color: 'var(--muted)' }}>{createOrderBlockReason(a, s.db.orders)}</span>
-        </div>
-      </Card>
+          <div style={{ width: '100%', height: 1, background: 'var(--line)' }} />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, width: '100%', textAlign: 'right' }}>
+            <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink)' }}>مراحل اعتماد الحساب</span>
+            <ApprovalSteps a={a} />
+          </div>
+          <div style={{ width: '100%', height: 1, background: 'var(--line)' }} />
+          <SecondaryButton full onClick={() => portal.logout()}>
+            تسجيل الخروج
+          </SecondaryButton>
+        </aside>
 
-      <IdentityCard identity={a.identity} />
-      <Card>
-        <CardHeader icon={a.type === 'company' ? ICON.bld : ICON.user} title="بيانات التسجيل المرسلة" desc="للاطلاع فقط. لا يمكن تعديلها أثناء المراجعة." />
-        <DataRows rows={[{ k: 'نوع الحساب', v: a.type === 'company' ? 'جهة' : 'فرد' }, { k: 'تاريخ الإرسال', v: a.submittedAt }, ...companyRows(a)]} />
-      </Card>
-      <ActionBar>
-        <SecondaryButton onClick={() => portal.logout()}>تسجيل الخروج</SecondaryButton>
-      </ActionBar>
+        <div style={{ flex: '2 1 520px', minWidth: 0, display: 'flex', flexDirection: 'column', gap: 24 }}>
+          <section style={{ background: 'var(--card)', borderRadius: 24, boxShadow: 'var(--card-shadow)', overflow: 'hidden' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 12, padding: '16px 24px', borderBottom: '1px solid var(--line)' }}>
+              <IconTile d={ICON.box} />
+              <h2 style={{ margin: 0, fontSize: 16, fontWeight: 600, lineHeight: '24px', color: 'var(--ink)' }}>طلباتك</h2>
+              <span style={{ marginInlineStart: 'auto' }}>
+                <Tag tone="muted">{orders.length ? AR(orders.length) + (orders.length === 1 ? ' طلب' : ' طلبات') : 'لا توجد طلبات'}</Tag>
+              </span>
+            </div>
+            {orders.length ? (
+              orders.map((o) => {
+                const tone = orderTone(o, a);
+                const units = o.lines.reduce((n, l) => n + l.qty, 0);
+                return (
+                  <div key={o.id} style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 12, padding: '16px 24px', borderBottom: '1px solid var(--line)', marginBottom: -1 }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+                      <span style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                        <strong dir="ltr" style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink)' }}>
+                          {o.id}
+                        </strong>
+                        <Tag tone={tone}>{orderStatusLabel(o, a)}</Tag>
+                      </span>
+                      <span style={{ fontSize: 13, lineHeight: '22px', color: 'var(--muted)' }}>
+                        {o.date} · {AR(units)} كرتون · {portal.sar(o.total)}
+                      </span>
+                    </div>
+                    <SecondaryButton onClick={() => portal.openOrders(o.id)} style={{ height: 40 }}>
+                      عرض الطلب
+                    </SecondaryButton>
+                  </div>
+                );
+              })
+            ) : (
+              <p style={{ margin: 0, padding: '20px 24px', fontSize: 14, lineHeight: '22px', color: 'var(--muted)' }}>{createOrderBlockReason(a, s.db.orders)}</p>
+            )}
+          </section>
+
+          <DataCard
+            icon={ICON.user}
+            title="البيانات الشخصية"
+            aside={<NafathTag>من نفاذ</NafathTag>}
+            rows={[
+              { k: 'الاسم الكامل', v: a.identity.fullName, lock: true },
+              { k: 'رقم الهوية الوطنية / الإقامة', v: a.identity.nationalId, ltr: true, lock: true },
+              { k: 'رقم الجوال', v: a.identity.phone, ltr: true, lock: true },
+              { k: 'البريد الإلكتروني', v: a.identity.email, ltr: true, lock: true },
+            ]}
+          />
+          {c ? (
+            <>
+              <DataCard
+                icon={ICON.bld}
+                title="بيانات المنشأة"
+                aside={readOnly}
+                rows={[
+                  { k: 'اسم المؤسسة', v: c.name },
+                  { k: 'نوع الجهة', v: c.entityType },
+                  { k: 'السجل التجاري', v: c.cr, ltr: true },
+                  { k: 'المنطقة والمدينة', v: [c.region, c.city].filter(Boolean).join(' — ') },
+                ]}
+              />
+              <DataCard
+                icon={ICON.user}
+                title="بيانات ممثل المؤسسة"
+                aside={readOnly}
+                rows={[
+                  { k: 'اسم الممثل', v: c.repName },
+                  { k: 'هوية الممثل', v: (c.repIdType ? c.repIdType + ' · ' : '') + c.repId },
+                  { k: 'جوال الممثل', v: c.repPhone, ltr: true },
+                  { k: 'بريد الممثل', v: c.repEmail, ltr: true },
+                ]}
+              />
+            </>
+          ) : null}
+        </div>
+      </div>
     </div>
   );
 }

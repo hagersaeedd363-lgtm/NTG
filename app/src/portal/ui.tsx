@@ -706,6 +706,39 @@ export function DataRows({ rows, title, aside }: { rows: Row[]; title?: string; 
   );
 }
 
+/**
+ * Data card in the profile style: icon header with an optional tag, then label/value cells
+ * two per row with hairline dividers (one per row on phones).
+ */
+export function DataCard({ icon, title, aside, rows }: { icon: string; title: string; aside?: ReactNode; rows: Row[] }) {
+  return (
+    <section style={{ background: 'var(--card)', borderRadius: 24, boxShadow: 'var(--card-shadow)', overflow: 'hidden' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 12, padding: '16px 24px', borderBottom: '1px solid var(--line)' }}>
+        <IconTile d={icon} />
+        <h2 style={{ margin: 0, fontSize: 16, fontWeight: 600, lineHeight: '24px', color: 'var(--ink)' }}>{title}</h2>
+        {aside ? <span style={{ marginInlineStart: 'auto' }}>{aside}</span> : null}
+      </div>
+      <dl style={{ margin: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(max(min(100%,240px),calc(50% - 1px)),1fr))' }}>
+        {rows.map((r) => (
+          <div key={r.k} style={{ display: 'flex', flexDirection: 'column', padding: '16px 24px', minWidth: 0, borderBottom: '1px solid var(--line)', marginBottom: -1 }}>
+            <dt style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, lineHeight: '24px', color: 'var(--muted)' }}>
+              {r.k}
+              {r.lock ? (
+                <span style={{ display: 'flex', opacity: 0.8 }}>
+                  <Icon d={ICON.lock} size={14} sw={1.8} />
+                </span>
+              ) : null}
+            </dt>
+            <dd dir={r.ltr ? 'ltr' : undefined} style={{ margin: 0, fontSize: 14, fontWeight: 600, lineHeight: '24px', color: r.v ? 'var(--ink)' : 'var(--muted)', textAlign: 'right', overflowWrap: 'anywhere' }}>
+              {r.v || '—'}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+  );
+}
+
 export function Modal({ children, label, onClose }: { children: ReactNode; label: string; onClose?: () => void }) {
   return (
     <div
