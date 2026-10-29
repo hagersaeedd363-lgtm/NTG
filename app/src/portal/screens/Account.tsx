@@ -62,7 +62,8 @@ export function AccountTypeCard({ s }: { s: PortalState }) {
   );
 }
 
-export function CompanyCards({ s }: { s: PortalState }) {
+/** Company details. In the order journey the order purpose sits inside the first card. */
+export function CompanyCards({ s, withPurpose }: { s: PortalState; withPurpose?: boolean }) {
   const { reg, errors } = s;
   const c = reg.company;
   const found = reg.crStatus === 'found';
@@ -71,7 +72,11 @@ export function CompanyCards({ s }: { s: PortalState }) {
   return (
     <>
       <Card>
-        <CardHeader icon={ICON.bld} title="بيانات الجهة" desc="حدّد نوع الجهة، ثم ابحث عن المؤسسة بالاسم للتحقق منها." />
+        <CardHeader
+          icon={ICON.bld}
+          title="بيانات الجهة"
+          desc={withPurpose ? 'حدّد نوع الجهة وغرض الطلب، ثم ابحث عن المؤسسة بالاسم للتحقق منها.' : 'حدّد نوع الجهة، ثم ابحث عن المؤسسة بالاسم للتحقق منها.'}
+        />
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           <span style={{ fontSize: 15, fontWeight: 500, color: 'var(--ink)' }}>
             نوع الجهة <span style={{ color: 'var(--danger)' }}>*</span>
@@ -85,6 +90,7 @@ export function CompanyCards({ s }: { s: PortalState }) {
             <Hint>يساعدنا نوع الجهة في توجيه طلبك للفريق المختص. تحصل الجهات غير الربحية على خصم ٥٠٪.</Hint>
           )}
         </div>
+        {withPurpose ? <PurposeField s={s} /> : null}
         <div style={{ height: 1, background: 'var(--line)' }} />
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8, maxWidth: 1104 }}>
           <label htmlFor="co-query" style={{ fontSize: 15, fontWeight: 500, color: 'var(--ink)' }}>
@@ -212,21 +218,29 @@ export function CompanyCards({ s }: { s: PortalState }) {
   );
 }
 
+function PurposeField({ s, hint = true }: { s: PortalState; hint?: boolean }) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <span style={{ fontSize: 15, fontWeight: 500, color: 'var(--ink)' }}>
+        غرض الطلب <span style={{ color: 'var(--danger)' }}>*</span>
+      </span>
+      <Pills label="غرض الطلب" options={PURPOSES} value={s.draft.purpose} onChange={(v) => portal.setDraft({ purpose: v })} icons={PILL_ICONS} />
+      {s.errors.purpose ? (
+        <span role="alert" style={{ fontSize: 14, color: 'var(--danger)' }}>
+          {s.errors.purpose}
+        </span>
+      ) : hint ? (
+        <Hint>اختر الغرض الأقرب لهذا الطلب.</Hint>
+      ) : null}
+    </div>
+  );
+}
+
 function PurposeCard({ s }: { s: PortalState }) {
   return (
     <Card>
       <CardHeader icon={ICON.doc} title="تفاصيل الطلب" desc="اختر الغرض الأقرب لهذا الطلب." />
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-        <span style={{ fontSize: 15, fontWeight: 500, color: 'var(--ink)' }}>
-          غرض الطلب <span style={{ color: 'var(--danger)' }}>*</span>
-        </span>
-        <Pills label="غرض الطلب" options={PURPOSES} value={s.draft.purpose} onChange={(v) => portal.setDraft({ purpose: v })} icons={PILL_ICONS} />
-        {s.errors.purpose ? (
-          <span role="alert" style={{ fontSize: 14, color: 'var(--danger)' }}>
-            {s.errors.purpose}
-          </span>
-        ) : null}
-      </div>
+      <PurposeField s={s} hint={false} />
     </Card>
   );
 }
@@ -301,7 +315,7 @@ function ExistingSummary({ s, a }: { s: PortalState; a: Account }) {
           </div>
         ) : null}
       </Card>
-      <PurposeCard s={s} />
+      {company ? <PurposeCard s={s} /> : null}
       <ActionBar onBack={() => portal.back()} note={<RequiredNote hasErrors={hasErrors(s.errors)} />}>
         <PrimaryButton onClick={() => portal.nextFromAccount()} icon={ICON.arrowNext}>
           متابعة إلى المنتجات
@@ -322,8 +336,7 @@ export function AccountStep({ s }: { s: PortalState }) {
       </Alert>
       <IdentityCard identity={identity} />
       <AccountTypeCard s={s} />
-      {s.reg.type === 'company' ? <CompanyCards s={s} /> : null}
-      <PurposeCard s={s} />
+      {s.reg.type === 'company' ? <CompanyCards s={s} withPurpose /> : null}
       <ActionBar onBack={() => portal.back()} note={<RequiredNote hasErrors={hasErrors(s.errors)} />}>
         <PrimaryButton onClick={() => portal.nextFromAccount()} icon={ICON.arrowNext}>
           متابعة إلى المنتجات

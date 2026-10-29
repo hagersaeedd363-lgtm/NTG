@@ -138,7 +138,7 @@ const scenarios = [
       await c.click('متابعة إلى المنتجات');
       await c.see('اختر نوع الحساب');
       await c.click(/^فرد/, { role: 'radio' });
-      await c.click('استخدام طبي', { role: 'radio' });
+      if (await c.p.getByRole('radiogroup', { name: 'غرض الطلب' }).count()) throw new Error('individuals must not see order purpose');
       await c.shot('registration');
       await c.click('متابعة إلى المنتجات');
       await c.products();
@@ -182,7 +182,6 @@ const scenarios = [
       await c.startOrderFromHome();
       await c.nafath(ID.newUser);
       await c.click(/^فرد/, { role: 'radio' });
-      await c.click('أخرى', { role: 'radio' });
       await c.click('متابعة إلى المنتجات');
       await c.products();
       await c.review();
@@ -374,17 +373,22 @@ const scenarios = [
     run: async (c) => {
       await c.startOrderFromHome();
       await c.nafath(ID.newUser);
-      await c.click(/^فرد/, { role: 'radio' });
+      await c.click(/^جهة/, { role: 'radio' });
+      await c.click('حكومة', { role: 'radio' });
       await c.click('فعالية رسمية', { role: 'radio' });
+      await c.fill('اسم المؤسسة', 'شركة الضيافة');
+      await c.click('تحقق من المؤسسة', { wait: 1200 });
+      await c.select('co-idtype', 'هوية وطنية');
       await c.click('متابعة إلى المنتجات');
       await c.click('زيادة', { nth: 0 });
       await c.click('رجوع');
       const checked = await c.p.getByRole('radio', { name: 'فعالية رسمية' }).getAttribute('aria-checked');
       if (checked !== 'true') throw new Error('purpose lost after back');
+      await c.see('وجدنا المؤسسة في السجل التجاري');
       await c.click('متابعة إلى المنتجات');
       const q = await c.p.getByLabel('الكمية').first().inputValue();
       if (q !== '11') throw new Error('quantity lost after back: ' + q);
-      return 'Purpose and quantities survive going back and forth.';
+      return 'Company data, purpose and quantities survive going back and forth.';
     },
   },
   {
@@ -417,7 +421,7 @@ const scenarios = [
       await c.openLogin();
       await c.nafath(ID.individual);
       await c.click('طلب جديد', { exact: true });
-      await c.click('أخرى', { role: 'radio' });
+      if (await c.p.getByRole('radiogroup', { name: 'غرض الطلب' }).count()) throw new Error('individuals must not see order purpose');
       await c.click('متابعة إلى المنتجات');
       await c.products();
       await c.review();

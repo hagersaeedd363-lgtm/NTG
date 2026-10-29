@@ -31,9 +31,9 @@ node e2e/scenarios.mjs         # 18 portal scenarios against the dev server
 ## Journeys
 
 - **Order first (Home → «اقتن»):** verify with Nafath (or email + password for registered users).
-  Approved users see a registered summary and only pick «غرض الطلب». New users see their Nafath
-  data read-only, choose فرد or جهة, complete the company form if needed, and submit their
-  registration together with the first order.
+  Approved users see a registered summary (companies also pick «غرض الطلب»). New users see their
+  Nafath data read-only and choose فرد or جهة; companies fill one «بيانات الجهة» card (نوع الجهة,
+  غرض الطلب, company lookup) and the company details, then submit the registration with the first order.
 - **Register or sign in first (header):** sign-in by Nafath or email + password. Registration is
   Nafath only. Pending accounts get a status page with their data read-only and no ordering.
 - **Approvals:** an account is approved once; every order is reviewed on its own. Payment opens

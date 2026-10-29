@@ -26,12 +26,13 @@ export function DemoPanel({ s }: { s: PortalState }) {
   const open = s.demo.panelOpen;
   const setDemo = (p: Partial<PortalState['demo']>) => portal.set((st) => ({ demo: { ...st.demo, ...p } }));
   return (
-    <div style={{ position: 'fixed', bottom: 'calc(16px + env(safe-area-inset-bottom, 0px))', left: 'calc(16px + env(safe-area-inset-left, 0px))', zIndex: 140, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 8 }}>
+    // Docked at the middle of the left edge so it never covers a step's action bar.
+    <div style={{ position: 'fixed', top: '50%', transform: 'translateY(-50%)', left: 'env(safe-area-inset-left, 0px)', zIndex: 140, display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 8 }}>
       {open ? (
         <div
           role="region"
           aria-label="أدوات المعاينة"
-          style={{ width: 'min(360px, calc(100vw - 32px))', maxHeight: '70vh', overflowY: 'auto', background: 'var(--card)', borderRadius: 16, boxShadow: 'var(--card-shadow),0 20px 50px rgba(0,0,0,.25)', padding: 16, display: 'flex', flexDirection: 'column', gap: 14 }}
+          style={{ width: 'min(360px, calc(100vw - 56px))', maxHeight: '80vh', overflowY: 'auto', background: 'var(--card)', borderRadius: 16, boxShadow: 'var(--card-shadow),0 20px 50px rgba(0,0,0,.25)', padding: 16, display: 'flex', flexDirection: 'column', gap: 14 }}
         >
           <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             <strong style={{ fontSize: 15, color: 'var(--ink)' }}>أدوات المعاينة</strong>
@@ -120,7 +121,8 @@ export function DemoPanel({ s }: { s: PortalState }) {
         type="button"
         onClick={() => setDemo({ panelOpen: !open })}
         aria-expanded={open}
-        style={{ height: 44, padding: '0 18px', borderRadius: 36, border: 0, background: GOLD, color: '#fff', fontSize: 14, fontWeight: 600, cursor: 'pointer', boxShadow: '0 6px 20px rgba(0,0,0,.25)', display: 'flex', alignItems: 'center', gap: 8, fontFamily: 'inherit' }}
+        title="أدوات المعاينة"
+        style={{ width: 40, padding: '14px 0', borderRadius: '0 12px 12px 0', border: 0, background: GOLD, color: '#fff', fontSize: 13, fontWeight: 600, cursor: 'pointer', boxShadow: '0 6px 20px rgba(0,0,0,.25)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, fontFamily: 'inherit', writingMode: 'vertical-rl' }}
         className="zp-002"
       >
         <Icon d={open ? ICON.x : ICON.shield} size={18} />

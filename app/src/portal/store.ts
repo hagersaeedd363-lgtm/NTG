@@ -570,7 +570,10 @@ export class PortalStore {
 
   nextFromAccount() {
     const errors: Errors = {};
-    if (!this.state.draft.purpose) errors.purpose = 'اختر غرض الطلب';
+    // Only companies state an order purpose; individuals do not have this option.
+    const isCompany = (this.account()?.type ?? this.state.reg.type) === 'company';
+    if (isCompany && !this.state.draft.purpose) errors.purpose = 'اختر غرض الطلب';
+    if (!isCompany && this.state.draft.purpose) this.set((st) => ({ draft: { ...st.draft, purpose: '' } }));
     if (this.isNewFlow()) this.validateRegistration(errors);
     if (Object.values(errors).some(Boolean)) return this.set({ errors });
     this.goStep('products');
@@ -658,7 +661,7 @@ export class PortalStore {
         img: p.img,
       })),
       ...t,
-      purpose: d.purpose,
+      purpose: acct.type === 'company' ? d.purpose : '',
       kindLabel: acct.type === 'company' && acct.company ? acct.company.name : 'أفراد',
       entityType: acct.company?.entityType || '',
       delivery: {

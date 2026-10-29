@@ -15,11 +15,10 @@ export class Portal extends Component {
   componentDidMount(){const fb=(el)=>{if(el&&el.matches&&el.matches('[data-fillbg]'))el.style.background=String(el.value||'').trim()?'var(--card-2)':'var(--card)';};this._fb=(ev)=>fb(ev.target);document.addEventListener('input',this._fb,true);document.addEventListener('change',this._fb,true);
     portal.toast=(msg)=>this.toast(msg);portal.navigate=(p)=>{if(this.state.page!==p)this.go(p);};
     this._unsub=portal.subscribe(()=>this.forceUpdate());
+    // Every visit starts on the home page; the visitor chooses where to go from there.
     let theme='light',page='home';
-    try{ theme=localStorage.getItem('zz-theme')||'light'; page=localStorage.getItem('zz-page')||'home'; }catch(e){}
-    const h=(location.hash||'').replace('#','');
-    if(PAGES.includes(h)) page=h;
-    if(!PAGES.includes(page)) page='home';
+    try{ theme=localStorage.getItem('zz-theme')||'light'; localStorage.setItem('zz-page','home'); }catch(e){}
+    if(location.hash!=='#home'){ try{history.replaceState(null,'','#home');}catch(e){} }
     document.documentElement.setAttribute('data-theme',theme);
     const dtab=page==='reports'?1:page==='certs'?2:0; if(dtab) page='stats';
     this.setState({theme,page,dataTab:dtab,w:window.innerWidth});
