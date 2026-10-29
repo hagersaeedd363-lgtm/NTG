@@ -313,15 +313,19 @@ export function Alert({ tone, title, children, icon, action }: { tone: AlertTone
 
 export type TagTone = 'info' | 'gold' | 'bad' | 'prog' | 'ok' | 'muted';
 export const TAG: Record<TagTone, [string, string, string]> = {
-  info: ['#DDEAF8', '#3A5F8F', '#B9D2EE'],
-  gold: ['#FCEFD9', '#8A5A1E', '#F3DDB5'],
-  bad: ['#F9DEDA', '#9A2E22', '#EDB8B1'],
-  prog: ['#D5ECEC', '#2B6B6E', '#A9D3D5'],
-  ok: ['#DAEDCF', '#3F6B2A', '#B4D8A3'],
+  info: ['var(--tag-info-bg)', 'var(--tag-info-fg)', 'var(--tag-info-bd)'],
+  gold: ['var(--tag-gold-bg)', 'var(--tag-gold-fg)', 'var(--tag-gold-bd)'],
+  bad: ['var(--tag-bad-bg)', 'var(--tag-bad-fg)', 'var(--tag-bad-bd)'],
+  prog: ['var(--tag-prog-bg)', 'var(--tag-prog-fg)', 'var(--tag-prog-bd)'],
+  ok: ['var(--tag-ok-bg)', 'var(--tag-ok-fg)', 'var(--tag-ok-bd)'],
   muted: ['var(--card-2)', 'var(--muted)', 'var(--line)'],
 };
 
-export function Tag({ tone, children, dot }: { tone: TagTone; children: ReactNode; dot?: boolean }) {
+/**
+ * The one tag style used across the portal (same as the order-status chips):
+ * 24px tall, radius 8, tinted fill with a 1px inset border, 12px medium text.
+ */
+export function Tag({ tone, children, dot, lead }: { tone: TagTone; children: ReactNode; dot?: boolean; lead?: ReactNode }) {
   const [bg, fg, bd] = TAG[tone];
   return (
     <span
@@ -330,18 +334,21 @@ export function Tag({ tone, children, dot }: { tone: TagTone; children: ReactNod
         alignItems: 'center',
         gap: 6,
         height: 24,
-        padding: '0 8px',
+        padding: '0 12px',
         borderRadius: 8,
         background: bg,
         color: fg,
-        border: '1px solid ' + bd,
+        boxShadow: 'inset 0 0 0 1px ' + bd,
         fontSize: 12,
-        fontWeight: 600,
+        fontWeight: 500,
+        lineHeight: '24px',
         whiteSpace: 'nowrap',
         boxSizing: 'border-box',
+        flexShrink: 0,
       }}
     >
-      {dot ? <span style={{ width: 6, height: 6, borderRadius: '50%', background: fg }} /> : null}
+      {dot ? <span aria-hidden="true" style={{ width: 5, height: 5, borderRadius: '50%', background: fg, flexShrink: 0 }} /> : null}
+      {lead}
       {children}
     </span>
   );
@@ -349,19 +356,17 @@ export function Tag({ tone, children, dot }: { tone: TagTone; children: ReactNod
 
 export function LockTag({ children = 'غير قابلة للتعديل' }: { children?: ReactNode }) {
   return (
-    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, height: 28, padding: '0 10px', borderRadius: 8, background: 'var(--card-2)', boxShadow: 'inset 0 0 0 1px var(--line)', fontSize: 12, fontWeight: 600, color: 'var(--muted)', whiteSpace: 'nowrap' }}>
-      <Icon d={ICON.lock} size={13} sw={1.8} />
+    <Tag tone="muted" lead={<Icon d={ICON.lock} size={13} sw={1.8} />}>
       {children}
-    </span>
+    </Tag>
   );
 }
 
-export function NafathTag() {
+export function NafathTag({ children = 'من نفاذ · غير قابلة للتعديل' }: { children?: ReactNode }) {
   return (
-    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, height: 28, padding: '0 10px 0 4px', borderRadius: 36, background: 'var(--gold-soft)', color: 'var(--gold-on-soft)', fontSize: 12, fontWeight: 600, whiteSpace: 'nowrap' }}>
-      <img src="assets/nafath.png" alt="" style={{ width: 20, height: 20, borderRadius: 6, display: 'block' }} />
-      من نفاذ · غير قابلة للتعديل
-    </span>
+    <Tag tone="gold" lead={<img src="assets/nafath.png" alt="" style={{ width: 16, height: 16, borderRadius: 4, display: 'block', marginInlineStart: -4 }} />}>
+      {children}
+    </Tag>
   );
 }
 
@@ -651,22 +656,53 @@ export function Stepper({ steps }: { steps: Array<{ label: string; done: boolean
   );
 }
 
-/** Label/value list used for summaries. */
-export function DataRows({ rows }: { rows: Array<{ k: string; v: string; ltr?: boolean; lock?: boolean }> }) {
+type Row = { k: string; v: string; ltr?: boolean; lock?: boolean };
+
+/**
+ * Label/value rows in the profile data-card style: two per line (one on phones), hairline
+ * dividers, 13px muted label with optional lock, 14px semibold value.
+ */
+export function DataRows({ rows, title, aside }: { rows: Row[]; title?: string; aside?: ReactNode }) {
+  const lines: Row[][] = [];
+  for (let i = 0; i < rows.length; i += 2) lines.push(rows.slice(i, i + 2));
   return (
-    <dl style={{ margin: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(min(100%,240px),1fr))', gap: '16px 24px' }}>
-      {rows.map((r) => (
-        <div key={r.k} style={{ display: 'flex', flexDirection: 'column', gap: 4, minWidth: 0 }}>
-          <dt style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, lineHeight: '20px', color: 'var(--muted)' }}>
-            {r.k}
-            {r.lock ? <Icon d={ICON.lock} size={12} sw={1.8} /> : null}
-          </dt>
-          <dd dir={r.ltr ? 'ltr' : undefined} style={{ margin: 0, fontSize: 15, lineHeight: '24px', color: r.v ? 'var(--ink)' : 'var(--muted)', textAlign: 'right', overflowWrap: 'anywhere' }}>
-            {r.v || '—'}
-          </dd>
+    <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+      {title ? (
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 8, paddingBottom: 4 }}>
+          <h3 style={{ margin: 0, fontSize: 15, fontWeight: 600, lineHeight: '24px', color: 'var(--ink)' }}>{title}</h3>
+          {aside}
         </div>
-      ))}
-    </dl>
+      ) : null}
+      <dl style={{ margin: 0 }}>
+        {lines.map((line, i) => (
+          <div
+            key={line[0].k}
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit,minmax(min(100%,240px),1fr))',
+              columnGap: 24,
+              borderTop: i || title ? '1px solid var(--line)' : undefined,
+            }}
+          >
+            {line.map((r) => (
+              <div key={r.k} style={{ display: 'flex', flexDirection: 'column', padding: '12px 0', minWidth: 0 }}>
+                <dt style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, lineHeight: '24px', color: 'var(--muted)' }}>
+                  {r.k}
+                  {r.lock ? (
+                    <span style={{ display: 'flex', opacity: 0.8 }}>
+                      <Icon d={ICON.lock} size={14} sw={1.8} />
+                    </span>
+                  ) : null}
+                </dt>
+                <dd dir={r.ltr ? 'ltr' : undefined} style={{ margin: 0, fontSize: 14, fontWeight: 600, lineHeight: '24px', color: r.v ? 'var(--ink)' : 'var(--muted)', textAlign: 'right', overflowWrap: 'anywhere' }}>
+                  {r.v || '—'}
+                </dd>
+              </div>
+            ))}
+          </div>
+        ))}
+      </dl>
+    </div>
   );
 }
 
