@@ -94,6 +94,11 @@ class Ctx {
     await this.tick();
     await this.click('حسابي', { role: 'menuitem', exact: true });
   }
+  async openOrdersMenu() {
+    await this.p.locator('.zz-header-account').click();
+    await this.tick();
+    await this.click('طلباتي', { role: 'menuitem', exact: true });
+  }
   async openLogin() {
     await this.p.locator('.zz-header-account').click();
     await this.tick(400);
@@ -231,8 +236,8 @@ const scenarios = [
       await c.see('تسجيل الدخول');
       await c.nafath(ID.individual);
       await c.landedHomeThenAccount();
-      await c.see('أهلاً، نورة');
-      await c.click('طلب جديد', { exact: true });
+      await c.see('تحديث البيانات');
+      await c.startOrderFromHome();
       await c.see('أنت مسجّل لدينا وحسابك معتمد');
       return 'Lands on home; «حسابي» opens the profile; can start an order.';
     },
@@ -247,7 +252,7 @@ const scenarios = [
       await c.fill('كلمة المرور', '123456');
       await c.submitLogin();
       await c.landedHomeThenAccount();
-      await c.see('أهلاً، عبدالله');
+      await c.see('تحديث البيانات');
       return 'Email sign-in lands on home; «حسابي» opens the approved profile.';
     },
   },
@@ -292,8 +297,8 @@ const scenarios = [
       await c.login(ID.pendingOrder);
       await c.click('أدوات المعاينة');
       await c.click('اعتماد الحساب');
-      await c.see('أهلاً، ليلى');
-      await c.click('طلباتي', { exact: true });
+      await c.see('تحديث البيانات');
+      await c.openOrdersMenu();
       await c.click('عرض', { nth: 0 }).catch(() => {});
       await c.p.getByText('ZM-20261028-0441').first().click();
       await c.tick();
@@ -310,7 +315,7 @@ const scenarios = [
       await c.click('أدوات المعاينة');
       await c.click('قبول الطلب');
       await c.click('أدوات المعاينة');
-      await c.click('طلباتي', { exact: true });
+      await c.openOrdersMenu();
       await c.p.getByText('ZM-20261028-0441').first().click();
       await c.tick();
       await c.see('تم قبول الطلب — بانتظار اعتماد حسابك');
@@ -323,7 +328,7 @@ const scenarios = [
     title: 'User tries to pay before order acceptance',
     run: async (c) => {
       await c.login(ID.company);
-      await c.click('طلباتي', { exact: true });
+      await c.openOrdersMenu();
       await c.p.getByText('ZM-20261024-0436').first().click();
       await c.tick();
       await c.see('طلبك قيد المراجعة');
@@ -420,7 +425,7 @@ const scenarios = [
       await c.tick();
       await c.click('تسجيل الخروج', { role: 'menuitem' });
       await c.login(ID.company);
-      await c.click('طلباتي', { exact: true });
+      await c.openOrdersMenu();
       await c.p.getByText('ZM-20261024-0435').first().click();
       await c.tick();
       await c.see('تعذّر قبول الطلب');
@@ -433,7 +438,7 @@ const scenarios = [
     title: 'Payment fails, then cannot be confirmed, then succeeds',
     run: async (c) => {
       await c.login(ID.individual);
-      await c.click('طلب جديد', { exact: true });
+      await c.startOrderFromHome();
       if (await c.p.getByRole('radiogroup', { name: 'غرض الطلب' }).count()) throw new Error('individuals must not see order purpose');
       await c.click('متابعة إلى المنتجات');
       await c.products();

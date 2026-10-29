@@ -12,7 +12,7 @@ import { AuthScreen, NafathDialog } from './screens/Auth';
 import { AccountStatusScreen, DoneScreen, EditProfileScreen } from './screens/Status';
 import { createOrderBlockReason } from './rules';
 import { portal, usePortal, type PortalState } from './store';
-import { Alert, Card, ICON, PrimaryButton, SecondaryButton, Stepper } from './ui';
+import { Alert, ICON, SecondaryButton, Stepper } from './ui';
 import { portalVals } from './vals';
 
 function FlowStepper({ s }: { s: PortalState }) {
@@ -34,10 +34,9 @@ function FlowStepper({ s }: { s: PortalState }) {
   );
 }
 
-/** Approved accounts: shortcuts above the profile, plus any pending profile-change request. */
+/** Approved accounts: notices above the profile (pending data change, orders awaiting payment). */
 function ProfileActions({ s }: { s: PortalState }) {
   const a = portal.account(s)!;
-  const review = portal.myOrders(s).filter((o) => o.status === 'review').length;
   const payable = portal.myOrders(s).filter((o) => o.status === 'accepted' && (o.payment.state === 'none' || o.payment.state === 'failed')).length;
   return (
     <>
@@ -59,16 +58,6 @@ function ProfileActions({ s }: { s: PortalState }) {
           تمت الموافقة، ويبدأ التجهيز بعد تأكيد الدفع.
         </Alert>
       ) : null}
-      <Card style={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 2, minWidth: 0 }}>
-          <strong style={{ fontSize: 18, fontWeight: 600, color: 'var(--ink)' }}>أهلاً، {a.identity.fullName.split(' ')[0]}</strong>
-          <span style={{ fontSize: 14, color: 'var(--muted)' }}>{review ? 'لديك طلبات قيد المراجعة. سنُشعرك فور اتخاذ القرار.' : 'حسابك معتمد ويمكنك إنشاء طلب جديد في أي وقت.'}</span>
-        </div>
-        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-          <SecondaryButton onClick={() => portal.openOrders()}>طلباتي</SecondaryButton>
-          <PrimaryButton onClick={() => portal.newOrder()}>طلب جديد</PrimaryButton>
-        </div>
-      </Card>
     </>
   );
 }
