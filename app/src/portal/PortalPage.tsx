@@ -41,9 +41,17 @@ function ProfileActions({ s }: { s: PortalState }) {
   const payable = portal.myOrders(s).filter((o) => o.status === 'accepted' && (o.payment.state === 'none' || o.payment.state === 'failed')).length;
   return (
     <>
-      {a.changeRequestAt ? (
-        <Alert tone="warn" title="طلب تعديل البيانات قيد المراجعة.">
-          أُرسل في {a.changeRequestAt}. تبقى بياناتك الحالية سارية، ويمكنك إنشاء الطلبات ومتابعتها خلال المراجعة.
+      {a.changeRequest ? (
+        <Alert
+          tone="warn"
+          title={'طلب تعديل البيانات قيد المراجعة (' + a.changeRequest.labels.join('، ') + ').'}
+          action={
+            <SecondaryButton onClick={() => portal.startEdit()} style={{ height: 40 }}>
+              عرض الطلب
+            </SecondaryButton>
+          }
+        >
+          أُرسل في {a.changeRequest.at}. تبقى بياناتك الحالية سارية حتى الاعتماد، ويمكنك إنشاء الطلبات ومتابعتها خلال المراجعة.
         </Alert>
       ) : null}
       {payable ? (

@@ -1,7 +1,8 @@
 import { ACCOUNT_STATUS_LABEL, createOrderBlockReason, orderStatusLabel, orderTone } from '../rules';
 import { portal, type PortalState } from '../store';
 import type { Account } from '../types';
-import { ActionBar, Alert, Card, CardHeader, DataRows, Field, ICON, Icon, PageTitle, PrimaryButton, SecondaryButton, SelectField, Tag, formGrid } from '../ui';
+import { ETYPES, PILL_ICONS, REGIONS } from '../../data/portal';
+import { ActionBar, Alert, Card, CardHeader, DataRows, Field, ICON, Icon, PageTitle, Pills, PrimaryButton, SecondaryButton, SelectField, Tag, formGrid } from '../ui';
 import { IdentityCard } from './Account';
 
 const AR = (n: number) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[+d]);
@@ -175,24 +176,61 @@ export function AccountStatusScreen({ s }: { s: PortalState }) {
   );
 }
 
-/** Approved accounts: Nafath data stays locked; company representative details go through review. */
+/** Approved accounts: Nafath data stays locked; company and representative changes go through review. */
 export function EditProfileScreen({ s }: { s: PortalState }) {
   const a = portal.account(s);
   const e = s.edit;
   if (!a || !e) return null;
   const company = a.type === 'company' && a.company;
+  const req = a.changeRequest;
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24, animation: 'zzfade .3s ease both' }}>
-      <PageTitle icon={ICON.user} title="تحديث البيانات" desc="بيانات الهوية من نفاذ ولا تُعدّل هنا. يمكنك طلب تعديل بيانات ممثل المؤسسة." />
+      <PageTitle icon={ICON.user} title="تحديث البيانات" desc="بيانات الهوية من نفاذ ولا تُعدّل هنا. يمكنك طلب تعديل بيانات المؤسسة والممثل." />
+      {company ? (
+        req ? (
+          <Alert tone="warn" title={'لديك طلب تعديل قيد المراجعة منذ ' + req.at + '.'}>
+            الحقول المعروضة تشمل تعديلاتك المرسلة. إرسال طلب جديد يستبدل الطلب الحالي.
+          </Alert>
+        ) : (
+          <Alert tone="info">تُرسل التعديلات إلى الجهة المختصة للمراجعة. تبقى بياناتك الحالية سارية، ويمكنك إنشاء الطلبات ومتابعتها خلال المراجعة.</Alert>
+        )
+      ) : null}
       <IdentityCard identity={a.identity} />
       {company ? (
         <>
           <Card>
-            <CardHeader icon={ICON.bld} title="بيانات المؤسسة" desc="مسجّلة ومعتمدة. لتغييرها تواصل معنا." />
-            <DataRows rows={companyRows(a).slice(0, 4).map((r) => ({ ...r, lock: true }))} />
+            <CardHeader icon={ICON.bld} title="بيانات المؤسسة" desc="عدّل ما تريد تغييره، وسيُراجع قبل اعتماده." />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              <span style={{ fontSize: 15, fontWeight: 500, color: 'var(--ink)' }}>
+                نوع الجهة <span style={{ color: 'var(--danger)' }}>*</span>
+              </span>
+              <Pills label="نوع الجهة" options={ETYPES} value={e.entityType} onChange={(v) => portal.setEdit({ entityType: v })} icons={PILL_ICONS} />
+              {e.errors.entityType ? (
+                <span role="alert" style={{ fontSize: 14, color: 'var(--danger)' }}>
+                  {e.errors.entityType}
+                </span>
+              ) : null}
+            </div>
+            <div style={formGrid}>
+              <Field id="ed-coname" label="اسم المؤسسة" required value={e.name} onChange={(v) => portal.setEdit({ name: v })} error={e.errors.name} />
+              <Field id="ed-cocr" label="السجل التجاري" required value={e.cr} onChange={(v) => portal.setEdit({ cr: v.replace(/\D/g, '').slice(0, 10) })} error={e.errors.cr} placeholder="10 أرقام" inputMode="numeric" ltr />
+              <SelectField id="ed-coregion" label="المنطقة" required value={e.region} onChange={(v) => portal.setEdit({ region: v })} options={Object.keys(REGIONS)} placeholder="اختر المنطقة" error={e.errors.region} />
+              <SelectField
+                id="ed-cocity"
+                label="المدينة"
+                required
+                value={e.city}
+                onChange={(v) => portal.setEdit({ city: v })}
+                options={portal.cities(e.region)}
+                placeholder="اختر المدينة"
+                disabled={!e.region}
+                hint={e.region ? undefined : 'اختر المنطقة أولاً.'}
+                error={e.errors.city}
+              />
+            </div>
           </Card>
           <Card>
-            <CardHeader icon={ICON.user} title="بيانات ممثل المؤسسة" desc="تُرسل التعديلات للمراجعة. تبقى بياناتك الحالية سارية، ويمكنك متابعة طلباتك خلالها." />
+            <CardHeader icon={ICON.user} title="بيانات ممثل المؤسسة" desc="عدّل ما تريد تغييره، وسيُراجع قبل اعتماده." />
             <div style={formGrid}>
               <SelectField id="ed-idtype" label="نوع الهوية" required value={e.repIdType} onChange={(v) => portal.setEdit({ repIdType: v })} options={['هوية وطنية', 'إقامة']} placeholder="اختر نوع الهوية" error={e.errors.repIdType} />
               <Field id="ed-repid" label="رقم هوية / إقامة ممثل المؤسسة" required value={e.repId} onChange={(v) => portal.setEdit({ repId: v.replace(/\D/g, '').slice(0, 10) })} error={e.errors.repId} inputMode="numeric" ltr />
@@ -205,7 +243,11 @@ export function EditProfileScreen({ s }: { s: PortalState }) {
       ) : (
         <Alert tone="info">كل بيانات حساب الفرد مأخوذة من نفاذ، ولا توجد بيانات أخرى يمكن تعديلها هنا.</Alert>
       )}
-      <ActionBar onBack={() => portal.openProfile()}>{company ? <PrimaryButton onClick={() => portal.saveEdit()}>إرسال طلب التعديل</PrimaryButton> : null}</ActionBar>
+      {e.errors.form ? <Alert tone="bad">{e.errors.form}</Alert> : null}
+      <ActionBar onBack={() => portal.openProfile()}>
+        {company && req ? <SecondaryButton onClick={() => portal.cancelChangeRequest()}>إلغاء الطلب الحالي</SecondaryButton> : null}
+        {company ? <PrimaryButton onClick={() => portal.saveEdit()}>إرسال طلب التعديل</PrimaryButton> : null}
+      </ActionBar>
     </div>
   );
 }

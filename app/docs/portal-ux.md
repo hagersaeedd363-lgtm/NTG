@@ -85,7 +85,7 @@ New orders = account `approved` only (`rules.canCreateOrder`).
 
 ## 3. Scenario checklist
 
-All 18 run automatically: `node e2e/scenarios.mjs` (demo build). Demo IDs are listed in
+All 19 run automatically: `node e2e/scenarios.mjs` (demo build). Demo IDs are listed in
 `src/portal/fixtures.ts`.
 
 | # | Scenario | Start | Actions | Expected | Final state |
@@ -107,6 +107,7 @@ All 18 run automatically: `node e2e/scenarios.mjs` (demo build). Demo IDs are li
 | 15 | Company with missing fields | New user | جهة → continue; lookup not found → continue | Each missing field flagged | Stays on step |
 | 16 | Back navigation | New company user | Company data + purpose → products (+1) → back → forward | Company data, purpose and quantities kept | — |
 | 17 | Rejections | Rejected account; rejected order | Sign in; open rejected order | Reason + «تواصل معنا»; order reason + «تقديم طلب جديد» | No ordering for rejected account |
+| 19 | Company data change | Approved company | «تحديث البيانات» → send unchanged (error) → edit name/region/city → send → demo approve | Pending notice lists changed fields; data unchanged until approval | New data applied |
 | 18 | Payment failure / unconfirmed | Approved, accepted order | Demo outcome فشل → pay; لم تتأكد → retry; نجاح → refresh | Failed keeps order unpaid; unconfirmed blocks a second charge | Paid → قيد التجهيز |
 
 ## 4. Decisions that changed earlier behaviour

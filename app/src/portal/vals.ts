@@ -602,7 +602,7 @@ function profileVals(s: PortalState): Obj {
     secs.push({
       title: 'بيانات المنشأة',
       icon: 'M4 21V8l8-5 8 5v13M9 21v-6h6v6M8 11h.01M12 11h.01M16 11h.01',
-      note: a.changeRequestAt ? 'طلب تعديل قيد المراجعة' : '',
+      note: a.changeRequest ? 'طلب تعديل قيد المراجعة' : '',
       rows: [
         { k: 'اسم المؤسسة', v: c.name, dir: 'rtl' },
         { k: 'السجل التجاري', v: c.cr, dir: 'ltr' },

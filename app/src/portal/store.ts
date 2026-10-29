@@ -8,7 +8,7 @@ import { DEMO_TOOLS } from '../config';
 import { COMPANIES, EMAIL_RE, MAX_BOTTLES, PRODUCTS, REGIONS, SAR } from '../data/portal';
 import { DEMO_IDS, initialDb, sampleIdentity } from './fixtures';
 import { canCreateOrder, computeTotals, createOrderBlockReason, isPayable } from './rules';
-import type { Account, AccountType, AuthMethod, Company, Db, Identity, Order, PaymentMethod } from './types';
+import type { Account, AccountType, AuthMethod, ChangeRequest, Company, Db, Identity, Order, PaymentMethod } from './types';
 
 export type View = 'auth' | 'register' | 'flow' | 'done' | 'status' | 'profile' | 'editProfile' | 'password' | 'orders' | 'pay';
 export type Entry = 'order' | 'login' | 'register';
@@ -85,7 +85,7 @@ export interface PortalState {
   openOrderId: string | null;
   orders: { tab: string; q: string; status: string; sort: { key: string; dir: 1 | -1 } };
   pay: PayState | null;
-  edit: { repIdType: string; repId: string; repName: string; repPhone: string; repEmail: string; errors: Errors } | null;
+  edit: (Omit<CompanyDraft, never> & { errors: Errors }) | null;
   pw: { step: 0 | 1 | 2 | 3; otp: string; n1: string; n2: string; show: boolean; err: string };
   photo: string;
   map: { open: boolean; query: string; busy: boolean; err: string; addr: string; point: { lat: number; lng: number } | null };
@@ -874,33 +874,83 @@ export class PortalStore {
   startEdit() {
     const a = this.account();
     if (!a) return;
-    const c = a.company;
+    // Start from the pending request if there is one, so the user can amend it.
+    const c = { ...(a.company ?? {}), ...(a.changeRequest?.changes ?? {}) } as Partial<Company>;
     this.set({
       view: 'editProfile',
-      edit: { repIdType: c?.repIdType || '', repId: c?.repId || '', repName: c?.repName || '', repPhone: c?.repPhone || '', repEmail: c?.repEmail || '', errors: {} },
+      edit: {
+        entityType: c.entityType || '',
+        name: c.name || '',
+        cr: c.cr || '',
+        region: c.region || '',
+        city: c.city || '',
+        repIdType: c.repIdType || '',
+        repId: c.repId || '',
+        repName: c.repName || '',
+        repPhone: c.repPhone || '',
+        repEmail: c.repEmail || '',
+        errors: {},
+      },
     });
     this.scrollTop();
   }
 
   setEdit(p: Partial<NonNullable<PortalState['edit']>>) {
-    this.set((s) => (s.edit ? { edit: { ...s.edit, ...p, errors: { ...s.edit.errors, ...Object.fromEntries(Object.keys(p).map((k) => [k, ''])) } } } : {}));
+    this.set((s) => {
+      if (!s.edit) return {};
+      const next = { ...s.edit, ...p, errors: { ...s.edit.errors, form: '', ...Object.fromEntries(Object.keys(p).map((k) => [k, ''])) } };
+      if ('region' in p && p.region !== s.edit.region) next.city = '';
+      return { edit: next };
+    });
   }
 
+  /** Company and representative changes go to the authority as one request; nothing changes until approved. */
   saveEdit() {
     const a = this.account();
     const e = this.state.edit;
-    if (!a || !e) return;
+    if (!a || !e || !a.company) return;
     const errors: Errors = {};
+    if (!e.entityType) errors.entityType = 'اختر نوع الجهة';
+    if (!e.name.trim()) errors.name = REQUIRED;
+    if (!/^\d{10}$/.test(e.cr.trim())) errors.cr = 'أدخل سجلاً تجارياً من 10 أرقام';
+    if (!e.region) errors.region = 'اختر المنطقة';
+    if (!e.city) errors.city = 'اختر المدينة';
     if (!e.repIdType) errors.repIdType = 'اختر نوع الهوية';
     if (!NID_RE.test(e.repId.trim())) errors.repId = 'أدخل رقم هوية / إقامة من 10 أرقام';
     if (!e.repName.trim()) errors.repName = 'أدخل اسم الممثل بالكامل';
     if (!PHONE_RE.test(e.repPhone.trim())) errors.repPhone = 'أدخل رقم جوال صحيحاً يبدأ بـ 05';
     if (!EMAIL_RE.test(e.repEmail.trim())) errors.repEmail = 'أدخل بريداً إلكترونياً صحيحاً';
     if (Object.keys(errors).length) return this.set({ edit: { ...e, errors } });
-    this.patchAccount(a.nationalId, (x) => ({ ...x, changeRequestAt: arDate() }));
+    const LABELS: Record<string, string> = {
+      entityType: 'نوع الجهة',
+      name: 'اسم المؤسسة',
+      cr: 'السجل التجاري',
+      region: 'المنطقة',
+      city: 'المدينة',
+      repIdType: 'نوع هوية الممثل',
+      repId: 'رقم هوية الممثل',
+      repName: 'اسم الممثل',
+      repPhone: 'جوال الممثل',
+      repEmail: 'بريد الممثل',
+    };
+    const changes: ChangeRequest['changes'] = {};
+    for (const k of Object.keys(LABELS) as Array<keyof ChangeRequest['changes']>) {
+      const v = String(e[k as keyof typeof e] ?? '').trim();
+      if (v !== String(a.company[k] ?? '')) (changes as Record<string, string>)[k] = v;
+    }
+    const labels = Object.keys(changes).map((k) => LABELS[k]);
+    if (!labels.length) return this.set({ edit: { ...e, errors: { form: 'لم تغيّر أي بيانات. عدّل حقلاً واحداً على الأقل قبل الإرسال.' } } });
+    this.patchAccount(a.nationalId, (x) => ({ ...x, changeRequest: { at: arDate(), changes, labels } }));
     this.set({ view: 'profile', edit: null });
     this.toast('تم إرسال طلب تعديل البيانات للمراجعة');
     this.scrollTop();
+  }
+
+  cancelChangeRequest() {
+    const a = this.account();
+    if (!a?.changeRequest) return;
+    this.patchAccount(a.nationalId, (x) => ({ ...x, changeRequest: undefined }));
+    this.toast('تم إلغاء طلب تعديل البيانات');
   }
 
   setPassword() {
@@ -921,6 +971,17 @@ export class PortalStore {
     // When the decision changes the screen, fold the panel so it does not cover the new page.
     if (status === 'approved' && this.state.view === 'status') this.set((s) => ({ view: 'profile', demo: { ...s.demo, panelOpen: false } }));
     if (status === 'rejected' && ['profile', 'flow', 'editProfile', 'pay'].includes(this.state.view)) this.set((s) => ({ view: 'status', demo: { ...s.demo, panelOpen: false } }));
+  }
+
+  demoChange(decision: 'approve' | 'reject') {
+    const a = this.account();
+    if (!a?.changeRequest) return;
+    this.patchAccount(a.nationalId, (x) => ({
+      ...x,
+      ...(decision === 'approve' && x.company ? { company: { ...x.company, ...(x.changeRequest!.changes as Partial<Company>), registryMatch: x.changeRequest!.changes.cr ? false : x.company.registryMatch } } : {}),
+      changeRequest: undefined,
+    }));
+    this.toast(decision === 'approve' ? 'تم اعتماد تعديل البيانات (محاكاة لقرار الجهة)' : 'تم رفض طلب تعديل البيانات (محاكاة لقرار الجهة)');
   }
 
   demoOrder(id: string, decision: 'accept' | 'reject' | 'confirmTransfer' | 'advance') {

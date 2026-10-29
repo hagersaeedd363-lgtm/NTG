@@ -60,6 +60,21 @@ export function DemoPanel({ s }: { s: PortalState }) {
             )}
           </section>
 
+          {a?.changeRequest ? (
+            <section style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink-2)' }}>طلب تعديل البيانات</span>
+              <span style={{ fontSize: 12, color: 'var(--muted)' }}>{a.changeRequest.labels.join('، ')}</span>
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                <button type="button" style={btn()} onClick={() => portal.demoChange('approve')}>
+                  اعتماد التعديل
+                </button>
+                <button type="button" style={btn()} onClick={() => portal.demoChange('reject')}>
+                  رفض التعديل
+                </button>
+              </div>
+            </section>
+          ) : null}
+
           {orders.length ? (
             <section style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink-2)' }}>الطلبات</span>

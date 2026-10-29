@@ -45,8 +45,16 @@ export interface Account {
   /** Where registration started: from an order (Flow A) or from the navigation bar (Flow B). */
   entry: 'order' | 'register';
   submittedAt: string;
-  /** A profile-change request awaiting review. The account stays approved meanwhile. */
-  changeRequestAt?: string;
+  /** A data-change request awaiting review. The account stays approved and current data stays in use. */
+  changeRequest?: ChangeRequest;
+}
+
+/** Requested company / representative changes, applied only when the authority approves them. */
+export interface ChangeRequest {
+  at: string;
+  changes: Partial<Omit<Company, 'registryMatch'>>;
+  /** Arabic labels of the changed fields, for display. */
+  labels: string[];
 }
 
 export type OrderStatus = 'review' | 'rejected' | 'accepted' | 'preparing' | 'ready' | 'completed';

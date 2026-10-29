@@ -461,6 +461,30 @@ const scenarios = [
       return 'Failure keeps order unpaid; unconfirmed blocks a second charge; refresh confirms.';
     },
   },
+  {
+    id: 19,
+    title: 'Company data change goes through review',
+    run: async (c) => {
+      await c.login(ID.company);
+      await c.click('تحديث البيانات');
+      await c.click('إرسال طلب التعديل');
+      await c.see('لم تغيّر أي بيانات');
+      await c.fill('اسم المؤسسة', 'شركة الضيافة المتحدة للخدمات المحدودة');
+      await c.select('ed-coregion', 'الرياض');
+      await c.select('ed-cocity', 'الرياض');
+      await c.shot('edit');
+      await c.click('إرسال طلب التعديل');
+      await c.see('طلب تعديل البيانات قيد المراجعة (اسم المؤسسة، المنطقة، المدينة)');
+      await c.see('شركة الضيافة المتحدة للخدمات');
+      await c.notSee('المحدودة');
+      await c.click('أدوات المعاينة');
+      await c.click('اعتماد التعديل');
+      await c.see('المحدودة');
+      await c.notSee('طلب تعديل البيانات قيد المراجعة');
+      await c.shot('approved');
+      return 'Nothing changes until approval; approved changes replace the company data.';
+    },
+  },
 ];
 
 const only = process.env.ONLY ? process.env.ONLY.split(',').map(Number) : null;
