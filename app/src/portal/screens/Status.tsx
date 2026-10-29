@@ -281,66 +281,65 @@ export function BlockedOrderScreen({ s }: { s: PortalState }) {
   if (!a) return null;
   const rejected = a.status === 'rejected';
   const order = portal.myOrders(s).find((o) => !o.sample);
-  const primary = rejected ? (
-    <PrimaryButton full onClick={() => (window.location.hash = '#contact')}>تواصل معنا</PrimaryButton>
-  ) : order ? (
-    <PrimaryButton full onClick={() => portal.openOrders(order.id)}>متابعة طلبي</PrimaryButton>
-  ) : (
-    <PrimaryButton full onClick={() => portal.openProfile()}>عرض بيانات حسابي</PrimaryButton>
-  );
   return (
-    <section
-      aria-labelledby="blocked-title"
-      style={{ ...cardStyle, width: '100%', maxWidth: 560, margin: '0 auto', boxSizing: 'border-box', alignItems: 'center', textAlign: 'center', padding: 'clamp(24px,4vw,40px)', gap: 20, animation: 'zzfade .3s ease both' }}
-    >
-      <span
-        style={{
-          width: 64,
-          height: 64,
-          borderRadius: '50%',
-          background: rejected ? 'var(--al-bad-bg)' : 'var(--gold-soft)',
-          color: rejected ? 'var(--al-bad-fg)' : 'var(--gold-2)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <Icon d={rejected ? ICON.alert : ICON.clock} size={30} />
-      </span>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24, animation: 'zzfade .3s ease both' }}>
+      <Card style={{ alignItems: 'center', textAlign: 'center', padding: 'clamp(28px,4vw,48px)', gap: 16 }}>
+        <span
+          style={{
+            width: 72,
+            height: 72,
+            borderRadius: '50%',
+            background: rejected ? 'var(--al-bad-bg)' : 'var(--gold-soft)',
+            color: rejected ? 'var(--al-bad-fg)' : 'var(--gold-2)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Icon d={rejected ? ICON.alert : ICON.clock} size={34} sw={2} />
+        </span>
         <Tag tone={rejected ? 'bad' : 'info'} dot>
           {rejected ? 'حساب مرفوض' : 'حسابك قيد المراجعة'}
         </Tag>
-        <h2 id="blocked-title" style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 600, lineHeight: '32px', color: 'var(--ink)' }}>
+        <h1 id="blocked-title" style={{ margin: 0, fontSize: 24, fontWeight: 600, lineHeight: '32px', color: 'var(--ink)' }}>
           {rejected ? 'لا يمكن إنشاء طلبات بهذا الحساب' : 'لا يمكنك إنشاء طلب جديد الآن'}
-        </h2>
-        <p style={{ margin: 0, fontSize: 15, lineHeight: '26px', color: 'var(--ink-2)', maxWidth: 440 }}>
+        </h1>
+        <p style={{ margin: 0, fontSize: 16, lineHeight: '26px', color: 'var(--ink-2)', maxWidth: 620 }}>
           {rejected
             ? 'سبب الرفض: ' + (a.rejectReason || 'لم تُذكر أسباب.')
             : order
               ? 'طلبك المقدَّم مع بيانات التسجيل قيد المراجعة. يمكنك إنشاء طلبات جديدة بعد اعتماد حسابك، وسنُشعرك فور اعتماده.'
               : 'يمكنك إنشاء الطلبات بعد اعتماد حسابك، وسنُشعرك فور اعتماده.'}
         </p>
-      </div>
-      <div style={{ width: '100%', padding: '16px 20px', borderRadius: 16, background: 'var(--card-2)', boxShadow: 'inset 0 0 0 1px var(--line)', boxSizing: 'border-box', textAlign: 'right' }}>
+      </Card>
+
+      <Card>
+        <CardHeader
+          icon={ICON.clock}
+          title="مراحل اعتماد الحساب"
+          desc={rejected ? 'راجعت الجهة المختصة بياناتك وتعذّر اعتماد الحساب.' : 'تُتاح الطلبات والدفع بعد اعتماد الحساب.'}
+        />
         <ApprovalSteps a={a} />
-      </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 12, width: '100%' }}>
-        {primary}
-        {rejected || order ? (
-          <SecondaryButton full onClick={() => portal.openProfile()}>
+      </Card>
+
+      <ActionBar>
+        <SecondaryButton onClick={() => portal.goHome()}>العودة إلى الرئيسية</SecondaryButton>
+        {rejected || order ? <SecondaryButton onClick={() => portal.openProfile()}>عرض بيانات حسابي</SecondaryButton> : null}
+        {rejected ? (
+          <PrimaryButton onClick={() => (window.location.hash = '#contact')} icon={ICON.arrowNext}>
+            تواصل معنا
+          </PrimaryButton>
+        ) : order ? (
+          <PrimaryButton onClick={() => portal.openOrders(order.id)} icon={ICON.arrowNext}>
+            متابعة طلبي
+          </PrimaryButton>
+        ) : (
+          <PrimaryButton onClick={() => portal.openProfile()} icon={ICON.arrowNext}>
             عرض بيانات حسابي
-          </SecondaryButton>
-        ) : null}
-        <button
-          type="button"
-          onClick={() => portal.goHome()}
-          style={{ alignSelf: 'center', height: 40, padding: '0 12px', border: 0, background: 'none', color: 'var(--gold-on-soft)', fontSize: 14, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
-        >
-          العودة للرئيسية
-        </button>
-      </div>
-    </section>
+          </PrimaryButton>
+        )}
+      </ActionBar>
+    </div>
   );
 }
 
