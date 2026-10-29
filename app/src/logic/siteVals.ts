@@ -41,6 +41,7 @@ export function siteVals(self) {
     if(P==='stats') metaOut={...META[['stats','reports','certs'][S.dataTab]||'stats']};
     if(P==='story'&&S.chapter>=0) metaOut={tag:'الفصل '+AR[S.chapter],title:CHAPTERS[S.chapter].title,lead:CHAPTERS[S.chapter].line};
     if(P==='media'&&S.newsId!=null){const n=NEWS[S.newsId]; metaOut={tag:n.cat,title:n.title,lead:n.dateH+' — '+n.dateG};}
+    if(P==='order'){const pm=portal.pageMeta(); metaOut={tag:pm.tag,title:pm.title,lead:pm.lead}; if(pm.inAccount) crumbs.push({label:'حسابي',onClick:()=>portal.openProfile()});}
 
     // errors
     const err={}, sent={}, notSent={};

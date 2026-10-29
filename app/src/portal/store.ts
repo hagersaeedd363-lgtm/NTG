@@ -456,7 +456,9 @@ export class PortalStore {
     if (entry === 'order' && canCreateOrder(acct)) this.beginExistingFlow(false);
     else this.set({ view: this.landingView(acct) });
     this.toast(acct.status === 'approved' ? msg : msg + ' — حسابك ' + (acct.status === 'pending' ? 'قيد المراجعة' : 'مرفوض'));
-    this.scrollTop();
+    // Landing on the account: start at the top so the «حسابي» banner orients the user.
+    if (this.state.view === 'flow') this.scrollTop();
+    else setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 60);
   }
 
   // ------------------------------------------------------------------ order journey
@@ -715,7 +717,7 @@ export class PortalStore {
       errors: {},
     }));
     this.toast('تم إرسال طلب التسجيل للمراجعة');
-    this.scrollTop(true);
+    setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 60);
   }
 
   // ------------------------------------------------------------------ orders list
@@ -901,8 +903,9 @@ export class PortalStore {
       ...(status === 'rejected' ? { rejectReason: 'البيانات المقدّمة غير مطابقة لسجلات الجهة. (سبب تجريبي)' } : { rejectReason: undefined }),
     }));
     this.toast(status === 'approved' ? 'تم اعتماد الحساب (محاكاة لقرار الجهة)' : 'تم رفض الحساب (محاكاة لقرار الجهة)');
-    if (status === 'approved' && this.state.view === 'status') this.set({ view: 'profile' });
-    if (status === 'rejected' && ['profile', 'flow', 'editProfile', 'pay'].includes(this.state.view)) this.set({ view: 'status' });
+    // When the decision changes the screen, fold the panel so it does not cover the new page.
+    if (status === 'approved' && this.state.view === 'status') this.set((s) => ({ view: 'profile', demo: { ...s.demo, panelOpen: false } }));
+    if (status === 'rejected' && ['profile', 'flow', 'editProfile', 'pay'].includes(this.state.view)) this.set((s) => ({ view: 'status', demo: { ...s.demo, panelOpen: false } }));
   }
 
   demoOrder(id: string, decision: 'accept' | 'reject' | 'confirmTransfer' | 'advance') {
@@ -931,6 +934,37 @@ export class PortalStore {
   }
 
   // ------------------------------------------------------------------ helpers for views
+  /** Hero title for the «order» page, so it names the screen the user is on. */
+  pageMeta(s = this.state): { tag: string; title: string; lead: string; inAccount: boolean } {
+    const a = this.account(s);
+    const order = { tag: 'اطلب الآن', title: 'اقتن عبوة زمزم', lead: 'تحقّق من هويتك، ثم اختر المنتجات وأكمل طلبك.', inAccount: false };
+    const acct = (title: string, lead: string) => ({ tag: 'حسابي', title, lead, inAccount: title !== 'حسابي' });
+    switch (this.guardView(s.view)) {
+      case 'auth':
+        if (s.auth.entry === 'login') return { tag: 'حسابي', title: 'تسجيل الدخول', lead: 'سجّل الدخول عبر نفاذ أو بالبريد الإلكتروني وكلمة المرور.', inAccount: false };
+        if (s.auth.entry === 'register') return { tag: 'حساب جديد', title: 'إنشاء حساب جديد', lead: 'سجّل عبر نفاذ، ثم تراجع الجهة المختصة بياناتك وتعتمد حسابك.', inAccount: false };
+        return order;
+      case 'register':
+        return { tag: 'حساب جديد', title: 'إنشاء حساب جديد', lead: 'اختر نوع الحساب وأكمل البيانات المطلوبة، ثم أرسلها للمراجعة.', inAccount: false };
+      case 'flow':
+        return a && a.status !== 'approved' ? acct('حسابي', 'حالة حسابك وطلباتك.') : order;
+      case 'done':
+        return order;
+      case 'status':
+        return acct('حسابي', a?.status === 'rejected' ? 'تعذّر اعتماد حسابك.' : 'حسابك قيد المراجعة، وسنُشعرك بالقرار.');
+      case 'profile':
+        return acct('حسابي', 'بياناتك وطلباتك في مكان واحد.');
+      case 'editProfile':
+        return acct('تحديث البيانات', 'بيانات الهوية من نفاذ، ويمكنك طلب تعديل بيانات ممثل المؤسسة.');
+      case 'password':
+        return acct('كلمة المرور', 'عيّن كلمة مرور أو غيّرها بعد التحقق برمز يصل إلى جوالك.');
+      case 'orders':
+        return acct('طلباتي', 'تابع حالة طلباتك، وأكمل الدفع بعد الموافقة.');
+      case 'pay':
+        return acct('الدفع', 'أكمل دفع طلبك المعتمد.');
+    }
+  }
+
   cities(region: string): string[] {
     return region ? (REGIONS as Record<string, { cities: string[] }>)[region]?.cities ?? [] : [];
   }
