@@ -663,42 +663,29 @@ type Row = { k: string; v: string; ltr?: boolean; lock?: boolean };
  * dividers, 13px muted label with optional lock, 14px semibold value.
  */
 export function DataRows({ rows, title, aside }: { rows: Row[]; title?: string; aside?: ReactNode }) {
-  const lines: Row[][] = [];
-  for (let i = 0; i < rows.length; i += 2) lines.push(rows.slice(i, i + 2));
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
       {title ? (
-        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 8, paddingBottom: 4 }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 8, paddingBottom: 8 }}>
           <h3 style={{ margin: 0, fontSize: 15, fontWeight: 600, lineHeight: '24px', color: 'var(--ink)' }}>{title}</h3>
           {aside}
         </div>
       ) : null}
-      <dl style={{ margin: 0 }}>
-        {lines.map((line, i) => (
-          <div
-            key={line[0].k}
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit,minmax(min(100%,240px),1fr))',
-              columnGap: 24,
-              borderTop: i || title ? '1px solid var(--line)' : undefined,
-            }}
-          >
-            {line.map((r) => (
-              <div key={r.k} style={{ display: 'flex', flexDirection: 'column', padding: '12px 0', minWidth: 0 }}>
-                <dt style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, lineHeight: '24px', color: 'var(--muted)' }}>
-                  {r.k}
-                  {r.lock ? (
-                    <span style={{ display: 'flex', opacity: 0.8 }}>
-                      <Icon d={ICON.lock} size={14} sw={1.8} />
-                    </span>
-                  ) : null}
-                </dt>
-                <dd dir={r.ltr ? 'ltr' : undefined} style={{ margin: 0, fontSize: 14, fontWeight: 600, lineHeight: '24px', color: r.v ? 'var(--ink)' : 'var(--muted)', textAlign: 'right', overflowWrap: 'anywhere' }}>
-                  {r.v || '—'}
-                </dd>
-              </div>
-            ))}
+      {/* Up to three cells per line on wide screens, two on tablets, one on phones. */}
+      <dl style={{ margin: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(max(min(100%,200px),calc(33.333% - 1px)),1fr))', overflow: 'hidden', borderTop: title ? '1px solid var(--line)' : undefined }}>
+        {rows.map((r) => (
+          <div key={r.k} style={{ display: 'flex', flexDirection: 'column', padding: '10px 0 10px 24px', minWidth: 0, borderBottom: '1px solid var(--line)', marginBottom: -1 }}>
+            <dt style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, lineHeight: '22px', color: 'var(--muted)' }}>
+              {r.k}
+              {r.lock ? (
+                <span style={{ display: 'flex', opacity: 0.8 }}>
+                  <Icon d={ICON.lock} size={14} sw={1.8} />
+                </span>
+              ) : null}
+            </dt>
+            <dd dir={r.ltr ? 'ltr' : undefined} style={{ margin: 0, fontSize: 14, fontWeight: 600, lineHeight: '24px', color: r.v ? 'var(--ink)' : 'var(--muted)', textAlign: 'right', overflowWrap: 'anywhere' }}>
+              {r.v || '—'}
+            </dd>
           </div>
         ))}
       </dl>

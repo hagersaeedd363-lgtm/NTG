@@ -115,7 +115,7 @@ export function ReviewStep({ v }: { v: V }) {
               </div>
             </div>
             <div style={{ height: '1px', background: 'var(--line)', margin: '0 calc(-1*clamp(18px,2.5vw,28px))' }} />
-            <div role="radiogroup" aria-label="طريقة الاستلام" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <div role="radiogroup" aria-label="طريقة الاستلام" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(min(100%,240px),1fr))', gap: '12px' }}>
               {list(v.ox?.deliveries).map((d: any, $index: number) => (
                 <Fragment key={$index}>
                   <button
@@ -141,14 +141,14 @@ export function ReviewStep({ v }: { v: V }) {
                 </Fragment>
               ))}
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '8px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginTop: '4px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <span style={{ fontSize: '15px', fontWeight: '700', color: '#996C2E', whiteSpace: 'nowrap' }}>{v.ox?.locTitle}</span>
                 <span style={{ flex: '1', height: '1px', background: 'var(--line)' }} />
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                <div style={css(`display:grid;grid-template-columns:${v.formCols ?? ''};gap:24px;align-items:start`)}>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', minWidth: '0', maxWidth: '540px', width: '100%' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(min(100%,200px),1fr))', gap: '16px 20px', alignItems: 'start' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', minWidth: '0', width: '100%' }}>
                     <label
                       htmlFor="of-region"
                       style={{
@@ -202,7 +202,7 @@ export function ReviewStep({ v }: { v: V }) {
                       </>
                     ) : null}
                   </div>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', minWidth: '0', maxWidth: '540px', width: '100%' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', minWidth: '0', width: '100%' }}>
                     <label
                       htmlFor="of-city"
                       style={{
@@ -258,7 +258,7 @@ export function ReviewStep({ v }: { v: V }) {
                   </div>
                   {v.ox?.isPickup ? (
                     <>
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', minWidth: '0', maxWidth: '540px', width: '100%' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', minWidth: '0', width: '100%' }}>
                         <label
                           htmlFor="of-warehouse"
                           style={{
@@ -498,8 +498,8 @@ export function ReviewStep({ v }: { v: V }) {
                 أنت المستلم افتراضياً، ويمكنك تعديل الاسم ورقم الجوال.
               </p>
             </div>
-            <div style={css(`display:grid;grid-template-columns:${v.formCols ?? ''};gap:24px;align-items:start`)}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', minWidth: '0', maxWidth: '540px', width: '100%' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(min(100%,200px),1fr))', gap: '16px 20px', alignItems: 'start' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', minWidth: '0', width: '100%' }}>
                 <label htmlFor="of-recvName" style={{ fontSize: '15px', fontWeight: '500', color: 'var(--ink)' }}>
                   اسم المستلم
                 </label>
@@ -522,7 +522,7 @@ export function ReviewStep({ v }: { v: V }) {
                   </>
                 ) : null}
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', minWidth: '0', maxWidth: '540px', width: '100%' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', minWidth: '0', width: '100%' }}>
                 <label htmlFor="of-recvPhone" style={{ fontSize: '15px', fontWeight: '500', color: 'var(--ink)' }}>
                   جوال المستلم
                 </label>
@@ -546,7 +546,7 @@ export function ReviewStep({ v }: { v: V }) {
                   </>
                 ) : null}
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', minWidth: '0', maxWidth: '540px', width: '100%' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', minWidth: '0', width: '100%' }}>
                 <label htmlFor="of-recvEmail" style={{ fontSize: '15px', fontWeight: '500', color: 'var(--ink)' }}>
                   بريد المستلم الإلكتروني
                 </label>
