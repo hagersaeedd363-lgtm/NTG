@@ -2,6 +2,29 @@ import { Fragment } from 'react';
 import type { V } from '../../types';
 import { css, list } from '../../lib/dc';
 
+/** Section heading inside the delivery card: icon tile, title and a one-line hint. */
+function SubHead({ icon, title, desc }: { icon: string; title: string; desc: string }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 14px', borderRadius: '14px', background: 'var(--card-2)', boxShadow: 'inset 0 0 0 1px var(--line)' }}>
+      <span
+        style={{ width: '36px', height: '36px', flexShrink: '0', borderRadius: '10px', background: 'var(--gold-soft)', color: 'var(--gold-on-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <path d={icon} />
+        </svg>
+      </span>
+      <span style={{ display: 'flex', flexDirection: 'column', minWidth: '0' }}>
+        <span style={{ fontSize: '15px', fontWeight: '600', lineHeight: '24px', color: 'var(--ink)' }}>{title}</span>
+        <span style={{ fontSize: '13px', lineHeight: '20px', color: 'var(--muted)' }}>{desc}</span>
+      </span>
+    </div>
+  );
+}
+
+const PIN = 'M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21zM12 12a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z';
+const PERSON = 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c0-4.4 3.6-7 8-7s8 2.6 8 7';
+const TWO_COLS = 'repeat(auto-fill,minmax(max(min(100%,220px),calc(50% - 10px)),1fr))';
+
 export function ReviewStep({ v }: { v: V }) {
   return (
     <>
@@ -142,12 +165,13 @@ export function ReviewStep({ v }: { v: V }) {
               ))}
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginTop: '4px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <span style={{ fontSize: '15px', fontWeight: '700', color: '#996C2E', whiteSpace: 'nowrap' }}>{v.ox?.locTitle}</span>
-                <span style={{ flex: '1', height: '1px', background: 'var(--line)' }} />
-              </div>
+              <SubHead
+                icon={PIN}
+                title={v.ox?.locTitle}
+                desc={v.ox?.isPickup ? 'اختر المنطقة والمدينة، ثم المستودع الأقرب لك.' : 'اختر المنطقة والمدينة، وأدخل العنوان الوطني.'}
+              />
               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(min(100%,200px),1fr))', gap: '16px 20px', alignItems: 'start' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: TWO_COLS, gap: '16px 20px', alignItems: 'start' }}>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', minWidth: '0', width: '100%' }}>
                     <label
                       htmlFor="of-region"
@@ -258,7 +282,7 @@ export function ReviewStep({ v }: { v: V }) {
                   </div>
                   {v.ox?.isPickup ? (
                     <>
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', minWidth: '0', width: '100%' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', minWidth: '0', width: '100%', gridColumn: '1/-1' }}>
                         <label
                           htmlFor="of-warehouse"
                           style={{
@@ -477,28 +501,8 @@ export function ReviewStep({ v }: { v: V }) {
                 </div>
               </div>
             </div>
-            <div style={{ height: '1px', background: 'var(--line)' }} />
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <span style={{ fontSize: '15px', fontWeight: '700', color: '#996C2E', whiteSpace: 'nowrap' }}>من سيستلم الطلب؟</span>
-                <span style={{ flex: '1', height: '1px', background: 'var(--line)' }} />
-              </div>
-              <p
-                style={{
-                  margin: '0',
-                  fontSize: '14px',
-                  lineHeight: '24px',
-                  color: 'var(--muted)',
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  maxWidth: '100%',
-                }}
-              >
-                أنت المستلم افتراضياً، ويمكنك تعديل الاسم ورقم الجوال.
-              </p>
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(min(100%,200px),1fr))', gap: '16px 20px', alignItems: 'start' }}>
+            <SubHead icon={PERSON} title="من سيستلم الطلب؟" desc="أنت المستلم افتراضياً، ويمكنك تعديل الاسم ورقم الجوال." />
+            <div style={{ display: 'grid', gridTemplateColumns: TWO_COLS, gap: '16px 20px', alignItems: 'start' }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', minWidth: '0', width: '100%' }}>
                 <label htmlFor="of-recvName" style={{ fontSize: '15px', fontWeight: '500', color: 'var(--ink)' }}>
                   اسم المستلم
@@ -546,7 +550,7 @@ export function ReviewStep({ v }: { v: V }) {
                   </>
                 ) : null}
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', minWidth: '0', width: '100%' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', minWidth: '0', width: '100%', gridColumn: '1/-1' }}>
                 <label htmlFor="of-recvEmail" style={{ fontSize: '15px', fontWeight: '500', color: 'var(--ink)' }}>
                   بريد المستلم الإلكتروني
                 </label>
