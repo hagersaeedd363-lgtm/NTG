@@ -1,0 +1,13 @@
+/* Portal alert and status-tag colours, with dark-theme variants. */
+:root {
+  --al-bad-bg: #FFEBEC; --al-bad-bd: #F3B3AE; --al-bad-fg: #B42318;
+  --al-warn-bg: #FFF6DB; --al-warn-bd: #F0D78C; --al-warn-fg: #7A5400;
+  --al-info-bg: #E8F3FB; --al-info-bd: #B9D9EF; --al-info-fg: #14598A;
+  --al-ok-bg: #E8F5EC; --al-ok-bd: #A9D8B8; --al-ok-fg: #1E6B3A;
+}
+:root[data-theme="dark"] {
+  --al-bad-bg: rgba(255,138,122,.12); --al-bad-bd: rgba(255,138,122,.35); --al-bad-fg: #FF9C8F;
+  --al-warn-bg: rgba(232,197,107,.12); --al-warn-bd: rgba(232,197,107,.35); --al-warn-fg: #E8C56B;
+  --al-info-bg: rgba(141,200,236,.12); --al-info-bd: rgba(141,200,236,.35); --al-info-fg: #8DC8EC;
+  --al-ok-bg: rgba(126,201,150,.12); --al-ok-bd: rgba(126,201,150,.35); --al-ok-fg: #8FD3A5;
+}

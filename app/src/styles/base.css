@@ -1,0 +1,24 @@
+/* Design tokens and base styles from the Claude Design prototype. */
+input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus,select:-webkit-autofill{-webkit-box-shadow:0 0 0 100px var(--card-2) inset!important;-webkit-text-fill-color:var(--ink)!important;caret-color:var(--ink)}
+:root{--font:"IBM Plex Sans Arabic",system-ui,sans-serif;--font-display:"Noto Kufi Arabic","IBM Plex Sans Arabic",sans-serif;--font-quote:"Amiri",serif;--bg:#EFEDEA;--bg-alt:#D8D2CA;--bg-deep:#000000;--card:#FFFFFF;--card-2:#F9F7F2;--ink:#0C0D0E;--ink-2:#3B3833;--muted:#6B655A;--line:rgba(10,13,18,.14);--gold:#996C2E;--gold-h:#84592A;--gold-2:#A47C1C;--gold-3:#D4A843;--gold-soft:rgba(212,168,67,.36);--gold-on-soft:#84592A;--danger:#B4372A;--info:#2E6F95;--info-soft:rgba(46,111,149,.12);--card-shadow:inset 0 0 0 1px rgba(10,13,18,.18),inset 0 -2px 0 0 rgba(10,13,18,.05),0 1px 2px 0 rgba(10,13,18,.05);--hero-img:url("assets/hero-light.jpg");--inner-img:url("assets/da38.jpg");--kaaba-img:url("assets/kaaba-light.jpg");--logo-filter:none;--callig-img:url("assets/callig-dark.svg");--ph-a:rgba(10,13,18,.05);--show-l:block;--show-d:none;--ph-b:rgba(10,13,18,.02)}
+:root[data-theme="dark"]{--bg:#11161B;--bg-alt:#171D24;--bg-deep:#0C0E12;--card:#171D24;--card-2:#1E252D;--ink:#FFFFFF;--ink-2:rgba(255,255,255,.78);--muted:#A3AAB1;--line:rgba(255,255,255,.1);--gold-2:#D4A843;--gold-on-soft:#E8C56B;--danger:#FF8A7A;--info:#8DC8EC;--info-soft:rgba(141,200,236,.14);--card-shadow:inset 0 0 0 1px rgba(255,255,255,.08);--hero-img:url("assets/hero-dark.jpg");--inner-img:url("assets/hero-dark.jpg");--kaaba-img:url("assets/kaaba-dark.jpg");--logo-filter:grayscale(1) brightness(1.5);--callig-img:url("assets/callig-light.svg");--ph-a:rgba(255,255,255,.05);--show-l:none;--show-d:block;--ph-b:rgba(255,255,255,.015)}
+html,body{margin:0;padding:0;background:var(--bg);-webkit-font-smoothing:antialiased}
+body{font-family:var(--font)}
+h1,h2,h3{font-family:var(--font-display);letter-spacing:0}
+blockquote{font-family:var(--font-quote)}
+*{box-sizing:border-box}
+a{color:var(--gold-2);text-decoration:none}
+a:hover{color:var(--gold);text-decoration:underline}
+input,select,textarea,button{font-family:inherit}
+input::placeholder,textarea::placeholder{color:var(--muted);opacity:.8}
+::selection{background:rgba(212,168,67,.35)}
+@keyframes zzspin{to{transform:rotate(360deg)}}
+@keyframes zzfade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes zzfadeout{to{opacity:0;visibility:hidden}}
+.zz-orders-tabs{scrollbar-width:none;-ms-overflow-style:none}
+.zz-orders-tabs::-webkit-scrollbar{display:none}
+@media(max-width:1365px){.zz-header-nav{gap:22px!important}.zz-header-actions{gap:8px!important}.zz-header-mech{padding-left:14px!important;padding-right:14px!important}.zz-header-buy{padding-left:14px!important;padding-right:14px!important}.zz-header-account{padding-left:12px!important;padding-right:12px!important}}
+@media(max-width:1279px){.zz-header-nav{display:none!important}}
+@media(max-width:1100px){.zz-order{grid-template-columns:64px minmax(0,1fr) 48px auto!important;grid-template-areas:"th id go go" "sum sum sum sum" "tot tot st st"!important;gap:16px!important;padding:16px!important}.o-th{grid-area:th}.o-id{grid-area:id}.o-go{grid-area:go;justify-self:end}.o-sum{grid-area:sum}.o-tot{grid-area:tot}.o-st{grid-area:st;justify-self:end}}
+@media(max-width:960px){.zz-ord{grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto auto!important;gap:16px 24px!important}.zz-ord>:first-child{grid-column:1/-1}}@media(max-width:560px){.zz-ord{grid-template-columns:minmax(0,1fr) auto!important}}
+.zz-lb{display:none}input[type=search]::placeholder{color:var(--ink-2);opacity:1}.zz-tr{transition:background .15s}.zz-tr:hover{background:var(--card-2)}@media(max-width:900px){.zz-th{display:none!important}.zz-tr{grid-template-columns:1fr 1fr!important;gap:12px 16px!important}.zz-lb{display:block}.zz-tr>:last-child{display:none!important}}

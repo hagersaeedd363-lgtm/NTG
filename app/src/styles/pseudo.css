@@ -1,0 +1,33 @@
+/* Hover/focus states from the design (style-hover / style-focus). */
+.zp-000:hover{color:#fff !important}
+.zp-001:hover{background:rgba(255,255,255,.07) !important;color:#fff !important}
+.zp-002:hover{background:#84592A !important}
+.zp-003:hover{background:rgba(255,255,255,.26) !important}
+.zp-004:hover{background:var(--card-2) !important}
+.zp-005:hover{background:rgba(255,255,255,.2) !important}
+.zp-006:hover{background:rgba(0,0,0,.5) !important}
+.zp-007:hover{background:#fff !important}
+.zp-008:hover{border-color:var(--ink) !important}
+.zp-009:hover{background:rgba(255,255,255,.16) !important}
+.zp-010:hover{transform:translateY(-3px) !important}
+.zp-011:hover{background:#8C6915 !important}
+.zp-012:hover{transform:translateY(-3px) !important;box-shadow:inset 0 0 0 1px var(--gold-3) !important}
+.zp-013:hover{color:var(--ink) !important}
+.zp-014:focus{border-color:#D4A843 !important}
+.zp-015:hover{background:rgba(255,255,255,.08) !important}
+.zp-016:hover{color:var(--gold) !important}
+.zp-017:focus{border-color:var(--gold-3) !important}
+.zp-018:hover{box-shadow:inset 0 0 0 1px var(--gold-3) !important}
+.zp-019:hover{border-color:var(--gold-3) !important;background:var(--gold-soft) !important;color:var(--gold-on-soft) !important}
+.zp-020:focus{border-color:var(--gold-3) !important;box-shadow:0 0 0 3px var(--gold-soft) !important}
+.zp-021:hover{background:var(--gold-soft) !important}
+.zp-022:hover{border-color:var(--gold-3) !important;color:var(--gold-2) !important}
+.zp-023:hover{background:var(--gold-soft) !important;box-shadow:inset 0 0 0 1px var(--gold-3) !important;color:var(--gold-on-soft) !important}
+.zp-024:hover{box-shadow:inset 0 0 0 1px var(--gold-3) !important;color:var(--gold-on-soft) !important;background:var(--gold-soft) !important}
+.zp-025:hover{background:var(--card) !important;border-color:#996C2E !important}
+.zp-026:hover{border-color:var(--gold-3) !important;background:var(--gold-soft) !important}
+.zp-027:hover{background:var(--gold-soft) !important;color:var(--gold-on-soft) !important}
+.zp-028:hover{opacity:.88 !important}
+.zp-029:hover{background:var(--card-2) !important;color:var(--ink) !important}
+.zp-030:hover{border-color:var(--gold-3) !important}
+.zp-031:hover{border-color:#996C2E !important;color:var(--gold-on-soft) !important;background:var(--gold-soft) !important}
