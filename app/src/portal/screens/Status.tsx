@@ -1,15 +1,47 @@
-import { ACCOUNT_STATUS_LABEL, createOrderBlockReason, orderStatusLabel, orderTone } from '../rules';
+import { ACCOUNT_STATUS_LABEL, orderStatusLabel } from '../rules';
 import { portal, type PortalState } from '../store';
 import type { Account } from '../types';
 import { ETYPES, PILL_ICONS, REGIONS } from '../../data/portal';
-import { ActionBar, Alert, Card, CardHeader, DataCard, DataRows, Field, GOLD, ICON, Icon, IconTile, LockTag, NafathTag, PageTitle, Pills, PrimaryButton, SecondaryButton, SelectField, Tag, cardStyle, formGrid } from '../ui';
+import {
+  ActionBar,
+  Alert,
+  Card,
+  CardHeader,
+  DataCard,
+  DataRows,
+  Field,
+  GOLD,
+  ICON,
+  Icon,
+  LockTag,
+  NafathTag,
+  PageTitle,
+  Pills,
+  PrimaryButton,
+  SecondaryButton,
+  SelectField,
+  Tag,
+  cardStyle,
+  formGrid,
+} from '../ui';
 import { IdentityCard } from './Account';
 
 const AR = (n: number) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[+d]);
 
 function StatusRow({ label, tone, value, note }: { label: string; tone: 'info' | 'ok' | 'bad' | 'gold'; value: string; note: string }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, padding: 16, borderRadius: 16, background: 'var(--card-2)', boxShadow: 'inset 0 0 0 1px var(--line)', minWidth: 0 }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 8,
+        padding: 16,
+        borderRadius: 16,
+        background: 'var(--card-2)',
+        boxShadow: 'inset 0 0 0 1px var(--line)',
+        minWidth: 0,
+      }}
+    >
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
         <span style={{ fontSize: 15, fontWeight: 600, color: 'var(--ink)' }}>{label}</span>
         <Tag tone={tone} dot>
@@ -42,18 +74,38 @@ export function DoneScreen({ s }: { s: PortalState }) {
   if (!a || !o) return null;
   const fresh = a.status === 'pending' && a.entry === 'order';
   const steps = fresh
-    ? ['تراجع الجهة المختصة بيانات حسابك وطلبك.', 'نُشعرك بقرار اعتماد الحساب وقبول الطلب، كلٌّ على حدة.', 'بعد اعتماد الحساب وقبول الطلب يظهر زر «إتمام الدفع» في طلباتي.', 'يبدأ تجهيز الطلب بعد تأكيد الدفع.']
+    ? [
+        'تراجع الجهة المختصة بيانات حسابك وطلبك.',
+        'نُشعرك بقرار اعتماد الحساب وقبول الطلب، كلٌّ على حدة.',
+        'بعد اعتماد الحساب وقبول الطلب يظهر زر «إتمام الدفع» في طلباتي.',
+        'يبدأ تجهيز الطلب بعد تأكيد الدفع.',
+      ]
     : ['تراجع الجهة المختصة بيانات طلبك.', 'بعد قبول الطلب يظهر زر «إتمام الدفع» في طلباتي.', 'يبدأ تجهيز الطلب بعد تأكيد الدفع.'];
   const units = o.lines.reduce((n, l) => n + l.qty, 0);
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24, animation: 'zzfade .3s ease both' }}>
       <Card style={{ alignItems: 'center', textAlign: 'center', padding: 'clamp(28px,4vw,48px)', gap: 16 }}>
-        <span style={{ width: 72, height: 72, borderRadius: '50%', background: 'rgba(46,160,90,.12)', color: '#2E8B57', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <span
+          style={{
+            width: 72,
+            height: 72,
+            borderRadius: '50%',
+            background: 'rgba(46,160,90,.12)',
+            color: '#2E8B57',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
           <Icon d={ICON.check} size={34} sw={2} />
         </span>
-        <h1 style={{ margin: 0, fontSize: 24, fontWeight: 600, lineHeight: '32px', color: 'var(--ink)' }}>{fresh ? 'تم إرسال طلبك وبيانات تسجيلك' : 'تم إرسال طلبك'}</h1>
+        <h1 style={{ margin: 0, fontSize: 24, fontWeight: 600, lineHeight: '32px', color: 'var(--ink)' }}>
+          {fresh ? 'تم إرسال طلبك وبيانات تسجيلك' : 'تم إرسال طلبك'}
+        </h1>
         <p style={{ margin: 0, fontSize: 16, lineHeight: '26px', color: 'var(--ink-2)', maxWidth: 620 }}>
-          {fresh ? 'حفظنا بيانات تسجيلك وطلبك، وكلاهما الآن قيد المراجعة. لن يُطلب منك أي دفع قبل اعتماد حسابك وقبول الطلب.' : 'طلبك الآن قيد مراجعة الجهة المختصة. لن يُطلب منك أي دفع قبل قبول الطلب.'}
+          {fresh
+            ? 'حفظنا بيانات تسجيلك وطلبك، وكلاهما الآن قيد المراجعة. لن يُطلب منك أي دفع قبل اعتماد حسابك وقبول الطلب.'
+            : 'طلبك الآن قيد مراجعة الجهة المختصة. لن يُطلب منك أي دفع قبل قبول الطلب.'}
         </p>
         <button
           type="button"
@@ -65,7 +117,21 @@ export function DoneScreen({ s }: { s: PortalState }) {
             }
             portal.toast('تم نسخ رقم الطلب');
           }}
-          style={{ display: 'inline-flex', alignItems: 'center', gap: 8, height: 40, padding: '0 16px', borderRadius: 12, border: '1px dashed var(--gold-3)', background: 'var(--gold-soft)', color: 'var(--gold-on-soft)', fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 8,
+            height: 40,
+            padding: '0 16px',
+            borderRadius: 12,
+            border: '1px dashed var(--gold-3)',
+            background: 'var(--gold-soft)',
+            color: 'var(--gold-on-soft)',
+            fontSize: 15,
+            fontWeight: 700,
+            cursor: 'pointer',
+            fontFamily: 'inherit',
+          }}
         >
           <span dir="ltr">{o.id}</span>
           <Icon d="M9 9h10v10H9zM5 15V5h10" size={16} />
@@ -75,15 +141,39 @@ export function DoneScreen({ s }: { s: PortalState }) {
       <Card>
         <CardHeader icon={ICON.clock} title="الحالة الآن" desc="حالة الحساب وحالة الطلب قراران منفصلان، ونعرض كلاً منهما على حدة." />
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(min(100%,280px),1fr))', gap: 16 }}>
-          <StatusRow label="حالة الحساب" tone={fresh ? 'info' : 'ok'} value={ACCOUNT_STATUS_LABEL[a.status]} note={fresh ? 'تراجع الجهة المختصة بيانات تسجيلك.' : 'حسابك معتمد مسبقاً.'} />
-          <StatusRow label="حالة الطلب" tone="info" value={orderStatusLabel(o, a)} note={AR(units) + ' كرتون · ' + portal.sar(o.total) + ' · ' + (o.delivery.mode === 'pickup' ? 'استلام من المستودع' : 'توصيل إلى العنوان')} />
+          <StatusRow
+            label="حالة الحساب"
+            tone={fresh ? 'info' : 'ok'}
+            value={ACCOUNT_STATUS_LABEL[a.status]}
+            note={fresh ? 'تراجع الجهة المختصة بيانات تسجيلك.' : 'حسابك معتمد مسبقاً.'}
+          />
+          <StatusRow
+            label="حالة الطلب"
+            tone="info"
+            value={orderStatusLabel(o, a)}
+            note={AR(units) + ' كرتون · ' + portal.sar(o.total) + ' · ' + (o.delivery.mode === 'pickup' ? 'استلام من المستودع' : 'توصيل إلى العنوان')}
+          />
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           <span style={{ fontSize: 15, fontWeight: 600, color: 'var(--ink)' }}>ماذا بعد؟</span>
           <ol style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10 }}>
             {steps.map((t, i) => (
               <li key={t} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, fontSize: 15, lineHeight: '24px', color: 'var(--ink-2)' }}>
-                <span style={{ width: 24, height: 24, borderRadius: '50%', background: 'var(--gold-soft)', color: 'var(--gold-on-soft)', fontSize: 12, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <span
+                  style={{
+                    width: 24,
+                    height: 24,
+                    borderRadius: '50%',
+                    background: 'var(--gold-soft)',
+                    color: 'var(--gold-on-soft)',
+                    fontSize: 12,
+                    fontWeight: 700,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0,
+                  }}
+                >
                   {AR(i + 1)}
                 </span>
                 {t}
@@ -118,18 +208,61 @@ function ApprovalSteps({ a }: { a: Account }) {
     <ol aria-label="مراحل اعتماد الحساب" style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', width: '100%' }}>
       {steps.map((st, i) => {
         const bg = st.state === 'bad' ? 'var(--danger)' : st.state === 'todo' ? 'var(--card)' : GOLD;
-        const ring = st.state === 'cur' ? '0 0 0 4px var(--gold-soft)' : st.state === 'bad' ? '0 0 0 4px rgba(180,55,42,.18)' : st.state === 'todo' ? 'inset 0 0 0 1.5px var(--line)' : 'none';
+        const ring =
+          st.state === 'cur'
+            ? '0 0 0 4px var(--gold-soft)'
+            : st.state === 'bad'
+              ? '0 0 0 4px rgba(180,55,42,.18)'
+              : st.state === 'todo'
+                ? 'inset 0 0 0 1.5px var(--line)'
+                : 'none';
         return (
           <li key={st.t} style={{ display: 'flex', gap: 12, alignItems: 'stretch' }}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: 24, flexShrink: 0 }}>
-              <span style={{ width: 24, height: 24, borderRadius: '50%', background: bg, boxShadow: ring, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                {st.state === 'done' ? <Icon d={ICON.check} size={14} sw={2} /> : st.state === 'bad' ? <Icon d={ICON.x} size={12} sw={2.2} /> : st.state === 'cur' ? <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#fff' }} /> : null}
+              <span
+                style={{
+                  width: 24,
+                  height: 24,
+                  borderRadius: '50%',
+                  background: bg,
+                  boxShadow: ring,
+                  color: '#fff',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                }}
+              >
+                {st.state === 'done' ? (
+                  <Icon d={ICON.check} size={14} sw={2} />
+                ) : st.state === 'bad' ? (
+                  <Icon d={ICON.x} size={12} sw={2.2} />
+                ) : st.state === 'cur' ? (
+                  <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#fff' }} />
+                ) : null}
               </span>
               {i < steps.length - 1 ? <span style={{ flex: 1, width: 2, minHeight: 16, background: st.state === 'done' ? GOLD : 'var(--line)' }} /> : null}
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', paddingBottom: i < steps.length - 1 ? 14 : 0, minWidth: 0 }}>
-              <span style={{ fontSize: 14, fontWeight: st.state === 'cur' || st.state === 'bad' ? 700 : 500, lineHeight: '24px', color: st.state === 'todo' ? 'var(--muted)' : 'var(--ink)' }}>{st.t}</span>
-              <span style={{ fontSize: 13, lineHeight: '20px', color: st.state === 'cur' ? 'var(--gold-on-soft)' : st.state === 'bad' ? 'var(--danger)' : 'var(--muted)' }}>{st.sub}</span>
+              <span
+                style={{
+                  fontSize: 14,
+                  fontWeight: st.state === 'cur' || st.state === 'bad' ? 700 : 500,
+                  lineHeight: '24px',
+                  color: st.state === 'todo' ? 'var(--muted)' : 'var(--ink)',
+                }}
+              >
+                {st.t}
+              </span>
+              <span
+                style={{
+                  fontSize: 13,
+                  lineHeight: '20px',
+                  color: st.state === 'cur' ? 'var(--gold-on-soft)' : st.state === 'bad' ? 'var(--danger)' : 'var(--muted)',
+                }}
+              >
+                {st.sub}
+              </span>
             </div>
           </li>
         );
@@ -149,8 +282,18 @@ export function AccountStatusScreen({ s }: { s: PortalState }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24, animation: 'zzfade .3s ease both' }}>
       {pending ? (
-        <Alert tone="warn" title="الوصول محدود حتى اعتماد حسابك.">
-          لا يمكنك إنشاء طلبات جديدة أو الدفع قبل الاعتماد.{orders.length ? ' يمكنك متابعة طلبك المقدَّم.' : ''}
+        <Alert
+          tone="warn"
+          title="الوصول محدود حتى اعتماد حسابك."
+          action={
+            orders.length ? (
+              <SecondaryButton onClick={() => portal.openOrders()} style={{ height: 40 }}>
+                طلباتي
+              </SecondaryButton>
+            ) : undefined
+          }
+        >
+          لا يمكنك إنشاء طلبات جديدة أو الدفع قبل الاعتماد.{orders.length ? ' تابع طلبك المقدَّم من «طلباتي».' : ''}
         </Alert>
       ) : (
         <Alert
@@ -167,11 +310,25 @@ export function AccountStatusScreen({ s }: { s: PortalState }) {
       )}
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 24, alignItems: 'flex-start' }}>
         <aside style={{ ...cardStyle, flex: '1 1 300px', maxWidth: '100%', alignItems: 'center', textAlign: 'center', padding: 24, gap: 16 }}>
-          <span style={{ width: 64, height: 64, borderRadius: '50%', background: 'var(--gold-soft)', boxShadow: '0 0 0 2px var(--card),0 0 0 3px var(--gold-3)', color: 'var(--gold-2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <span
+            style={{
+              width: 64,
+              height: 64,
+              borderRadius: '50%',
+              background: 'var(--gold-soft)',
+              boxShadow: '0 0 0 2px var(--card),0 0 0 3px var(--gold-3)',
+              color: 'var(--gold-2)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
             <Icon d={c ? ICON.bld : ICON.user} size={28} />
           </span>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
-            <span style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 600, lineHeight: '24px', color: 'var(--ink)' }}>{a.identity.fullName}</span>
+            <span style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 600, lineHeight: '24px', color: 'var(--ink)' }}>
+              {a.identity.fullName}
+            </span>
             <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 8 }}>
               <NafathTag>موثّق عبر نفاذ</NafathTag>
               <Tag tone={pending ? 'info' : 'bad'} dot>
@@ -192,41 +349,6 @@ export function AccountStatusScreen({ s }: { s: PortalState }) {
         </aside>
 
         <div style={{ flex: '2 1 520px', minWidth: 0, display: 'flex', flexDirection: 'column', gap: 24 }}>
-          <section style={{ background: 'var(--card)', borderRadius: 24, boxShadow: 'var(--card-shadow)', overflow: 'hidden' }}>
-            <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 12, padding: '16px 24px', borderBottom: '1px solid var(--line)' }}>
-              <IconTile d={ICON.box} />
-              <h2 style={{ margin: 0, fontSize: 16, fontWeight: 600, lineHeight: '24px', color: 'var(--ink)' }}>طلباتك</h2>
-              <span style={{ marginInlineStart: 'auto' }}>
-                <Tag tone="muted">{orders.length ? AR(orders.length) + (orders.length === 1 ? ' طلب' : ' طلبات') : 'لا توجد طلبات'}</Tag>
-              </span>
-            </div>
-            {orders.length ? (
-              orders.map((o) => {
-                const tone = orderTone(o, a);
-                const units = o.lines.reduce((n, l) => n + l.qty, 0);
-                return (
-                  <div key={o.id} style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 12, padding: '16px 24px', borderBottom: '1px solid var(--line)', marginBottom: -1 }}>
-                    <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
-                      <span style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-                        <strong dir="ltr" style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink)' }}>
-                          {o.id}
-                        </strong>
-                        <Tag tone={tone}>{orderStatusLabel(o, a)}</Tag>
-                      </span>
-                      <span style={{ fontSize: 13, lineHeight: '22px', color: 'var(--muted)' }}>
-                        {o.date} · {AR(units)} كرتون · {portal.sar(o.total)}
-                      </span>
-                    </div>
-                    <SecondaryButton onClick={() => portal.openOrders(o.id)} style={{ height: 40 }}>
-                      عرض الطلب
-                    </SecondaryButton>
-                  </div>
-                );
-              })
-            ) : (
-              <p style={{ margin: 0, padding: '20px 24px', fontSize: 14, lineHeight: '22px', color: 'var(--muted)' }}>{createOrderBlockReason(a, s.db.orders)}</p>
-            )}
-          </section>
 
           <DataCard
             icon={ICON.user}
@@ -308,8 +430,27 @@ export function EditProfileScreen({ s }: { s: PortalState }) {
             </div>
             <div style={formGrid}>
               <Field id="ed-coname" label="اسم المؤسسة" required value={e.name} onChange={(v) => portal.setEdit({ name: v })} error={e.errors.name} />
-              <Field id="ed-cocr" label="السجل التجاري" required value={e.cr} onChange={(v) => portal.setEdit({ cr: v.replace(/\D/g, '').slice(0, 10) })} error={e.errors.cr} placeholder="10 أرقام" inputMode="numeric" ltr />
-              <SelectField id="ed-coregion" label="المنطقة" required value={e.region} onChange={(v) => portal.setEdit({ region: v })} options={Object.keys(REGIONS)} placeholder="اختر المنطقة" error={e.errors.region} />
+              <Field
+                id="ed-cocr"
+                label="السجل التجاري"
+                required
+                value={e.cr}
+                onChange={(v) => portal.setEdit({ cr: v.replace(/\D/g, '').slice(0, 10) })}
+                error={e.errors.cr}
+                placeholder="10 أرقام"
+                inputMode="numeric"
+                ltr
+              />
+              <SelectField
+                id="ed-coregion"
+                label="المنطقة"
+                required
+                value={e.region}
+                onChange={(v) => portal.setEdit({ region: v })}
+                options={Object.keys(REGIONS)}
+                placeholder="اختر المنطقة"
+                error={e.errors.region}
+              />
               <SelectField
                 id="ed-cocity"
                 label="المدينة"
@@ -327,11 +468,54 @@ export function EditProfileScreen({ s }: { s: PortalState }) {
           <Card>
             <CardHeader icon={ICON.user} title="بيانات ممثل المؤسسة" desc="عدّل ما تريد تغييره، وسيُراجع قبل اعتماده." />
             <div style={formGrid}>
-              <SelectField id="ed-idtype" label="نوع الهوية" required value={e.repIdType} onChange={(v) => portal.setEdit({ repIdType: v })} options={['هوية وطنية', 'إقامة']} placeholder="اختر نوع الهوية" error={e.errors.repIdType} />
-              <Field id="ed-repid" label="رقم هوية / إقامة ممثل المؤسسة" required value={e.repId} onChange={(v) => portal.setEdit({ repId: v.replace(/\D/g, '').slice(0, 10) })} error={e.errors.repId} inputMode="numeric" ltr />
-              <Field id="ed-repname" label="اسم ممثل المؤسسة كامل" required value={e.repName} onChange={(v) => portal.setEdit({ repName: v })} error={e.errors.repName} />
-              <Field id="ed-repphone" label="رقم جوال ممثل المؤسسة" required value={e.repPhone} onChange={(v) => portal.setEdit({ repPhone: v })} error={e.errors.repPhone} inputMode="tel" ltr />
-              <Field id="ed-repemail" label="بريد الممثل الإلكتروني" required value={e.repEmail} onChange={(v) => portal.setEdit({ repEmail: v })} error={e.errors.repEmail} inputMode="email" ltr />
+              <SelectField
+                id="ed-idtype"
+                label="نوع الهوية"
+                required
+                value={e.repIdType}
+                onChange={(v) => portal.setEdit({ repIdType: v })}
+                options={['هوية وطنية', 'إقامة']}
+                placeholder="اختر نوع الهوية"
+                error={e.errors.repIdType}
+              />
+              <Field
+                id="ed-repid"
+                label="رقم هوية / إقامة ممثل المؤسسة"
+                required
+                value={e.repId}
+                onChange={(v) => portal.setEdit({ repId: v.replace(/\D/g, '').slice(0, 10) })}
+                error={e.errors.repId}
+                inputMode="numeric"
+                ltr
+              />
+              <Field
+                id="ed-repname"
+                label="اسم ممثل المؤسسة كامل"
+                required
+                value={e.repName}
+                onChange={(v) => portal.setEdit({ repName: v })}
+                error={e.errors.repName}
+              />
+              <Field
+                id="ed-repphone"
+                label="رقم جوال ممثل المؤسسة"
+                required
+                value={e.repPhone}
+                onChange={(v) => portal.setEdit({ repPhone: v })}
+                error={e.errors.repPhone}
+                inputMode="tel"
+                ltr
+              />
+              <Field
+                id="ed-repemail"
+                label="بريد الممثل الإلكتروني"
+                required
+                value={e.repEmail}
+                onChange={(v) => portal.setEdit({ repEmail: v })}
+                error={e.errors.repEmail}
+                inputMode="email"
+                ltr
+              />
             </div>
           </Card>
         </>

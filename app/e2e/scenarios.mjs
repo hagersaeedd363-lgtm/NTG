@@ -309,7 +309,10 @@ const scenarios = [
       await c.login(ID.pendingOrder);
       await c.click('أدوات المعاينة');
       await c.click('قبول الطلب');
-      await c.click('عرض الطلب');
+      await c.click('أدوات المعاينة');
+      await c.click('طلباتي', { exact: true });
+      await c.p.getByText('ZM-20261028-0441').first().click();
+      await c.tick();
       await c.see('تم قبول الطلب — بانتظار اعتماد حسابك');
       await c.noButton('إتمام الدفع');
       return 'Payment stays closed until the account is approved.';
