@@ -34,7 +34,9 @@ class Ctx {
     await this.p.waitForTimeout(60);
   }
   async goto(hash) {
-    await this.p.evaluate((h) => (location.hash = h), hash);
+    // The site keeps portal screens out of the URL, so «home» is reached through the header logo.
+    if (hash === '#home') await this.p.locator('header button[aria-label="الرئيسية"]').first().click();
+    else await this.p.evaluate((h) => (location.hash = h), hash);
     await this.tick(400);
   }
   async click(name, opts = {}) {

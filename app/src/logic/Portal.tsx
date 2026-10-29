@@ -24,7 +24,9 @@ export class Portal extends Component {
     this.setState({theme,page,dataTab:dtab,w:window.innerWidth});
     this._onScroll=()=>{const s=window.scrollY>40; if(s!==this.state.scrolled) this.setState({scrolled:s});};
     this._onResize=()=>this.setState({w:window.innerWidth});
-    this._onHash=()=>{const p=(location.hash||'').replace('#',''); if(PAGES.includes(p)&&p!==this.state.page) this.go(p);};
+    // Ignore hashes a host restores right after load (e.g. a saved #order), so a visit always starts on home.
+    this._mountedAt=Date.now();
+    this._onHash=()=>{const p=(location.hash||'').replace('#',''); if(Date.now()-this._mountedAt<3000){ if(p!=='home'){try{history.replaceState(null,'','#home');}catch(e){}} return; } if(p==='order')return; if(PAGES.includes(p)&&p!==this.state.page) this.go(p);};
     this._onKey=(e)=>{ if(e.key==='Escape'){ this.setState({stepsOpen:false,orderOpen:false,video:null,mobileNav:false,menu:null}); if(portal.state.acctMenu)portal.set({acctMenu:false}); } };
     window.addEventListener('scroll',this._onScroll,{passive:true});
     window.addEventListener('resize',this._onResize);
@@ -44,7 +46,9 @@ export class Portal extends Component {
     const base={page,menu:null,mobileNav:false,stepsOpen:false,chapter:-1,newsId:null};
     this.setState({...base,...extra});
     try{localStorage.setItem('zz-page',page);}catch(e){}
-    if(location.hash!=='#'+page){ try{history.replaceState(null,'','#'+page);}catch(e){} }
+    // Portal screens are not bookmarkable: keep #order out of the address so a saved link opens on home.
+    const h=page==='order'?'#home':'#'+page;
+    if(location.hash!==h){ try{history.replaceState(null,'',h);}catch(e){} }
     setTimeout(()=>{
       const el=anchor&&document.getElementById(anchor);
       if(el){ window.scrollTo({top:el.getBoundingClientRect().top+window.scrollY-90,behavior:'smooth'}); }
