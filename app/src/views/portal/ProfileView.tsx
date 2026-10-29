@@ -1,5 +1,6 @@
 import { Fragment } from 'react';
 import type { V } from '../../types';
+import { LockTag, NafathTag, Tag } from '../../portal/ui';
 import { css, list } from '../../lib/dc';
 
 export function ProfileView({ v }: { v: V }) {
@@ -251,93 +252,18 @@ export function ProfileView({ v }: { v: V }) {
               <span style={{ fontFamily: 'var(--font-display)', fontSize: '18px', fontWeight: '600', lineHeight: '24px', color: 'var(--ink)' }}>
                 {v.ox?.userName}
               </span>
-              <div style={{ display: 'flex', flexWrap: 'nowrap', justifyContent: 'center', gap: '8px', width: '100%' }}>
-                <span
-                  style={css(
-                    `display:flex;align-items:center;gap:6px;height:20px;padding:0 8px 0 4px;border-radius:36px;background:${v.ox?.badge?.bg ?? ''};color:${v.ox?.badge?.fg ?? ''};font-size:12px;font-weight:500;white-space:nowrap`,
-                  )}
-                >
-                  {v.ox?.badge?.naf ? (
-                    <>
-                      <img
-                        src="assets/nafath.png"
-                        alt="نفاذ"
-                        style={{ width: '16px', height: '16px', borderRadius: '4px', display: 'block', flexShrink: '0' }}
-                      />
-                    </>
-                  ) : null}
-                  {v.ox?.badge?.noNaf ? (
-                    <>
-                      <span style={css(`width:6px;height:6px;margin-inline-start:6px;border-radius:50%;background:${v.ox?.badge?.fg ?? ''};flex-shrink:0`)} />
-                    </>
-                  ) : null}
-                  {v.ox?.badge?.t}
-                </span>
+              <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '8px', width: '100%' }}>
+                {v.ox?.badge?.naf ? (
+                  <NafathTag>{v.ox?.badge?.t}</NafathTag>
+                ) : (
+                  <Tag tone="gold" dot>
+                    {v.ox?.badge?.t}
+                  </Tag>
+                )}
                 {v.ox?.profDone ? (
-                  <>
-                    <span
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '6px',
-                        height: '20px',
-                        padding: '0 8px',
-                        borderRadius: '36px',
-                        background: 'rgba(46,125,82,.10)',
-                        color: '#2E7D52',
-                        fontSize: '12px',
-                        fontWeight: '500',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#2E7D52', flexShrink: '0' }} />
-                      ملفك مكتمل
-                    </span>
-                  </>
-                ) : null}
-                {v.ox?.profReview ? (
-                  <>
-                    <span
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '6px',
-                        height: '20px',
-                        padding: '0 8px',
-                        borderRadius: '36px',
-                        background: 'var(--gold-soft)',
-                        color: 'var(--gold-on-soft,#7A5420)',
-                        fontSize: '12px',
-                        fontWeight: '500',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: 'var(--gold-on-soft,#7A5420)', flexShrink: '0' }} />
-                      بياناتك قيد المراجعة
-                    </span>
-                  </>
-                ) : null}
-                {v.ox?.profNotDone ? (
-                  <>
-                    <span
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '6px',
-                        height: '20px',
-                        padding: '0 8px',
-                        borderRadius: '36px',
-                        background: 'rgba(180,55,42,.10)',
-                        color: 'var(--danger,#B4372A)',
-                        fontSize: '12px',
-                        fontWeight: '500',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: 'var(--danger,#B4372A)', flexShrink: '0' }} />
-                      ملفك غير مكتمل · <span dir="ltr">{v.ox?.profPct}%</span>
-                    </span>
-                  </>
+                  <Tag tone="ok" dot>
+                    ملفك مكتمل
+                  </Tag>
                 ) : null}
               </div>
             </div>
@@ -436,40 +362,9 @@ export function ProfileView({ v }: { v: V }) {
                     </span>
                     <h2 style={{ margin: '0', fontSize: '16px', fontWeight: '600', lineHeight: '24px', color: 'var(--ink)' }}>{sec?.title}</h2>
                     {sec?.note ? (
-                      <>
-                        <span
-                          style={{
-                            marginInlineStart: 'auto',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '6px',
-                            height: '24px',
-                            padding: '0 10px',
-                            borderRadius: '8px',
-                            background: 'var(--card-2)',
-                            boxShadow: 'inset 0 0 0 1px var(--line)',
-                            color: 'var(--muted)',
-                            fontSize: '13px',
-                            whiteSpace: 'nowrap',
-                          }}
-                        >
-                          <svg
-                            width="14"
-                            height="14"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="1.8"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            aria-hidden="true"
-                          >
-                            <rect x="5" y="11" width="14" height="9" rx="2" />
-                            <path d="M8 11V8a4 4 0 0 1 8 0v3" />
-                          </svg>
-                          {sec?.note}
-                        </span>
-                      </>
+                      <span style={{ marginInlineStart: 'auto' }}>
+                        <LockTag>{sec?.note}</LockTag>
+                      </span>
                     ) : null}
                   </div>
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,minmax(0,1fr))' }}>
