@@ -453,12 +453,24 @@ export class PortalStore {
   private signIn(acct: Account, method: AuthMethod, msg: string) {
     const entry = this.state.auth.entry;
     this.set({ session: { nationalId: acct.nationalId, method }, verified: null, nafath: null });
-    if (entry === 'order' && canCreateOrder(acct)) this.beginExistingFlow(false);
-    else this.set({ view: this.landingView(acct) });
-    this.toast(acct.status === 'approved' ? msg : msg + ' — حسابك ' + (acct.status === 'pending' ? 'قيد المراجعة' : 'مرفوض'));
-    // Landing on the account: start at the top so the «حسابي» banner orients the user.
-    if (this.state.view === 'flow') this.scrollTop();
-    else setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 60);
+    const status = acct.status === 'approved' ? '' : ' — حسابك ' + (acct.status === 'pending' ? 'قيد المراجعة' : 'مرفوض');
+    if (entry === 'order' && canCreateOrder(acct)) {
+      // Started from «اقتن»: carry on with the order.
+      this.beginExistingFlow(false);
+      this.toast(msg);
+      this.scrollTop();
+      return;
+    }
+    // Signed in from the navbar (or an order that cannot continue): land on the home page;
+    // «حسابي» in the header is ready on the right screen.
+    this.set({ view: this.landingView(acct) });
+    if (entry === 'order') {
+      this.toast(msg + status);
+      this.scrollTop();
+      return;
+    }
+    this.toast(msg + status + '. يمكنك الوصول إلى حسابك من «حسابي».');
+    this.navigate('home');
   }
 
   // ------------------------------------------------------------------ order journey
@@ -719,8 +731,8 @@ export class PortalStore {
       view: 'status',
       errors: {},
     }));
-    this.toast('تم إرسال طلب التسجيل للمراجعة');
-    setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 60);
+    this.toast('تم إرسال طلب التسجيل للمراجعة. تابع حالته من «حسابي».');
+    this.navigate('home');
   }
 
   // ------------------------------------------------------------------ orders list

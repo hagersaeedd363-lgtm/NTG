@@ -82,6 +82,18 @@ class Ctx {
     await this.click('التحقق عبر نفاذ', { wait: 200 });
     await this.tick(4500);
   }
+  /** Navbar sign-in lands on the home page; «حسابي» is then opened from the header menu. */
+  async login(id) {
+    await this.openLogin();
+    await this.nafath(id);
+    await this.landedHomeThenAccount();
+  }
+  async landedHomeThenAccount() {
+    await this.see('قلب البئر');
+    await this.p.locator('.zz-header-account').click();
+    await this.tick();
+    await this.click('حسابي', { role: 'menuitem', exact: true });
+  }
   async openLogin() {
     await this.p.locator('.zz-header-account').click();
     await this.tick(400);
@@ -199,8 +211,7 @@ const scenarios = [
     id: 5,
     title: 'Pending user tries to create another request',
     run: async (c) => {
-      await c.openLogin();
-      await c.nafath(ID.pendingOrder);
+      await c.login(ID.pendingOrder);
       await c.see('حسابك قيد المراجعة');
       await c.see('لديك طلب قيد المراجعة مع بيانات حسابك');
       await c.startOrderFromHome();
@@ -218,10 +229,11 @@ const scenarios = [
       await c.openLogin();
       await c.see('تسجيل الدخول');
       await c.nafath(ID.individual);
+      await c.landedHomeThenAccount();
       await c.see('أهلاً، نورة');
       await c.click('طلب جديد', { exact: true });
       await c.see('أنت مسجّل لدينا وحسابك معتمد');
-      return 'Lands on profile; can start an order.';
+      return 'Lands on home; «حسابي» opens the profile; can start an order.';
     },
   },
   {
@@ -233,8 +245,9 @@ const scenarios = [
       await c.fill('البريد الإلكتروني', 'a.alharbi@example.com');
       await c.fill('كلمة المرور', '123456');
       await c.submitLogin();
+      await c.landedHomeThenAccount();
       await c.see('أهلاً، عبدالله');
-      return 'Email sign-in reaches the approved profile.';
+      return 'Email sign-in lands on home; «حسابي» opens the approved profile.';
     },
   },
   {
@@ -251,17 +264,17 @@ const scenarios = [
       await c.see('اختر نوع الحساب');
       await c.click(/^فرد/, { role: 'radio' });
       await c.click('إرسال للمراجعة');
+      await c.landedHomeThenAccount();
       await c.see('حسابك قيد المراجعة');
       await c.shot('pending');
-      return 'Registration submitted; account pending.';
+      return 'Registration submitted; lands on home; «حسابي» shows the pending account.';
     },
   },
   {
     id: 9,
     title: 'Unapproved user tries to access the portal',
     run: async (c) => {
-      await c.openLogin();
-      await c.nafath(ID.pending);
+      await c.login(ID.pending);
       await c.see('حسابك قيد المراجعة');
       await c.p.locator('.zz-header-account').click();
       await c.tick();
@@ -275,8 +288,7 @@ const scenarios = [
     id: 10,
     title: 'Account approved while its order is still pending',
     run: async (c) => {
-      await c.openLogin();
-      await c.nafath(ID.pendingOrder);
+      await c.login(ID.pendingOrder);
       await c.click('أدوات المعاينة');
       await c.click('اعتماد الحساب');
       await c.see('أهلاً، ليلى');
@@ -293,8 +305,7 @@ const scenarios = [
     id: 11,
     title: 'Order accepted but account not approved',
     run: async (c) => {
-      await c.openLogin();
-      await c.nafath(ID.pendingOrder);
+      await c.login(ID.pendingOrder);
       await c.click('أدوات المعاينة');
       await c.click('قبول الطلب');
       await c.click('عرض الطلب');
@@ -307,8 +318,7 @@ const scenarios = [
     id: 12,
     title: 'User tries to pay before order acceptance',
     run: async (c) => {
-      await c.openLogin();
-      await c.nafath(ID.company);
+      await c.login(ID.company);
       await c.click('طلباتي', { exact: true });
       await c.p.getByText('ZM-20261024-0436').first().click();
       await c.tick();
@@ -397,8 +407,7 @@ const scenarios = [
     id: 17,
     title: 'Account or order rejected',
     run: async (c) => {
-      await c.openLogin();
-      await c.nafath(ID.rejected);
+      await c.login(ID.rejected);
       await c.see('تعذّر اعتماد حسابك');
       await c.see('سبب الرفض');
       await c.see('تواصل معنا');
@@ -406,8 +415,7 @@ const scenarios = [
       await c.p.locator('.zz-header-account').click();
       await c.tick();
       await c.click('تسجيل الخروج', { role: 'menuitem' });
-      await c.openLogin();
-      await c.nafath(ID.company);
+      await c.login(ID.company);
       await c.click('طلباتي', { exact: true });
       await c.p.getByText('ZM-20261024-0435').first().click();
       await c.tick();
@@ -420,8 +428,7 @@ const scenarios = [
     id: 18,
     title: 'Payment fails, then cannot be confirmed, then succeeds',
     run: async (c) => {
-      await c.openLogin();
-      await c.nafath(ID.individual);
+      await c.login(ID.individual);
       await c.click('طلب جديد', { exact: true });
       if (await c.p.getByRole('radiogroup', { name: 'غرض الطلب' }).count()) throw new Error('individuals must not see order purpose');
       await c.click('متابعة إلى المنتجات');

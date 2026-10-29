@@ -19,14 +19,16 @@ flowchart TD
   V -- no account, from Home --> REG1[التسجيل step<br/>Nafath data read-only · فرد/جهة · company form · غرض الطلب]
   V -- no account, from header --> REG2[استكمال بيانات الحساب<br/>read-only Nafath data · فرد/جهة · company form]
   A -- approved, from Home --> SUM[بياناتك<br/>registered summary · details on demand · غرض الطلب]
-  A -- approved, from header --> P[حسابي]
-  A -- pending / rejected --> ST[Account status page<br/>restrictions · read-only data · existing orders]
+  A -- from header --> HM[Home page<br/>«حسابي» in the header opens the account]
+  HM -- approved --> P[حسابي]
+  HM -- pending / rejected --> ST[Account status page<br/>restrictions · read-only data · existing orders]
+  A -- pending / rejected, from Home order --> ST
   P -- «طلب جديد» --> SUM
   SUM --> PR[المنتجات] --> RV[المراجعة<br/>delivery · recipient · notes · totals]
   REG1 --> PR
   RV -- approved user --> D1[تم إرسال طلبك<br/>order قيد المراجعة]
   RV -- new user --> D2[تم إرسال طلبك وبيانات تسجيلك<br/>account + order قيد المراجعة]
-  REG2 --> ST
+  REG2 --> HM
   D1 --> O[طلباتي]
   D2 --> O
   O -- payable only --> PAY[الدفع<br/>مدى · Apple Pay · تحويل بنكي]
@@ -93,9 +95,9 @@ All 18 run automatically: `node e2e/scenarios.mjs` (demo build). Demo IDs are li
 | 3 | New user, company | Signed out | جهة → «بيانات الجهة» card: نوع الجهة, غرض الطلب, company lookup (found) → rep ID type → send | Registry fields locked; rep fields prefilled from Nafath, editable; 50% discount | Account pending + order in review |
 | 4 | New user submits while pending | After #2 | Open the order | «حسابك وطلبك قيد المراجعة» | No pay action |
 | 5 | Pending user tries another order | Pending with order | «اقتن», `#order` | Redirected to status page with reason | No order created |
-| 6 | Login by Nafath | Signed out | Header → Nafath `1023456789` | Profile with «طلب جديد» | Can start orders |
-| 7 | Login by email | Signed out | Email tab → `a.alharbi@example.com` / `123456` | Profile | Signed in |
-| 8 | Register from header | Signed out | «إنشاء حساب جديد» (Nafath only, notice shown first) → type → send | Type required | Account pending, status page |
+| 6 | Login by Nafath | Signed out | Header → Nafath `1023456789` → «حسابي» | Lands on home; profile with «طلب جديد» | Can start orders |
+| 7 | Login by email | Signed out | Email tab → `a.alharbi@example.com` / `123456` → «حسابي» | Lands on home; profile | Signed in |
+| 8 | Register from header | Signed out | «إنشاء حساب جديد» (Nafath only, notice shown first) → type → send | Type required | Lands on home; «حسابي» shows the pending status |
 | 9 | Pending user opens portal | Pending, no orders | Header → «طلباتي» | Read-only list with restriction; no «طلب جديد» | Unchanged |
 | 10 | Account approved, order pending | Pending with order | Demo: approve account | Profile; order still قيد المراجعة | No pay button |
 | 11 | Order accepted, account pending | Pending with order | Demo: accept order | «تم قبول الطلب — بانتظار اعتماد حسابك» | No pay button |
@@ -119,6 +121,8 @@ All 18 run automatically: `node e2e/scenarios.mjs` (demo build). Demo IDs are li
 - «غرض الطلب» is asked only from companies. For a new company it sits in the «بيانات الجهة» card,
   under «نوع الجهة» and above the company lookup; individuals never see it.
 - Every visit to the portal starts on the home page, whatever page or link was used last.
+- Signing in or registering from the navbar lands on the home page; «حسابي» in the header opens
+  the profile (or the status page for pending and rejected accounts).
 
 ## 5. Unresolved business rules
 
