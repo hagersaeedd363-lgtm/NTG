@@ -252,6 +252,8 @@ const scenarios = [
     run: async (c) => {
       await c.openLogin();
       await c.click('البريد الإلكتروني', { role: 'tab' });
+      await c.see('ليس لديك كلمة مرور؟');
+      await c.shot('email');
       await c.fill('البريد الإلكتروني', 'a.alharbi@example.com');
       await c.fill('كلمة المرور', '123456');
       await c.submitLogin();

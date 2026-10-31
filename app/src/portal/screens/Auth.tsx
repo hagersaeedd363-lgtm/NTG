@@ -152,14 +152,15 @@ export function AuthScreen({ s }: { s: PortalState }) {
             }}
             style={{ display: 'flex', flexDirection: 'column', gap: 24 }}
           >
-            {auth.entry === 'order' ? (
-              <Alert tone="info">البريد الإلكتروني للحسابات المسجّلة التي عيّنت كلمة مرور. إن لم يكن لديك حساب، تحقّق عبر نفاذ لنسجّلك أثناء الطلب.</Alert>
-            ) : null}
             <Field id="auth-email" label="البريد الإلكتروني" value={auth.email} onChange={(v) => portal.setAuth({ email: v, errors: {}, notice: null })} error={auth.errors.email} placeholder="email@example.com" type="email" inputMode="email" ltr autoComplete="username" />
             <Field id="auth-pass" label="كلمة المرور" value={auth.password} onChange={(v) => portal.setAuth({ password: v, errors: {}, notice: null })} error={auth.errors.password} type="password" ltr autoComplete="current-password" />
             <PrimaryButton type="submit" full busy={auth.busy} style={{ height: 56 }}>
               {auth.busy ? 'جارٍ التحقق…' : auth.entry === 'order' ? 'متابعة الطلب' : 'تسجيل الدخول'}
             </PrimaryButton>
+            <p style={{ margin: '-8px 0 0', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 6, fontSize: 14, lineHeight: '24px', color: 'var(--muted)' }}>
+              ليس لديك كلمة مرور؟
+              <TextButton onClick={() => portal.setAuth({ tab: 'nafath', errors: {}, notice: null })}>تحقّق عبر نفاذ</TextButton>
+            </p>
           </form>
         )}
 
