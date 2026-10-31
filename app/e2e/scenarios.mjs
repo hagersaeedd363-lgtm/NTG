@@ -279,6 +279,9 @@ const scenarios = [
       await c.landedHomeThenAccount();
       await c.see('حسابك قيد المراجعة');
       await c.shot('pending');
+      await c.startOrderFromHome();
+      await c.see('يمكنك الطلب بعد اعتماد حسابك');
+      await c.shot('blocked');
       return 'Registration submitted; lands on home; «حسابي» shows the pending account.';
     },
   },
