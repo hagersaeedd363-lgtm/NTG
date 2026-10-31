@@ -59,7 +59,8 @@ export function orderStatusLabel(order: Order, account?: Account | null): string
   }
 }
 
-export type Tone = 'info' | 'gold' | 'bad' | 'prog' | 'ok';
+/** Order-status colours by meaning: info = in review, warn = needs your action, prog = in progress, ok = done, bad = rejected or failed. */
+export type Tone = 'info' | 'warn' | 'bad' | 'prog' | 'ok';
 
 /** Colour family for the status chip (matches the design's status tags). */
 export function orderTone(order: Order, account?: Account | null): Tone {
@@ -67,7 +68,7 @@ export function orderTone(order: Order, account?: Account | null): Tone {
   if (order.status === 'review') return 'info';
   if (order.status === 'accepted') {
     if (account && account.status !== 'approved') return 'info';
-    return order.payment.state === 'verifying' || order.payment.state === 'unconfirmed' ? 'info' : 'gold';
+    return order.payment.state === 'verifying' || order.payment.state === 'unconfirmed' ? 'info' : 'warn';
   }
   if (order.status === 'completed') return 'ok';
   return 'prog';

@@ -435,6 +435,7 @@ const scenarios = [
       await c.click('تسجيل الخروج', { role: 'menuitem' });
       await c.login(ID.company);
       await c.openOrdersMenu();
+      await c.shot('orders');
       await c.p.getByText('ZM-20261024-0435').first().click();
       await c.tick();
       await c.see('تعذّر قبول الطلب');

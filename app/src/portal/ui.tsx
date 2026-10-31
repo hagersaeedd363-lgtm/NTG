@@ -311,10 +311,11 @@ export function Alert({ tone, title, children, icon, action }: { tone: AlertTone
   );
 }
 
-export type TagTone = 'info' | 'gold' | 'bad' | 'prog' | 'ok' | 'muted';
+export type TagTone = 'info' | 'gold' | 'warn' | 'bad' | 'prog' | 'ok' | 'muted';
 export const TAG: Record<TagTone, [string, string, string]> = {
   info: ['var(--tag-info-bg)', 'var(--tag-info-fg)', 'var(--tag-info-bd)'],
   gold: ['var(--tag-gold-bg)', 'var(--tag-gold-fg)', 'var(--tag-gold-bd)'],
+  warn: ['var(--tag-warn-bg)', 'var(--tag-warn-fg)', 'var(--tag-warn-bd)'],
   bad: ['var(--tag-bad-bg)', 'var(--tag-bad-fg)', 'var(--tag-bad-bd)'],
   prog: ['var(--tag-prog-bg)', 'var(--tag-prog-fg)', 'var(--tag-prog-bd)'],
   ok: ['var(--tag-ok-bg)', 'var(--tag-ok-fg)', 'var(--tag-ok-bd)'],

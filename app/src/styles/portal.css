@@ -18,6 +18,7 @@
   --tag-bad-bg: #F9DEDA; --tag-bad-fg: #9A2E22; --tag-bad-bd: #EDB8B1;
   --tag-prog-bg: #D5ECEC; --tag-prog-fg: #2B6B6E; --tag-prog-bd: #A9D3D5;
   --tag-ok-bg: #DAEDCF; --tag-ok-fg: #3F6B2A; --tag-ok-bd: #B4D8A3;
+  --tag-warn-bg: #FFE6CC; --tag-warn-fg: #A1470B; --tag-warn-bd: #F6C08A;
 }
 :root[data-theme="dark"] {
   --tag-info-bg: rgba(141,200,236,.14); --tag-info-fg: #9FCFEF; --tag-info-bd: rgba(141,200,236,.32);
@@ -25,4 +26,5 @@
   --tag-bad-bg: rgba(255,138,122,.14); --tag-bad-fg: #FF9C8F; --tag-bad-bd: rgba(255,138,122,.32);
   --tag-prog-bg: rgba(110,196,199,.14); --tag-prog-fg: #8FD3D5; --tag-prog-bd: rgba(110,196,199,.32);
   --tag-ok-bg: rgba(126,201,150,.14); --tag-ok-fg: #8FD3A5; --tag-ok-bd: rgba(126,201,150,.32);
+  --tag-warn-bg: rgba(255,163,92,.15); --tag-warn-fg: #FFB27A; --tag-warn-bd: rgba(255,163,92,.35);
 }
