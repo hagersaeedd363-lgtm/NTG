@@ -2,10 +2,10 @@ import { Fragment } from 'react';
 import type { V } from '../../types';
 import { css, list } from '../../lib/dc';
 
-/** Section heading inside the delivery card: icon tile, title and a one-line hint. */
+/** Section heading inside the delivery card: divider, icon, title and a one-line hint (not a selectable box). */
 function SubHead({ icon, title, desc }: { icon: string; title: string; desc: string }) {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 14px', borderRadius: '14px', background: 'var(--card-2)', boxShadow: 'inset 0 0 0 1px var(--line)' }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', paddingTop: '20px', borderTop: '1px solid var(--line)' }}>
       <span
         style={{ width: '36px', height: '36px', flexShrink: '0', borderRadius: '10px', background: 'var(--gold-soft)', color: 'var(--gold-on-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
       >
@@ -14,7 +14,7 @@ function SubHead({ icon, title, desc }: { icon: string; title: string; desc: str
         </svg>
       </span>
       <span style={{ display: 'flex', flexDirection: 'column', minWidth: '0' }}>
-        <span style={{ fontSize: '15px', fontWeight: '600', lineHeight: '24px', color: 'var(--ink)' }}>{title}</span>
+        <span role="heading" aria-level={3} style={{ fontSize: '16px', fontWeight: '700', lineHeight: '24px', color: 'var(--ink)' }}>{title}</span>
         <span style={{ fontSize: '13px', lineHeight: '20px', color: 'var(--muted)' }}>{desc}</span>
       </span>
     </div>
