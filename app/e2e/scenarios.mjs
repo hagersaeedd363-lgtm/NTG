@@ -268,7 +268,7 @@ const scenarios = [
     run: async (c) => {
       await c.openLogin();
       await c.click('إنشاء حساب جديد');
-      await c.see('قبل أن تبدأ');
+      await c.see('إنشاء حساب جديد');
       if (await c.p.getByRole('tab').count()) throw new Error('registration should offer Nafath only');
       await c.nafath(ID.newUser);
       await c.see('استكمال بيانات الحساب');

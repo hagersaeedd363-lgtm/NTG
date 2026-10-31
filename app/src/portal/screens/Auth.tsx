@@ -102,11 +102,7 @@ export function AuthScreen({ s }: { s: PortalState }) {
           </div>
         </div>
 
-        {nafathOnly ? (
-          <Alert tone="info" title="قبل أن تبدأ:">
-            يُرسل حسابك للمراجعة بعد التسجيل، ولا يمكنك إنشاء طلبات أو الوصول إلى طلباتي حتى يُعتمد.
-          </Alert>
-        ) : (
+        {nafathOnly ? null : (
           <Tabs tab={tab} />
         )}
 
