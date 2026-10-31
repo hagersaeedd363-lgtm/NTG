@@ -91,26 +91,6 @@ export function ProductsStep({ v }: { v: V }) {
                     }}
                   >
                     <span role="img" aria-label={p?.t} style={css(`width:100%;height:100%;display:block;background:${p?.imgBg ?? ''};`)} />
-                    <span
-                      style={{
-                        position: 'absolute',
-                        top: '10px',
-                        right: '10px',
-                        padding: '0 10px',
-                        height: '24px',
-                        boxSizing: 'border-box',
-                        borderRadius: '12px',
-                        background: 'var(--card)',
-                        boxShadow: 'inset 0 0 0 1px var(--line)',
-                        color: 'var(--gold-on-soft)',
-                        fontSize: '12px',
-                        lineHeight: '24px',
-                        fontWeight: '600',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      {p?.maxLabel}
-                    </span>
                     {p?.sel ? (
                       <>
                         <span
