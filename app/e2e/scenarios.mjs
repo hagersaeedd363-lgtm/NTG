@@ -516,6 +516,69 @@ const scenarios = [
       return 'Nothing changes until approval; approved changes replace the company data.';
     },
   },
+  {
+    id: 20,
+    title: 'Password: forgot, change and set',
+    run: async (c) => {
+      // Forgot password while signed out.
+      await c.openLogin();
+      await c.click('البريد الإلكتروني', { role: 'tab' });
+      await c.click('نسيت كلمة المرور؟');
+      await c.fill('البريد الإلكتروني المسجّل', 'a.alharbi@example.com');
+      await c.click('إرسال رمز التحقق');
+      await c.fill('رمز التحقق', '0000');
+      await c.click('تحقق', { exact: true });
+      await c.see('رمز التحقق غير صحيح');
+      await c.fill('رمز التحقق', '1234');
+      await c.click('تحقق', { exact: true });
+      await c.fill('كلمة المرور الجديدة', '123456');
+      await c.fill('تأكيد كلمة المرور', '123456');
+      await c.click('حفظ كلمة المرور');
+      await c.see('تأكد من استيفاء جميع الشروط');
+      await c.fill('كلمة المرور الجديدة', 'Zamzam2026');
+      await c.fill('تأكيد كلمة المرور', 'Zamzam2026');
+      await c.shot('forgot');
+      await c.click('حفظ كلمة المرور');
+      await c.see('تم تعيين كلمة المرور الجديدة');
+      await c.fill('كلمة المرور', 'Zamzam2026');
+      await c.submitLogin();
+      await c.landedHomeThenAccount();
+      // Change password: needs the current one and a different new one.
+      await c.click('تغيير كلمة المرور');
+      await c.fill('رمز التحقق', '1234');
+      await c.click('تحقق', { exact: true });
+      await c.fill('كلمة المرور الحالية', 'wrong-pass1');
+      await c.fill('كلمة المرور الجديدة', 'Zamzam2027');
+      await c.fill('تأكيد كلمة المرور', 'Zamzam2027');
+      await c.click('حفظ كلمة المرور');
+      await c.see('كلمة المرور الحالية غير صحيحة');
+      await c.fill('كلمة المرور الحالية', 'Zamzam2026');
+      await c.fill('كلمة المرور الجديدة', 'Zamzam2026');
+      await c.fill('تأكيد كلمة المرور', 'Zamzam2026');
+      await c.click('حفظ كلمة المرور');
+      await c.see('كلمة المرور الجديدة يجب أن تختلف عن الحالية');
+      await c.fill('كلمة المرور الجديدة', 'Zamzam2027');
+      await c.fill('تأكيد كلمة المرور', 'Zamzam2027');
+      await c.click('حفظ كلمة المرور');
+      await c.see('تم تغيير كلمة المرور');
+      // A pending account can set a password from its status page.
+      await c.p.locator('.zz-header-account').click();
+      await c.tick();
+      await c.click('تسجيل الخروج', { role: 'menuitem' });
+      await c.login(ID.pending);
+      await c.click('تعيين كلمة المرور');
+      await c.see('رمز التحقق');
+      // An approved account without a password sees the suggestion.
+      await c.p.locator('.zz-header-account').click();
+      await c.tick();
+      await c.click('تسجيل الخروج', { role: 'menuitem' });
+      await c.login(ID.individual);
+      await c.see('سجّل دخولك أسرع بالبريد الإلكتروني');
+      await c.click('لاحقاً');
+      await c.notSee('سجّل دخولك أسرع بالبريد الإلكتروني');
+      return 'Forgot password resets by mobile code; change needs the current password; pending accounts can set one; approved accounts get a dismissible suggestion.';
+    },
+  },
 ];
 
 const only = process.env.ONLY ? process.env.ONLY.split(',').map(Number) : null;

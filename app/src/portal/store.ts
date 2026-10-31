@@ -23,8 +23,30 @@ export interface AuthState {
   password: string;
   errors: Errors;
   /** Outcome message shown above the form (failed verification, unknown identity…). */
-  notice: { tone: 'bad' | 'warn' | 'info'; title: string; text: string } | null;
+  notice: { tone: 'bad' | 'warn' | 'info' | 'ok'; title: string; text: string } | null;
   busy: boolean;
+  /** «نسيت كلمة المرور» while signed out: email → code to the registered mobile → new password. */
+  forgot: ForgotState | null;
+}
+
+export interface ForgotState {
+  step: 1 | 2 | 3;
+  email: string;
+  otp: string;
+  n1: string;
+  n2: string;
+  show: boolean;
+  err: string;
+}
+
+/** Password rules shared by «تعيين / تغيير كلمة المرور» and «نسيت كلمة المرور». */
+export function passwordRules(n1: string, n2: string, current?: string) {
+  return [
+    { t: '٨ أحرف على الأقل', ok: n1.length >= 8 },
+    { t: 'تحتوي على حرف ورقم', ok: /[A-Za-z\u0600-\u06FF]/.test(n1) && /\d/.test(n1) },
+    { t: 'تطابق كلمة المرور وتأكيدها', ok: !!n1 && n1 === n2 },
+    ...(current ? [{ t: 'تختلف عن كلمة المرور الحالية', ok: !!n1 && n1 !== current }] : []),
+  ];
 }
 
 export interface CompanyDraft extends Omit<Company, 'registryMatch' | 'repIdType'> {
@@ -86,7 +108,9 @@ export interface PortalState {
   orders: { tab: string; q: string; status: string; sort: { key: string; dir: 1 | -1 } };
   pay: PayState | null;
   edit: (Omit<CompanyDraft, never> & { errors: Errors }) | null;
-  pw: { step: 0 | 1 | 2 | 3; otp: string; n1: string; n2: string; show: boolean; err: string };
+  pw: { step: 0 | 1 | 2 | 3; otp: string; n0: string; n1: string; n2: string; show: boolean; err: string };
+  /** The «سجّل دخولك أسرع» password suggestion was dismissed. */
+  pwHintOff: boolean;
   photo: string;
   map: { open: boolean; query: string; busy: boolean; err: string; addr: string; point: { lat: number; lng: number } | null };
   loc: { busy: boolean; err: string };
@@ -139,6 +163,7 @@ const emptyAuth = (entry: Entry = 'login'): AuthState => ({
   errors: {},
   notice: null,
   busy: false,
+  forgot: null,
 });
 
 function initialState(): PortalState {
@@ -158,7 +183,8 @@ function initialState(): PortalState {
     orders: { tab: 'all', q: '', status: 'all', sort: { key: 'id', dir: -1 } },
     pay: null,
     edit: null,
-    pw: { step: 0, otp: '', n1: '', n2: '', show: false, err: '' },
+    pw: { step: 0, otp: '', n0: '', n1: '', n2: '', show: false, err: '' },
+    pwHintOff: false,
     photo: '',
     map: { open: false, query: '', busy: false, err: '', addr: '', point: null },
     loc: { busy: false, err: '' },
@@ -191,6 +217,7 @@ function load(): PortalState {
       auth: saved.auth ? { ...base.auth, entry: saved.auth.entry, tab: saved.auth.tab } : base.auth,
       lastOrderId: saved.lastOrderId ?? null,
       openOrderId: saved.openOrderId ?? null,
+      pwHintOff: saved.pwHintOff ?? false,
     };
   } catch {
     return base;
@@ -217,10 +244,10 @@ export class PortalStore {
     const p = typeof patch === 'function' ? patch(this.state) : patch;
     this.state = { ...this.state, ...p };
     try {
-      const { db, session, view, reg, verified, draft, flow, auth, lastOrderId, openOrderId } = this.state;
+      const { db, session, view, reg, verified, draft, flow, auth, lastOrderId, openOrderId, pwHintOff } = this.state;
       sessionStorage.setItem(
         STORAGE_KEY,
-        JSON.stringify({ db, session, view, reg, verified, draft, flow, auth: { entry: auth.entry, tab: auth.tab }, lastOrderId, openOrderId }),
+        JSON.stringify({ db, session, view, reg, verified, draft, flow, auth: { entry: auth.entry, tab: auth.tab }, lastOrderId, openOrderId, pwHintOff }),
       );
     } catch {
       /* storage unavailable: state still works in memory */
@@ -441,7 +468,7 @@ export class PortalStore {
           notice: {
             tone: 'bad',
             title: 'البريد الإلكتروني أو كلمة المرور غير صحيحة',
-            text: 'تحقق من البيانات وأعد المحاولة. إن لم تعيّن كلمة مرور بعد أو نسيتها، سجّل الدخول عبر نفاذ ثم عيّنها من «حسابي».',
+            text: 'تحقق من البيانات وأعد المحاولة. إن نسيت كلمة المرور فاستخدم «نسيت كلمة المرور؟»، أو سجّل الدخول عبر نفاذ.',
           },
         });
         return;
@@ -449,6 +476,59 @@ export class PortalStore {
       this.setAuth({ busy: false });
       this.signIn(acct, 'email', 'تم تسجيل الدخول');
     });
+  }
+
+  // ------------------------------------------------------------------ forgotten password (signed out)
+  startForgot() {
+    this.setAuth({ forgot: { step: 1, email: this.state.auth.email, otp: '', n1: '', n2: '', show: false, err: '' }, notice: null, errors: {} });
+  }
+  setForgot(p: Partial<ForgotState>) {
+    this.set((s) => ({ auth: { ...s.auth, forgot: s.auth.forgot ? { ...s.auth.forgot, err: '', ...p } : null } }));
+  }
+  cancelForgot() {
+    this.setAuth({ forgot: null });
+  }
+  private forgotAccount() {
+    const email = this.state.auth.forgot?.email.trim().toLowerCase() || '';
+    return Object.values(this.state.db.accounts).find((a) => a.identity.email.toLowerCase() === email);
+  }
+  forgotSend() {
+    const f = this.state.auth.forgot;
+    if (!f) return;
+    if (!EMAIL_RE.test(f.email.trim())) return this.setForgot({ err: 'أدخل بريداً إلكترونياً صحيحاً' });
+    // Same answer whether or not the email is registered, so accounts cannot be discovered.
+    this.setForgot({ step: 2, otp: '' });
+    this.toast(sim('أرسلنا رمز التحقق إلى الجوال المسجّل'));
+  }
+  forgotVerify() {
+    const f = this.state.auth.forgot;
+    if (!f) return;
+    if (!this.forgotAccount() || f.otp !== '1234') return this.setForgot({ err: 'رمز التحقق غير صحيح' });
+    this.setForgot({ step: 3 });
+  }
+  forgotSave() {
+    const f = this.state.auth.forgot;
+    const acct = this.forgotAccount();
+    if (!f || !acct) return;
+    if (!passwordRules(f.n1, f.n2, acct.password).every((r) => r.ok)) return this.setForgot({ err: 'تأكد من استيفاء جميع الشروط' });
+    this.patchAccount(acct.nationalId, (x) => ({ ...x, password: f.n1 }));
+    this.setAuth({
+      forgot: null,
+      tab: 'email',
+      email: f.email.trim(),
+      password: '',
+      notice: { tone: 'ok', title: 'تم تعيين كلمة المرور الجديدة', text: 'سجّل الدخول الآن بالبريد الإلكتروني وكلمة المرور الجديدة.' },
+    });
+  }
+
+  /** «تعيين / تغيير كلمة المرور» from «حسابي» or the account-status page. */
+  openPassword() {
+    this.set({ view: 'password', acctMenu: false, pw: { step: 1, otp: '', n0: '', n1: '', n2: '', show: false, err: '' } });
+    this.navigate('order');
+    this.scrollTop();
+  }
+  dismissPwHint() {
+    this.set({ pwHintOff: true });
   }
 
   private signIn(acct: Account, method: AuthMethod, msg: string) {

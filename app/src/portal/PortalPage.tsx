@@ -12,7 +12,7 @@ import { AuthScreen, NafathDialog } from './screens/Auth';
 import { AccountStatusScreen, BlockedOrderScreen, DoneScreen, EditProfileScreen } from './screens/Status';
 import { createOrderBlockReason } from './rules';
 import { portal, usePortal, type PortalState } from './store';
-import { Alert, SecondaryButton, Stepper } from './ui';
+import { Alert, ICON, SecondaryButton, Stepper } from './ui';
 import { portalVals } from './vals';
 
 function FlowStepper({ s }: { s: PortalState }) {
@@ -34,7 +34,7 @@ function FlowStepper({ s }: { s: PortalState }) {
   );
 }
 
-/** Approved accounts: notice above the profile while a data change is under review. */
+/** Approved accounts: notices above the profile (data change under review, password suggestion). */
 function ProfileActions({ s }: { s: PortalState }) {
   const a = portal.account(s)!;
   return (
@@ -50,6 +50,25 @@ function ProfileActions({ s }: { s: PortalState }) {
           }
         >
           أُرسل في {a.changeRequest.at}. تبقى بياناتك الحالية سارية حتى الاعتماد، ويمكنك إنشاء الطلبات ومتابعتها خلال المراجعة.
+        </Alert>
+      ) : null}
+      {!a.password && !s.pwHintOff ? (
+        <Alert
+          tone="info"
+          icon={ICON.lock}
+          title="سجّل دخولك أسرع بالبريد الإلكتروني."
+          action={
+            <span style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+              <SecondaryButton onClick={() => portal.openPassword()} style={{ height: 40 }}>
+                تعيين كلمة المرور
+              </SecondaryButton>
+              <SecondaryButton onClick={() => portal.dismissPwHint()} style={{ height: 40 }}>
+                لاحقاً
+              </SecondaryButton>
+            </span>
+          }
+        >
+          عيّن كلمة مرور لتسجيل الدخول بالبريد الإلكتروني ({a.identity.email}) إلى جانب نفاذ.
         </Alert>
       ) : null}
     </>

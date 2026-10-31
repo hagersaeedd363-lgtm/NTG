@@ -5,7 +5,7 @@
 import { MAX_BOTTLES, PRODUCTS, REGIONS } from '../data/portal';
 import { DEMO_TOOLS } from '../config';
 import { createOrderBlockReason, isPayable, nextStep, orderStage, orderStages, orderStatusLabel, orderTone } from './rules';
-import { portal, type PortalState } from './store';
+import { passwordRules, portal, type PortalState } from './store';
 import type { Order } from './types';
 import { TAG } from './ui';
 
@@ -514,9 +514,7 @@ function passwordVals(s: PortalState): Obj {
   const pw = s.pw;
   const up = (p: Partial<PortalState['pw']>) => portal.set((st) => ({ pw: { ...st.pw, ...p } }));
   const phone = a?.identity.phone || '';
-  const okLen = pw.n1.length >= 8;
-  const okMix = /[A-Za-z؀-ۿ]/.test(pw.n1) && /\d/.test(pw.n1);
-  const okMatch = !!pw.n1 && pw.n1 === pw.n2;
+  const rules = passwordRules(pw.n1, pw.n2, a?.password);
   return {
     pwIdle: pw.step === 0,
     pwStep1: pw.step === 1,
@@ -542,18 +540,15 @@ function passwordVals(s: PortalState): Obj {
     pwN1: pw.n1,
     pwN2: pw.n2,
     pwType: pw.show ? 'text' : 'password',
-    pwRules: [
-      { t: '٨ أحرف على الأقل', ok: okLen },
-      { t: 'تحتوي على حرف ورقم', ok: okMix },
-      { t: 'تطابق كلمة المرور وتأكيدها', ok: okMatch },
-    ].map((r) => ({ ...r, color: r.ok ? '#2E7D52' : 'var(--muted)', bg: r.ok ? '#2E7D52' : 'transparent', bd: r.ok ? '#2E7D52' : 'var(--line)' })),
+    pwNeedsCurrent: hp,
+    pwN0: pw.n0,
+    bgN0: pw.n0 ? 'var(--card-2)' : 'var(--card)',
+    onN0: (ev: { target: { value: string } }) => up({ n0: ev.target.value, err: '' }),
+    pwRules: rules.map((r) => ({ ...r, color: r.ok ? '#2E7D52' : 'var(--muted)', bg: r.ok ? '#2E7D52' : 'transparent', bd: r.ok ? '#2E7D52' : 'var(--line)' })),
     openPw: () => up({ step: 1 }),
-    openPwEdit: () => {
-      portal.set({ view: 'password', pw: { step: 1, otp: '', n1: '', n2: '', show: false, err: '' } });
-      portal.scrollTop();
-    },
+    openPwEdit: () => portal.openPassword(),
     pwClose: () => {
-      portal.set({ view: a?.status === 'approved' ? 'profile' : 'status', pw: { step: 0, otp: '', n1: '', n2: '', show: false, err: '' } });
+      portal.set({ view: a?.status === 'approved' ? 'profile' : 'status', pw: { step: 0, otp: '', n0: '', n1: '', n2: '', show: false, err: '' } });
       portal.scrollTop();
     },
     pwToggle: () => up({ show: !pw.show }),
@@ -563,7 +558,10 @@ function passwordVals(s: PortalState): Obj {
     pwResend: () => portal.toast('تم إرسال رمز جديد'),
     pwNext1: () => (pw.otp === '1234' ? up({ step: 2, err: '' }) : up({ err: 'رمز التحقق غير صحيح' })),
     pwNext2: () => {
-      if (okLen && okMix && okMatch) {
+      if (hp && !pw.n0) up({ err: 'أدخل كلمة المرور الحالية' });
+      else if (hp && pw.n0 !== a?.password) up({ err: 'كلمة المرور الحالية غير صحيحة' });
+      else if (hp && pw.n1 === a?.password) up({ err: 'كلمة المرور الجديدة يجب أن تختلف عن الحالية' });
+      else if (rules.every((r) => r.ok)) {
         portal.setPassword();
         up({ step: 3, err: '' });
       } else up({ err: 'تأكد من استيفاء جميع الشروط' });

@@ -206,10 +206,28 @@ export function PasswordView({ v }: { v: V }) {
               {v.ox?.pwStep2 ? (
                 <>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                    {v.ox?.pwNeedsCurrent ? (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', minWidth: '0', maxWidth: '540px', width: '100%' }}>
+                        <label htmlFor="pw-n0" style={{ fontSize: '14px', fontWeight: '600', lineHeight: '24px', color: 'var(--ink-2)' }}>
+                          كلمة المرور الحالية
+                        </label>
+                        <input
+                          id="pw-n0"
+                          type={v.ox?.pwType}
+                          value={v.ox?.pwN0 ?? ''}
+                          onInput={v.ox?.onN0}
+                          autoComplete="current-password"
+                          dir="ltr"
+                          style={css(
+                            `width:100%;height:46px;padding:0 16px;border-radius:12px;border:1px solid var(--line);background:${v.ox?.bgN0 ?? ''};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box`,
+                          )}
+                        />
+                      </div>
+                    ) : null}
                     <div style={css(`display:grid;grid-template-columns:${v.formCols ?? ''};gap:24px;align-items:start`)}>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', minWidth: '0', maxWidth: '540px', width: '100%' }}>
                         <label htmlFor="pw-n1" style={{ fontSize: '14px', fontWeight: '600', lineHeight: '24px', color: 'var(--ink-2)' }}>
-                          كلمة المرور
+                          {v.ox?.pwNeedsCurrent ? 'كلمة المرور الجديدة' : 'كلمة المرور'}
                         </label>
                         <span style={{ position: 'relative', display: 'block' }}>
                           <input

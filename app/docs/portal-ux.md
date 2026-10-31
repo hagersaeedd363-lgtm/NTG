@@ -86,7 +86,7 @@ New orders = account `approved` only (`rules.canCreateOrder`).
 
 ## 3. Scenario checklist
 
-All 19 run automatically: `node e2e/scenarios.mjs` (demo build). Demo IDs are listed in
+All 20 run automatically: `node e2e/scenarios.mjs` (demo build). Demo IDs are listed in
 `src/portal/fixtures.ts`.
 
 | # | Scenario | Start | Actions | Expected | Final state |
@@ -110,6 +110,7 @@ All 19 run automatically: `node e2e/scenarios.mjs` (demo build). Demo IDs are li
 | 17 | Rejections | Rejected account; rejected order | Sign in; open rejected order | Reason + «تواصل معنا»; order reason + «تقديم طلب جديد» | No ordering for rejected account |
 | 19 | Company data change | Approved company | «تحديث البيانات» → send unchanged (error) → edit name/region/city → send → «عرض الطلب» (read-only, no resend) → «إلغاء طلب التعديل» asks to confirm → تراجع → demo approve | Pending notice lists changed fields; one request at a time; data unchanged until approval | New data applied |
 | 18 | Payment failure / unconfirmed | Approved, accepted order | Demo outcome فشل → pay; لم تتأكد → retry; نجاح → refresh | Failed keeps order unpaid; unconfirmed blocks a second charge | Paid → قيد التجهيز |
+| 20 | Passwords | Signed out; approved; pending | «نسيت كلمة المرور؟» → email → code to mobile → new password; «تغيير كلمة المرور» (current password required); pending «تعيين كلمة المرور» | Generic code message; rules enforced; new ≠ current; approved accounts without a password get a dismissible suggestion | Password updated |
 
 ## 4. Decisions that changed earlier behaviour
 
@@ -138,8 +139,8 @@ All 19 run automatically: `node e2e/scenarios.mjs` (demo build). Demo IDs are li
    The build stops and suggests trying later or contacting support.
 4. **Account rejection policy.** Appeal, resubmission with corrected data, and timelines are not
    defined. The build shows the reason and a contact link only.
-5. **Password recovery when signed out.** No reset flow exists. The build tells users to sign in
-   with Nafath and set a password from «حسابي».
+5. **Password recovery when signed out.** The build resets by a code sent to the mobile registered
+   on the account (found by email). Confirm the channel (SMS vs email) and the code expiry.
 6. **Profile changes after approval.** Which fields can change, and does the account stay approved
    while a change is reviewed? The build allows company-representative changes and keeps the
    account approved.
