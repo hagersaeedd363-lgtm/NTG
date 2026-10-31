@@ -96,7 +96,12 @@ export function DemoPanel({ s }: { s: PortalState }) {
                     ) : null}
                     {o.status === 'accepted' && o.payment.state === 'verifying' ? (
                       <button type="button" style={btn()} onClick={() => portal.demoOrder(o.id, 'confirmTransfer')}>
-                        تأكيد التحويل
+                        تأكيد الدفع
+                      </button>
+                    ) : null}
+                    {o.status === 'accepted' && o.payment.state === 'paid' ? (
+                      <button type="button" style={btn()} onClick={() => portal.demoOrder(o.id, 'advance')}>
+                        بدء التجهيز
                       </button>
                     ) : null}
                     {o.status === 'preparing' || o.status === 'ready' ? (

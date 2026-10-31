@@ -3,7 +3,7 @@ import { DEMO_TOOLS } from '../../config';
 import { orderStatusLabel } from '../rules';
 import { PROOF_TYPES, portal, proofFiles, type PortalState } from '../store';
 import type { Order } from '../types';
-import { ActionBar, Alert, Card, CardHeader, Field, ICON, Icon, Modal, PageTitle, PrimaryButton, SecondaryButton, formGrid } from '../ui';
+import { ActionBar, Alert, Card, CardHeader, ICON, Icon, Modal, PageTitle, PrimaryButton, SecondaryButton } from '../ui';
 
 const UPLOAD = 'M12 16V4M7 9l5-5 5 5M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3';
 const AR = (n: number | string) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[+d]);
@@ -137,10 +137,6 @@ export function ProofScreen({ s }: { s: PortalState }) {
               </button>
             )}
             {P.fileErr ? <Alert tone="bad" title={P.fileErr} /> : null}
-            <div style={formGrid}>
-              <Field id="proof-date" label="تاريخ التحويل (اختياري)" type="date" value={P.transferDate} onChange={(v) => portal.setPay({ transferDate: v })} ltr />
-              <Field id="proof-sender" label="اسم المحوِّل (اختياري)" value={P.sender} onChange={(v) => portal.setPay({ sender: v })} placeholder="كما يظهر في الإيصال" />
-            </div>
           </Card>
         </div>
         <aside style={{ flex: '1 1 320px', minWidth: 0 }}>
@@ -220,12 +216,6 @@ function ProofCard({ o }: { o: Order }) {
           عرض الإيصال
         </SecondaryButton>
       </div>
-      {p.transferDate || p.sender ? (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(200px,1fr))', gap: 12 }}>
-          {p.transferDate ? <SummaryRow k="تاريخ التحويل" v={p.transferDate} ltr /> : null}
-          {p.sender ? <SummaryRow k="اسم المحوِّل" v={p.sender} /> : null}
-        </div>
-      ) : null}
       {open ? (
         <Modal label="إيصال الدفع" onClose={() => setOpen(false)}>
           <h2 style={{ margin: 0, fontSize: 18, fontWeight: 600, color: 'var(--ink)' }}>إيصال الدفع</h2>

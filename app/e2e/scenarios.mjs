@@ -472,7 +472,7 @@ const scenarios = [
       await c.click('حذف', { exact: true });
       await c.see('اسحب الملف هنا أو اضغط للاختيار');
       await upload({ name: 'receipt.png', mimeType: 'image/png', buffer: PNG });
-      await c.fill('اسم المحوِّل', 'شركة الضيافة المتحدة');
+      if (await c.p.getByLabel('اسم المحوِّل').count()) throw new Error('proof must be upload only');
       await c.shot('proof');
       await c.click('إرسال للتحقق');
       await c.see('تم إرسال الإيصال للتحقق');
@@ -484,12 +484,16 @@ const scenarios = [
       await c.see('إيصال الدفع');
       await c.click('إغلاق');
       await c.click('أدوات المعاينة');
-      await c.click('تأكيد التحويل', { nth: 0 });
+      await c.click('تأكيد الدفع', { nth: 0 });
+      await c.see('تم التحقق من الدفع');
+      await c.notSee('موعد الاستلام المتوقع');
+      await c.shot('verified');
+      await c.click('بدء التجهيز', { nth: 0 });
       await c.see('بدء تجهيز طلبك');
       await c.see('موعد الاستلام المتوقع');
       await c.see('أوقات الاستلام');
       await c.shot('preparing');
-      return 'Receipt validated and sent; order waits for verification; once confirmed it is preparing with the receive date and place.';
+      return 'Receipt validated and sent; verification gives «تم التحقق من الدفع»; preparing shows the receive date and place.';
     },
   },
   {

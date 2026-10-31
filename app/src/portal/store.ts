@@ -90,8 +90,6 @@ export interface PayState {
   /** data: URL of the chosen file, for the preview (kept in memory only). */
   preview: string;
   fileErr: string;
-  transferDate: string;
-  sender: string;
 }
 
 export const PROOF_TYPES = ['image/jpeg', 'image/png', 'application/pdf'];
@@ -860,8 +858,6 @@ export class PortalStore {
       fileType: screen === 'awaiting' ? p.proofType || '' : '',
       preview: screen === 'awaiting' ? proofFiles.get(o.id) || '' : '',
       fileErr: '',
-      transferDate: p.transferDate || '',
-      sender: p.sender || '',
     };
   }
 
@@ -903,28 +899,30 @@ export class PortalStore {
         proofSize: P.fileSize,
         proofType: P.fileType,
         proofAt: at,
-        transferDate: P.transferDate,
-        sender: P.sender.trim(),
       },
     }));
     this.setPay({ screen: 'awaiting' });
     this.scrollTop();
   }
 
-  /** The authority verified the receipt: preparation starts and the receive date is set. */
+  /** The authority verified the receipt: the order is «تم التحقق من الدفع» until preparation starts. */
   private confirmPaid(id: string) {
     const d = new Date();
     const paidAt = arDate(d) + ' — ' + d.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
-    const receive = new Date(d.getTime() + 3 * 864e5);
+    this.patchOrder(id, (x) => ({ ...x, payment: { ...x.payment, state: 'paid', paidAt } }));
+    if (this.state.pay?.orderId === id) this.set({ view: 'orders', openOrderId: id, pay: null });
+  }
+
+  /** Preparation starts: the expected receive date is set (three days, skipping Friday and Saturday). */
+  private startPreparing(id: string) {
+    const receive = new Date(Date.now() + 3 * 864e5);
     if (receive.getDay() === 5) receive.setDate(receive.getDate() + 2);
     if (receive.getDay() === 6) receive.setDate(receive.getDate() + 1);
     this.patchOrder(id, (x) => ({
       ...x,
       status: 'preparing',
-      payment: { ...x.payment, state: 'paid', paidAt },
       receiveDate: receive.toLocaleDateString('ar-EG', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) + 'م',
     }));
-    if (this.state.pay?.orderId === id) this.set({ view: 'orders', openOrderId: id, pay: null });
   }
 
   leavePay() {
@@ -1053,9 +1051,12 @@ export class PortalStore {
     if (decision === 'accept') this.patchOrder(id, (x) => ({ ...x, status: 'accepted' }));
     if (decision === 'reject') this.patchOrder(id, (x) => ({ ...x, status: 'rejected', rejectReason: 'الكميات المطلوبة تتجاوز المخصص للجهة. (سبب تجريبي)' }));
     if (decision === 'confirmTransfer') this.confirmPaid(id);
-    if (decision === 'advance') this.patchOrder(id, (x) => ({ ...x, status: x.status === 'preparing' ? 'ready' : 'completed' }));
+    if (decision === 'advance') {
+      if (o.status === 'accepted') this.startPreparing(id);
+      else this.patchOrder(id, (x) => ({ ...x, status: x.status === 'preparing' ? 'ready' : 'completed' }));
+    }
     this.toast(
-      { accept: 'تم قبول الطلب', reject: 'تم رفض الطلب', confirmTransfer: 'تم تأكيد التحويل', advance: 'تم تحديث حالة التجهيز' }[decision] + ' (محاكاة لقرار الجهة)',
+      { accept: 'تم قبول الطلب', reject: 'تم رفض الطلب', confirmTransfer: 'تم التحقق من الدفع', advance: 'تم تحديث حالة التجهيز' }[decision] + ' (محاكاة لقرار الجهة)',
     );
   }
 

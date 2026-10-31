@@ -33,7 +33,7 @@ flowchart TD
   D1 --> O[طلباتي]
   D2 --> O
   O -- payable only --> PAY[إثبات الدفع<br/>payment outside the portal · upload receipt]
-  PAY --> VER[بانتظار التحقق من التحويل] -- authority confirms --> PREP[قيد التجهيز<br/>receive date and place]
+  PAY --> VER[بانتظار التحقق من التحويل] -- authority confirms --> PAID[تم التحقق من الدفع] --> PREP[قيد التجهيز<br/>receive date and place]
 ```
 
 Rules applied on every route:
@@ -65,7 +65,8 @@ stateDiagram-v2
   review --> rejected: authority rejects order
   review --> accepted: authority accepts order
   accepted --> accepted: receipt uploaded, awaiting verification
-  accepted --> preparing: receipt verified
+  accepted --> accepted: receipt verified (تم التحقق من الدفع)
+  accepted --> preparing: preparation starts
   preparing --> ready
   ready --> completed
 ```
@@ -77,6 +78,7 @@ stateDiagram-v2
 | approved | review | طلبك قيد المراجعة | no |
 | approved | accepted, no receipt | تمت الموافقة — ارفع إثبات الدفع | «رفع إثبات الدفع» |
 | approved | accepted, receipt sent | بانتظار التحقق من التحويل · عرض الإيصال | no |
+| approved | accepted, receipt verified | تم التحقق من الدفع | no |
 | approved | preparing | تم تأكيد الدفع — بدء تجهيز طلبك · موعد ومكان الاستلام | no |
 | rejected | any | لا يمكن متابعة الطلب | no |
 | any | rejected | تعذّر قبول الطلب + reason | no |
@@ -110,13 +112,13 @@ All 20 run automatically: `node e2e/scenarios.mjs` (demo build). Demo IDs are li
 | 16 | Back navigation | New company user | Company data + purpose → products (+1) → back → forward | Company data, purpose and quantities kept | — |
 | 17 | Rejections | Rejected account; rejected order | Sign in; open rejected order | Reason + «تواصل معنا»; order reason + «تقديم طلب جديد» | No ordering for rejected account |
 | 19 | Company data change | Approved company | «تحديث البيانات» → send unchanged (error) → edit name/region/city → send → «عرض الطلب» (read-only, no resend) → «إلغاء طلب التعديل» asks to confirm → تراجع → demo approve | Pending notice lists changed fields; one request at a time; data unchanged until approval | New data applied |
-| 18 | Proof of payment | Approved, accepted order | «رفع إثبات الدفع» → wrong type / over 5 MB → valid PNG (preview, حذف, استبدال) → optional sender → send → «عرض الإيصال» → demo «تأكيد التحويل» | Send disabled without a file; clear file errors; no re-upload while verifying | قيد التجهيز with receive date, place and hours |
+| 18 | Proof of payment | Approved, accepted order | «رفع إثبات الدفع» → wrong type / over 5 MB → valid PNG (preview, حذف, استبدال) → send → «عرض الإيصال» → demo «تأكيد الدفع» → «بدء التجهيز» | Send disabled without a file; clear file errors; no re-upload while verifying | تم التحقق من الدفع, then قيد التجهيز with receive date, place and hours |
 | 20 | Passwords | Signed out; approved; pending | «نسيت كلمة المرور؟» → email → code to mobile → new password; «تغيير كلمة المرور» (current password required); pending «تعيين كلمة المرور» | Generic code message; rules enforced; new ≠ current; approved accounts without a password get a dismissible suggestion | Password updated |
 
 ## 4. Decisions that changed earlier behaviour
 
 - Payment is outside the portal (bank transfer or a third party). The portal collects a receipt
-  (JPG, PNG or PDF up to 5 MB, optional transfer date and sender) and the authority verifies it.
+  (JPG, PNG or PDF up to 5 MB; upload only, no manual payment data) and the authority verifies it.
 - Approved users no longer pay at submission. Every order is reviewed first, per the brief
   («approved user must still follow the order-review and payment process»).
 - Registration is Nafath only. Email + password remains for signing in to accounts that set a password.

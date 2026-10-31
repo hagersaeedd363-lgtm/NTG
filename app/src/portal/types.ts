@@ -72,8 +72,6 @@ export interface Payment {
   proofSize?: number;
   proofType?: string;
   proofAt?: string;
-  transferDate?: string;
-  sender?: string;
 }
 
 export interface OrderLine {

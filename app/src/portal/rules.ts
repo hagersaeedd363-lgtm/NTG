@@ -47,6 +47,7 @@ export function orderStatusLabel(order: Order, account?: Account | null): string
     case 'accepted':
       if (account && account.status !== 'approved') return 'بانتظار اعتماد الحساب';
       if (order.payment.state === 'verifying') return 'بانتظار التحقق من التحويل';
+      if (order.payment.state === 'paid') return 'تم التحقق من الدفع';
       return 'بانتظار الدفع';
     case 'preparing':
       return 'قيد التجهيز';
@@ -66,6 +67,7 @@ export function orderTone(order: Order, account?: Account | null): Tone {
   if (order.status === 'review') return 'info';
   if (order.status === 'accepted') {
     if (account && account.status !== 'approved') return 'info';
+    if (order.payment.state === 'paid') return 'prog';
     return order.payment.state === 'verifying' ? 'info' : 'warn';
   }
   if (order.status === 'completed') return 'ok';
@@ -74,6 +76,7 @@ export function orderTone(order: Order, account?: Account | null): Tone {
 
 /** Lifecycle index used by the five-segment progress bar and the status filter. */
 export function orderStage(order: Order): number {
+  if (order.status === 'accepted' && order.payment.state === 'paid') return 2;
   return { review: 0, rejected: 0, accepted: 1, preparing: 2, ready: 3, completed: 4 }[order.status];
 }
 
@@ -132,6 +135,15 @@ export function nextStep(order: Order, account: Account | null | undefined, sar:
         desc: 'قُبل طلبك، ويتاح الدفع فور اعتماد حسابك من الجهة المختصة.',
       };
     }
+    if (order.payment.state === 'paid') {
+      return {
+        tone: 'ok',
+        icon: 'ok',
+        title: 'تم التحقق من الدفع',
+        desc: 'تحققنا من إيصال الدفع. سيبدأ تجهيز طلبك قريباً، ويظهر موعد ومكان الاستلام هنا عند بدء التجهيز.',
+        invoice: true,
+      };
+    }
     if (order.payment.state === 'verifying') {
       return {
         tone: 'info',
@@ -183,7 +195,7 @@ export function orderStages(order: Order, account?: Account | null): Stage[] {
   const pick = order.delivery.mode === 'pickup';
   const paid = order.payment.state === 'paid';
   const approvedAcct = !account || account.status === 'approved';
-  const idx = { review: 1, rejected: 1, accepted: 2, preparing: 3, ready: 4, completed: 5 }[order.status];
+  const idx = order.status === 'accepted' && order.payment.state === 'paid' ? 3 : { review: 1, rejected: 1, accepted: 2, preparing: 3, ready: 4, completed: 5 }[order.status];
   if (order.status === 'rejected') {
     return [
       { t: 'تم تقديم الطلب', sub: order.date, done: true, cur: false },
@@ -195,14 +207,14 @@ export function orderStages(order: Order, account?: Account | null): Stage[] {
     order.status === 'review'
       ? 'يتاح الدفع بعد قبول الطلب' + (approvedAcct ? '' : ' واعتماد حسابك')
       : paid
-        ? 'تم التحقق من إيصال الدفع'
+        ? 'تم التحقق من إيصال الدفع' + (p.paidAt ? ' — ' + p.paidAt : '')
         : !approvedAcct
           ? 'يتاح الدفع بعد اعتماد حسابك'
           : p.state === 'verifying'
             ? 'استلمنا إيصال الدفع، ونراجع التحويل خلال يوم عمل واحد.'
             : 'تمت الموافقة على طلبك. حوّل المبلغ وارفع إيصال الدفع لبدء التجهيز.';
   const payLabel = paid
-    ? 'تم الدفع'
+    ? 'تم التحقق من الدفع'
     : order.status === 'accepted'
       ? !approvedAcct
         ? 'بانتظار اعتماد الحساب'
@@ -217,7 +229,10 @@ export function orderStages(order: Order, account?: Account | null): Stage[] {
       sub: order.status === 'review' ? 'تراجع الجهة المختصة بيانات الطلب.' : 'تمت مراجعة البيانات والموافقة على الطلب.',
     },
     { t: payLabel, sub: paySub },
-    { t: 'قيد التجهيز', sub: paid ? 'بدء تجهيز طلبك' : 'يبدأ التجهيز بعد التحقق من الإيصال' },
+    {
+      t: 'قيد التجهيز',
+      sub: order.status === 'accepted' ? (paid ? 'سيبدأ تجهيز طلبك قريباً' : 'يبدأ التجهيز بعد التحقق من الإيصال') : 'بدء تجهيز طلبك',
+    },
     {
       t: pick ? 'جاهز للاستلام' : 'جاهز للشحن',
       sub: pick ? 'سنرسل رمز الاستلام عبر الجوال' : 'سنرسل رقم الشحنة عبر الجوال',
