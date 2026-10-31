@@ -320,7 +320,7 @@ function ExistingSummary({ s, a }: { s: PortalState; a: Account }) {
             <DataGroup icon={ICON.user} title="البيانات الشخصية" aside={<NafathTag>من نفاذ</NafathTag>} rows={personalRows(a)} />
             {company ? (
               <>
-                <DataGroup icon={ICON.bld} title="بيانات المنشأة" aside={<Tag tone="muted">{company.registryMatch ? 'من السجل التجاري' : 'معتمدة'}</Tag>} rows={companyRows(a)} />
+                <DataGroup icon={ICON.bld} title="بيانات المنشأة" aside={<Tag tone="muted">معتمد</Tag>} rows={companyRows(a)} />
                 <DataGroup icon={ICON.shield} title="ممثل المؤسسة" aside={<Tag tone="muted">معتمد</Tag>} rows={repRows(a)} />
               </>
             ) : null}
