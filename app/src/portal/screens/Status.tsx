@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { ACCOUNT_STATUS_LABEL, orderStatusLabel } from '../rules';
 import { portal, type PortalState } from '../store';
 import type { Account } from '../types';
@@ -8,12 +9,14 @@ import {
   Card,
   CardHeader,
   DataCard,
+  DataGroup,
   DataRows,
   Field,
   GOLD,
   ICON,
   Icon,
   LockTag,
+  Modal,
   NafathTag,
   PageTitle,
   Pills,
@@ -465,23 +468,91 @@ export function AccountStatusScreen({ s }: { s: PortalState }) {
 }
 
 /** Approved accounts: Nafath data stays locked; company and representative changes go through review. */
+/**
+ * A data-change request is under review: show what was requested, read-only. Only one request can
+ * be open at a time, so the only action is cancelling it (after confirmation).
+ */
+function PendingChange({ a }: { a: Account }) {
+  const [confirm, setConfirm] = useState(false);
+  const req = a.changeRequest!;
+  const c = { ...a.company!, ...req.changes };
+  const changed = (k: keyof typeof req.changes) => (k in req.changes ? ' · مُعدّل' : '');
+  const row = (k: string, key: keyof typeof req.changes, v: string, ltr?: boolean) => ({ k: k + changed(key), v, ltr });
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24, animation: 'zzfade .3s ease both' }}>
+      <PageTitle icon={ICON.user} title="تحديث البيانات" desc="طلب التعديل المرسل قيد مراجعة الجهة المختصة." />
+      <Alert tone="warn" title={'لديك طلب تعديل قيد المراجعة منذ ' + req.at + '.'}>
+        تبقى بياناتك الحالية سارية حتى الاعتماد. لا يمكن إرسال طلب آخر قبل مراجعة هذا الطلب، ويمكنك إلغاؤه لتعديل البيانات من جديد.
+      </Alert>
+      <Card>
+        <CardHeader icon={ICON.doc} title="البيانات المطلوب اعتمادها" desc={'الحقول المعدّلة: ' + req.labels.join('، ') + '.'} />
+        <DataGroup
+          icon={ICON.bld}
+          title="بيانات المنشأة"
+          rows={[
+            row('اسم المؤسسة', 'name', c.name),
+            row('السجل التجاري', 'cr', c.cr, true),
+            row('نوع الجهة', 'entityType', c.entityType),
+            { k: 'المنطقة والمدينة' + (changed('region') || changed('city')), v: [c.region, c.city].filter(Boolean).join(' — ') },
+          ]}
+        />
+        <DataGroup
+          icon={ICON.shield}
+          title="ممثل المؤسسة"
+          rows={[
+            row('الاسم', 'repName', c.repName),
+            row('رقم ' + (c.repIdType || 'الهوية'), 'repId', c.repId, true),
+            row('رقم الجوال', 'repPhone', c.repPhone, true),
+            row('البريد الإلكتروني', 'repEmail', c.repEmail, true),
+          ]}
+        />
+      </Card>
+      <ActionBar onBack={() => portal.openProfile()}>
+        <SecondaryButton onClick={() => setConfirm(true)}>إلغاء طلب التعديل</SecondaryButton>
+      </ActionBar>
+      {confirm ? (
+        <Modal label="تأكيد إلغاء طلب التعديل" onClose={() => setConfirm(false)}>
+          <span style={{ width: 56, height: 56, borderRadius: '50%', background: 'var(--al-bad-bg)', color: 'var(--al-bad-fg)', display: 'flex', alignItems: 'center', justifyContent: 'center', alignSelf: 'center' }}>
+            <Icon d={ICON.alert} size={28} />
+          </span>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, textAlign: 'center' }}>
+            <h2 style={{ margin: 0, fontSize: 20, fontWeight: 600, lineHeight: '28px', color: 'var(--ink)' }}>إلغاء طلب التعديل؟</h2>
+            <p style={{ margin: 0, fontSize: 15, lineHeight: '26px', color: 'var(--ink-2)' }}>
+              سيُحذف الطلب المرسل ({req.labels.join('، ')}) ولن تراجعه الجهة المختصة. تبقى بياناتك الحالية كما هي.
+            </p>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <PrimaryButton
+              full
+              onClick={() => {
+                setConfirm(false);
+                portal.cancelChangeRequest();
+              }}
+            >
+              نعم، ألغِ الطلب
+            </PrimaryButton>
+            <SecondaryButton full onClick={() => setConfirm(false)}>
+              تراجع
+            </SecondaryButton>
+          </div>
+        </Modal>
+      ) : null}
+    </div>
+  );
+}
+
 export function EditProfileScreen({ s }: { s: PortalState }) {
   const a = portal.account(s);
   const e = s.edit;
   if (!a || !e) return null;
   const company = a.type === 'company' && a.company;
   const req = a.changeRequest;
+  if (company && req) return <PendingChange a={a} />;
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24, animation: 'zzfade .3s ease both' }}>
       <PageTitle icon={ICON.user} title="تحديث البيانات" desc="بيانات الهوية من نفاذ ولا تُعدّل هنا. يمكنك طلب تعديل بيانات المؤسسة والممثل." />
       {company ? (
-        req ? (
-          <Alert tone="warn" title={'لديك طلب تعديل قيد المراجعة منذ ' + req.at + '.'}>
-            الحقول المعروضة تشمل تعديلاتك المرسلة. إرسال طلب جديد يستبدل الطلب الحالي.
-          </Alert>
-        ) : (
-          <Alert tone="info">تُرسل التعديلات إلى الجهة المختصة للمراجعة. تبقى بياناتك الحالية سارية، ويمكنك إنشاء الطلبات ومتابعتها خلال المراجعة.</Alert>
-        )
+        <Alert tone="info">تُرسل التعديلات إلى الجهة المختصة للمراجعة. تبقى بياناتك الحالية سارية، ويمكنك إنشاء الطلبات ومتابعتها خلال المراجعة.</Alert>
       ) : null}
       <IdentityCard identity={a.identity} />
       {company ? (
@@ -595,7 +666,6 @@ export function EditProfileScreen({ s }: { s: PortalState }) {
       )}
       {e.errors.form ? <Alert tone="bad">{e.errors.form}</Alert> : null}
       <ActionBar onBack={() => portal.openProfile()}>
-        {company && req ? <SecondaryButton onClick={() => portal.cancelChangeRequest()}>إلغاء الطلب الحالي</SecondaryButton> : null}
         {company ? <PrimaryButton onClick={() => portal.saveEdit()}>إرسال طلب التعديل</PrimaryButton> : null}
       </ActionBar>
     </div>

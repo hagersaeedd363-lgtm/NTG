@@ -875,7 +875,6 @@ export class PortalStore {
   startEdit() {
     const a = this.account();
     if (!a) return;
-    // Start from the pending request if there is one, so the user can amend it.
     const c = { ...(a.company ?? {}), ...(a.changeRequest?.changes ?? {}) } as Partial<Company>;
     this.set({
       view: 'editProfile',
@@ -951,6 +950,8 @@ export class PortalStore {
     const a = this.account();
     if (!a?.changeRequest) return;
     this.patchAccount(a.nationalId, (x) => ({ ...x, changeRequest: undefined }));
+    // Reopen the form on the current (approved) data so a new request can be prepared.
+    if (this.state.view === 'editProfile') this.startEdit();
     this.toast('تم إلغاء طلب تعديل البيانات');
   }
 
