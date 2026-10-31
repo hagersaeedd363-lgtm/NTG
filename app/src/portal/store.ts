@@ -79,7 +79,7 @@ export interface OrderDraft {
 }
 
 /** Payment happens outside the portal; the portal only collects the proof of payment. */
-export type PayScreen = 'proof' | 'awaiting';
+export type PayScreen = 'proof';
 
 export interface PayState {
   orderId: string;
@@ -832,77 +832,63 @@ export class PortalStore {
   }
 
   // ------------------------------------------------------------------ proof of payment
+  /** «رفع إثبات الدفع»: the upload card lives in the order details; open them and scroll to it. */
   openPay(id: string) {
     const o = this.order(id);
     const a = this.account();
     if (!o) return;
-    if (o.payment.state === 'verifying') {
-      this.set({ view: 'pay', pay: this.payInit(o, 'awaiting') });
-      return this.scrollTop();
-    }
-    if (!isPayable(a, o)) {
+    if (o.payment.state === 'none' && !isPayable(a, o)) {
       this.toast(a?.status !== 'approved' ? 'يتاح الدفع بعد اعتماد حسابك.' : 'يتاح الدفع بعد قبول الطلب من الجهة المختصة.');
       return;
     }
-    this.set({ view: 'pay', pay: this.payInit(o, 'proof') });
-    this.scrollTop();
+    this.set({ view: 'orders', openOrderId: id, pay: this.payInit(id) });
+    this.navigate('order');
+    setTimeout(() => document.getElementById('proof-upload')?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 60);
   }
 
-  private payInit(o: Order, screen: PayScreen): PayState {
-    const p = o.payment;
-    return {
-      orderId: o.id,
-      screen,
-      file: screen === 'awaiting' ? p.proof || '' : '',
-      fileSize: screen === 'awaiting' ? p.proofSize || 0 : 0,
-      fileType: screen === 'awaiting' ? p.proofType || '' : '',
-      preview: screen === 'awaiting' ? proofFiles.get(o.id) || '' : '',
-      fileErr: '',
-    };
+  private payInit(orderId: string): PayState {
+    return { orderId, screen: 'proof', file: '', fileSize: 0, fileType: '', preview: '', fileErr: '' };
   }
 
-  setPay(p: Partial<PayState>) {
-    this.set((s) => (s.pay ? { pay: { ...s.pay, ...p } } : {}));
+  /** The draft upload for one order (other orders start empty). */
+  payFor(orderId: string, s = this.state): PayState {
+    return s.pay?.orderId === orderId ? s.pay : this.payInit(orderId);
+  }
+
+  setPay(orderId: string, p: Partial<PayState>) {
+    this.set((s) => ({ pay: { ...this.payFor(orderId, s), ...p } }));
   }
 
   /** Validate and preview a chosen receipt (JPG, PNG or PDF up to 5 MB). */
-  pickProof(f: File) {
+  pickProof(orderId: string, f: File) {
     const typeOk = PROOF_TYPES.includes(f.type) || /\.(pdf|png|jpe?g)$/i.test(f.name);
-    if (!typeOk) return this.setPay({ fileErr: 'نوع الملف غير مدعوم. ارفع صورة JPG أو PNG أو ملف PDF.' });
-    if (f.size > PROOF_MAX) return this.setPay({ fileErr: 'حجم الملف أكبر من ٥ ميجابايت.' });
+    if (!typeOk) return this.setPay(orderId, { fileErr: 'نوع الملف غير مدعوم. ارفع صورة JPG أو PNG أو ملف PDF.' });
+    if (f.size > PROOF_MAX) return this.setPay(orderId, { fileErr: 'حجم الملف أكبر من ٥ ميجابايت.' });
     const r = new FileReader();
-    r.onload = () => this.setPay({ file: f.name, fileSize: f.size, fileType: f.type || (/\.pdf$/i.test(f.name) ? 'application/pdf' : 'image/*'), preview: String(r.result || ''), fileErr: '' });
-    r.onerror = () => this.setPay({ fileErr: 'تعذّر قراءة الملف. حاول مرة أخرى.' });
+    r.onload = () =>
+      this.setPay(orderId, { file: f.name, fileSize: f.size, fileType: f.type || (/\.pdf$/i.test(f.name) ? 'application/pdf' : 'image/*'), preview: String(r.result || ''), fileErr: '' });
+    r.onerror = () => this.setPay(orderId, { fileErr: 'تعذّر قراءة الملف. حاول مرة أخرى.' });
     r.readAsDataURL(f);
   }
 
-  clearProof() {
-    this.setPay({ file: '', fileSize: 0, fileType: '', preview: '', fileErr: '' });
+  clearProof(orderId: string) {
+    this.setPay(orderId, { file: '', fileSize: 0, fileType: '', preview: '', fileErr: '' });
   }
 
-  sendProof() {
-    const P = this.state.pay;
-    if (!P) return;
-    if (!P.file) return this.setPay({ fileErr: 'ارفع إيصال الدفع قبل الإرسال.' });
-    const o = this.order(P.orderId);
+  sendProof(orderId: string) {
+    const P = this.payFor(orderId);
+    if (!P.file) return this.setPay(orderId, { fileErr: 'ارفع إيصال الدفع قبل الإرسال.' });
+    const o = this.order(orderId);
     if (!o || !isPayable(this.account(), o)) return this.toast('لا يمكن إرسال إيصال لهذا الطلب الآن.');
-    if (P.preview) proofFiles.set(P.orderId, P.preview);
+    if (P.preview) proofFiles.set(orderId, P.preview);
     const d = new Date();
     const at = arDate(d) + ' — ' + d.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
-    this.patchOrder(P.orderId, (x) => ({
+    this.patchOrder(orderId, (x) => ({
       ...x,
-      payment: {
-        ...x.payment,
-        method: 'transfer',
-        state: 'verifying',
-        proof: P.file,
-        proofSize: P.fileSize,
-        proofType: P.fileType,
-        proofAt: at,
-      },
+      payment: { ...x.payment, method: 'transfer', state: 'verifying', proof: P.file, proofSize: P.fileSize, proofType: P.fileType, proofAt: at },
     }));
-    this.setPay({ screen: 'awaiting' });
-    this.scrollTop();
+    this.set({ pay: null });
+    this.toast('تم إرسال الإيصال للتحقق. نراجع التحويل خلال يوم عمل واحد.');
   }
 
   /** The authority verified the receipt: the order is «تم التحقق من الدفع» until preparation starts. */
@@ -910,7 +896,6 @@ export class PortalStore {
     const d = new Date();
     const paidAt = arDate(d) + ' — ' + d.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
     this.patchOrder(id, (x) => ({ ...x, payment: { ...x.payment, state: 'paid', paidAt } }));
-    if (this.state.pay?.orderId === id) this.set({ view: 'orders', openOrderId: id, pay: null });
   }
 
   /** Preparation starts: the expected receive date is set (three days, skipping Friday and Saturday). */
@@ -925,10 +910,6 @@ export class PortalStore {
     }));
   }
 
-  leavePay() {
-    this.set((s) => ({ view: 'orders', openOrderId: s.pay?.orderId ?? s.openOrderId }));
-    this.scrollTop();
-  }
 
   // ------------------------------------------------------------------ profile
   startEdit() {

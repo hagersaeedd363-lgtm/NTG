@@ -8,7 +8,6 @@ import { ReviewStep } from '../views/portal/ReviewStep';
 import { DemoPanel } from './DemoPanel';
 import { AccountStep, RegisterScreen } from './screens/Account';
 import { AuthScreen, NafathDialog } from './screens/Auth';
-import { ProofScreen } from './screens/Proof';
 import { AccountStatusScreen, BlockedOrderScreen, DoneScreen, EditProfileScreen } from './screens/Status';
 import { createOrderBlockReason } from './rules';
 import { portal, usePortal, type PortalState } from './store';
@@ -128,7 +127,7 @@ export function PortalPage({ v }: { v: V }) {
       body = <OrdersView v={vx} />;
       break;
     case 'pay':
-      body = s.pay ? <ProofScreen s={s} /> : <OrdersView v={vx} />;
+      body = <OrdersView v={vx} />;
       break;
   }
   return (

@@ -460,8 +460,9 @@ const scenarios = [
       await c.p.getByText('ZM-20261024-0434').first().click();
       await c.tick();
       await c.see('ارفع إثبات الدفع');
-      await c.click('رفع إثبات الدفع');
       await c.see('اسحب الملف هنا أو اضغط للاختيار');
+      await c.see('معلومات الطلب');
+      await c.click('رفع إثبات الدفع');
       if (await c.p.getByRole('button', { name: 'إرسال للتحقق' }).isEnabled()) throw new Error('send must be disabled without a file');
       await upload({ name: 'notes.txt', mimeType: 'text/plain', buffer: Buffer.from('x') });
       await c.see('نوع الملف غير مدعوم');
@@ -477,8 +478,8 @@ const scenarios = [
       await c.click('إرسال للتحقق');
       await c.see('تم إرسال الإيصال للتحقق');
       await c.see('نراجع التحويل خلال يوم عمل واحد');
-      await c.click('العودة إلى الطلب');
       await c.see('بانتظار التحقق من التحويل');
+      await c.notSee('اسحب الملف هنا أو اضغط للاختيار');
       await c.noButton('رفع إثبات الدفع');
       await c.click('عرض الإيصال');
       await c.see('إيصال الدفع');
