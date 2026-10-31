@@ -12,7 +12,7 @@ import { AuthScreen, NafathDialog } from './screens/Auth';
 import { AccountStatusScreen, BlockedOrderScreen, DoneScreen, EditProfileScreen } from './screens/Status';
 import { createOrderBlockReason } from './rules';
 import { portal, usePortal, type PortalState } from './store';
-import { Alert, ICON, SecondaryButton, Stepper } from './ui';
+import { Alert, SecondaryButton, Stepper } from './ui';
 import { portalVals } from './vals';
 
 function FlowStepper({ s }: { s: PortalState }) {
@@ -34,10 +34,9 @@ function FlowStepper({ s }: { s: PortalState }) {
   );
 }
 
-/** Approved accounts: notices above the profile (pending data change, orders awaiting payment). */
+/** Approved accounts: notice above the profile while a data change is under review. */
 function ProfileActions({ s }: { s: PortalState }) {
   const a = portal.account(s)!;
-  const payable = portal.myOrders(s).filter((o) => o.status === 'accepted' && (o.payment.state === 'none' || o.payment.state === 'failed')).length;
   return (
     <>
       {a.changeRequest ? (
@@ -51,11 +50,6 @@ function ProfileActions({ s }: { s: PortalState }) {
           }
         >
           أُرسل في {a.changeRequest.at}. تبقى بياناتك الحالية سارية حتى الاعتماد، ويمكنك إنشاء الطلبات ومتابعتها خلال المراجعة.
-        </Alert>
-      ) : null}
-      {payable ? (
-        <Alert tone="warn" icon={ICON.card} title={'لديك ' + (payable === 1 ? 'طلب' : 'طلبات') + ' بانتظار الدفع.'} action={<SecondaryButton onClick={() => portal.openOrders()} style={{ height: 40 }}>عرض طلباتي</SecondaryButton>}>
-          تمت الموافقة، ويبدأ التجهيز بعد تأكيد الدفع.
         </Alert>
       ) : null}
     </>

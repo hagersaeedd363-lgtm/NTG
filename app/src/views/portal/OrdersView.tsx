@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 import type { V } from '../../types';
-import { Alert } from '../../portal/ui';
+import { Alert, ICON } from '../../portal/ui';
 import { css, list } from '../../lib/dc';
 
 export function OrdersView({ v }: { v: V }) {
@@ -126,6 +126,11 @@ export function OrdersView({ v }: { v: V }) {
           ) : null}
         </div>
         {v.ox?.odOff && v.ox?.blockNote ? <Alert tone="warn" title={v.ox?.blockNote} /> : null}
+        {v.ox?.odOff && v.ox?.payNote ? (
+          <Alert tone="warn" icon={ICON.card} title={v.ox.payNote}>
+            تمت الموافقة، ويبدأ التجهيز بعد تأكيد الدفع.
+          </Alert>
+        ) : null}
         {v.ox?.odOff ? (
           <>
             <section

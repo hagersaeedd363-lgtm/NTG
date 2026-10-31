@@ -170,6 +170,9 @@ function ordersVals(s: PortalState): Obj {
   return {
     canNew: !block,
     blockNote: block,
+    payNote: ((n) => (n === 0 ? '' : n === 1 ? 'لديك طلب واحد بانتظار الدفع.' : n === 2 ? 'لديك طلبان بانتظار الدفع.' : 'لديك ' + AR(n) + (n <= 10 ? ' طلبات' : ' طلباً') + ' بانتظار الدفع.'))(
+      mine.filter((o) => isPayable(a, o)).length,
+    ),
     ordersTabs: tabs.map((t) => {
       const active = tab === t.id;
       const c = t.st ? mine.filter((o) => t.st!.includes(orderStage(o))).length : mine.length;
