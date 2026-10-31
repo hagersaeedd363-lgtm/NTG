@@ -2,13 +2,13 @@ import { DEMO_TOOLS } from '../config';
 import type { V } from '../types';
 import { OrdersView } from '../views/portal/OrdersView';
 import { PasswordView } from '../views/portal/PasswordView';
-import { PaymentView } from '../views/portal/PaymentView';
 import { ProductsStep } from '../views/portal/ProductsStep';
 import { ProfileView } from '../views/portal/ProfileView';
 import { ReviewStep } from '../views/portal/ReviewStep';
 import { DemoPanel } from './DemoPanel';
 import { AccountStep, RegisterScreen } from './screens/Account';
 import { AuthScreen, NafathDialog } from './screens/Auth';
+import { ProofScreen } from './screens/Proof';
 import { AccountStatusScreen, BlockedOrderScreen, DoneScreen, EditProfileScreen } from './screens/Status';
 import { createOrderBlockReason } from './rules';
 import { portal, usePortal, type PortalState } from './store';
@@ -128,7 +128,7 @@ export function PortalPage({ v }: { v: V }) {
       body = <OrdersView v={vx} />;
       break;
     case 'pay':
-      body = vx.ox.p ? <PaymentView v={vx} /> : <OrdersView v={vx} />;
+      body = s.pay ? <ProofScreen s={s} /> : <OrdersView v={vx} />;
       break;
   }
   return (

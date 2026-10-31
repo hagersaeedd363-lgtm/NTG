@@ -23,7 +23,7 @@ node e2e/scenarios.mjs         # 18 portal scenarios against the dev server
 | `src/portal/fixtures.ts` | Sample identities, companies and orders (all example data). |
 | `src/portal/screens/` | Identification and sign-in, registration, existing-user summary, confirmation, account status, profile edit. |
 | `src/portal/ui.tsx` | UI kit matching the design system (cards, fields, alerts, tags, pills, stepper). |
-| `src/portal/vals.ts` | Feeds the design screens kept in `src/views/portal/` (products, review, orders, payment, password, profile). |
+| `src/portal/vals.ts` | Feeds the design screens kept in `src/views/portal/` (products, review, orders, password, profile). |
 | `src/portal/PortalPage.tsx` | The «order» page: picks the screen and enforces access rules. |
 | `src/logic/`, `src/views/site/`, `src/views/shell/` | Public site and shell (header, footer, modals). |
 | `src/styles/` | Design tokens (light and dark), hover/focus states, portal alert colours. |
@@ -38,6 +38,8 @@ node e2e/scenarios.mjs         # 18 portal scenarios against the dev server
   Nafath only. Pending accounts get a status page with their data read-only and no ordering.
 - **Approvals:** an account is approved once; every order is reviewed on its own. Payment opens
   only when the account is approved and the order is accepted.
+- **Payment:** happens outside the portal. The customer uploads a receipt (JPG, PNG or PDF up to
+  5 MB); once the authority verifies it the order moves to «قيد التجهيز» with the receive date and place.
 
 ## Demo tools
 
@@ -47,8 +49,7 @@ unless you build with `VITE_DEMO_TOOLS=true`. When it is on, you get:
 - demo identities on the sign-in screen (approved company or individual, pending, rejected,
   missing Nafath data, Nafath failure, new user) and an email/password sample;
 - the «أدوات المعاينة» panel, which stands in for the back office: approve or reject the account,
-  accept or reject orders, confirm transfers, advance fulfilment, choose the next payment result
-  (success, failure, not confirmed), reset the demo data;
+  accept or reject orders, confirm uploaded receipts, advance fulfilment, reset the demo data;
 - sample orders in every state for the approved company account.
 
 ## Backend integration points

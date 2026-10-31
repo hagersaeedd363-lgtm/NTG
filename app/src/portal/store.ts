@@ -78,18 +78,26 @@ export interface OrderDraft {
   deliveryNotes: string;
 }
 
-export type PayScreen = 'form' | 'processing' | 'failed' | 'unconfirmed' | 'transfer' | 'awaiting' | 'success';
+/** Payment happens outside the portal; the portal only collects the proof of payment. */
+export type PayScreen = 'proof' | 'awaiting';
 
 export interface PayState {
   orderId: string;
-  method: PaymentMethod;
   screen: PayScreen;
-  card: { num: string; exp: string; cvv: string; name: string };
-  errs: Errors;
-  reason: string;
   file: string;
+  fileSize: number;
+  fileType: string;
+  /** data: URL of the chosen file, for the preview (kept in memory only). */
+  preview: string;
   fileErr: string;
+  transferDate: string;
+  sender: string;
 }
+
+export const PROOF_TYPES = ['image/jpeg', 'image/png', 'application/pdf'];
+export const PROOF_MAX = 5 * 1024 * 1024;
+/** Uploaded receipts by order id, for «عرض الإيصال». In memory only (too large for session storage). */
+export const proofFiles = new Map<string, string>();
 
 export interface PortalState {
   db: Db;
@@ -115,7 +123,7 @@ export interface PortalState {
   map: { open: boolean; query: string; busy: boolean; err: string; addr: string; point: { lat: number; lng: number } | null };
   loc: { busy: boolean; err: string };
   acctMenu: boolean;
-  demo: { payOutcome: 'success' | 'fail' | 'unconfirmed'; panelOpen: boolean };
+  demo: { panelOpen: boolean };
 }
 
 const STORAGE_KEY = 'zz-portal';
@@ -189,7 +197,7 @@ function initialState(): PortalState {
     map: { open: false, query: '', busy: false, err: '', addr: '', point: null },
     loc: { busy: false, err: '' },
     acctMenu: false,
-    demo: { payOutcome: 'success', panelOpen: false },
+    demo: { panelOpen: false },
   };
 }
 
@@ -825,7 +833,7 @@ export class PortalStore {
     this.scrollTop();
   }
 
-  // ------------------------------------------------------------------ payment
+  // ------------------------------------------------------------------ proof of payment
   openPay(id: string) {
     const o = this.order(id);
     const a = this.account();
@@ -834,25 +842,26 @@ export class PortalStore {
       this.set({ view: 'pay', pay: this.payInit(o, 'awaiting') });
       return this.scrollTop();
     }
-    if (o.payment.state === 'unconfirmed') return this.refreshPayment(id);
     if (!isPayable(a, o)) {
       this.toast(a?.status !== 'approved' ? 'يتاح الدفع بعد اعتماد حسابك.' : 'يتاح الدفع بعد قبول الطلب من الجهة المختصة.');
       return;
     }
-    this.set({ view: 'pay', pay: this.payInit(o, o.payment.state === 'failed' ? 'failed' : o.payment.method === 'transfer' ? 'transfer' : 'form') });
+    this.set({ view: 'pay', pay: this.payInit(o, 'proof') });
     this.scrollTop();
   }
 
   private payInit(o: Order, screen: PayScreen): PayState {
+    const p = o.payment;
     return {
       orderId: o.id,
-      method: o.payment.method,
       screen,
-      card: { num: '', exp: '', cvv: '', name: '' },
-      errs: {},
-      reason: o.payment.failReason || '',
-      file: o.payment.proof || '',
+      file: screen === 'awaiting' ? p.proof || '' : '',
+      fileSize: screen === 'awaiting' ? p.proofSize || 0 : 0,
+      fileType: screen === 'awaiting' ? p.proofType || '' : '',
+      preview: screen === 'awaiting' ? proofFiles.get(o.id) || '' : '',
       fileErr: '',
+      transferDate: p.transferDate || '',
+      sender: p.sender || '',
     };
   }
 
@@ -860,93 +869,65 @@ export class PortalStore {
     this.set((s) => (s.pay ? { pay: { ...s.pay, ...p } } : {}));
   }
 
-  private validateCard(c: PayState['card']): Errors {
-    const e: Errors = {};
-    if (c.num.replace(/\D/g, '').length !== 16) e.num = 'أدخل رقم بطاقة صحيح مكوّن من ١٦ رقماً';
-    const mm = c.exp.match(/^(\d{2})\/(\d{2})$/);
-    if (!mm || +mm[1] < 1 || +mm[1] > 12) e.exp = 'أدخل تاريخاً صحيحاً بصيغة شهر/سنة';
-    else {
-      const y = 2000 + +mm[2];
-      const n = new Date();
-      if (y < n.getFullYear() || (y === n.getFullYear() && +mm[1] < n.getMonth() + 1)) e.exp = 'البطاقة منتهية الصلاحية';
-    }
-    if (!/^\d{3}$/.test(c.cvv)) e.cvv = 'أدخل رمز الأمان المكوّن من ٣ أرقام';
-    if (c.name.trim().length < 3) e.name = 'أدخل الاسم كما يظهر على البطاقة';
-    return e;
+  /** Validate and preview a chosen receipt (JPG, PNG or PDF up to 5 MB). */
+  pickProof(f: File) {
+    const typeOk = PROOF_TYPES.includes(f.type) || /\.(pdf|png|jpe?g)$/i.test(f.name);
+    if (!typeOk) return this.setPay({ fileErr: 'نوع الملف غير مدعوم. ارفع صورة JPG أو PNG أو ملف PDF.' });
+    if (f.size > PROOF_MAX) return this.setPay({ fileErr: 'حجم الملف أكبر من ٥ ميجابايت.' });
+    const r = new FileReader();
+    r.onload = () => this.setPay({ file: f.name, fileSize: f.size, fileType: f.type || (/\.pdf$/i.test(f.name) ? 'application/pdf' : 'image/*'), preview: String(r.result || ''), fileErr: '' });
+    r.onerror = () => this.setPay({ fileErr: 'تعذّر قراءة الملف. حاول مرة أخرى.' });
+    r.readAsDataURL(f);
   }
 
-  payNow() {
-    const P = this.state.pay;
-    if (!P || P.screen === 'processing') return;
-    const o = this.order(P.orderId)!;
-    if (!isPayable(this.account(), o)) return this.toast('لا يمكن الدفع لهذا الطلب الآن.');
-    if (P.method === 'transfer') {
-      this.patchOrder(o.id, (x) => ({ ...x, payment: { ...x.payment, method: 'transfer', state: 'none' } }));
-      this.setPay({ screen: 'transfer', errs: {} });
-      return this.scrollTop();
-    }
-    if (P.method === 'mada') {
-      const errs = this.validateCard(P.card);
-      if (Object.keys(errs).length) return this.setPay({ errs });
-    }
-    this.setPay({ screen: 'processing', errs: {} });
-    window.onbeforeunload = (e) => {
-      e.preventDefault();
-      return '';
-    };
-    this.scrollTop();
-    this.later('pay', 3000, () => {
-      window.onbeforeunload = null;
-      const outcome = DEMO_TOOLS ? this.state.demo.payOutcome : 'success';
-      if (outcome === 'fail') {
-        const why = 'تم رفض العملية من جهة إصدار البطاقة. تأكد من الرصيد المتاح أو جرّب بطاقة أخرى أو وسيلة دفع مختلفة.';
-        this.patchOrder(o.id, (x) => ({ ...x, payment: { ...x.payment, method: P.method, state: 'failed', failReason: why } }));
-        this.setPay({ screen: 'failed', reason: why });
-      } else if (outcome === 'unconfirmed') {
-        this.patchOrder(o.id, (x) => ({ ...x, payment: { ...x.payment, method: P.method, state: 'unconfirmed' } }));
-        this.setPay({ screen: 'unconfirmed' });
-      } else this.confirmPaid(o.id, P.method);
-      this.scrollTop();
-    });
-  }
-
-  private confirmPaid(id: string, method: PaymentMethod) {
-    const d = new Date();
-    const ymd = String(d.getFullYear()) + String(d.getMonth() + 1).padStart(2, '0') + String(d.getDate()).padStart(2, '0');
-    const txn = 'TXN-' + ymd + '-' + String(100000 + (Number(id.slice(-4)) * 7919) % 900000);
-    const paidAt = arDate(d) + ' — ' + d.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
-    this.patchOrder(id, (x) => ({ ...x, status: 'preparing', payment: { method, state: 'paid', txn, paidAt, proof: x.payment.proof } }));
-    if (this.state.pay?.orderId === id) this.setPay({ screen: 'success' });
-  }
-
-  /** Ask the payment provider again for an unconfirmed payment. */
-  refreshPayment(id: string) {
-    const o = this.order(id);
-    if (!o) return;
-    this.set({ view: 'pay', pay: { ...this.payInit(o, 'processing') } });
-    this.later('payq', 1500, () => {
-      // Simulation: the provider eventually confirms success unless the demo is set to fail.
-      if (DEMO_TOOLS && this.state.demo.payOutcome === 'fail') {
-        const why = 'لم تكتمل العملية لدى جهة الدفع، ولم يُخصم أي مبلغ.';
-        this.patchOrder(id, (x) => ({ ...x, payment: { ...x.payment, state: 'failed', failReason: why } }));
-        this.setPay({ screen: 'failed', reason: why });
-      } else this.confirmPaid(id, o.payment.method);
-      this.scrollTop();
-    });
+  clearProof() {
+    this.setPay({ file: '', fileSize: 0, fileType: '', preview: '', fileErr: '' });
   }
 
   sendProof() {
     const P = this.state.pay;
     if (!P) return;
-    if (!P.file) return this.setPay({ fileErr: 'ارفع إثبات التحويل قبل الإرسال.' });
-    this.patchOrder(P.orderId, (x) => ({ ...x, payment: { ...x.payment, method: 'transfer', state: 'verifying', proof: P.file } }));
+    if (!P.file) return this.setPay({ fileErr: 'ارفع إيصال الدفع قبل الإرسال.' });
+    const o = this.order(P.orderId);
+    if (!o || !isPayable(this.account(), o)) return this.toast('لا يمكن إرسال إيصال لهذا الطلب الآن.');
+    if (P.preview) proofFiles.set(P.orderId, P.preview);
+    const d = new Date();
+    const at = arDate(d) + ' — ' + d.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
+    this.patchOrder(P.orderId, (x) => ({
+      ...x,
+      payment: {
+        ...x.payment,
+        method: 'transfer',
+        state: 'verifying',
+        proof: P.file,
+        proofSize: P.fileSize,
+        proofType: P.fileType,
+        proofAt: at,
+        transferDate: P.transferDate,
+        sender: P.sender.trim(),
+      },
+    }));
     this.setPay({ screen: 'awaiting' });
     this.scrollTop();
   }
 
+  /** The authority verified the receipt: preparation starts and the receive date is set. */
+  private confirmPaid(id: string) {
+    const d = new Date();
+    const paidAt = arDate(d) + ' — ' + d.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
+    const receive = new Date(d.getTime() + 3 * 864e5);
+    if (receive.getDay() === 5) receive.setDate(receive.getDate() + 2);
+    if (receive.getDay() === 6) receive.setDate(receive.getDate() + 1);
+    this.patchOrder(id, (x) => ({
+      ...x,
+      status: 'preparing',
+      payment: { ...x.payment, state: 'paid', paidAt },
+      receiveDate: receive.toLocaleDateString('ar-EG', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) + 'م',
+    }));
+    if (this.state.pay?.orderId === id) this.set({ view: 'orders', openOrderId: id, pay: null });
+  }
+
   leavePay() {
-    if (this.state.pay?.screen === 'processing') return;
-    window.onbeforeunload = null;
     this.set((s) => ({ view: 'orders', openOrderId: s.pay?.orderId ?? s.openOrderId }));
     this.scrollTop();
   }
@@ -1071,7 +1052,7 @@ export class PortalStore {
     if (!o) return;
     if (decision === 'accept') this.patchOrder(id, (x) => ({ ...x, status: 'accepted' }));
     if (decision === 'reject') this.patchOrder(id, (x) => ({ ...x, status: 'rejected', rejectReason: 'الكميات المطلوبة تتجاوز المخصص للجهة. (سبب تجريبي)' }));
-    if (decision === 'confirmTransfer') this.confirmPaid(id, 'transfer');
+    if (decision === 'confirmTransfer') this.confirmPaid(id);
     if (decision === 'advance') this.patchOrder(id, (x) => ({ ...x, status: x.status === 'preparing' ? 'ready' : 'completed' }));
     this.toast(
       { accept: 'تم قبول الطلب', reject: 'تم رفض الطلب', confirmTransfer: 'تم تأكيد التحويل', advance: 'تم تحديث حالة التجهيز' }[decision] + ' (محاكاة لقرار الجهة)',
@@ -1086,7 +1067,7 @@ export class PortalStore {
       /* ignore */
     }
     this.state = initialState();
-    this.set({ demo: { payOutcome: 'success', panelOpen: true } });
+    this.set({ demo: { panelOpen: true } });
     this.navigate('home');
     this.toast('تمت إعادة ضبط بيانات المعاينة');
   }

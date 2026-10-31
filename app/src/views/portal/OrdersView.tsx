@@ -1,6 +1,7 @@
 import { Fragment } from 'react';
 import type { V } from '../../types';
 import { Alert, ICON } from '../../portal/ui';
+import { OrderProofAndReceive } from '../../portal/screens/Proof';
 import { css, list } from '../../lib/dc';
 
 export function OrdersView({ v }: { v: V }) {
@@ -634,6 +635,7 @@ export function OrdersView({ v }: { v: V }) {
                   ) : null}
                 </span>
               </div>
+              <OrderProofAndReceive id={v.ox?.od?.id} />
               <div
                 style={{
                   background: 'var(--card)',

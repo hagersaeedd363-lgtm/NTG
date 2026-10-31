@@ -448,39 +448,48 @@ const scenarios = [
   },
   {
     id: 18,
-    title: 'Payment fails, then cannot be confirmed, then succeeds',
+    title: 'Proof of payment: upload, verify, start preparing',
     run: async (c) => {
-      await c.login(ID.individual);
-      await c.startOrderFromHome();
-      if (await c.p.getByRole('radiogroup', { name: 'غرض الطلب' }).count()) throw new Error('individuals must not see order purpose');
-      await c.click('متابعة إلى المنتجات');
-      await c.products();
-      await c.review();
-      await c.click('إرسال الطلب');
-      await c.click('متابعة الطلب');
+      const PNG = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==', 'base64');
+      const upload = async (file) => {
+        await c.p.locator('#proof-file').setInputFiles(file);
+        await c.tick(300);
+      };
+      await c.login(ID.company);
+      await c.openOrdersMenu();
+      await c.p.getByText('ZM-20261024-0434').first().click();
+      await c.tick();
+      await c.see('ارفع إثبات الدفع');
+      await c.click('رفع إثبات الدفع');
+      await c.see('اسحب الملف هنا أو اضغط للاختيار');
+      if (await c.p.getByRole('button', { name: 'إرسال للتحقق' }).isEnabled()) throw new Error('send must be disabled without a file');
+      await upload({ name: 'notes.txt', mimeType: 'text/plain', buffer: Buffer.from('x') });
+      await c.see('نوع الملف غير مدعوم');
+      await upload({ name: 'big.png', mimeType: 'image/png', buffer: Buffer.alloc(5 * 1024 * 1024 + 10) });
+      await c.see('حجم الملف أكبر من ٥ ميجابايت');
+      await upload({ name: 'receipt.png', mimeType: 'image/png', buffer: PNG });
+      await c.see('receipt.png');
+      await c.click('حذف', { exact: true });
+      await c.see('اسحب الملف هنا أو اضغط للاختيار');
+      await upload({ name: 'receipt.png', mimeType: 'image/png', buffer: PNG });
+      await c.fill('اسم المحوِّل', 'شركة الضيافة المتحدة');
+      await c.shot('proof');
+      await c.click('إرسال للتحقق');
+      await c.see('تم إرسال الإيصال للتحقق');
+      await c.see('نراجع التحويل خلال يوم عمل واحد');
+      await c.click('العودة إلى الطلب');
+      await c.see('بانتظار التحقق من التحويل');
+      await c.noButton('رفع إثبات الدفع');
+      await c.click('عرض الإيصال');
+      await c.see('إيصال الدفع');
+      await c.click('إغلاق');
       await c.click('أدوات المعاينة');
-      await c.click('قبول الطلب');
-      await c.click('فشل', { exact: true });
-      await c.click('إتمام الدفع', { nth: 0 });
-      await c.fill('رقم البطاقة', '4111111111111111');
-      await c.fill('تاريخ الانتهاء', '12/29');
-      await c.fill('رمز الأمان', '123');
-      await c.fill('الاسم على البطاقة', 'Noura Alqahtani');
-      await c.click('إتمام الدفع', { nth: 0, wait: 200 });
-      await c.tick(3200);
-      await c.see('تم رفض العملية');
-      await c.shot('failed');
-      await c.click('لم تتأكد', { exact: true });
-      await c.click('إعادة المحاولة', { nth: 0, wait: 200 });
-      await c.tick(3200);
-      await c.see('لم يتأكد الدفع بعد');
-      await c.shot('unconfirmed');
-      await c.click('نجاح', { exact: true });
-      await c.click('تحديث حالة الدفع', { wait: 200 });
-      await c.tick(1800);
-      await c.see('تم الدفع');
-      await c.shot('paid');
-      return 'Failure keeps order unpaid; unconfirmed blocks a second charge; refresh confirms.';
+      await c.click('تأكيد التحويل', { nth: 0 });
+      await c.see('بدء تجهيز طلبك');
+      await c.see('موعد الاستلام المتوقع');
+      await c.see('أوقات الاستلام');
+      await c.shot('preparing');
+      return 'Receipt validated and sent; order waits for verification; once confirmed it is preparing with the receive date and place.';
     },
   },
   {

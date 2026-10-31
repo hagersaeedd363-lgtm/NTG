@@ -32,7 +32,8 @@ flowchart TD
   REG2 --> HM
   D1 --> O[طلباتي]
   D2 --> O
-  O -- payable only --> PAY[الدفع<br/>مدى · Apple Pay · تحويل بنكي]
+  O -- payable only --> PAY[إثبات الدفع<br/>payment outside the portal · upload receipt]
+  PAY --> VER[بانتظار التحقق من التحويل] -- authority confirms --> PREP[قيد التجهيز<br/>receive date and place]
 ```
 
 Rules applied on every route:
@@ -63,8 +64,8 @@ stateDiagram-v2
   [*] --> review: order submitted
   review --> rejected: authority rejects order
   review --> accepted: authority accepts order
-  accepted --> accepted: payment failed / not confirmed / transfer awaiting verification
-  accepted --> preparing: payment confirmed
+  accepted --> accepted: receipt uploaded, awaiting verification
+  accepted --> preparing: receipt verified
   preparing --> ready
   ready --> completed
 ```
@@ -74,14 +75,14 @@ stateDiagram-v2
 | pending | review | حسابك وطلبك قيد المراجعة | no |
 | pending | accepted | تم قبول الطلب — بانتظار اعتماد حسابك | no |
 | approved | review | طلبك قيد المراجعة | no |
-| approved | accepted, unpaid | تمت الموافقة — الدفع مطلوب (or transfer details) | yes |
-| approved | accepted, payment failed | لم تكتمل عملية الدفع · إعادة المحاولة | yes |
-| approved | accepted, not confirmed | لم يتأكد الدفع بعد · تحديث حالة الدفع | no (refresh only) |
-| approved | accepted, transfer proof sent | بانتظار التحقق من التحويل | no |
+| approved | accepted, no receipt | تمت الموافقة — ارفع إثبات الدفع | «رفع إثبات الدفع» |
+| approved | accepted, receipt sent | بانتظار التحقق من التحويل · عرض الإيصال | no |
+| approved | preparing | تم تأكيد الدفع — بدء تجهيز طلبك · موعد ومكان الاستلام | no |
 | rejected | any | لا يمكن متابعة الطلب | no |
 | any | rejected | تعذّر قبول الطلب + reason | no |
 
-Payable = account `approved` AND order `accepted` AND payment `none` or `failed` (`rules.isPayable`).
+Payable (receipt can be uploaded) = account `approved` AND order `accepted` AND no receipt under review (`rules.isPayable`).
+Payment itself happens outside the portal; the portal only collects the proof of payment.
 New orders = account `approved` only (`rules.canCreateOrder`).
 
 ## 3. Scenario checklist
@@ -109,11 +110,13 @@ All 20 run automatically: `node e2e/scenarios.mjs` (demo build). Demo IDs are li
 | 16 | Back navigation | New company user | Company data + purpose → products (+1) → back → forward | Company data, purpose and quantities kept | — |
 | 17 | Rejections | Rejected account; rejected order | Sign in; open rejected order | Reason + «تواصل معنا»; order reason + «تقديم طلب جديد» | No ordering for rejected account |
 | 19 | Company data change | Approved company | «تحديث البيانات» → send unchanged (error) → edit name/region/city → send → «عرض الطلب» (read-only, no resend) → «إلغاء طلب التعديل» asks to confirm → تراجع → demo approve | Pending notice lists changed fields; one request at a time; data unchanged until approval | New data applied |
-| 18 | Payment failure / unconfirmed | Approved, accepted order | Demo outcome فشل → pay; لم تتأكد → retry; نجاح → refresh | Failed keeps order unpaid; unconfirmed blocks a second charge | Paid → قيد التجهيز |
+| 18 | Proof of payment | Approved, accepted order | «رفع إثبات الدفع» → wrong type / over 5 MB → valid PNG (preview, حذف, استبدال) → optional sender → send → «عرض الإيصال» → demo «تأكيد التحويل» | Send disabled without a file; clear file errors; no re-upload while verifying | قيد التجهيز with receive date, place and hours |
 | 20 | Passwords | Signed out; approved; pending | «نسيت كلمة المرور؟» → email → code to mobile → new password; «تغيير كلمة المرور» (current password required); pending «تعيين كلمة المرور» | Generic code message; rules enforced; new ≠ current; approved accounts without a password get a dismissible suggestion | Password updated |
 
 ## 4. Decisions that changed earlier behaviour
 
+- Payment is outside the portal (bank transfer or a third party). The portal collects a receipt
+  (JPG, PNG or PDF up to 5 MB, optional transfer date and sender) and the authority verifies it.
 - Approved users no longer pay at submission. Every order is reviewed first, per the brief
   («approved user must still follow the order-review and payment process»).
 - Registration is Nafath only. Email + password remains for signing in to accounts that set a password.
@@ -148,12 +151,12 @@ All 20 run automatically: `node e2e/scenarios.mjs` (demo build). Demo IDs are li
    prefills from Nafath (editable). Confirm, and whether a representative needs a delegation letter.
 8. **Commercial-register lookup.** Search by name (as designed) or by CR number? Which registry
    fields are authoritative and locked?
-9. **Unconfirmed payments.** Provider status-query endpoint, retry window and timeout for the
-    «لم يتأكد الدفع بعد» state.
+9. **Rejected receipts.** What happens when the authority cannot verify a receipt (unclear image,
+    wrong amount)? The build has no rejection path yet.
 10. **Payment deadline.** The orders screen shows «مستحق قبل» seven days after the order date, as in
     the design. Is there a real deadline, and what happens after it?
 11. **Notification channels.** How account and order decisions reach the customer (SMS, email, in-app).
-12. **Default payment method.** The build defaults companies to bank transfer and individuals to مدى,
-    as in the design.
+12. **Receive date.** The build sets the expected pickup / delivery date to three days after
+    verification (skipping Friday and Saturday). Confirm the real rule.
 13. **Delivery map.** The design's map picker was unreachable; the build keeps automatic location
     plus manual national address. Confirm whether the map picker is needed.

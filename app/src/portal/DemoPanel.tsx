@@ -110,23 +110,6 @@ export function DemoPanel({ s }: { s: PortalState }) {
             </section>
           ) : null}
 
-          <section style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink-2)' }}>نتيجة الدفع التالية</span>
-            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-              {(
-                [
-                  ['success', 'نجاح'],
-                  ['fail', 'فشل'],
-                  ['unconfirmed', 'لم تتأكد'],
-                ] as const
-              ).map(([k, t]) => (
-                <button key={k} type="button" aria-pressed={s.demo.payOutcome === k} style={btn(s.demo.payOutcome === k)} onClick={() => setDemo({ payOutcome: k })}>
-                  {t}
-                </button>
-              ))}
-            </div>
-          </section>
-
           <button type="button" style={{ ...btn(), alignSelf: 'flex-start' }} onClick={() => portal.demoReset()}>
             إعادة ضبط بيانات المعاينة
           </button>

@@ -172,10 +172,10 @@ function fromDesign(r: any, nationalId: string, sample: boolean): Order {
     deliveryNotes: r.deliveryNotes || '',
     invoice: r.invoice,
     payment: {
-      method: (r.payMethod as PaymentMethod) || 'mada',
-      state: r.paid ? 'paid' : r.verifying ? 'verifying' : r.payFailed ? 'failed' : 'none',
-      failReason: r.payFailReason,
+      method: (r.payMethod as PaymentMethod) || 'transfer',
+      state: r.paid ? 'paid' : r.verifying ? 'verifying' : 'none',
       proof: r.proof,
+      ...(r.verifying ? { proofAt: r.date || '٢٤ أكتوبر ٢٠٢٦م', proofType: 'application/pdf', proofSize: 184320 } : {}),
     },
     ...(sample ? { sample: true } : {}),
   };

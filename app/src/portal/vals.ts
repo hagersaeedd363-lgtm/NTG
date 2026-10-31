@@ -90,11 +90,9 @@ function orderDetail(o: Order, s: PortalState): Obj {
   const onAct =
     act === 'pay' || act === 'transfer' || act === 'retry'
       ? () => portal.openPay(o.id)
-      : act === 'refresh'
-        ? () => portal.refreshPayment(o.id)
-        : act === 'newOrder'
-          ? () => portal.newOrder()
-          : () => {};
+      : act === 'newOrder'
+        ? () => portal.newOrder()
+        : () => {};
   return {
     id: o.id,
     date: o.date,
@@ -240,132 +238,6 @@ function ordersVals(s: PortalState): Obj {
     backOrders: () => (s.openOrderId ? portal.openOrder(null) : portal.openProfile()),
     newOrder: () => portal.newOrder(),
     contactSupport: () => portal.toast('support@zamzam.gov.sa'),
-  };
-}
-
-function payVals(s: PortalState): Obj | null {
-  const P = s.pay;
-  const o = P ? portal.order(P.orderId, s) : undefined;
-  if (!P || !o) return null;
-  const st = P.screen;
-  const busy = st === 'processing';
-  const m = P.method;
-  const mlabel = m === 'applepay' ? 'Apple Pay' : m === 'transfer' ? 'تحويل بنكي' : 'بطاقة مدى';
-  const lat = (x: string) => x.replace(/[٠-٩]/g, (d) => String('٠١٢٣٤٥٦٧٨٩'.indexOf(d)));
-  const setC = (k: keyof typeof P.card, v: string) => portal.setPay({ card: { ...portal.state.pay!.card, [k]: v }, errs: { ...portal.state.pay!.errs, [k]: '' } });
-  const fld = (k: keyof typeof P.card) => ({ v: P.card[k], bg: P.card[k] ? 'var(--card-2)' : 'var(--card)', bd: P.errs[k] ? 'var(--danger)' : 'var(--line)', err: P.errs[k] || '', has: !!P.errs[k] });
-  const opts = [
-    { id: 'mada' as const, t: 'بطاقة مدى', d: 'بطاقة بنكية', ic: 'M3 6h18v12H3zM3 10h18M7 15h3' },
-    { id: 'applepay' as const, t: 'Apple Pay', d: 'دفع سريع من جهازك', ic: 'M8 3h8a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zM11 18h2' },
-    { id: 'transfer' as const, t: 'تحويل بنكي', d: 'للجهات والطلبات الكبيرة — يتطلب التحقق قبل التجهيز', ic: 'M3 10l9-6 9 6M5 10v8M9 10v8M15 10v8M19 10v8M3 20h18' },
-  ].map((x) => {
-    const sel = m === x.id;
-    return {
-      ...x,
-      sel,
-      bg: sel ? 'var(--gold-soft)' : 'var(--card-2)',
-      bd: sel ? GOLD : 'var(--line)',
-      dotBg: sel ? GOLD : 'transparent',
-      dotIn: sel ? '#fff' : 'transparent',
-      dotRing: sel ? 'none' : 'inset 0 0 0 1.5px var(--line)',
-      onClick: () => !busy && portal.setPay({ method: x.id, errs: {} }),
-    };
-  });
-  const copy = (v: string) => () => {
-    try {
-      void navigator.clipboard?.writeText(v);
-    } catch {
-      /* clipboard unavailable */
-    }
-    portal.toast('تم النسخ');
-  };
-  const bank = [
-    { k: 'اسم المستفيد', v: 'اسم المستفيد (عيّنة)', dir: 'rtl' },
-    { k: 'اسم البنك', v: 'اسم البنك (عيّنة)', dir: 'rtl' },
-    { k: 'رقم الآيبان', v: 'SA00 0000 0000 0000 0000 0000', dir: 'ltr' },
-    { k: 'مرجع التحويل المطلوب', v: o.id, dir: 'ltr' },
-  ].map((b) => ({ ...b, copy: copy(b.v) }));
-  const cur = st === 'awaiting' ? 1 : 0;
-  const tsteps = ['بانتظار التحويل', 'بانتظار التحقق', 'تم تأكيد الدفع'].map((t, i) => ({
-    t,
-    n: i < cur ? '✓' : AR(i + 1),
-    bg: i <= cur ? GOLD : 'var(--card)',
-    ring: i === cur ? '0 0 0 4px var(--gold-soft)' : i < cur ? 'none' : 'inset 0 0 0 1.5px var(--line)',
-    color: i <= cur ? 'var(--ink)' : 'var(--muted)',
-    fw: i === cur ? '700' : '500',
-    line: i <= cur ? GOLD : 'var(--line)',
-    lineDisp: i > 0 ? 'block' : 'none',
-  }));
-  const transferView = st === 'transfer' || st === 'awaiting';
-  const success = st === 'success';
-  return {
-    r: { id: o.id, ...orderTotals(o), discount: o.discount, lines: o.lines.map(lineView), stages: stagesView(o, s), delivery: o.delivery.mode === 'pickup' ? 'الاستلام من المستودع — ' + o.delivery.warehouse : 'التوصيل إلى العنوان — ' + o.delivery.city },
-    form: st === 'form' || st === 'failed',
-    failed: st === 'failed',
-    processing: busy,
-    unconfirmed: st === 'unconfirmed',
-    success,
-    notSuccess: !success,
-    transferView,
-    transfer: st === 'transfer',
-    awaiting: st === 'awaiting',
-    busy,
-    title: success ? 'تم الدفع' : transferView ? 'التحويل البنكي' : 'إتمام الدفع',
-    sub: success ? 'تم تأكيد الدفع وانتقل طلبك إلى التجهيز.' : transferView ? 'الطلب لا يُجهَّز إلا بعد التحقق من التحويل.' : 'تمت الموافقة على طلبك. أكمل الدفع ليبدأ التجهيز.',
-    chip: success ? 'تم الدفع' : st === 'awaiting' ? 'بانتظار التحقق' : 'تمت الموافقة — بانتظار الدفع',
-    chipBg: success ? 'rgba(46,160,90,.14)' : 'var(--gold-soft)',
-    chipFg: success ? '#2E8B57' : 'var(--gold-2)',
-    back: () => portal.leavePay(),
-    backOp: busy ? 0.5 : 1,
-    opts,
-    isCard: m === 'mada',
-    isApple: m === 'applepay',
-    isTransfer: m === 'transfer',
-    mlabel,
-    f: { num: fld('num'), exp: fld('exp'), cvv: fld('cvv'), name: fld('name') },
-    on_num: (ev: { target: { value: string } }) => {
-      const d = lat(ev.target.value).replace(/\D/g, '').slice(0, 16);
-      setC('num', d.replace(/(.{4})/g, '$1 ').trim());
-    },
-    on_exp: (ev: { target: { value: string } }) => {
-      let d = lat(ev.target.value).replace(/\D/g, '').slice(0, 4);
-      if (d.length > 2) d = d.slice(0, 2) + '/' + d.slice(2);
-      setC('exp', d);
-    },
-    on_cvv: (ev: { target: { value: string } }) => setC('cvv', lat(ev.target.value).replace(/\D/g, '').slice(0, 3)),
-    on_name: (ev: { target: { value: string } }) => setC('name', ev.target.value),
-    cta: st === 'failed' ? 'إعادة المحاولة' : 'إتمام الدفع',
-    go: () => portal.payNow(),
-    reason: P.reason,
-    tTitle: st === 'awaiting' ? 'بانتظار التحقق من التحويل' : 'بيانات التحويل البنكي',
-    tBadge: st === 'awaiting' ? 'بانتظار التحقق' : 'بانتظار التحويل',
-    tsteps,
-    bank,
-    fileLabel: P.file || 'اضغط لاختيار ملف إيصال التحويل',
-    fileName: P.file,
-    fileBd: P.fileErr ? 'var(--danger)' : 'var(--line)',
-    fileErr: P.fileErr,
-    fileErrHas: !!P.fileErr,
-    proofOp: P.file ? 1 : 0.55,
-    onFile: (ev: { target: { files: FileList | null } }) => {
-      const f = ev.target.files && ev.target.files[0];
-      if (!f) return;
-      if (!/\.(pdf|png|jpe?g)$/i.test(f.name)) return portal.setPay({ file: '', fileErr: 'نوع الملف غير مدعوم. ارفع ملف PDF أو صورة.' });
-      if (f.size > 5 * 1024 * 1024) return portal.setPay({ file: '', fileErr: 'حجم الملف أكبر من ٥ ميجابايت.' });
-      portal.setPay({ file: f.name, fileErr: '' });
-    },
-    sendProof: () => portal.sendProof(),
-    backToMethods: () => portal.setPay({ screen: 'form' }),
-    confirmSample: () => portal.demoOrder(o.id, 'confirmTransfer'),
-    refresh: () => portal.refreshPayment(o.id),
-    rows: [
-      { k: 'رقم العملية', v: o.payment.txn || '—', dir: 'ltr' },
-      { k: 'تاريخ الدفع', v: o.payment.paidAt || '—', dir: 'rtl' },
-      { k: 'وسيلة الدفع', v: mlabel, dir: 'rtl' },
-      { k: 'رقم الفاتورة', v: o.invoice || '—', dir: 'ltr' },
-    ],
-    track: () => portal.openOrders(o.id),
-    receipt: () => portal.toast('الفاتورة ' + o.invoice + (DEMO_TOOLS ? ' — عرض تجريبي' : '')),
   };
 }
 
@@ -683,7 +555,6 @@ export function portalVals(v: Obj, s: PortalState): Obj {
   };
   const ox: Obj = { ...flowVals(s), ...passwordVals(s) };
   if (s.view === 'orders') Object.assign(ox, ordersVals(s));
-  if (s.view === 'pay') ox.p = payVals(s);
   if (s.view === 'profile' && portal.account(s)) Object.assign(ox, profileVals(s));
   return { ...v, ox, f, formCols: 'repeat(auto-fit,minmax(min(100%,280px),540px))' };
 }

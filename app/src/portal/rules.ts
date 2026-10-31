@@ -47,8 +47,6 @@ export function orderStatusLabel(order: Order, account?: Account | null): string
     case 'accepted':
       if (account && account.status !== 'approved') return 'بانتظار اعتماد الحساب';
       if (order.payment.state === 'verifying') return 'بانتظار التحقق من التحويل';
-      if (order.payment.state === 'unconfirmed') return 'جارٍ تأكيد الدفع';
-      if (order.payment.state === 'failed') return 'فشل الدفع';
       return 'بانتظار الدفع';
     case 'preparing':
       return 'قيد التجهيز';
@@ -64,11 +62,11 @@ export type Tone = 'info' | 'warn' | 'bad' | 'prog' | 'ok';
 
 /** Colour family for the status chip (matches the design's status tags). */
 export function orderTone(order: Order, account?: Account | null): Tone {
-  if (order.status === 'rejected' || order.payment.state === 'failed') return 'bad';
+  if (order.status === 'rejected') return 'bad';
   if (order.status === 'review') return 'info';
   if (order.status === 'accepted') {
     if (account && account.status !== 'approved') return 'info';
-    return order.payment.state === 'verifying' || order.payment.state === 'unconfirmed' ? 'info' : 'warn';
+    return order.payment.state === 'verifying' ? 'info' : 'warn';
   }
   if (order.status === 'completed') return 'ok';
   return 'prog';
@@ -134,56 +132,31 @@ export function nextStep(order: Order, account: Account | null | undefined, sar:
         desc: 'قُبل طلبك، ويتاح الدفع فور اعتماد حسابك من الجهة المختصة.',
       };
     }
-    const p = order.payment;
-    if (p.state === 'verifying') {
+    if (order.payment.state === 'verifying') {
       return {
         tone: 'info',
         icon: 'bank',
         title: 'بانتظار التحقق من التحويل',
-        desc: 'استلمنا إثبات التحويل ونتحقق منه. هذا لا يعني تأكيد الدفع، ويبدأ التجهيز بعد التحقق.',
-      };
-    }
-    if (p.state === 'unconfirmed') {
-      return {
-        tone: 'info',
-        icon: 'clock',
-        title: 'لم يتأكد الدفع بعد',
-        desc: 'لم تصلنا نتيجة العملية من جهة الدفع حتى الآن. لا تُعِد الدفع قبل تحديث الحالة حتى لا يُخصم المبلغ مرتين.',
-        action: 'refresh',
-        actionLabel: 'تحديث حالة الدفع',
-      };
-    }
-    if (p.state === 'failed') {
-      return {
-        tone: 'bad',
-        icon: 'x',
-        title: 'لم تكتمل عملية الدفع',
-        desc: (p.failReason || 'تعذّر إتمام الدفع.') + ' لم يُخصم أي مبلغ، والطلب ما زال بانتظار الدفع.',
-        action: 'retry',
-        actionLabel: 'إعادة المحاولة',
-      };
-    }
-    if (p.method === 'transfer') {
-      return {
-        tone: 'gold',
-        icon: 'bank',
-        title: 'بانتظار التحويل البنكي',
-        desc: 'حوّل ' + sar(order.total) + ' واكتب رقم الطلب كمرجع، ثم أرسل إثبات التحويل. لن يبدأ التجهيز قبل التحقق.',
-        action: 'transfer',
-        actionLabel: 'عرض بيانات التحويل',
+        desc: 'استلمنا إيصال الدفع، ونراجع التحويل خلال يوم عمل واحد. يبدأ تجهيز طلبك بعد التحقق.',
       };
     }
     return {
       tone: 'gold',
-      icon: 'card',
-      title: 'تمت الموافقة — الدفع مطلوب',
-      desc: 'يمكنك الآن دفع ' + sar(order.total) + ' لبدء تجهيز طلبك.',
+      icon: 'bank',
+      title: 'تمت الموافقة — ارفع إثبات الدفع',
+      desc: 'حوّل ' + sar(order.total) + ' خارج المنصة واكتب رقم الطلب كمرجع، ثم ارفع صورة أو ملف الإيصال لنتحقق منه ونبدأ التجهيز.',
       action: 'pay',
-      actionLabel: 'إتمام الدفع',
+      actionLabel: 'رفع إثبات الدفع',
     };
   }
   if (order.status === 'preparing') {
-    return { tone: 'ok', icon: 'ok', title: 'تم الدفع — الطلب قيد التجهيز', desc: 'تم تأكيد الدفع. نحضّر طلبك في المستودع وسنرسل لك التحديثات عبر الجوال.', invoice: true };
+    return {
+      tone: 'ok',
+      icon: 'ok',
+      title: 'تم تأكيد الدفع — بدء تجهيز طلبك',
+      desc: 'تحققنا من إيصال الدفع وبدأ تجهيز طلبك. تجد موعد ومكان الاستلام أدناه، وسنرسل التحديثات عبر الجوال.',
+      invoice: true,
+    };
   }
   if (order.status === 'ready') {
     return {
@@ -222,28 +195,20 @@ export function orderStages(order: Order, account?: Account | null): Stage[] {
     order.status === 'review'
       ? 'يتاح الدفع بعد قبول الطلب' + (approvedAcct ? '' : ' واعتماد حسابك')
       : paid
-        ? (p.method === 'transfer' ? 'تحويل بنكي' : p.method === 'applepay' ? 'Apple Pay' : 'مدى') + ' — مدفوع'
+        ? 'تم التحقق من إيصال الدفع'
         : !approvedAcct
           ? 'يتاح الدفع بعد اعتماد حسابك'
           : p.state === 'verifying'
-            ? 'تم استلام إثبات التحويل، وبانتظار التحقق منه. لن يبدأ التجهيز قبل التأكيد.'
-            : p.state === 'failed'
-              ? 'فشلت المحاولة الأخيرة. يمكنك إعادة المحاولة أو اختيار وسيلة دفع أخرى.'
-              : p.state === 'unconfirmed'
-                ? 'بانتظار نتيجة العملية من جهة الدفع.'
-                : 'تمت الموافقة على طلبك. يرجى إتمام الدفع لبدء التجهيز.';
+            ? 'استلمنا إيصال الدفع، ونراجع التحويل خلال يوم عمل واحد.'
+            : 'تمت الموافقة على طلبك. حوّل المبلغ وارفع إيصال الدفع لبدء التجهيز.';
   const payLabel = paid
     ? 'تم الدفع'
     : order.status === 'accepted'
       ? !approvedAcct
         ? 'بانتظار اعتماد الحساب'
-        : p.state === 'failed'
-          ? 'فشل الدفع'
-          : p.state === 'verifying'
-            ? 'بانتظار التحقق'
-            : p.state === 'unconfirmed'
-              ? 'جارٍ تأكيد الدفع'
-              : 'بانتظار الدفع'
+        : p.state === 'verifying'
+          ? 'بانتظار التحقق'
+          : 'بانتظار الدفع'
       : 'الدفع';
   const list: Array<Omit<Stage, 'done' | 'cur'>> = [
     { t: 'تم تقديم الطلب', sub: order.date },
@@ -252,7 +217,7 @@ export function orderStages(order: Order, account?: Account | null): Stage[] {
       sub: order.status === 'review' ? 'تراجع الجهة المختصة بيانات الطلب.' : 'تمت مراجعة البيانات والموافقة على الطلب.',
     },
     { t: payLabel, sub: paySub },
-    { t: 'قيد التجهيز', sub: paid ? 'نحضّر طلبك في المستودع' : 'يبدأ التجهيز بعد تأكيد الدفع' },
+    { t: 'قيد التجهيز', sub: paid ? 'بدء تجهيز طلبك' : 'يبدأ التجهيز بعد التحقق من الإيصال' },
     {
       t: pick ? 'جاهز للاستلام' : 'جاهز للشحن',
       sub: pick ? 'سنرسل رمز الاستلام عبر الجوال' : 'سنرسل رقم الشحنة عبر الجوال',

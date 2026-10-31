@@ -67,7 +67,13 @@ export interface Payment {
   failReason?: string;
   txn?: string;
   paidAt?: string;
+  /** Proof of payment uploaded by the customer (payment itself happens outside the portal). */
   proof?: string;
+  proofSize?: number;
+  proofType?: string;
+  proofAt?: string;
+  transferDate?: string;
+  sender?: string;
 }
 
 export interface OrderLine {
@@ -112,6 +118,8 @@ export interface Order {
   deliveryNotes: string;
   invoice: string;
   payment: Payment;
+  /** Expected pickup / delivery date, set when payment is confirmed. */
+  receiveDate?: string;
   /** Sample record that ships only with the demo tools. */
   sample?: boolean;
 }
