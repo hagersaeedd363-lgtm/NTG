@@ -7,7 +7,6 @@ import {
   Card,
   CardHeader,
   ChoiceCards,
-  DataGroup,
   Field,
   Hint,
   ICON,
@@ -245,89 +244,27 @@ function PurposeCard({ s }: { s: PortalState }) {
   );
 }
 
-function personalRows(a: Account) {
-  const id = a.identity;
-  return [
-    { k: 'الاسم الكامل', v: id.fullName, lock: true },
-    { k: 'رقم الهوية الوطنية / الإقامة', v: id.nationalId, ltr: true, lock: true },
-    { k: 'رقم الجوال', v: id.phone, ltr: true, lock: true },
-    { k: 'البريد الإلكتروني', v: id.email, ltr: true, lock: true },
-  ];
-}
-
-function companyRows(a: Account) {
-  const c = a.company!;
-  return [
-    { k: 'اسم المؤسسة', v: c.name, lock: true },
-    { k: 'السجل التجاري', v: c.cr, ltr: true, lock: true },
-    { k: 'نوع الجهة', v: c.entityType, lock: true },
-    { k: 'المنطقة والمدينة', v: [c.region, c.city].filter(Boolean).join(' — '), lock: true },
-  ];
-}
-
-function repRows(a: Account) {
-  const c = a.company!;
-  return [
-    { k: 'الاسم', v: c.repName, lock: true },
-    { k: 'رقم ' + (c.repIdType || 'الهوية'), v: c.repId, ltr: true, lock: true },
-    { k: 'رقم الجوال', v: c.repPhone, ltr: true, lock: true },
-    { k: 'البريد الإلكتروني', v: c.repEmail, ltr: true, lock: true },
-  ];
-}
-
 /** Registered and approved: confirm, summarise, and only ask for the order purpose. */
 function ExistingSummary({ s, a }: { s: PortalState; a: Account }) {
-  const open = s.flow.detailsOpen;
   const company = a.type === 'company' && a.company;
   return (
     <>
-      <Alert tone="ok" title="أنت مسجّل لدينا وحسابك معتمد.">
-        نكمل الطلب ببيانات حسابك المسجّلة، ولا تحتاج إلى إدخالها مرة أخرى.
-      </Alert>
       <Card>
-        <CardHeader icon={company ? ICON.bld : ICON.user} title="بيانات حسابك" desc="مسجّلة ومعتمدة. لتعديلها استخدم «تحديث البيانات» في حسابي." aside={<LockTag />} />
-        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 16, padding: '12px 16px', borderRadius: 16, background: 'var(--card-2)', boxShadow: 'inset 0 0 0 1px var(--line)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0, flex: '1 1 260px' }}>
-            <span style={{ width: 40, height: 40, flexShrink: 0, borderRadius: '50%', background: 'var(--gold-soft)', color: 'var(--gold-2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Icon d={company ? ICON.bld : ICON.user} />
+        <CardHeader icon={ICON.doc} title="تفاصيل الطلب" desc={company ? 'اختر الغرض الأقرب لهذا الطلب.' : 'نكمل طلبك ببيانات حسابك المعتمدة.'} />
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 10, fontSize: 14, color: 'var(--muted)' }}>
+          <span>الطلب باسم</span>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '4px 12px 4px 4px', borderRadius: 999, background: 'var(--card-2)', boxShadow: 'inset 0 0 0 1px var(--line)', minWidth: 0 }}>
+            <span style={{ width: 28, height: 28, flexShrink: 0, borderRadius: '50%', background: 'var(--gold-soft)', color: 'var(--gold-2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Icon d={company ? ICON.bld : ICON.user} size={15} />
             </span>
-            <span style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
-              <span style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-                <span style={{ fontSize: 16, fontWeight: 700, lineHeight: '24px', color: 'var(--ink)' }}>{a.identity.fullName}</span>
-                <Tag tone="ok" dot>
-                  حساب معتمد
-                </Tag>
-              </span>
-              <span style={{ fontSize: 13, lineHeight: '20px', color: 'var(--muted)', overflowWrap: 'anywhere' }}>
-                {company ? 'جهة · ' + company.name : 'فرد'}
-              </span>
-            </span>
-          </div>
-          <button
-            type="button"
-            onClick={() => portal.toggleDetails()}
-            aria-expanded={open}
-            aria-controls="acct-details"
-            style={{ height: 40, padding: '0 14px', borderRadius: 12, border: '1px solid var(--line)', background: 'var(--card)', display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 14, fontWeight: 600, color: 'var(--gold-on-soft)', cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap' }}
-            className="zp-019"
-          >
-            {open ? 'إخفاء التفاصيل' : 'عرض التفاصيل'}
-            <Icon d={ICON.chevron} size={16} style={{ transform: open ? 'rotate(180deg)' : 'none', transition: 'transform .2s' }} />
-          </button>
+            <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink)', overflowWrap: 'anywhere' }}>{company ? company.name : a.identity.fullName}</span>
+          </span>
+          <Tag tone="ok" dot>
+            حساب معتمد
+          </Tag>
         </div>
-        {open ? (
-          <div id="acct-details" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            <DataGroup icon={ICON.user} title="البيانات الشخصية" aside={<NafathTag>من نفاذ</NafathTag>} rows={personalRows(a)} />
-            {company ? (
-              <>
-                <DataGroup icon={ICON.bld} title="بيانات المنشأة" aside={<Tag tone="muted">معتمد</Tag>} rows={companyRows(a)} />
-                <DataGroup icon={ICON.shield} title="ممثل المؤسسة" aside={<Tag tone="muted">معتمد</Tag>} rows={repRows(a)} />
-              </>
-            ) : null}
-          </div>
-        ) : null}
+        {company ? <PurposeField s={s} hint={false} /> : null}
       </Card>
-      {company ? <PurposeCard s={s} /> : null}
       <ActionBar onBack={() => portal.back()} note={<RequiredNote hasErrors={hasErrors(s.errors)} />}>
         <PrimaryButton onClick={() => portal.nextFromAccount()} icon={ICON.arrowNext}>
           متابعة إلى المنتجات

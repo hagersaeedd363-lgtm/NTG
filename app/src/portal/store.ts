@@ -632,10 +632,6 @@ export class PortalStore {
     this.set((s) => ({ reg: { ...s.reg, crStatus: '', company: { ...s.reg.company, name: '', cr: '', region: '', city: '' } } }));
   }
 
-  toggleDetails() {
-    this.set((s) => ({ flow: { ...s.flow, detailsOpen: !s.flow.detailsOpen } }));
-  }
-
   private validateRegistration(errors: Errors) {
     const { type, company: c, crStatus } = this.state.reg;
     if (!type) errors.type = 'اختر نوع الحساب: فرد أو جهة';

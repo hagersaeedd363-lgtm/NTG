@@ -18,7 +18,7 @@ flowchart TD
   V -- account exists --> A{Account status}
   V -- no account, from Home --> REG1[التسجيل step<br/>Nafath data read-only · فرد/جهة · company form · غرض الطلب]
   V -- no account, from header --> REG2[استكمال بيانات الحساب<br/>read-only Nafath data · فرد/جهة · company form]
-  A -- approved, from Home --> SUM[بياناتك<br/>registered summary · details on demand · غرض الطلب]
+  A -- approved, from Home --> SUM[بياناتك<br/>«الطلب باسم» line · غرض الطلب]
   A -- from header --> HM[Home page<br/>«حسابي» in the header opens the account]
   HM -- approved --> P[حسابي]
   HM -- pending / rejected --> ST[Account status page<br/>restrictions · read-only data · existing orders]
@@ -94,7 +94,7 @@ All 20 run automatically: `node e2e/scenarios.mjs` (demo build). Demo IDs are li
 
 | # | Scenario | Start | Actions | Expected | Final state |
 | --- | --- | --- | --- | --- | --- |
-| 1 | Approved user orders from Home | Signed out | «اقتن» → Nafath `1012345678` → expand details → purpose → products → review → send | Registered summary, Nafath fields locked; purpose required | Order قيد المراجعة; no pay button |
+| 1 | Approved user orders from Home | Signed out | «اقتن» → Nafath `1012345678` → purpose → products → review → send | Compact «الطلب باسم» line, no account data or notice; purpose required | Order قيد المراجعة; no pay button |
 | 2 | New user, individual | Signed out | «اقتن» → Nafath new ID → فرد → products → review → send | «أنت غير مسجّل بعد»; read-only identity; type required; no order purpose for individuals | Account pending + order in review, shown separately |
 | 3 | New user, company | Signed out | جهة → «بيانات الجهة» card: نوع الجهة, غرض الطلب, company lookup (found) → rep ID type → send | Registry fields locked; rep fields prefilled from Nafath, editable; 50% discount | Account pending + order in review |
 | 4 | New user submits while pending | After #2 | Open the order | «حسابك وطلبك قيد المراجعة» | No pay action |
