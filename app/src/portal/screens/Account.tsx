@@ -250,19 +250,24 @@ function ExistingSummary({ s, a }: { s: PortalState; a: Account }) {
   return (
     <>
       <Card>
-        <CardHeader icon={ICON.doc} title="تفاصيل الطلب" desc={company ? 'اختر الغرض الأقرب لهذا الطلب.' : 'نكمل طلبك ببيانات حسابك المعتمدة.'} />
-        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 10, fontSize: 14, color: 'var(--muted)' }}>
-          <span>الطلب باسم</span>
-          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '4px 12px 4px 4px', borderRadius: 999, background: 'var(--card-2)', boxShadow: 'inset 0 0 0 1px var(--line)', minWidth: 0 }}>
-            <span style={{ width: 28, height: 28, flexShrink: 0, borderRadius: '50%', background: 'var(--gold-soft)', color: 'var(--gold-2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Icon d={company ? ICON.bld : ICON.user} size={15} />
+        <CardHeader
+          icon={ICON.doc}
+          title="تفاصيل الطلب"
+          desc={company ? 'اختر الغرض الأقرب لهذا الطلب.' : 'نكمل طلبك ببيانات حسابك المعتمدة.'}
+          aside={
+            <span title="الطلب باسم" style={{ display: 'inline-flex', flexWrap: 'wrap', alignItems: 'center' }}>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '6px 12px 6px 6px', borderRadius: 12, background: 'var(--card-2)', boxShadow: 'inset 0 0 0 1px var(--line)', minWidth: 0 }}>
+                <span style={{ width: 26, height: 26, flexShrink: 0, borderRadius: 8, background: 'var(--gold-soft)', color: 'var(--gold-2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Icon d={company ? ICON.bld : ICON.user} size={14} />
+                </span>
+                <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink)', overflowWrap: 'anywhere' }}>{company ? company.name : a.identity.fullName}</span>
+                <Tag tone="ok" dot>
+                  معتمد
+                </Tag>
+              </span>
             </span>
-            <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink)', overflowWrap: 'anywhere' }}>{company ? company.name : a.identity.fullName}</span>
-          </span>
-          <Tag tone="ok" dot>
-            حساب معتمد
-          </Tag>
-        </div>
+          }
+        />
         {company ? <PurposeField s={s} hint={false} /> : null}
       </Card>
       <ActionBar onBack={() => portal.back()} note={<RequiredNote hasErrors={hasErrors(s.errors)} />}>

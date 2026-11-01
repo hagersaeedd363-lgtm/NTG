@@ -125,7 +125,7 @@ const scenarios = [
       await c.startOrderFromHome();
       await c.see('ابدأ طلبك');
       await c.nafath(ID.company);
-      await c.see('الطلب باسم');
+      await c.see('معتمد');
       await c.notSee('أنت مسجّل لدينا وحسابك معتمد');
       await c.shot('summary');
       await c.click('متابعة إلى المنتجات');
@@ -241,7 +241,7 @@ const scenarios = [
       await c.landedHomeThenAccount();
       await c.see('تحديث البيانات');
       await c.startOrderFromHome();
-      await c.see('الطلب باسم');
+      await c.see('معتمد');
       return 'Lands on home; «حسابي» opens the profile; can start an order.';
     },
   },
