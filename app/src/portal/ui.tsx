@@ -292,15 +292,16 @@ const ALERT: Record<AlertTone, [string, string, string]> = {
 };
 
 /** Status banner. One colour and weight for the text, per the design's alert style. */
-export function Alert({ tone, title, children, icon, action }: { tone: AlertTone; title?: string; children?: ReactNode; icon?: string; action?: ReactNode }) {
+/** Notice row. `compact` is a single slim line for short notes. */
+export function Alert({ tone, title, children, icon, action, compact }: { tone: AlertTone; title?: string; children?: ReactNode; icon?: string; action?: ReactNode; compact?: boolean }) {
   const [bg, bd, fg] = ALERT[tone];
   return (
     <div
       role={tone === 'bad' ? 'alert' : 'status'}
-      style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 16, padding: 16, minHeight: 56, boxSizing: 'border-box', borderRadius: 12, border: '1px solid ' + bd, background: bg }}
+      style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: compact ? 10 : 16, padding: compact ? '8px 14px' : 16, minHeight: compact ? 40 : 56, boxSizing: 'border-box', borderRadius: 12, border: '1px solid ' + bd, background: bg }}
     >
       <span style={{ color: fg, display: 'flex', flexShrink: 0 }}>
-        <Icon d={icon || (tone === 'ok' ? ICON.check : tone === 'info' ? ICON.info : tone === 'warn' ? ICON.clock : ICON.alert)} size={24} sw={2} />
+        <Icon d={icon || (tone === 'ok' ? ICON.check : tone === 'info' ? ICON.info : tone === 'warn' ? ICON.clock : ICON.alert)} size={compact ? 18 : 24} sw={2} />
       </span>
       <span style={{ flex: '1 1 260px', minWidth: 0, fontSize: 14, fontWeight: 600, lineHeight: '24px', color: fg }}>
         {title ? <>{title} </> : null}

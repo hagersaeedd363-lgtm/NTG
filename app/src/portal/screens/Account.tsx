@@ -144,7 +144,6 @@ export function CompanyCards({ s, withPurpose }: { s: PortalState; withPurpose?:
           )}
         </div>
         {found ? <Alert tone="ok" title="وجدنا المؤسسة في السجل التجاري.">أكملنا اسمها وسجلها التجاري ومنطقتها ومدينتها. أكمل بيانات الممثل.</Alert> : null}
-        {reg.crStatus === 'notfound' ? <Alert tone="warn" title="لم نجد المؤسسة في السجل التجاري.">أدخل بياناتها يدوياً أدناه، وستراجعها الجهة المختصة.</Alert> : null}
       </Card>
 
       {looked ? (
@@ -285,8 +284,8 @@ export function AccountStep({ s }: { s: PortalState }) {
   const identity = s.verified!;
   return (
     <>
-      <Alert tone="warn" title="أنت غير مسجّل بعد.">
-        أكمل بيانات التسجيل أدناه، وستُرسل للمراجعة مع طلبك. يتاح الدفع بعد اعتماد حسابك وقبول الطلب.
+      <Alert tone="warn" compact title="أنت غير مسجّل بعد.">
+        أكمل بيانات التسجيل أدناه، وستُرسل للمراجعة مع طلبك.
       </Alert>
       <IdentityCard identity={identity} />
       <AccountTypeCard s={s} />
