@@ -150,7 +150,7 @@ const scenarios = [
     run: async (c) => {
       await c.startOrderFromHome();
       await c.nafath(ID.newUser);
-      await c.see('أنت غير مسجّل بعد');
+      await c.notSee('أكمل بيانات التسجيل أدناه');
       await c.see('من نفاذ · غير قابلة للتعديل');
       const ro = await c.p.locator('#id-name').getAttribute('readonly');
       if (ro === null) throw new Error('Nafath name field is editable');

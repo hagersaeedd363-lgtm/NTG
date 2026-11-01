@@ -284,9 +284,6 @@ export function AccountStep({ s }: { s: PortalState }) {
   const identity = s.verified!;
   return (
     <>
-      <Alert tone="warn" compact title="أنت غير مسجّل بعد.">
-        أكمل بيانات التسجيل أدناه، وستُرسل للمراجعة مع طلبك.
-      </Alert>
       <IdentityCard identity={identity} />
       <AccountTypeCard s={s} />
       {s.reg.type === 'company' ? <CompanyCards s={s} withPurpose /> : null}
