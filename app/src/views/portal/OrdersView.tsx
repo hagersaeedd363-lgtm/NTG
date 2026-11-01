@@ -588,54 +588,7 @@ export function OrdersView({ v }: { v: V }) {
                     </>
                   ) : null}
                 </span>
-                <span style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', alignSelf: 'center' }}>
-                  {v.ox?.od?.pn?.act ? (
-                    <>
-                      <button
-                        onClick={v.ox?.od?.pn?.onAct}
-                        style={{
-                          height: '36px',
-                          padding: '0 20px',
-                          borderRadius: '12px',
-                          border: '1px solid rgba(255,255,255,.2)',
-                          background: '#996C2E',
-                          color: '#fff',
-                          fontSize: '14px',
-                          fontWeight: '600',
-                          cursor: 'pointer',
-                          whiteSpace: 'nowrap',
-                        }}
-                        className="zp-002"
-                      >
-                        {v.ox?.od?.pn?.actLabel}
-                      </button>
-                    </>
-                  ) : null}
-                  {v.ox?.od?.pn?.act2 ? (
-                    <>
-                      <button
-                        onClick={v.ox?.od?.pn?.onAct2}
-                        style={{
-                          height: '36px',
-                          padding: '0 20px',
-                          borderRadius: '12px',
-                          border: '1px solid var(--line)',
-                          background: 'var(--card)',
-                          color: 'var(--ink)',
-                          fontSize: '14px',
-                          fontWeight: '500',
-                          cursor: 'pointer',
-                          whiteSpace: 'nowrap',
-                        }}
-                        className="zp-030"
-                      >
-                        {v.ox?.od?.pn?.act2Label}
-                      </button>
-                    </>
-                  ) : null}
-                </span>
               </div>
-              <OrderProofAndReceive id={v.ox?.od?.id} />
               <div
                 style={{
                   background: 'var(--card)',
@@ -799,6 +752,7 @@ export function OrdersView({ v }: { v: V }) {
                       </div>
                     </>
                   ) : null}
+                  <OrderProofAndReceive id={v.ox?.od?.id} />
                   <div
                     style={{
                       background: 'var(--card)',
@@ -1010,6 +964,12 @@ export function OrdersView({ v }: { v: V }) {
                     </div>
                     <div style={{ height: '1px', background: 'var(--line)', margin: '0 calc(-1*clamp(18px,2.5vw,28px))' }} />
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                      {v.ox?.od?.receiveDate ? (
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '16px', fontSize: '14px', lineHeight: '24px' }}>
+                          <span style={{ color: 'var(--muted)', flexShrink: '0' }}>{v.ox?.od?.receiveLabel}</span>
+                          <span style={{ color: 'var(--ink)', fontWeight: '600', textAlign: 'left', minWidth: '0' }}>{v.ox?.od?.receiveDate}</span>
+                        </div>
+                      ) : null}
                       <div
                         style={{
                           display: 'flex',

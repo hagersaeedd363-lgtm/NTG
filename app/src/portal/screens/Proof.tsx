@@ -72,17 +72,7 @@ function ProofUploadCard({ o, s }: { o: Order; s: PortalState }) {
   return (
     <section id="proof-upload" style={{ scrollMarginTop: 120 }}>
       <Card>
-        <CardHeader icon={ICON.bank} title="إثبات الدفع" desc="يتم الدفع خارج المنصة. حوّل المبلغ واكتب رقم الطلب كمرجع، ثم ارفع الإيصال لنتحقق منه." />
-        <InfoGrid
-          rows={[
-            ['المبلغ المستحق', portal.sar(o.total)],
-            ['مرجع التحويل', o.id, true],
-            ['رقم الآيبان', 'SA00 0000 0000 0000 0000 0000', true],
-            ['اسم المستفيد', 'اسم المستفيد (عيّنة)'],
-            ['اسم البنك', 'اسم البنك (عيّنة)'],
-          ]}
-        />
-        <div style={{ height: 1, background: 'var(--line)' }} />
+        <CardHeader icon={ICON.bank} title="إثبات الدفع" desc="ارفع صورة أو ملف إيصال التحويل لنتحقق منه." />
         <input
           ref={input}
           id="proof-file"
@@ -208,50 +198,11 @@ function ProofCard({ o }: { o: Order }) {
   );
 }
 
-/** Expected pickup / delivery date (set when payment is confirmed; estimated for older records). */
-function receiveDate(o: Order) {
-  if (o.receiveDate) return o.receiveDate;
-  const m = o.id.match(/(\d{4})(\d{2})(\d{2})/);
-  const d = m ? new Date(+m[1], +m[2] - 1, +m[3] + 5) : new Date();
-  return d.toLocaleDateString('ar-EG', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) + 'م';
-}
-
-/** Shown in the order details from «قيد التجهيز» on: when and where the order is received. */
-function ReceiveCard({ o }: { o: Order }) {
-  const pick = o.delivery.mode === 'pickup';
-  const done = o.status === 'completed';
-  const rows: Array<[string, string, boolean?]> = [
-    [done ? 'تاريخ الاستلام' : pick ? 'موعد الاستلام المتوقع' : 'موعد التوصيل المتوقع', receiveDate(o)],
-    ['طريقة الاستلام', pick ? 'الاستلام من المستودع' : 'التوصيل إلى العنوان'],
-    [pick ? 'المستودع' : 'العنوان', pick ? o.delivery.warehouse || '—' : o.delivery.mapAddress || o.delivery.nationalAddress || '—'],
-    ['المدينة', [o.delivery.region, o.delivery.city].filter(Boolean).join(' — ') || '—'],
-    ...(pick ? ([['أوقات الاستلام', 'الأحد – الخميس، ٨ صباحاً – ٤ مساءً']] as Array<[string, string]>) : []),
-    ['المستلم', o.receiver.name || o.contact.name || '—'],
-    ['جوال المستلم', o.receiver.phone || o.contact.phone || '—', true],
-  ];
-  return (
-    <Card>
-      <CardHeader
-        icon={ICON.box}
-        title={pick ? 'موعد ومكان الاستلام' : 'موعد وعنوان التوصيل'}
-        desc={o.status === 'preparing' ? 'بدأ تجهيز طلبك. أحضر رقم الطلب ورمز الاستلام الذي يصلك عبر الجوال.' : orderStatusLabel(o)}
-      />
-      <InfoGrid rows={rows} />
-    </Card>
-  );
-}
-
-/** Extra sections in the order details: the receipt, then the receive date and place once preparing. */
+/** «إثبات الدفع» in the order details: the upload while payment is due, then the sent receipt. */
 export function OrderProofAndReceive({ id }: { id?: string }) {
   const s = usePortal();
   const o = id ? portal.order(id, s) : undefined;
   if (!o) return null;
-  const receiving = o.status === 'preparing' || o.status === 'ready' || o.status === 'completed';
-  return (
-    <>
-      {receiving ? <ReceiveCard o={o} /> : null}
-      {isPayable(portal.account(s), o) ? <ProofUploadCard o={o} s={s} /> : <ProofCard o={o} />}
-    </>
-  );
+  return isPayable(portal.account(s), o) ? <ProofUploadCard o={o} s={s} /> : <ProofCard o={o} />;
 }
 

@@ -139,7 +139,7 @@ export function nextStep(order: Order, account: Account | null | undefined, sar:
         tone: 'ok',
         icon: 'ok',
         title: 'تم التحقق من الدفع',
-        desc: 'تحققنا من إيصال الدفع. سيبدأ تجهيز طلبك قريباً، ويظهر موعد ومكان الاستلام هنا عند بدء التجهيز.',
+        desc: 'تحققنا من إيصال الدفع، وسيبدأ تجهيز طلبك قريباً.',
         invoice: true,
       };
     }
@@ -165,7 +165,7 @@ export function nextStep(order: Order, account: Account | null | undefined, sar:
       tone: 'ok',
       icon: 'ok',
       title: 'تم تأكيد الدفع — بدء تجهيز طلبك',
-      desc: 'تحققنا من إيصال الدفع وبدأ تجهيز طلبك. تجد موعد ومكان الاستلام أدناه، وسنرسل التحديثات عبر الجوال.',
+      desc: 'تحققنا من إيصال الدفع وبدأ تجهيز طلبك. تجد الموعد المتوقع في «معلومات التوصيل»، وسنرسل التحديثات عبر الجوال.',
       invoice: true,
     };
   }

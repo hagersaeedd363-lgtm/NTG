@@ -85,6 +85,14 @@ function orderTotals(o: Order) {
   };
 }
 
+/** Expected pickup / delivery date: set when preparation starts, estimated for older records. */
+function receiveDateOf(o: Order) {
+  if (o.receiveDate) return o.receiveDate;
+  const m = o.id.match(/(\d{4})(\d{2})(\d{2})/);
+  const d = m ? new Date(+m[1], +m[2] - 1, +m[3] + 5) : new Date();
+  return d.toLocaleDateString('ar-EG', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) + 'م';
+}
+
 function orderDetail(o: Order, s: PortalState): Obj {
   const a = portal.account(s);
   const pn = nextStep(o, a, SAR);
@@ -129,6 +137,8 @@ function orderDetail(o: Order, s: PortalState): Obj {
     daysLeft: 'متبقي ' + AR(left) + (left >= 3 && left <= 10 ? ' أيام' : ' يوم'),
     payRef: 'ZW-REF-' + o.id.replace('ZM-', ''),
     invNo: o.invoice || '—',
+    receiveDate: ['preparing', 'ready', 'completed'].includes(o.status) ? receiveDateOf(o) : '',
+    receiveLabel: o.status === 'completed' ? 'تاريخ الاستلام' : o.delivery.mode === 'pickup' ? 'موعد الاستلام المتوقع' : 'موعد التوصيل المتوقع',
     dAddr: o.delivery.mode === 'pickup' ? o.delivery.warehouse || '—' : o.delivery.mapAddress || o.delivery.nationalAddress || o.delivery.city || '—',
     dNat: o.delivery.nationalAddress || '—',
     dCity: o.delivery.city || '—',

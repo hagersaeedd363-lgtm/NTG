@@ -483,7 +483,8 @@ const scenarios = [
       await c.see('ارفع إثبات الدفع');
       await c.see('اسحب الملف هنا أو اضغط للاختيار');
       await c.see('معلومات الطلب');
-      await c.click('رفع إثبات الدفع');
+      await c.noButton('رفع إثبات الدفع');
+      await c.notSee('رقم الآيبان');
       if (await c.p.getByRole('button', { name: 'إرسال للتحقق' }).isEnabled()) throw new Error('send must be disabled without a file');
       await upload({ name: 'notes.txt', mimeType: 'text/plain', buffer: Buffer.from('x') });
       await c.see('نوع الملف غير مدعوم');
@@ -513,7 +514,8 @@ const scenarios = [
       await c.click('بدء التجهيز', { nth: 0 });
       await c.see('بدء تجهيز طلبك');
       await c.see('موعد الاستلام المتوقع');
-      await c.see('أوقات الاستلام');
+      await c.see('معلومات التوصيل');
+      await c.notSee('موعد ومكان الاستلام');
       await c.shot('preparing');
       return 'Receipt validated and sent; verification gives «تم التحقق من الدفع»; preparing shows the receive date and place.';
     },
