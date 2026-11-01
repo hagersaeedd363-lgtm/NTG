@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { portal, type PortalState } from '../store';
 import type { Account } from '../types';
 import { ETYPES, PILL_ICONS, REGIONS } from '../../data/portal';
@@ -68,101 +68,100 @@ export function DoneScreen({ s }: { s: PortalState }) {
     ['بريد المستلم', o.receiver.email || o.contact.email || '—', true],
     ['الكمية', AR(units) + ' كرتون'],
   ];
+  const vat = o.vat || Math.round(o.total - o.total / 1.15);
+  const panel = (title: string, tag: ReactNode, body: ReactNode) => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12, padding: 20, borderRadius: 16, background: 'var(--card-2)', boxShadow: 'inset 0 0 0 1px var(--line)', minWidth: 0 }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
+        <span style={{ fontSize: 16, fontWeight: 600, color: 'var(--ink)' }}>{title}</span>
+        {tag}
+      </div>
+      {body}
+    </div>
+  );
+  const line = (text: string, ltr?: boolean, strong?: boolean) => (
+    <span dir={ltr ? 'ltr' : undefined} style={{ fontSize: strong ? 15 : 14, fontWeight: strong ? 600 : 400, lineHeight: '22px', color: strong ? 'var(--ink)' : 'var(--ink-2)', textAlign: 'right', overflowWrap: 'anywhere' }}>
+      {text}
+    </span>
+  );
   return (
-    <>
-      {/* Keeps the page height behind the dialog. */}
-      <div style={{ minHeight: 520 }} aria-hidden="true" />
-      <div
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="done-title"
-        style={{ position: 'fixed', inset: 0, zIndex: 110, background: 'rgba(12,13,14,.55)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16, animation: 'zzfade .25s ease both' }}
-      >
-        <div
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24, animation: 'zzfade .3s ease both' }}>
+      <Card style={{ alignItems: 'center', textAlign: 'center', padding: 'clamp(28px,4vw,48px)', gap: 16 }}>
+        <span style={{ width: 72, height: 72, borderRadius: '50%', background: 'rgba(46,160,90,.12)', color: '#2E8B57', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Icon d={ICON.check} size={34} sw={2} />
+        </span>
+        <h1 style={{ margin: 0, fontSize: 24, fontWeight: 600, lineHeight: '32px', color: 'var(--ink)' }}>{fresh ? 'تم إرسال طلبك وبيانات تسجيلك' : 'تم إرسال طلبك'}</h1>
+        <p style={{ margin: 0, fontSize: 16, lineHeight: '26px', color: 'var(--ink-2)', maxWidth: 620 }}>
+          {fresh
+            ? 'حفظنا بيانات تسجيلك وطلبك، وكلاهما الآن قيد المراجعة. لن يُطلب منك أي دفع قبل اعتماد حسابك وقبول الطلب.'
+            : 'طلبك الآن قيد مراجعة الجهة المختصة. لن يُطلب منك أي دفع قبل قبول الطلب.'}
+        </p>
+        <button
+          type="button"
+          onClick={copyId}
+          title="نسخ رقم الطلب"
           style={{
-            width: 'min(600px,100%)',
-            maxHeight: 'calc(100vh - 32px)',
-            overflowY: 'auto',
-            boxSizing: 'border-box',
-            background: 'var(--card)',
-            borderRadius: 24,
-            boxShadow: '0 24px 64px rgba(0,0,0,.28)',
-            padding: 'clamp(24px,4vw,36px)',
-            display: 'flex',
-            flexDirection: 'column',
+            display: 'inline-flex',
             alignItems: 'center',
-            textAlign: 'center',
-            gap: 14,
+            gap: 8,
+            height: 40,
+            padding: '0 16px',
+            borderRadius: 12,
+            border: '1px dashed var(--gold-3)',
+            background: 'var(--gold-soft)',
+            color: 'var(--gold-on-soft)',
+            fontSize: 15,
+            fontWeight: 700,
+            cursor: 'pointer',
+            fontFamily: 'inherit',
           }}
         >
-          <span style={{ width: 64, height: 64, borderRadius: '50%', background: 'rgba(46,160,90,.12)', color: '#2E8B57', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Icon d={ICON.check} size={30} sw={2} />
-          </span>
-          <h1 id="done-title" style={{ margin: 0, fontSize: 24, fontWeight: 700, lineHeight: '32px', color: 'var(--ink)' }}>
-            {fresh ? 'تم إرسال طلبك وبيانات تسجيلك' : 'تم إرسال طلبك'}
-          </h1>
-          <p style={{ margin: 0, fontSize: 15, lineHeight: '24px', color: 'var(--ink-2)' }}>
-            {fresh
-              ? 'حفظنا بيانات تسجيلك وطلبك، وكلاهما الآن قيد المراجعة. لن يُطلب منك أي دفع قبل اعتماد حسابك وقبول الطلب.'
-              : 'طلبك الآن قيد مراجعة الجهة المختصة. لن يُطلب منك أي دفع قبل قبول الطلب.'}
-          </p>
-          <button
-            type="button"
-            onClick={copyId}
-            title="نسخ رقم الطلب"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              height: 38,
-              padding: '0 14px',
-              borderRadius: 12,
-              border: '1px dashed var(--gold-3)',
-              background: 'var(--gold-soft)',
-              color: 'var(--gold-on-soft)',
-              fontSize: 15,
-              fontWeight: 700,
-              cursor: 'pointer',
-              fontFamily: 'inherit',
-            }}
-          >
-            <span dir="ltr">{o.id}</span>
-            <Icon d="M9 9h10v10H9zM5 15V5h10" size={16} />
-          </button>
-          <div style={{ width: '100%', marginTop: 6, padding: '4px 20px 20px', boxSizing: 'border-box', borderRadius: 18, background: 'var(--card-2)', boxShadow: 'inset 0 0 0 1px var(--line)', textAlign: 'right' }}>
-            <dl style={{ margin: 0 }}>
-              {rows.map(([k, v, ltr]) => (
-                <div key={k} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 16, padding: '11px 0', borderBottom: '1px dashed var(--line)' }}>
-                  <dt style={{ fontSize: 14, color: 'var(--muted)', flexShrink: 0 }}>{k}</dt>
-                  <dd dir={ltr ? 'ltr' : undefined} style={{ margin: 0, fontSize: 15, fontWeight: 600, color: 'var(--ink)', textAlign: 'left', overflowWrap: 'anywhere' }}>
-                    {v}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-            <div style={{ marginTop: 16, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, padding: '16px 20px', borderRadius: 16, background: GOLD, color: '#fff' }}>
-              <span style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <span style={{ fontSize: 15, fontWeight: 600 }}>الإجمالي</span>
-                <span style={{ fontSize: 13 }}>شامل ضريبة القيمة المضافة</span>
-              </span>
-              <span style={{ fontSize: 26, fontWeight: 700, lineHeight: 1.1, whiteSpace: 'nowrap' }}>{portal.sar(o.total)}</span>
-            </div>
-          </div>
-          <div style={{ width: '100%', display: 'flex', flexWrap: 'wrap', gap: 12, marginTop: 6 }}>
-            <span style={{ flex: '1 1 200px', display: 'flex' }}>
-              <PrimaryButton full onClick={() => portal.openOrders(o.id)} icon={ICON.arrowNext}>
-                متابعة الطلب
-              </PrimaryButton>
-            </span>
-            <span style={{ flex: '1 1 200px', display: 'flex' }}>
-              <SecondaryButton full onClick={() => portal.navigate('home')}>
-                العودة إلى الرئيسية
-              </SecondaryButton>
-            </span>
-          </div>
+          <span dir="ltr">{o.id}</span>
+          <Icon d="M9 9h10v10H9zM5 15V5h10" size={16} />
+        </button>
+      </Card>
+
+      <Card>
+        <CardHeader icon={ICON.doc} title="تفاصيل الطلب" desc="ملخص ما أرسلته، وتجده كاملاً في «طلباتي»." />
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(min(100%,260px),1fr))', gap: 16 }}>
+          {panel(
+            'طريقة الاستلام',
+            <Tag tone="info" dot>
+              {pick ? 'من المستودع' : 'توصيل'}
+            </Tag>,
+            <>
+              {line(pick ? 'الاستلام من المستودع' : 'التوصيل إلى العنوان', false, true)}
+              {line(rows[1][1])}
+            </>,
+          )}
+          {panel(
+            'المستلم',
+            <Tag tone="muted">بيانات التواصل</Tag>,
+            <>
+              {line(o.receiver.name || o.contact.name || '—', false, true)}
+              {line(o.receiver.phone || o.contact.phone || '—', true)}
+              {line(o.receiver.email || o.contact.email || '—', true)}
+            </>,
+          )}
+          {panel(
+            'الإجمالي',
+            <Tag tone="ok" dot>
+              شامل الضريبة
+            </Tag>,
+            <>
+              <span style={{ fontSize: 26, fontWeight: 700, lineHeight: '32px', color: 'var(--gold-on-soft)' }}>{portal.sar(o.total)}</span>
+              {line(AR(units) + ' كرتون · منها ضريبة القيمة المضافة ' + portal.sar(vat))}
+            </>,
+          )}
         </div>
-      </div>
-    </>
+      </Card>
+
+      <ActionBar>
+        <SecondaryButton onClick={() => portal.navigate('home')}>العودة إلى الرئيسية</SecondaryButton>
+        <PrimaryButton onClick={() => portal.openOrders(o.id)} icon={ICON.arrowNext}>
+          متابعة الطلب
+        </PrimaryButton>
+      </ActionBar>
+    </div>
   );
 }
 
