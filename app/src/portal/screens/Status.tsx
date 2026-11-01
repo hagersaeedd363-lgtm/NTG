@@ -367,27 +367,12 @@ export function BlockedOrderScreen({ s }: { s: PortalState }) {
 export function AccountStatusScreen({ s }: { s: PortalState }) {
   const a = portal.account(s);
   if (!a) return null;
-  const orders = portal.myOrders(s);
   const pending = a.status === 'pending';
   const c = a.company;
   const readOnly = <LockTag>للاطلاع فقط</LockTag>;
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24, animation: 'zzfade .3s ease both' }}>
-      {pending ? (
-        <Alert
-          tone="warn"
-          title="الوصول محدود حتى اعتماد حسابك."
-          action={
-            orders.length ? (
-              <SecondaryButton onClick={() => portal.openOrders()} style={{ height: 40 }}>
-                طلباتي
-              </SecondaryButton>
-            ) : undefined
-          }
-        >
-          لا يمكنك إنشاء طلبات جديدة أو الدفع قبل الاعتماد.{orders.length ? ' تابع طلبك المقدَّم من «طلباتي».' : ''}
-        </Alert>
-      ) : (
+      {pending ? null : (
         <Alert
           tone="bad"
           title={'سبب الرفض: ' + (a.rejectReason || 'لم تُذكر أسباب.')}

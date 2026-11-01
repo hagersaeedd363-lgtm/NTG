@@ -219,7 +219,7 @@ const scenarios = [
     run: async (c) => {
       await c.login(ID.pendingOrder);
       await c.see('حسابك قيد المراجعة');
-      await c.see('الوصول محدود حتى اعتماد حسابك');
+      await c.see('مراحل اعتماد الحساب');
       await c.see('مراحل اعتماد الحساب');
       await c.startOrderFromHome();
       await c.see('لا يمكنك إنشاء طلب جديد الآن');
@@ -227,7 +227,7 @@ const scenarios = [
       await c.see('متابعة طلبي');
       await c.shot('blocked');
       await c.click('عرض بيانات حسابي');
-      await c.see('الوصول محدود حتى اعتماد حسابك');
+      await c.see('مراحل اعتماد الحساب');
       await c.goto('#order');
       await c.notSee('متابعة إلى المنتجات');
       return 'Order entry shows a short blocked screen; account data stays under «حسابي».';
