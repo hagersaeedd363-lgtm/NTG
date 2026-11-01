@@ -111,6 +111,9 @@ class Ctx {
     await this.click('متابعة', { exact: true });
   }
   async review() {
+    for (const id of ['of-recvName', 'of-recvPhone', 'of-recvEmail']) {
+      if (!(await this.p.locator('#' + id).inputValue()).trim()) throw new Error('receiver field not prefilled: ' + id);
+    }
     await this.select('of-region', 'مكة المكرمة');
     await this.select('of-city', 'مكة المكرمة');
     await this.select('of-warehouse', 'مستودع كدي — مكة المكرمة');

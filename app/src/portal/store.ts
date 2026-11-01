@@ -658,8 +658,25 @@ export class PortalStore {
   }
 
   private goStep(step: Step) {
-    this.set((s) => ({ flow: { ...s.flow, step }, errors: {} }));
+    this.set((s) => {
+      const draft = step === 'review' ? this.withReceiverDefaults(s) : s.draft;
+      return { flow: { ...s.flow, step }, errors: {}, draft };
+    });
     this.scrollTop();
+  }
+
+  /** «من سيستلم الطلب؟» starts filled with the user's own data; only empty fields are filled. */
+  private withReceiverDefaults(s: PortalState): OrderDraft {
+    const d = s.draft;
+    const a = this.account(s);
+    const id = s.verified;
+    const rc = s.reg.company;
+    const c = a
+      ? this.contactOf(a)
+      : s.reg.type === 'company'
+        ? { name: rc.repName || id?.fullName || '', phone: rc.repPhone || id?.phone || '', email: rc.repEmail || id?.email || '' }
+        : { name: id?.fullName || '', phone: id?.phone || '', email: id?.email || '' };
+    return { ...d, recvName: d.recvName.trim() ? d.recvName : c.name, recvPhone: d.recvPhone.trim() ? d.recvPhone : c.phone, recvEmail: d.recvEmail.trim() ? d.recvEmail : c.email };
   }
 
   stepTo(step: Step) {
