@@ -170,30 +170,57 @@ interface FieldProps {
   autoComplete?: string;
   hint?: string;
   span?: boolean;
+  /** Element inside the field at its end (e.g. the show-password eye). */
+  trailing?: ReactNode;
 }
 
 /** Text field: white when empty, tinted once filled, red border and message on error. */
-export function Field({ id, label, value, onChange, error, required, placeholder, ltr, type = 'text', inputMode, maxLength, autoComplete, hint, span }: FieldProps) {
+/** Eye button for password fields: shows or hides the typed password. */
+export function EyeToggle({ shown, onToggle }: { shown: boolean; onToggle: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onToggle}
+      aria-label={shown ? 'إخفاء كلمة المرور' : 'إظهار كلمة المرور'}
+      aria-pressed={shown}
+      title={shown ? 'إخفاء كلمة المرور' : 'إظهار كلمة المرور'}
+      style={{ width: 40, height: 40, padding: 0, border: 0, borderRadius: 10, background: 'transparent', color: 'var(--muted)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+    >
+      <Icon d={shown ? 'M3 3l18 18M10.6 5.1A10.8 10.8 0 0 1 12 5c6.4 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.2M6.6 6.6C3.9 8.4 2 12 2 12s3.6 7 10 7a9.7 9.7 0 0 0 5.4-1.6M9.9 9.9a3 3 0 0 0 4.2 4.2' : 'M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z'} size={18} sw={1.8} />
+    </button>
+  );
+}
+
+export function Field({ id, label, value, onChange, error, required, placeholder, ltr, type = 'text', inputMode, maxLength, autoComplete, hint, span, trailing }: FieldProps) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8, minWidth: 0, gridColumn: span ? '1/-1' : undefined }}>
       <Label htmlFor={id} required={required}>
         {label}
       </Label>
-      <input
-        id={id}
-        type={type}
-        value={value}
-        onChange={(e) => onChange?.(e.target.value)}
-        placeholder={placeholder}
-        dir={ltr ? 'ltr' : undefined}
-        inputMode={inputMode}
-        maxLength={maxLength}
-        autoComplete={autoComplete}
-        aria-invalid={!!error}
-        aria-describedby={error ? id + '-err' : undefined}
-        style={{ ...inputBase, border: '1px solid ' + (error ? 'var(--danger)' : 'var(--line)'), background: value ? 'var(--card-2)' : 'var(--card)', textAlign: ltr ? 'right' : undefined }}
-        className="zp-020"
-      />
+      <span style={{ position: 'relative', display: 'block' }}>
+        <input
+          id={id}
+          type={type}
+          value={value}
+          onChange={(e) => onChange?.(e.target.value)}
+          placeholder={placeholder}
+          dir={ltr ? 'ltr' : undefined}
+          inputMode={inputMode}
+          maxLength={maxLength}
+          autoComplete={autoComplete}
+          aria-invalid={!!error}
+          aria-describedby={error ? id + '-err' : undefined}
+          style={{
+            ...inputBase,
+            border: '1px solid ' + (error ? 'var(--danger)' : 'var(--line)'),
+            background: value ? 'var(--card-2)' : 'var(--card)',
+            textAlign: ltr ? 'right' : undefined,
+            ...(trailing ? (ltr ? { paddingLeft: 48 } : { paddingInlineEnd: 48 }) : {}),
+          }}
+          className="zp-020"
+        />
+        {trailing ? <span style={{ position: 'absolute', top: 3, left: 4 }}>{trailing}</span> : null}
+      </span>
       {hint && !error ? <Hint>{hint}</Hint> : null}
       <FieldError id={id + '-err'} msg={error} />
     </div>

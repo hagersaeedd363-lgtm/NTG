@@ -4,6 +4,7 @@ import { DEMO_EMAIL_LOGIN, DEMO_ID_LIST } from "../fixtures";
 import { passwordRules, portal, type PortalState } from "../store";
 import {
   Alert,
+  EyeToggle,
   Field,
   ICON,
   Icon,
@@ -244,6 +245,7 @@ function ForgotPanel({ f }: { f: NonNullable<PortalState["auth"]["forgot"]> }) {
               ltr
               autoComplete="new-password"
               placeholder="٨ أحرف على الأقل"
+              trailing={<EyeToggle shown={f.show} onToggle={() => portal.setForgot({ show: !f.show })} />}
             />
             <Field
               id="fg-n2"
@@ -253,24 +255,8 @@ function ForgotPanel({ f }: { f: NonNullable<PortalState["auth"]["forgot"]> }) {
               type={f.show ? "text" : "password"}
               ltr
               autoComplete="new-password"
+              trailing={<EyeToggle shown={f.show} onToggle={() => portal.setForgot({ show: !f.show })} />}
             />
-            <label
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-                fontSize: 14,
-                color: "var(--ink-2)",
-                cursor: "pointer",
-              }}
-            >
-              <input
-                type="checkbox"
-                checked={f.show}
-                onChange={() => portal.setForgot({ show: !f.show })}
-              />
-              إظهار كلمة المرور
-            </label>
             <ul
               style={{
                 margin: 0,
