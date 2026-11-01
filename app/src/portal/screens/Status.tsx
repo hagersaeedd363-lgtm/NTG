@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { ACCOUNT_STATUS_LABEL, orderStatusLabel } from '../rules';
 import { portal, type PortalState } from '../store';
 import type { Account } from '../types';
 import { ETYPES, PILL_ICONS, REGIONS } from '../../data/portal';
@@ -28,33 +27,9 @@ import {
   formGrid,
 } from '../ui';
 import { IdentityCard } from './Account';
+import { InfoGrid } from './Proof';
 
 const AR = (n: number) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[+d]);
-
-function StatusRow({ label, tone, value, note }: { label: string; tone: 'info' | 'ok' | 'bad' | 'gold'; value: string; note: string }) {
-  return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 8,
-        padding: 16,
-        borderRadius: 16,
-        background: 'var(--card-2)',
-        boxShadow: 'inset 0 0 0 1px var(--line)',
-        minWidth: 0,
-      }}
-    >
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
-        <span style={{ fontSize: 15, fontWeight: 600, color: 'var(--ink)' }}>{label}</span>
-        <Tag tone={tone} dot>
-          {value}
-        </Tag>
-      </div>
-      <span style={{ fontSize: 14, lineHeight: '22px', color: 'var(--ink-2)' }}>{note}</span>
-    </div>
-  );
-}
 
 function companyRows(a: Account) {
   const c = a.company;
@@ -85,6 +60,7 @@ export function DoneScreen({ s }: { s: PortalState }) {
       ]
     : ['تراجع الجهة المختصة بيانات طلبك.', 'بعد قبول الطلب تحوّل المبلغ خارج المنصة وترفع إيصال الدفع من «طلباتي».', 'يبدأ تجهيز الطلب بعد التحقق من الإيصال.'];
   const units = o.lines.reduce((n, l) => n + l.qty, 0);
+  const pick = o.delivery.mode === 'pickup';
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24, animation: 'zzfade .3s ease both' }}>
       <Card style={{ alignItems: 'center', textAlign: 'center', padding: 'clamp(28px,4vw,48px)', gap: 16 }}>
@@ -139,26 +115,23 @@ export function DoneScreen({ s }: { s: PortalState }) {
           <span dir="ltr">{o.id}</span>
           <Icon d="M9 9h10v10H9zM5 15V5h10" size={16} />
         </button>
+        <div style={{ width: '100%', height: 1, background: 'var(--line)', margin: '8px 0' }} />
+        <div style={{ width: '100%', textAlign: 'right' }}>
+          <InfoGrid
+            rows={[
+              ['الإجمالي', portal.sar(o.total) + ' · ' + AR(units) + ' كرتون'],
+              ['طريقة الاستلام', pick ? 'الاستلام من المستودع' : 'التوصيل إلى العنوان'],
+              [pick ? 'المستودع' : 'العنوان', (pick ? o.delivery.warehouse : o.delivery.nationalAddress || o.delivery.mapAddress) || o.delivery.city || '—'],
+              ['المستلم', o.receiver.name || o.contact.name || '—'],
+              ['جوال المستلم', o.receiver.phone || o.contact.phone || '—', true],
+            ]}
+          />
+        </div>
       </Card>
 
       <Card>
-        <CardHeader icon={ICON.clock} title="الحالة الآن" desc="حالة الحساب وحالة الطلب قراران منفصلان، ونعرض كلاً منهما على حدة." />
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(min(100%,280px),1fr))', gap: 16 }}>
-          <StatusRow
-            label="حالة الحساب"
-            tone={fresh ? 'info' : 'ok'}
-            value={ACCOUNT_STATUS_LABEL[a.status]}
-            note={fresh ? 'تراجع الجهة المختصة بيانات تسجيلك.' : 'حسابك معتمد مسبقاً.'}
-          />
-          <StatusRow
-            label="حالة الطلب"
-            tone="info"
-            value={orderStatusLabel(o, a)}
-            note={AR(units) + ' كرتون · ' + portal.sar(o.total) + ' · ' + (o.delivery.mode === 'pickup' ? 'استلام من المستودع' : 'توصيل إلى العنوان')}
-          />
-        </div>
+        <CardHeader icon={ICON.clock} title="ماذا بعد؟" desc="نُشعرك عبر الجوال عند كل تحديث." />
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-          <span style={{ fontSize: 15, fontWeight: 600, color: 'var(--ink)' }}>ماذا بعد؟</span>
           <ol style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10 }}>
             {steps.map((t, i) => (
               <li key={t} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, fontSize: 15, lineHeight: '24px', color: 'var(--ink-2)' }}>

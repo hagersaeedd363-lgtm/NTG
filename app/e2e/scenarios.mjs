@@ -137,7 +137,8 @@ const scenarios = [
       await c.shot('review');
       await c.click('إرسال الطلب');
       await c.see('تم إرسال طلبك');
-      await c.see('حالة الطلب');
+      await c.see('الإجمالي');
+      await c.notSee('حالة الطلب');
       await c.noButton('إتمام الدفع');
       await c.shot('done');
       return 'Submitted; order «قيد المراجعة», no payment offered.';
@@ -161,10 +162,9 @@ const scenarios = [
       await c.click('متابعة إلى المنتجات');
       await c.products();
       await c.review();
-      await c.see('حسابك جديد، لذلك تُراجع بيانات تسجيلك وطلبك');
       await c.click('إرسال الطلب وبيانات التسجيل');
       await c.see('تم إرسال طلبك وبيانات تسجيلك');
-      await c.see('حالة الحساب');
+      await c.see('المستلم');
       await c.shot('done');
       return 'Account pending + order in review, shown separately.';
     },

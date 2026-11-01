@@ -116,49 +116,6 @@ export function ReviewStep({ v }: { v: V }) {
           animation: "zzfade .3s ease both",
         }}
       >
-        {v.ox?.isNewAcct ? (
-          <>
-            <div
-              role="note"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "12px",
-                padding: "16px",
-                minHeight: "56px",
-                boxSizing: "border-box",
-                borderRadius: "12px",
-                color: "var(--ink)",
-                fontSize: "14px",
-                lineHeight: "24px",
-                backgroundColor: "#1EACFF1F",
-                borderWidth: "1px",
-                borderStyle: "solid",
-                borderColor: "#2996D7",
-              }}
-            >
-              <span style={{ color: "var(--info)", display: "flex" }}>
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <circle cx="12" cy="12" r="9" />
-                  <path d="M12 11v5M12 8h.01" />
-                </svg>
-              </span>
-              <span style={{ color: "#0051A2", fontWeight: "600" }}>
-                {v.ox?.reviewNote}
-              </span>
-            </div>
-          </>
-        ) : null}
         <div
           style={{
             display: "flex",

@@ -41,7 +41,7 @@ function Thumb({ src, pdf, size = 64 }: { src: string; pdf: boolean; size?: numb
 }
 
 /** Label/value grid used by every card in the order details (three per line, one on phones). */
-function InfoGrid({ rows }: { rows: Array<[string, string, boolean?]> }) {
+export function InfoGrid({ rows }: { rows: Array<[string, string, boolean?]> }) {
   return (
     <dl style={{ margin: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(max(min(100%,200px),calc(33.333% - 14px)),1fr))', gap: '14px 20px' }}>
       {rows.map(([k, v, ltr]) => (
