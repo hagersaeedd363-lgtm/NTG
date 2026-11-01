@@ -54,7 +54,7 @@ export function DoneScreen({ s }: { s: PortalState }) {
   const pick = o.delivery.mode === 'pickup';
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24, animation: 'zzfade .3s ease both' }}>
-      <Card style={{ alignItems: 'center', textAlign: 'center', padding: 'clamp(28px,4vw,48px)', gap: 16 }}>
+      <Card style={{ alignItems: 'center', textAlign: 'center', padding: 'clamp(24px,4vw,40px)', gap: 16 }}>
         <span
           style={{
             width: 72,
@@ -109,9 +109,8 @@ export function DoneScreen({ s }: { s: PortalState }) {
         <div
           style={{
             width: '100%',
-            maxWidth: 560,
             marginTop: 8,
-            padding: 20,
+            padding: '12px 24px 24px',
             boxSizing: 'border-box',
             borderRadius: 20,
             background: 'var(--card-2)',
@@ -122,16 +121,17 @@ export function DoneScreen({ s }: { s: PortalState }) {
             textAlign: 'right',
           }}
         >
-          <dl style={{ margin: 0, display: 'flex', flexDirection: 'column' }}>
+          <dl style={{ margin: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(min(100%,320px),1fr))', columnGap: 40 }}>
             {(
               [
                 ['طريقة الاستلام', pick ? 'الاستلام من المستودع' : 'التوصيل إلى العنوان'],
                 [pick ? 'المستودع' : 'العنوان', (pick ? o.delivery.warehouse : o.delivery.nationalAddress || o.delivery.mapAddress) || o.delivery.city || '—'],
                 ['المستلم', o.receiver.name || o.contact.name || '—'],
                 ['جوال المستلم', o.receiver.phone || o.contact.phone || '—', true],
+                ['بريد المستلم', o.receiver.email || o.contact.email || '—', true],
                 ['الكمية', AR(units) + ' كرتون'],
               ] as Array<[string, string, boolean?]>
-            ).map(([k, v, ltr], idx) => (
+            ).map(([k, v, ltr]) => (
               <div
                 key={k}
                 style={{
@@ -139,8 +139,8 @@ export function DoneScreen({ s }: { s: PortalState }) {
                   justifyContent: 'space-between',
                   alignItems: 'baseline',
                   gap: 16,
-                  padding: '10px 0',
-                  borderTop: idx ? '1px dashed var(--line)' : undefined,
+                  padding: '12px 0',
+                  borderBottom: '1px dashed var(--line)',
                 }}
               >
                 <dt style={{ fontSize: 14, color: 'var(--muted)', flexShrink: 0 }}>{k}</dt>
