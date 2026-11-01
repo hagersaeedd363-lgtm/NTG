@@ -45,16 +45,24 @@ function lineView(l: Order['lines'][number]) {
 function stagesView(o: Order, s: PortalState) {
   const stg = orderStages(o, portal.account(s));
   return stg.map((st, i) => {
-    const bg = st.bad ? 'var(--danger)' : st.done || st.cur ? GOLD : 'var(--card)';
+    // Same look as the step indicator at the top of the order form: check when done, number otherwise.
+    const bg = st.bad ? 'var(--danger)' : st.done ? GOLD : 'var(--card)';
     return {
       ...st,
-      showDot: st.cur,
+      num: AR(i + 1),
+      numColor: st.bad ? '#fff' : st.cur ? 'var(--gold-2)' : 'var(--muted)',
       bg,
-      ring: st.cur ? (st.bad ? '0 0 0 4px rgba(180,55,42,.18)' : '0 0 0 4px var(--gold-soft)') : st.done ? 'none' : 'inset 0 0 0 1.5px var(--line)',
+      ring: st.bad
+        ? '0 0 0 5px rgba(180,55,42,.18)'
+        : st.cur
+          ? 'inset 0 0 0 1.5px ' + GOLD + ',0 0 0 5px var(--gold-soft)'
+          : st.done
+            ? 'none'
+            : 'inset 0 0 0 1px var(--line)',
       line: st.done ? GOLD : 'var(--line)',
       lineDisp: i < stg.length - 1 ? 'block' : 'none',
       fw: st.cur ? '700' : '500',
-      color: st.done || st.cur ? 'var(--ink)' : 'var(--muted)',
+      color: st.bad ? 'var(--danger)' : st.cur ? 'var(--gold-2)' : st.done ? 'var(--ink)' : 'var(--muted)',
       subColor: st.bad ? 'var(--danger)' : st.cur ? 'var(--gold-on-soft)' : 'var(--muted)',
       bBg: i === 0 ? 'transparent' : st.done || st.cur ? GOLD : 'var(--line)',
       aBg: i === stg.length - 1 ? 'transparent' : st.done ? GOLD : 'var(--line)',

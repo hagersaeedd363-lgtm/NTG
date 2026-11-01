@@ -551,7 +551,7 @@ export function OrdersView({ v }: { v: V }) {
               <div
                 role="status"
                 style={css(
-                  `display: flex; flex-wrap: wrap; align-items: flex-start; gap: 16px; padding: 16px 24px; min-height: 56px; box-sizing: border-box; border-radius: 12px; background: ${v.ox?.od?.alBg ?? ''}; border: 1px solid ${v.ox?.od?.alBd ?? ''}; border-color: #88C0F8; border-width: 1px`,
+                  `display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 8px 16px; min-height: 44px; box-sizing: border-box; border-radius: 12px; background: ${v.ox?.od?.alBg ?? ''}; border: 1px solid ${v.ox?.od?.alBd ?? ''}`,
                 )}
               >
                 <span
@@ -571,8 +571,8 @@ export function OrdersView({ v }: { v: V }) {
                     <path d={v.ox?.od?.pn?.ic} />
                   </svg>
                 </span>
-                <span style={{ flex: '1 1 280px', minWidth: '0', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <span style={css(`font-size:14px;font-weight:600;line-height:24px;color:${v.ox?.od?.alFg ?? ''}`)}>
+                <span style={{ flex: '1 1 280px', minWidth: '0', display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '8px' }}>
+                  <span style={css(`font-size:14px;font-weight:600;line-height:22px;color:${v.ox?.od?.alFg ?? ''}`)}>
                     {v.ox?.od?.pn?.title} · {v.ox?.od?.pn?.desc}
                     {v.ox?.od?.waitPay ? <> · مستحق قبل {v.ox?.od?.dueLabel}</> : null}
                   </span>
@@ -580,7 +580,7 @@ export function OrdersView({ v }: { v: V }) {
                     <>
                       <span
                         style={css(
-                          `align-self:flex-start;display:inline-flex;align-items:center;gap:8px;height:24px;padding:0 12px;border-radius:8px;background:${v.ox?.od?.alFg ?? ''};color:#fff;font-size:12px;font-weight:500;line-height:24px;white-space:nowrap`,
+                          `display:inline-flex;align-items:center;gap:8px;height:24px;padding:0 12px;border-radius:8px;background:${v.ox?.od?.alFg ?? ''};color:#fff;font-size:12px;font-weight:500;line-height:24px;white-space:nowrap`,
                         )}
                       >
                         خصم {v.ox?.od?.discPct} · وفّرت {v.ox?.od?.savedLabel}
@@ -594,7 +594,7 @@ export function OrdersView({ v }: { v: V }) {
                       <button
                         onClick={v.ox?.od?.pn?.onAct}
                         style={{
-                          height: '40px',
+                          height: '36px',
                           padding: '0 20px',
                           borderRadius: '12px',
                           border: '1px solid rgba(255,255,255,.2)',
@@ -616,7 +616,7 @@ export function OrdersView({ v }: { v: V }) {
                       <button
                         onClick={v.ox?.od?.pn?.onAct2}
                         style={{
-                          height: '40px',
+                          height: '36px',
                           padding: '0 20px',
                           borderRadius: '12px',
                           border: '1px solid var(--line)',
@@ -690,7 +690,7 @@ export function OrdersView({ v }: { v: V }) {
                           <span style={css(`flex:1;height:2px;border-radius:1px;background:${ts?.bBg ?? ''}`)} />
                           <span
                             style={css(
-                              `width:32px;height:32px;flex-shrink:0;border-radius:50%;background:${ts?.bg ?? ''};box-shadow:${ts?.ring ?? ''};color:#fff;display:flex;align-items:center;justify-content:center;margin:0 8px`,
+                              `width:36px;height:36px;flex-shrink:0;border-radius:50%;background:${ts?.bg ?? ''};box-shadow:${ts?.ring ?? ''};color:#fff;display:flex;align-items:center;justify-content:center;margin:0 8px;font-size:14px;font-weight:700`,
                             )}
                           >
                             {ts?.done ? (
@@ -709,7 +709,9 @@ export function OrdersView({ v }: { v: V }) {
                                   <path d="M5 12.5l4.5 4.5L19 7.5" />
                                 </svg>
                               </>
-                            ) : null}
+                            ) : (
+                              <span style={css(`color:${ts?.numColor ?? ''}`)}>{ts?.num}</span>
+                            )}
                           </span>
                           <span style={css(`flex:1;height:2px;border-radius:1px;background:${ts?.aBg ?? ''}`)} />
                         </div>
