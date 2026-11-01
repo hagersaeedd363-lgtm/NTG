@@ -278,6 +278,15 @@ const scenarios = [
       await c.click('إرسال للمراجعة', { exact: true });
       await c.see('اختر نوع الحساب');
       await c.click(/^فرد/, { role: 'radio' });
+      if (await c.p.locator('#reg-pw1').count()) throw new Error('password fields must start hidden');
+      await c.click('تعيين كلمة مرور الآن', { role: 'switch' });
+      await c.fill('كلمة المرور', 'abc');
+      await c.click('إرسال للمراجعة', { exact: true });
+      await c.see('كلمة المرور لا تستوفي الشروط');
+      await c.p.locator('#reg-pw1').fill('Zamzam2026');
+      await c.p.locator('#reg-pw2').fill('Zamzam2026');
+      await c.tick(100);
+      await c.shot('register-password');
       await c.click('إرسال للمراجعة', { exact: true });
       await c.see('تم إرسال بيانات تسجيلك');
       await c.see('حسابك قيد المراجعة');
@@ -285,6 +294,7 @@ const scenarios = [
       await c.click('العودة إلى الرئيسية');
       await c.landedHomeThenAccount();
       await c.see('حسابك قيد المراجعة');
+      await c.see('تغيير كلمة المرور');
       await c.shot('pending');
       await c.startOrderFromHome();
       await c.see('يمكنك الطلب بعد اعتماد حسابك');

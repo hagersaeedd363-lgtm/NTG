@@ -1,5 +1,5 @@
 import { ETYPES, PILL_ICONS, PURPOSES, REGIONS } from '../../data/portal';
-import { portal, type PortalState } from '../store';
+import { passwordRules, portal, type PortalState } from '../store';
 import type { Account, Identity } from '../types';
 import {
   ActionBar,
@@ -9,6 +9,7 @@ import {
   ChoiceCards,
   Field,
   formGrid,
+  GOLD,
   Hint,
   Icon,
   ICON,
@@ -297,6 +298,59 @@ export function AccountStep({ s }: { s: PortalState }) {
 }
 
 /** Flow B: registration without an order. */
+/** Optional email-sign-in password while registering from the header. Off by default. */
+function PasswordOptionCard({ s, email }: { s: PortalState; email: string }) {
+  const p = s.regPw;
+  const rules = passwordRules(p.n1, p.n2);
+  return (
+    <Card>
+      <CardHeader
+        icon={ICON.lock}
+        title="تسجيل الدخول بالبريد الإلكتروني"
+        desc={'اختياري: عيّن كلمة مرور لتسجيل الدخول ببريدك ' + email + ' إلى جانب نفاذ.'}
+        divider={p.on}
+        aside={
+          <button
+            type="button"
+            role="switch"
+            aria-checked={p.on}
+            onClick={() => portal.setRegPw({ on: !p.on })}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: 0, border: 0, background: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: 14, fontWeight: 600, color: 'var(--ink)' }}
+          >
+            تعيين كلمة مرور الآن
+            <span style={{ width: 44, height: 24, borderRadius: 999, background: p.on ? GOLD : 'var(--line)', position: 'relative', transition: 'background .2s', flexShrink: 0 }}>
+              <span style={{ position: 'absolute', top: 3, insetInlineStart: p.on ? 23 : 3, width: 18, height: 18, borderRadius: '50%', background: '#fff', boxShadow: '0 1px 3px rgba(0,0,0,.25)', transition: 'inset-inline-start .2s' }} />
+            </span>
+          </button>
+        }
+      />
+      {p.on ? (
+        <>
+          <div style={formGrid}>
+            <Field id="reg-pw1" label="كلمة المرور" value={p.n1} onChange={(v) => portal.setRegPw({ n1: v })} type={p.show ? 'text' : 'password'} ltr autoComplete="new-password" placeholder="٨ أحرف على الأقل" />
+            <Field id="reg-pw2" label="تأكيد كلمة المرور" value={p.n2} onChange={(v) => portal.setRegPw({ n2: v })} type={p.show ? 'text' : 'password'} ltr autoComplete="new-password" />
+          </div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+            <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexWrap: 'wrap', gap: '6px 20px' }}>
+              {rules.map((r) => (
+                <li key={r.t} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: r.ok ? 'var(--al-ok-fg)' : 'var(--muted)' }}>
+                  <Icon d={r.ok ? ICON.check : ICON.info} size={15} sw={2} />
+                  {r.t}
+                </li>
+              ))}
+            </ul>
+            <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: 'var(--ink-2)', cursor: 'pointer' }}>
+              <input type="checkbox" checked={p.show} onChange={() => portal.setRegPw({ show: !p.show })} />
+              إظهار كلمة المرور
+            </label>
+          </div>
+          {s.errors.regPw ? <Alert tone="bad" compact title={s.errors.regPw} /> : null}
+        </>
+      ) : null}
+    </Card>
+  );
+}
+
 export function RegisterScreen({ s }: { s: PortalState }) {
   const identity = s.verified!;
   return (
@@ -310,6 +364,7 @@ export function RegisterScreen({ s }: { s: PortalState }) {
         ]}
       />
       <IdentityCard identity={identity} />
+      <PasswordOptionCard s={s} email={identity.email} />
       <AccountTypeCard s={s} />
       {s.reg.type === 'company' ? <CompanyCards s={s} /> : null}
       <ActionBar onBack={() => portal.backToLogin()} note={<RequiredNote hasErrors={hasErrors(s.errors)} />}>

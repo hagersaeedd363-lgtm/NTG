@@ -75,7 +75,7 @@ export function IconTile({ d, size = 40 }: { d: string; size?: number }) {
 }
 
 /** Card title row: icon tile, title, one-line description, optional trailing element, then a divider. */
-export function CardHeader({ icon, title, desc, aside }: { icon: string; title: string; desc?: string; aside?: ReactNode }) {
+export function CardHeader({ icon, title, desc, aside, divider = true }: { icon: string; title: string; desc?: string; aside?: ReactNode; divider?: boolean }) {
   return (
     <>
       <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 12, minHeight: 40 }}>
@@ -88,7 +88,7 @@ export function CardHeader({ icon, title, desc, aside }: { icon: string; title: 
         </div>
         {aside}
       </div>
-      <div style={{ height: 1, background: 'var(--line)', margin: '0 calc(-1*clamp(18px,2.5vw,28px))' }} />
+      {divider ? <div style={{ height: 1, background: 'var(--line)', margin: '0 calc(-1*clamp(18px,2.5vw,28px))' }} /> : null}
     </>
   );
 }

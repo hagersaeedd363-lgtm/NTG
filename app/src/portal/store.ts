@@ -117,6 +117,8 @@ export interface PortalState {
   pw: { step: 0 | 1 | 2 | 3; otp: string; n0: string; n1: string; n2: string; show: boolean; err: string };
   /** The «سجّل دخولك أسرع» password suggestion was dismissed. */
   pwHintOff: boolean;
+  /** Optional password chosen while registering from the header (kept in memory only). */
+  regPw: { on: boolean; n1: string; n2: string; show: boolean };
   photo: string;
   map: { open: boolean; query: string; busy: boolean; err: string; addr: string; point: { lat: number; lng: number } | null };
   loc: { busy: boolean; err: string };
@@ -191,6 +193,7 @@ function initialState(): PortalState {
     edit: null,
     pw: { step: 0, otp: '', n0: '', n1: '', n2: '', show: false, err: '' },
     pwHintOff: false,
+    regPw: { on: false, n1: '', n2: '', show: false },
     photo: '',
     map: { open: false, query: '', busy: false, err: '', addr: '', point: null },
     loc: { busy: false, err: '' },
@@ -446,6 +449,7 @@ export class PortalStore {
     this.set((s) => ({
       verified: identity,
       reg: { type: '', company: { ...emptyCompany(), repName: identity.fullName, repId: identity.nationalId, repIdType: 'هوية وطنية', repPhone: identity.phone, repEmail: identity.email }, crQuery: '', crStatus: '' },
+      regPw: { on: false, n1: '', n2: '', show: false },
       draft: { ...s.draft, recvName: identity.fullName, recvPhone: identity.phone, recvEmail: identity.email },
       errors: {},
     }));
@@ -791,9 +795,15 @@ export class PortalStore {
   }
 
   /** Flow B: submit a registration without an order. */
+  setRegPw(p: Partial<PortalState['regPw']>) {
+    this.set((s) => ({ regPw: { ...s.regPw, ...p }, errors: { ...s.errors, regPw: '' } }));
+  }
+
   submitRegistration() {
     const errors: Errors = {};
     this.validateRegistration(errors);
+    const rp = this.state.regPw;
+    if (rp.on && !passwordRules(rp.n1, rp.n2).every((r) => r.ok)) errors.regPw = 'كلمة المرور لا تستوفي الشروط. أكملها أو أوقف «تعيين كلمة مرور الآن».';
     if (Object.values(errors).some(Boolean)) return this.set({ errors });
     const s = this.state;
     const identity = s.verified!;
@@ -806,8 +816,10 @@ export class PortalStore {
       entry: 'register',
       submittedAt: arDate(),
       ...(type === 'company' ? { company: { ...c, repIdType: c.repIdType as Company['repIdType'], registryMatch: crStatus === 'found' } } : {}),
+      ...(rp.on ? { password: rp.n1 } : {}),
     };
     this.set((st) => ({
+      regPw: { on: false, n1: '', n2: '', show: false },
       db: { ...st.db, accounts: { ...st.db.accounts, [acct.nationalId]: acct } },
       session: { nationalId: acct.nationalId, method: 'nafath' },
       verified: null,
