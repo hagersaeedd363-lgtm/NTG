@@ -647,42 +647,7 @@ export function OrdersView({ v }: { v: V }) {
                   gap: '20px',
                 }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <span
-                    style={{
-                      width: '40px',
-                      height: '40px',
-                      flexShrink: '0',
-                      borderRadius: '12px',
-                      background: 'var(--card-2)',
-                      boxShadow: 'inset 0 0 0 1px var(--line)',
-                      color: 'var(--gold-2)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    <svg
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.7"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      aria-hidden="true"
-                    >
-                      <path d="M3 7h11v9H3zM14 10h4l3 3v3h-7zM7 19a1.5 1.5 0 1 0 0-.01M17 19a1.5 1.5 0 1 0 0-.01" />
-                    </svg>
-                  </span>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0', minWidth: '0' }}>
-                    <h2 style={{ margin: '0', fontSize: '16px', fontWeight: '600', lineHeight: '24px', color: 'var(--ink)' }}>مسار الطلب</h2>
-                    <p style={{ margin: '0', fontSize: '13px', lineHeight: '20px', color: 'var(--muted)' }}>تابع مراحل طلبك حتى التسليم.</p>
-                  </div>
-                </div>
-                <div style={{ height: '1px', background: 'var(--line)', margin: '0 calc(-1*clamp(18px,2.5vw,28px))' }} />
-                <div style={{ display: 'flex', overflowX: 'auto', padding: '8px 4px' }} className="zz-orders-tabs">
+                <div role="group" aria-label="مسار الطلب" style={{ display: 'flex', overflowX: 'auto', padding: '8px 4px' }} className="zz-orders-tabs">
                   {list(v.ox?.od?.stages).map((ts: any, $index: number) => (
                     <Fragment key={$index}>
                       <div style={{ flex: '1 0 140px', minWidth: '0', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
@@ -927,41 +892,6 @@ export function OrdersView({ v }: { v: V }) {
                           </span>
                         </span>
                       </div>
-                      {v.ox?.od?.hasEtype ? (
-                        <>
-                          <div
-                            style={{
-                              display: 'flex',
-                              justifyContent: 'space-between',
-                              alignItems: 'flex-start',
-                              gap: '16px',
-                              fontSize: '14px',
-                              lineHeight: '24px',
-                            }}
-                          >
-                            <span style={{ color: 'var(--muted)', flexShrink: '0' }}>نوع الجهة</span>
-                            <span style={{ color: 'var(--ink)', fontWeight: '500', textAlign: 'left', minWidth: '0' }}>
-                              <span
-                                style={{
-                                  display: 'inline-flex',
-                                  alignItems: 'center',
-                                  height: '24px',
-                                  padding: '0 10px',
-                                  borderRadius: '8px',
-                                  background: 'var(--gold-soft)',
-                                  color: 'var(--gold-on-soft)',
-                                  boxShadow: 'inset 0 0 0 1px var(--gold-3)',
-                                  fontSize: '12px',
-                                  fontWeight: '500',
-                                  whiteSpace: 'nowrap',
-                                }}
-                              >
-                                {v.ox?.od?.pEtype}
-                              </span>
-                            </span>
-                          </div>
-                        </>
-                      ) : null}
                       <div
                         style={{
                           display: 'flex',
