@@ -308,7 +308,8 @@ export function RegisterScreen({ s }: { s: PortalState }) {
         steps={[
           { label: 'التحقق عبر نفاذ', done: true, cur: false },
           { label: 'بيانات الحساب', done: false, cur: true },
-          { label: 'المراجعة والاعتماد', done: false, cur: false },
+          { label: 'الإرسال للمراجعة', done: false, cur: false },
+          { label: 'اعتماد الحساب', done: false, cur: false },
         ]}
       />
       <IdentityCard identity={identity} />

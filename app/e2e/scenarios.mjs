@@ -275,10 +275,10 @@ const scenarios = [
       await c.see('بيانات الحساب');
       await c.notSee('بعد الإرسال يصبح حسابك قيد المراجعة');
       await c.shot('register');
-      await c.click('إرسال للمراجعة');
+      await c.click('إرسال للمراجعة', { exact: true });
       await c.see('اختر نوع الحساب');
       await c.click(/^فرد/, { role: 'radio' });
-      await c.click('إرسال للمراجعة');
+      await c.click('إرسال للمراجعة', { exact: true });
       await c.see('تم إرسال بيانات تسجيلك');
       await c.see('حسابك قيد المراجعة');
       await c.shot('registered');
