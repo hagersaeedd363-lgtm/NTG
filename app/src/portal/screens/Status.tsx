@@ -27,8 +27,8 @@ import {
   formGrid,
 } from '../ui';
 import { IdentityCard } from './Account';
-import { InfoGrid } from './Proof';
 
+const TRUCK = 'M3 7h11v9H3zM14 10h4l3 3v3h-7zM7 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM17 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z';
 const AR = (n: number) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[+d]);
 
 function companyRows(a: Account) {
@@ -51,14 +51,6 @@ export function DoneScreen({ s }: { s: PortalState }) {
   const o = portal.order(s.lastOrderId, s);
   if (!a || !o) return null;
   const fresh = a.status === 'pending' && a.entry === 'order';
-  const steps = fresh
-    ? [
-        'تراجع الجهة المختصة بيانات حسابك وطلبك.',
-        'نُشعرك بقرار اعتماد الحساب وقبول الطلب، كلٌّ على حدة.',
-        'بعد اعتماد الحساب وقبول الطلب تحوّل المبلغ خارج المنصة وترفع إيصال الدفع من «طلباتي».',
-        'يبدأ تجهيز الطلب بعد تأكيد الدفع.',
-      ]
-    : ['تراجع الجهة المختصة بيانات طلبك.', 'بعد قبول الطلب تحوّل المبلغ خارج المنصة وترفع إيصال الدفع من «طلباتي».', 'يبدأ تجهيز الطلب بعد التحقق من الإيصال.'];
   const units = o.lines.reduce((n, l) => n + l.qty, 0);
   const pick = o.delivery.mode === 'pickup';
   return (
@@ -115,49 +107,38 @@ export function DoneScreen({ s }: { s: PortalState }) {
           <span dir="ltr">{o.id}</span>
           <Icon d="M9 9h10v10H9zM5 15V5h10" size={16} />
         </button>
-        <div style={{ width: '100%', height: 1, background: 'var(--line)', margin: '8px 0' }} />
-        <div style={{ width: '100%', textAlign: 'right' }}>
-          <InfoGrid
-            rows={[
-              ['الإجمالي', portal.sar(o.total) + ' · ' + AR(units) + ' كرتون'],
-              ['طريقة الاستلام', pick ? 'الاستلام من المستودع' : 'التوصيل إلى العنوان'],
-              [pick ? 'المستودع' : 'العنوان', (pick ? o.delivery.warehouse : o.delivery.nationalAddress || o.delivery.mapAddress) || o.delivery.city || '—'],
-              ['المستلم', o.receiver.name || o.contact.name || '—'],
-              ['جوال المستلم', o.receiver.phone || o.contact.phone || '—', true],
-            ]}
-          />
-        </div>
-      </Card>
-
-      <Card>
-        <CardHeader icon={ICON.clock} title="ماذا بعد؟" desc="نُشعرك عبر الجوال عند كل تحديث." />
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-          <ol style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10 }}>
-            {steps.map((t, i) => (
-              <li key={t} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, fontSize: 15, lineHeight: '24px', color: 'var(--ink-2)' }}>
-                <span
-                  style={{
-                    width: 24,
-                    height: 24,
-                    borderRadius: '50%',
-                    background: 'var(--gold-soft)',
-                    color: 'var(--gold-on-soft)',
-                    fontSize: 12,
-                    fontWeight: 700,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexShrink: 0,
-                  }}
-                >
-                  {AR(i + 1)}
+        <div
+          style={{
+            width: '100%',
+            maxWidth: 880,
+            marginTop: 8,
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit,minmax(min(100%,220px),1fr))',
+            gap: 12,
+            textAlign: 'right',
+          }}
+        >
+          {(
+            [
+              [ICON.card, 'الإجمالي', portal.sar(o.total), AR(units) + ' كرتون', true],
+              [pick ? ICON.box : TRUCK, 'طريقة الاستلام', pick ? 'الاستلام من المستودع' : 'التوصيل إلى العنوان', (pick ? o.delivery.warehouse : o.delivery.nationalAddress || o.delivery.mapAddress) || o.delivery.city || '—'],
+              [ICON.user, 'المستلم', o.receiver.name || o.contact.name || '—', o.receiver.phone || o.contact.phone || '—'],
+            ] as Array<[string, string, string, string, boolean?]>
+          ).map(([ic, k, v, sub, strong]) => (
+            <div key={k} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, padding: 16, borderRadius: 16, background: 'var(--card-2)', boxShadow: 'inset 0 0 0 1px var(--line)', minWidth: 0 }}>
+              <span style={{ width: 40, height: 40, flexShrink: 0, borderRadius: 12, background: 'var(--gold-soft)', color: 'var(--gold-on-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Icon d={ic} size={20} />
+              </span>
+              <span style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+                <span style={{ fontSize: 13, lineHeight: '20px', color: 'var(--muted)' }}>{k}</span>
+                <span style={{ fontSize: strong ? 20 : 16, fontWeight: 700, lineHeight: strong ? '28px' : '24px', color: strong ? 'var(--gold-on-soft)' : 'var(--ink)', overflowWrap: 'anywhere' }}>{v}</span>
+                <span dir={k === 'المستلم' ? 'ltr' : undefined} style={{ fontSize: 13, lineHeight: '20px', color: 'var(--ink-2)', textAlign: 'right', overflowWrap: 'anywhere' }}>
+                  {sub}
                 </span>
-                {t}
-              </li>
-            ))}
-          </ol>
+              </span>
+            </div>
+          ))}
         </div>
-        {fresh ? <Alert tone="info">لا يمكنك إنشاء طلب آخر قبل اعتماد حسابك. يمكنك متابعة هذا الطلب من طلباتي.</Alert> : null}
       </Card>
 
       <ActionBar>
