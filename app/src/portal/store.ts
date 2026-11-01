@@ -1045,7 +1045,7 @@ export class PortalStore {
       /* ignore */
     }
     this.state = initialState();
-    this.set({ demo: { panelOpen: true } });
+    this.set((s) => ({ demo: { ...s.demo, panelOpen: true } }));
     this.navigate('home');
     this.toast('تمت إعادة ضبط بيانات المعاينة');
   }
