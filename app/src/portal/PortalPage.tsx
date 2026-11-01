@@ -8,7 +8,7 @@ import { ReviewStep } from '../views/portal/ReviewStep';
 import { DemoPanel } from './DemoPanel';
 import { AccountStep, RegisterScreen } from './screens/Account';
 import { AuthScreen, NafathDialog } from './screens/Auth';
-import { AccountStatusScreen, BlockedOrderScreen, DoneScreen, EditProfileScreen } from './screens/Status';
+import { AccountStatusScreen, BlockedOrderScreen, DoneScreen, EditProfileScreen, RegisteredScreen } from './screens/Status';
 import { createOrderBlockReason } from './rules';
 import { portal, usePortal, type PortalState } from './store';
 import { Alert, ICON, SecondaryButton, Stepper } from './ui';
@@ -108,6 +108,9 @@ export function PortalPage({ v }: { v: V }) {
       break;
     case 'blocked':
       body = <BlockedOrderScreen s={s} />;
+      break;
+    case 'registered':
+      body = <RegisteredScreen s={s} />;
       break;
     case 'profile':
       body = (

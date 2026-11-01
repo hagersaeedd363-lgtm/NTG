@@ -277,6 +277,10 @@ const scenarios = [
       await c.see('اختر نوع الحساب');
       await c.click(/^فرد/, { role: 'radio' });
       await c.click('إرسال للمراجعة');
+      await c.see('تم إرسال بيانات تسجيلك');
+      await c.see('حسابك قيد المراجعة');
+      await c.shot('registered');
+      await c.click('العودة إلى الرئيسية');
       await c.landedHomeThenAccount();
       await c.see('حسابك قيد المراجعة');
       await c.shot('pending');

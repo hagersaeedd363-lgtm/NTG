@@ -45,6 +45,48 @@ function companyRows(a: Account) {
   ];
 }
 
+/** Label/value rows in a light panel (up to three per line), used by the success screens. */
+function SummaryPanel({ rows }: { rows: Array<[string, string, boolean?]> }) {
+  return (
+    <div
+      style={{
+        width: '100%',
+        marginTop: 8,
+        padding: '12px 24px 24px',
+        boxSizing: 'border-box',
+        borderRadius: 20,
+        background: 'var(--card-2)',
+        boxShadow: 'inset 0 0 0 1px var(--line)',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 16,
+        textAlign: 'right',
+      }}
+    >
+      <dl style={{ margin: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(min(100%,320px),1fr))', columnGap: 40 }}>
+        {rows.map(([k, v, ltr]) => (
+          <div
+            key={k}
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'baseline',
+              gap: 16,
+              padding: '12px 0',
+              borderBottom: '1px dashed var(--line)',
+            }}
+          >
+            <dt style={{ fontSize: 14, color: 'var(--muted)', flexShrink: 0 }}>{k}</dt>
+            <dd dir={ltr ? 'ltr' : undefined} style={{ margin: 0, fontSize: 15, fontWeight: 600, color: 'var(--ink)', textAlign: 'left', overflowWrap: 'anywhere' }}>
+              {v}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  );
+}
+
 export function DoneScreen({ s }: { s: PortalState }) {
   const a = portal.account(s);
   const o = portal.order(s.lastOrderId, s);
@@ -106,57 +148,67 @@ export function DoneScreen({ s }: { s: PortalState }) {
           <span dir="ltr">{o.id}</span>
           <Icon d="M9 9h10v10H9zM5 15V5h10" size={16} />
         </button>
-        <div
-          style={{
-            width: '100%',
-            marginTop: 8,
-            padding: '12px 24px 24px',
-            boxSizing: 'border-box',
-            borderRadius: 20,
-            background: 'var(--card-2)',
-            boxShadow: 'inset 0 0 0 1px var(--line)',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 16,
-            textAlign: 'right',
-          }}
-        >
-          <dl style={{ margin: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(min(100%,320px),1fr))', columnGap: 40 }}>
-            {(
-              [
+        <SummaryPanel
+          rows={[
                 ['طريقة الاستلام', pick ? 'الاستلام من المستودع' : 'التوصيل إلى العنوان'],
                 [pick ? 'المستودع' : 'العنوان', (pick ? o.delivery.warehouse : o.delivery.nationalAddress || o.delivery.mapAddress) || o.delivery.city || '—'],
                 ['المستلم', o.receiver.name || o.contact.name || '—'],
                 ['جوال المستلم', o.receiver.phone || o.contact.phone || '—', true],
                 ['بريد المستلم', o.receiver.email || o.contact.email || '—', true],
                 ['الكمية', AR(units) + ' كرتون'],
-              ] as Array<[string, string, boolean?]>
-            ).map(([k, v, ltr]) => (
-              <div
-                key={k}
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'baseline',
-                  gap: 16,
-                  padding: '12px 0',
-                  borderBottom: '1px dashed var(--line)',
-                }}
-              >
-                <dt style={{ fontSize: 14, color: 'var(--muted)', flexShrink: 0 }}>{k}</dt>
-                <dd dir={ltr ? 'ltr' : undefined} style={{ margin: 0, fontSize: 15, fontWeight: 600, color: 'var(--ink)', textAlign: 'left', overflowWrap: 'anywhere' }}>
-                  {v}
-                </dd>
-              </div>
-            ))}
-          </dl>
-        </div>
+              ]}
+        />
       </Card>
 
       <ActionBar>
         <SecondaryButton onClick={() => portal.navigate('home')}>العودة إلى الرئيسية</SecondaryButton>
         <PrimaryButton onClick={() => portal.openOrders(o.id)} icon={ICON.arrowNext}>
           متابعة الطلب
+        </PrimaryButton>
+      </ActionBar>
+    </div>
+  );
+}
+
+/** Shown after registering from the header: the account is submitted for review. */
+export function RegisteredScreen({ s }: { s: PortalState }) {
+  const a = portal.account(s);
+  if (!a) return null;
+  const c = a.type === 'company' ? a.company : undefined;
+  const id = a.identity;
+  const rows: Array<[string, string, boolean?]> = [
+    ['نوع الحساب', c ? 'جهة' : 'فرد'],
+    ['الاسم الكامل', id.fullName],
+    ['رقم الهوية الوطنية / الإقامة', id.nationalId, true],
+    ['رقم الجوال', id.phone, true],
+    ['البريد الإلكتروني', id.email, true],
+    ...(c
+      ? ([
+          ['اسم المؤسسة', c.name],
+          ['السجل التجاري', c.cr, true],
+          ['نوع الجهة', c.entityType],
+        ] as Array<[string, string, boolean?]>)
+      : []),
+  ];
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24, animation: 'zzfade .3s ease both' }}>
+      <Card style={{ alignItems: 'center', textAlign: 'center', padding: 'clamp(24px,4vw,40px)', gap: 16 }}>
+        <span style={{ width: 72, height: 72, borderRadius: '50%', background: 'rgba(46,160,90,.12)', color: '#2E8B57', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Icon d={ICON.check} size={34} sw={2} />
+        </span>
+        <h1 style={{ margin: 0, fontSize: 24, fontWeight: 600, lineHeight: '32px', color: 'var(--ink)' }}>تم إرسال بيانات تسجيلك</h1>
+        <p style={{ margin: 0, fontSize: 16, lineHeight: '26px', color: 'var(--ink-2)', maxWidth: 620 }}>
+          تراجع الجهة المختصة بياناتك الآن، وسنُشعرك فور اعتماد حسابك. بعدها يمكنك إنشاء طلباتك.
+        </p>
+        <Tag tone="info" dot>
+          حسابك قيد المراجعة
+        </Tag>
+        <SummaryPanel rows={rows} />
+      </Card>
+      <ActionBar>
+        <SecondaryButton onClick={() => portal.openProfile()}>عرض حسابي</SecondaryButton>
+        <PrimaryButton onClick={() => portal.goHome()} icon={ICON.arrowNext}>
+          العودة إلى الرئيسية
         </PrimaryButton>
       </ActionBar>
     </div>

@@ -10,7 +10,7 @@ import { DEMO_IDS, initialDb, sampleIdentity } from './fixtures';
 import { canCreateOrder, computeTotals, createOrderBlockReason, isPayable } from './rules';
 import type { Account, AccountType, AuthMethod, ChangeRequest, Company, Db, Identity, Order, PaymentMethod } from './types';
 
-export type View = 'auth' | 'register' | 'flow' | 'done' | 'status' | 'blocked' | 'profile' | 'editProfile' | 'password' | 'orders' | 'pay';
+export type View = 'auth' | 'register' | 'flow' | 'done' | 'registered' | 'status' | 'blocked' | 'profile' | 'editProfile' | 'password' | 'orders' | 'pay';
 export type Entry = 'order' | 'login' | 'register';
 export type Step = 'account' | 'products' | 'review';
 export type Errors = Record<string, string>;
@@ -383,7 +383,7 @@ export class PortalStore {
     const a = this.account();
     if (!a) return ['auth', 'register', 'flow', 'done'].includes(view) ? view : 'auth';
     if (a.status !== 'approved') {
-      return ['status', 'blocked', 'orders', 'done', 'password'].includes(view) ? view : 'status';
+      return ['status', 'blocked', 'registered', 'orders', 'done', 'password'].includes(view) ? view : 'status';
     }
     return view === 'auth' || view === 'register' || view === 'blocked' ? 'profile' : view;
   }
@@ -811,11 +811,10 @@ export class PortalStore {
       db: { ...st.db, accounts: { ...st.db.accounts, [acct.nationalId]: acct } },
       session: { nationalId: acct.nationalId, method: 'nafath' },
       verified: null,
-      view: 'status',
+      view: 'registered',
       errors: {},
     }));
-    this.toast('تم إرسال طلب التسجيل للمراجعة. تابع حالته من «حسابي».');
-    this.navigate('home');
+    this.scrollTop();
   }
 
   // ------------------------------------------------------------------ orders list
@@ -1064,6 +1063,8 @@ export class PortalStore {
       case 'register':
         return { tag: 'حساب جديد', title: 'إنشاء حساب جديد', lead: 'اختر نوع الحساب وأكمل البيانات المطلوبة، ثم أرسلها للمراجعة.', inAccount: false };
       case 'flow':
+      case 'registered':
+        return { tag: 'حساب جديد', title: 'إنشاء حساب جديد', lead: 'أُرسلت بيانات تسجيلك للمراجعة.', inAccount: false };
       case 'blocked':
         if (!a || a.status === 'approved') return order;
         return { ...order, lead: a.status === 'rejected' ? 'تعذّر اعتماد حسابك، لذلك لا يمكن إنشاء طلبات.' : 'يمكنك الطلب بعد اعتماد حسابك.' };

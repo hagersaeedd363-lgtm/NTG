@@ -29,7 +29,7 @@ flowchart TD
   REG1 --> PR
   RV -- approved user --> D1[تم إرسال طلبك<br/>order قيد المراجعة]
   RV -- new user --> D2[تم إرسال طلبك وبيانات تسجيلك<br/>account + order قيد المراجعة]
-  REG2 --> HM
+  REG2 --> RGD[تم إرسال بيانات تسجيلك<br/>summary · العودة إلى الرئيسية · عرض حسابي] --> HM
   D1 --> O[طلباتي]
   D2 --> O
   O -- payable only --> PAY[إثبات الدفع<br/>payment outside the portal · upload receipt]
