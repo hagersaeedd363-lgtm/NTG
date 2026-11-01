@@ -137,7 +137,7 @@ const scenarios = [
       await c.shot('review');
       await c.click('إرسال الطلب');
       await c.see('تم إرسال طلبك');
-      await c.see('الإجمالي');
+      await c.see('طريقة الاستلام');
       await c.notSee('حالة الطلب');
       await c.noButton('إتمام الدفع');
       await c.shot('done');
@@ -190,6 +190,8 @@ const scenarios = [
       await c.see('الخصم');
       await c.click('إرسال الطلب وبيانات التسجيل');
       await c.see('تم إرسال طلبك وبيانات تسجيلك');
+      await c.notSee('يُدفع بعد قبول الطلب');
+      await c.shot('done');
       return 'Registry match locked company fields; non-profit discount applied.';
     },
   },

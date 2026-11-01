@@ -151,13 +151,6 @@ export function DoneScreen({ s }: { s: PortalState }) {
             ))}
           </dl>
         </div>
-        <div style={{ alignSelf: 'center', width: 'min(100%, 520px)', boxSizing: 'border-box', textAlign: 'right', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, padding: '16px 20px', borderRadius: 16, background: GOLD, color: '#fff' }}>
-          <span style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <span style={{ fontSize: 15, fontWeight: 600 }}>الإجمالي</span>
-            <span style={{ fontSize: 13 }}>شامل ضريبة القيمة المضافة</span>
-          </span>
-          <span style={{ fontSize: 28, fontWeight: 700, lineHeight: 1.1, whiteSpace: 'nowrap' }}>{portal.sar(o.total)}</span>
-        </div>
       </Card>
 
       <ActionBar>
