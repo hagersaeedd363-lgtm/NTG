@@ -28,7 +28,6 @@ import {
 } from '../ui';
 import { IdentityCard } from './Account';
 
-const TRUCK = 'M3 7h11v9H3zM14 10h4l3 3v3h-7zM7 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM17 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z';
 const AR = (n: number) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[+d]);
 
 function companyRows(a: Account) {
@@ -110,34 +109,54 @@ export function DoneScreen({ s }: { s: PortalState }) {
         <div
           style={{
             width: '100%',
-            maxWidth: 880,
+            maxWidth: 560,
             marginTop: 8,
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit,minmax(min(100%,220px),1fr))',
-            gap: 12,
+            padding: 20,
+            boxSizing: 'border-box',
+            borderRadius: 20,
+            background: 'var(--card-2)',
+            boxShadow: 'inset 0 0 0 1px var(--line)',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 16,
             textAlign: 'right',
           }}
         >
-          {(
-            [
-              [ICON.card, 'الإجمالي', portal.sar(o.total), AR(units) + ' كرتون', true],
-              [pick ? ICON.box : TRUCK, 'طريقة الاستلام', pick ? 'الاستلام من المستودع' : 'التوصيل إلى العنوان', (pick ? o.delivery.warehouse : o.delivery.nationalAddress || o.delivery.mapAddress) || o.delivery.city || '—'],
-              [ICON.user, 'المستلم', o.receiver.name || o.contact.name || '—', o.receiver.phone || o.contact.phone || '—'],
-            ] as Array<[string, string, string, string, boolean?]>
-          ).map(([ic, k, v, sub, strong]) => (
-            <div key={k} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, padding: 16, borderRadius: 16, background: 'var(--card-2)', boxShadow: 'inset 0 0 0 1px var(--line)', minWidth: 0 }}>
-              <span style={{ width: 40, height: 40, flexShrink: 0, borderRadius: 12, background: 'var(--gold-soft)', color: 'var(--gold-on-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Icon d={ic} size={20} />
-              </span>
-              <span style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
-                <span style={{ fontSize: 13, lineHeight: '20px', color: 'var(--muted)' }}>{k}</span>
-                <span style={{ fontSize: strong ? 20 : 16, fontWeight: 700, lineHeight: strong ? '28px' : '24px', color: strong ? 'var(--gold-on-soft)' : 'var(--ink)', overflowWrap: 'anywhere' }}>{v}</span>
-                <span dir={k === 'المستلم' ? 'ltr' : undefined} style={{ fontSize: 13, lineHeight: '20px', color: 'var(--ink-2)', textAlign: 'right', overflowWrap: 'anywhere' }}>
-                  {sub}
-                </span>
-              </span>
-            </div>
-          ))}
+          <dl style={{ margin: 0, display: 'flex', flexDirection: 'column' }}>
+            {(
+              [
+                ['طريقة الاستلام', pick ? 'الاستلام من المستودع' : 'التوصيل إلى العنوان'],
+                [pick ? 'المستودع' : 'العنوان', (pick ? o.delivery.warehouse : o.delivery.nationalAddress || o.delivery.mapAddress) || o.delivery.city || '—'],
+                ['المستلم', o.receiver.name || o.contact.name || '—'],
+                ['جوال المستلم', o.receiver.phone || o.contact.phone || '—', true],
+                ['الكمية', AR(units) + ' كرتون'],
+              ] as Array<[string, string, boolean?]>
+            ).map(([k, v, ltr], idx) => (
+              <div
+                key={k}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'baseline',
+                  gap: 16,
+                  padding: '10px 0',
+                  borderTop: idx ? '1px dashed var(--line)' : undefined,
+                }}
+              >
+                <dt style={{ fontSize: 14, color: 'var(--muted)', flexShrink: 0 }}>{k}</dt>
+                <dd dir={ltr ? 'ltr' : undefined} style={{ margin: 0, fontSize: 15, fontWeight: 600, color: 'var(--ink)', textAlign: 'left', overflowWrap: 'anywhere' }}>
+                  {v}
+                </dd>
+              </div>
+            ))}
+          </dl>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, padding: '18px 20px', borderRadius: 16, background: GOLD, color: '#fff' }}>
+            <span style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+              <span style={{ fontSize: 15, fontWeight: 600 }}>الإجمالي</span>
+              <span style={{ fontSize: 13 }}>شامل ضريبة القيمة المضافة</span>
+            </span>
+            <span style={{ fontSize: 28, fontWeight: 700, lineHeight: 1.1, whiteSpace: 'nowrap' }}>{portal.sar(o.total)}</span>
+          </div>
         </div>
       </Card>
 
