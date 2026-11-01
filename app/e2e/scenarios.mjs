@@ -272,7 +272,9 @@ const scenarios = [
       await c.see('إنشاء حساب جديد');
       if (await c.p.getByRole('tab').count()) throw new Error('registration should offer Nafath only');
       await c.nafath(ID.newUser);
-      await c.see('استكمال بيانات الحساب');
+      await c.see('بيانات الحساب');
+      await c.notSee('بعد الإرسال يصبح حسابك قيد المراجعة');
+      await c.shot('register');
       await c.click('إرسال للمراجعة');
       await c.see('اختر نوع الحساب');
       await c.click(/^فرد/, { role: 'radio' });

@@ -8,12 +8,12 @@ import {
   CardHeader,
   ChoiceCards,
   Field,
+  formGrid,
   Hint,
-  ICON,
   Icon,
+  ICON,
   LockTag,
   NafathTag,
-  PageTitle,
   Pills,
   PrimaryButton,
   ReadOnlyField,
@@ -21,8 +21,8 @@ import {
   SecondaryButton,
   SelectField,
   Spinner,
+  Stepper,
   Tag,
-  formGrid,
 } from '../ui';
 
 const hasErrors = (e: Record<string, string>) => Object.values(e).some(Boolean);
@@ -304,8 +304,13 @@ export function RegisterScreen({ s }: { s: PortalState }) {
   const identity = s.verified!;
   return (
     <>
-      <PageTitle icon={ICON.shield} eyebrow="إنشاء حساب جديد · الخطوة ٢ من ٢" title="استكمال بيانات الحساب" desc="تم التحقق من هويتك عبر نفاذ. اختر نوع الحساب وأكمل البيانات المطلوبة، ثم أرسلها للمراجعة." />
-      <Alert tone="info">بعد الإرسال يصبح حسابك قيد المراجعة. لا يمكنك إنشاء طلبات أو الوصول إلى طلباتي حتى تعتمده الجهة المختصة، وسنُشعرك بالقرار.</Alert>
+      <Stepper
+        steps={[
+          { label: 'التحقق عبر نفاذ', done: true, cur: false },
+          { label: 'بيانات الحساب', done: false, cur: true },
+          { label: 'المراجعة والاعتماد', done: false, cur: false },
+        ]}
+      />
       <IdentityCard identity={identity} />
       <AccountTypeCard s={s} />
       {s.reg.type === 'company' ? <CompanyCards s={s} /> : null}
