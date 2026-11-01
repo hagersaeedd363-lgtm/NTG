@@ -650,7 +650,7 @@ export function OrdersView({ v }: { v: V }) {
                 <div role="group" aria-label="مسار الطلب" style={{ display: 'flex', overflowX: 'auto', padding: '8px 4px' }} className="zz-orders-tabs">
                   {list(v.ox?.od?.stages).map((ts: any, $index: number) => (
                     <Fragment key={$index}>
-                      <div style={{ flex: '1 0 140px', minWidth: '0', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
+                      <div style={{ flex: '1 0 auto', minWidth: '140px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
                         <div style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
                           <span style={css(`flex:1;height:2px;border-radius:1px;background:${ts?.bBg ?? ''}`)} />
                           <span
@@ -682,7 +682,7 @@ export function OrdersView({ v }: { v: V }) {
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', padding: '0 8px', textAlign: 'center' }}>
                           <span style={css(`font-size:14px;line-height:24px;font-weight:${ts?.fw ?? ''};color:${ts?.color ?? ''}`)}>{ts?.t}</span>
-                          <span style={css(`font-size:13px;line-height:20px;color:${ts?.subColor ?? ''}`)}>{ts?.sub}</span>
+                          <span style={css(`font-size:13px;line-height:20px;white-space:nowrap;color:${ts?.subColor ?? ''}`)}>{ts?.sub}</span>
                         </div>
                       </div>
                     </Fragment>

@@ -462,7 +462,8 @@ const scenarios = [
       await c.p.getByText('ZM-20261024-0435').first().click();
       await c.tick();
       await c.see('تعذّر قبول الطلب');
-      await c.see('تقديم طلب جديد');
+      await c.noButton('تقديم طلب جديد');
+      await c.see('سبب الرفض: بيانات غير مكتملة');
       return 'Rejected account blocked with reason; rejected order offers a new order.';
     },
   },

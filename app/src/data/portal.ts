@@ -18,7 +18,7 @@ export const REGIONS={'مكة المكرمة':{cities:['مكة المكرمة','
 export const DEMO_BASE={demo:true,demoV:7,date:'٢٤ أكتوبر ٢٠٢٦م',kindLabel:'جهة',lines:[{t:'عبوة مياه زمزم ٣٣٠ مل',q:12,price:48,bottles:24,img:'assets/prod-pack.png'},{t:'عبوة مياه زمزم ٥٠٠ مل',q:6,price:56,bottles:24,img:'assets/prod-bottle.png'}],subtotal:912,shipping:0,discount:0,vat:137,total:912,paid:false,delivery:'الاستلام من المستودع — مستودع كدي — مكة المكرمة',mode:'pickup',status:1,payMethod:'mada',company:'شركة مياه الحرمين للتوزيع',cr:'٧٠١٢٣١٢٣١٣',contact:{name:'عبدالله محمد الحربي',phone:'0551234567',email:'a.alharbi@example.com'},purpose:'توزيع مستلزمات الحج',etype:'غير ربحي',address:'مستودع كدي',nationalAddress:'٨٢٢٨ طريق الملك فهد، حي كدي، مكة المكرمة ٢١٤٢٣',city:'مكة المكرمة',deliveryNotes:'يرجى التواصل قبل الوصول بساعة.'};
 export const DEMO_REQS=[
 {...DEMO_BASE,id:'ZM-20261024-0436',invoice:'INV-20261024-0436',status:0,payment:'بانتظار موافقة الجهة المختصة',notes:'يرجى التسليم في الفترة الصباحية.'},
-{...DEMO_BASE,id:'ZM-20261024-0435',invoice:'INV-20261024-0435',status:0,rejected:true,payment:'مرفوض',rejectReason:'بيانات السجل التجاري غير مكتملة. حدّثها ثم قدّم الطلب من جديد. (سبب تجريبي)'},
+{...DEMO_BASE,id:'ZM-20261024-0435',invoice:'INV-20261024-0435',status:0,rejected:true,payment:'مرفوض',rejectReason:'بيانات غير مكتملة. حدّثها ثم قدّم الطلب من جديد.'},
 {...DEMO_BASE,id:'ZM-20261024-0434',invoice:'INV-20261024-0434',payment:'بانتظار الدفع',discount:456,total:456},
 {...DEMO_BASE,id:'ZM-20261024-0433',invoice:'INV-20261024-0433',payment:'بانتظار الدفع',payFailed:true,payFailReason:'رفضت جهة إصدار البطاقة العملية. (سبب تجريبي)'},
 {...DEMO_BASE,id:'ZM-20261024-0432',invoice:'INV-20261024-0432',payment:'تحويل بنكي — بانتظار التحويل',payMethod:'transfer'},

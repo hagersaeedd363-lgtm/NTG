@@ -100,7 +100,6 @@ export function nextStep(order: Order, account: Account | null | undefined, sar:
       icon: 'x',
       title: 'تعذّر قبول الطلب',
       desc: 'سبب الرفض: ' + (order.rejectReason || 'لم تُقبل بيانات الطلب.') + ' لم يتم خصم أي مبلغ.',
-      ...(approved ? { action: 'newOrder' as const, actionLabel: 'تقديم طلب جديد' } : {}),
     };
   }
   if (account?.status === 'rejected') {
@@ -199,20 +198,20 @@ export function orderStages(order: Order, account?: Account | null): Stage[] {
   if (order.status === 'rejected') {
     return [
       { t: 'تم تقديم الطلب', sub: order.date, done: true, cur: false },
-      { t: 'تم رفض الطلب', sub: 'لم يُقبل الطلب، ولا يلزم أي دفع.', done: false, cur: true, bad: true },
+      { t: 'تم رفض الطلب', sub: 'لا يلزم أي دفع', done: false, cur: true, bad: true },
     ];
   }
   const p = order.payment;
   const paySub =
     order.status === 'review'
-      ? 'يتاح الدفع بعد قبول الطلب' + (approvedAcct ? '' : ' واعتماد حسابك')
+      ? 'يتاح بعد قبول الطلب'
       : paid
-        ? 'تم التحقق من إيصال الدفع' + (p.paidAt ? ' — ' + p.paidAt : '')
+        ? 'تم التحقق من الإيصال'
         : !approvedAcct
-          ? 'يتاح الدفع بعد اعتماد حسابك'
+          ? 'يتاح بعد اعتماد حسابك'
           : p.state === 'verifying'
-            ? 'استلمنا إيصال الدفع، ونراجع التحويل خلال يوم عمل واحد.'
-            : 'تمت الموافقة على طلبك. حوّل المبلغ وارفع إيصال الدفع لبدء التجهيز.';
+            ? 'نراجع الإيصال خلال يوم عمل'
+            : 'حوّل المبلغ وارفع الإيصال';
   const payLabel = paid
     ? 'تم التحقق من الدفع'
     : order.status === 'accepted'
@@ -226,12 +225,12 @@ export function orderStages(order: Order, account?: Account | null): Stage[] {
     { t: 'تم تقديم الطلب', sub: order.date },
     {
       t: order.status === 'review' ? 'قيد المراجعة' : 'تمت الموافقة',
-      sub: order.status === 'review' ? 'تراجع الجهة المختصة بيانات الطلب.' : 'تمت مراجعة البيانات والموافقة على الطلب.',
+      sub: order.status === 'review' ? 'تراجع الجهة المختصة الطلب' : 'تمت الموافقة على الطلب',
     },
     { t: payLabel, sub: paySub },
     {
       t: 'قيد التجهيز',
-      sub: order.status === 'accepted' ? (paid ? 'سيبدأ تجهيز طلبك قريباً' : 'يبدأ التجهيز بعد التحقق من الإيصال') : 'بدء تجهيز طلبك',
+      sub: order.status === 'accepted' ? (paid ? 'يبدأ التجهيز قريباً' : 'بعد التحقق من الإيصال') : 'بدء تجهيز طلبك',
     },
     {
       t: pick ? 'جاهز للاستلام' : 'جاهز للشحن',
