@@ -110,10 +110,23 @@ export function siteVals(self) {
     ].map(g=>({...g,items:g.items.map(it=>({...it,has:!!it.v,pending:!it.v}))}));
 
     const PS=portal.state,acct=portal.account(PS);
-    const OX={authLabel:acct?'حسابي':'تسجيل الدخول',acctOpen:!!PS.acctMenu,acctClose:()=>portal.set({acctMenu:false}),
+    const OX={authLabel:acct?'حسابي — '+acct.identity.fullName:'تسجيل الدخول',acctOpen:!!PS.acctMenu,acctClose:()=>portal.set({acctMenu:false}),
       acctClick:()=>{if(portal.account())portal.set(s=>({acctMenu:!s.acctMenu}));else portal.openLogin();},
       acctProfile:()=>portal.openProfile(),acctOrders:()=>portal.openOrders(),acctLogout:()=>{portal.set({acctMenu:false});portal.logout();},
-      openLogin:()=>{self.setState({mobileNav:false});portal.openLogin();}};
+      openLogin:()=>{self.setState({mobileNav:false});portal.openLogin();},
+      // Signed-in identity for the header chip and its menu.
+      signedIn:!!acct,
+      firstName:acct?acct.identity.fullName.split(' ')[0]:'',
+      fullName:acct?acct.identity.fullName:'',
+      initials:acct?(()=>{const w=acct.identity.fullName.trim().split(/\s+/).map(x=>x.replace(/^ال(?=..)/,''));return w.length>1?w[0][0]+' '+w[w.length-1][0]:w[0][0];})():'',
+      acctSub:acct?(acct.type==='company'&&acct.company?acct.company.name:acct.identity.email):'',
+      photoBg:PS.photo?'url('+PS.photo+') center/cover':'var(--gold-soft)',
+      chipBg:PS.photo?'url('+PS.photo+') center/cover':'#996C2E',
+      hasPhoto:!!PS.photo,
+      statusLabel:acct?(acct.status==='approved'?'حساب معتمد':acct.status==='pending'?'قيد المراجعة':'مرفوض'):'',
+      statusTone:acct?(acct.status==='approved'?'ok':acct.status==='pending'?'info':'bad'):'info',
+      pwLabel:acct?.password?'تغيير كلمة المرور':'تعيين كلمة المرور',
+      acctPassword:()=>portal.openPassword()};
     return {
       demoTools:DEMO_TOOLS,
       theme:S.theme,isDark,isLight:!isDark,splash:S.splash,desktop,mobile:!desktop,showHeaderMenu:!desktop||S.w<1280,pg,go,meta:metaOut,crumbs,

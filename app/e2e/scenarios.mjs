@@ -263,6 +263,14 @@ const scenarios = [
       await c.submitLogin();
       await c.landedHomeThenAccount();
       await c.see('تحديث البيانات');
+      const chip = await c.p.locator('.zz-header-account').innerText();
+      if (!chip.includes('عبدالله')) throw new Error('header should show the first name, got: ' + chip);
+      await c.p.locator('.zz-header-account').click();
+      await c.tick();
+      await c.see('عبدالله محمد الحربي');
+      await c.see('شركة الضيافة المتحدة للخدمات');
+      await c.see('حساب معتمد');
+      await c.shot('menu');
       return 'Email sign-in lands on home; «حسابي» opens the approved profile.';
     },
   },
