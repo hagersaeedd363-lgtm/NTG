@@ -550,11 +550,8 @@ const scenarios = [
       await c.click('عرض الطلب');
       await c.see('البيانات المطلوب اعتمادها');
       await c.noButton('إرسال طلب التعديل');
-      await c.click('إلغاء طلب التعديل');
-      await c.see('إلغاء طلب التعديل؟');
-      await c.shot('confirm-cancel');
-      await c.click('تراجع');
-      await c.see('البيانات المطلوب اعتمادها');
+      await c.noButton('إلغاء طلب التعديل');
+      await c.shot('pending-change');
       await c.click('رجوع');
       await c.click('أدوات المعاينة');
       await c.click('اعتماد التعديل');

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { portal, type PortalState } from '../store';
 import type { Account } from '../types';
 import { ETYPES, PILL_ICONS, REGIONS } from '../../data/portal';
@@ -15,7 +14,6 @@ import {
   ICON,
   Icon,
   LockTag,
-  Modal,
   NafathTag,
   PageTitle,
   Pills,
@@ -478,10 +476,9 @@ export function AccountStatusScreen({ s }: { s: PortalState }) {
 /** Approved accounts: Nafath data stays locked; company and representative changes go through review. */
 /**
  * A data-change request is under review: show what was requested, read-only. Only one request can
- * be open at a time, so the only action is cancelling it (after confirmation).
+ * be open at a time.
  */
 function PendingChange({ a }: { a: Account }) {
-  const [confirm, setConfirm] = useState(false);
   const req = a.changeRequest!;
   const c = { ...a.company!, ...req.changes };
   const changed = (k: keyof typeof req.changes) => (k in req.changes ? ' · مُعدّل' : '');
@@ -490,7 +487,7 @@ function PendingChange({ a }: { a: Account }) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24, animation: 'zzfade .3s ease both' }}>
       <PageTitle icon={ICON.user} title="تحديث البيانات" desc="طلب التعديل المرسل قيد مراجعة الجهة المختصة." />
       <Alert tone="warn" title={'لديك طلب تعديل قيد المراجعة منذ ' + req.at + '.'}>
-        تبقى بياناتك الحالية سارية حتى الاعتماد. لا يمكن إرسال طلب آخر قبل مراجعة هذا الطلب، ويمكنك إلغاؤه لتعديل البيانات من جديد.
+        تبقى بياناتك الحالية سارية حتى الاعتماد. لا يمكن إرسال طلب آخر قبل مراجعة هذا الطلب.
       </Alert>
       <Card>
         <CardHeader icon={ICON.doc} title="البيانات المطلوب اعتمادها" desc={'الحقول المعدّلة: ' + req.labels.join('، ') + '.'} />
@@ -516,35 +513,8 @@ function PendingChange({ a }: { a: Account }) {
         />
       </Card>
       <ActionBar onBack={() => portal.openProfile()}>
-        <SecondaryButton onClick={() => setConfirm(true)}>إلغاء طلب التعديل</SecondaryButton>
+        <span />
       </ActionBar>
-      {confirm ? (
-        <Modal label="تأكيد إلغاء طلب التعديل" onClose={() => setConfirm(false)}>
-          <span style={{ width: 56, height: 56, borderRadius: '50%', background: 'var(--al-bad-bg)', color: 'var(--al-bad-fg)', display: 'flex', alignItems: 'center', justifyContent: 'center', alignSelf: 'center' }}>
-            <Icon d={ICON.alert} size={28} />
-          </span>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, textAlign: 'center' }}>
-            <h2 style={{ margin: 0, fontSize: 20, fontWeight: 600, lineHeight: '28px', color: 'var(--ink)' }}>إلغاء طلب التعديل؟</h2>
-            <p style={{ margin: 0, fontSize: 15, lineHeight: '26px', color: 'var(--ink-2)' }}>
-              سيُحذف الطلب المرسل ({req.labels.join('، ')}) ولن تراجعه الجهة المختصة. تبقى بياناتك الحالية كما هي.
-            </p>
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <PrimaryButton
-              full
-              onClick={() => {
-                setConfirm(false);
-                portal.cancelChangeRequest();
-              }}
-            >
-              نعم، ألغِ الطلب
-            </PrimaryButton>
-            <SecondaryButton full onClick={() => setConfirm(false)}>
-              تراجع
-            </SecondaryButton>
-          </div>
-        </Modal>
-      ) : null}
     </div>
   );
 }
