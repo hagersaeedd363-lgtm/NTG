@@ -690,7 +690,11 @@ export class PortalStore {
     const isCompany = (this.account()?.type ?? this.state.reg.type) === 'company';
     if (isCompany && !this.state.draft.purpose) errors.purpose = 'اختر غرض الطلب';
     if (!isCompany && this.state.draft.purpose) this.set((st) => ({ draft: { ...st.draft, purpose: '' } }));
-    if (this.isNewFlow()) this.validateRegistration(errors);
+    if (this.isNewFlow()) {
+      this.validateRegistration(errors);
+      const rp = this.state.regPw;
+      if (rp.on && !passwordRules(rp.n1, rp.n2).every((r) => r.ok)) errors.regPw = 'كلمة المرور لا تستوفي الشروط. أكملها أو أوقف «تعيين كلمة مرور الآن».';
+    }
     if (Object.values(errors).some(Boolean)) return this.set({ errors });
     this.goStep('products');
   }
@@ -757,6 +761,7 @@ export class PortalStore {
         ...(type === 'company'
           ? { company: { ...c, repIdType: c.repIdType as Company['repIdType'], registryMatch: crStatus === 'found' } }
           : {}),
+        ...(s.regPw.on ? { password: s.regPw.n1 } : {}),
       };
     }
     const now = new Date();
@@ -802,6 +807,7 @@ export class PortalStore {
       db: { ...st.db, accounts: { ...st.db.accounts, [newAcct.nationalId]: newAcct }, orders: [order, ...st.db.orders], seq: st.db.seq + 1 },
       session: st.session ?? { nationalId: newAcct.nationalId, method: 'nafath' },
       verified: null,
+      regPw: { on: false, n1: '', n2: '', show: false },
       view: 'done',
       lastOrderId: order.id,
       openOrderId: order.id,

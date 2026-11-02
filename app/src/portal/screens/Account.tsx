@@ -287,6 +287,7 @@ export function AccountStep({ s }: { s: PortalState }) {
   return (
     <>
       <IdentityCard identity={identity} />
+      <PasswordOptionCard s={s} />
       <AccountTypeCard s={s} />
       {s.reg.type === 'company' ? <CompanyCards s={s} withPurpose /> : null}
       <ActionBar onBack={() => portal.back()} note={<RequiredNote hasErrors={hasErrors(s.errors)} />}>

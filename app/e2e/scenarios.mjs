@@ -161,6 +161,7 @@ const scenarios = [
       await c.see('اختر نوع الحساب');
       await c.click(/^فرد/, { role: 'radio' });
       if (await c.p.getByRole('radiogroup', { name: 'غرض الطلب' }).count()) throw new Error('individuals must not see order purpose');
+      await c.see('تعيين كلمة مرور الآن');
       await c.shot('registration');
       await c.click('متابعة إلى المنتجات');
       await c.products();
@@ -261,8 +262,8 @@ const scenarios = [
       await c.fill('البريد الإلكتروني', 'a.alharbi@example.com');
       await c.fill('كلمة المرور', '123456');
       await c.submitLogin();
-      await c.see('طلب يحتاج إجراءك');
-      await c.see('ارفع إثبات الدفع');
+      await c.see('طلبك بانتظار إثبات الدفع');
+      await c.notSee('طلبات نشطة أخرى');
       await c.shot('home-card');
       await c.landedHomeThenAccount();
       await c.see('تحديث البيانات');
