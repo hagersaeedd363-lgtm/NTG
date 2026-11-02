@@ -1,8 +1,11 @@
 import { Fragment } from 'react';
 import type { V } from '../../types';
 import { css, list } from '../../lib/dc';
+import { ActiveOrderCard, activeOrders } from '../../portal/ActiveOrderCard';
+import { usePortal } from '../../portal/store';
 
 export function HomePage({ v }: { v: V }) {
+  const hasActive = activeOrders(usePortal()).length > 0;
   return (
     <>
       <section
@@ -18,7 +21,12 @@ export function HomePage({ v }: { v: V }) {
       >
         <div style={{ position: 'absolute', inset: '0', background: 'linear-gradient(270deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,.15) 55%,rgba(0,0,0,0) 100%)' }} />
         <div style={{ position: 'absolute', inset: '0 0 auto 0', height: '140px', background: 'linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,0))' }} />
-        {v.desktop ? (
+        {v.desktop && hasActive ? (
+          <div style={{ position: 'absolute', zIndex: '2', left: 'max(24px,calc(50% - 728px))', top: '200px' }}>
+            <ActiveOrderCard />
+          </div>
+        ) : null}
+        {v.desktop && !hasActive ? (
           <>
             <div
               aria-hidden="true"
@@ -109,6 +117,7 @@ export function HomePage({ v }: { v: V }) {
                 اقتنِ ماء زمزم
               </button>
             </div>
+            {!v.desktop && hasActive ? <ActiveOrderCard inline /> : null}
           </div>
         </div>
       </section>

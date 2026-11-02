@@ -261,6 +261,9 @@ const scenarios = [
       await c.fill('البريد الإلكتروني', 'a.alharbi@example.com');
       await c.fill('كلمة المرور', '123456');
       await c.submitLogin();
+      await c.see('طلب يحتاج إجراءك');
+      await c.see('ارفع إثبات الدفع');
+      await c.shot('home-card');
       await c.landedHomeThenAccount();
       await c.see('تحديث البيانات');
       const chip = await c.p.locator('.zz-header-account').innerText();
