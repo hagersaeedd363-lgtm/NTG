@@ -290,7 +290,7 @@ export function SiteHeader({ v }: { v: V }) {
                     >
                       طلباتي
                     </button>
-                    <button
+                    {v.ox?.pwLabel ? (<button
                       role="menuitem"
                       onClick={v.ox?.acctPassword}
                       style={{
@@ -311,7 +311,7 @@ export function SiteHeader({ v }: { v: V }) {
                       className="zp-004"
                     >
                       {v.ox?.pwLabel}
-                    </button>
+                    </button>) : null}
                     <div style={{ height: '1px', background: 'var(--line)', margin: '4px 0' }} />
                     <button
                       role="menuitem"

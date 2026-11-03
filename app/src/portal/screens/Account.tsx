@@ -403,9 +403,9 @@ export function RegisterScreen({ s }: { s: PortalState }) {
         steps={
           EMAIL_AUTH
             ? [
-                { label: 'إنشاء الحساب', done: true, cur: false },
                 { label: 'تأكيد البريد', done: true, cur: false },
                 { label: 'بيانات الحساب', done: false, cur: true },
+                { label: 'الإرسال للمراجعة', done: false, cur: false },
                 { label: 'اعتماد الحساب', done: false, cur: false },
               ]
             : [

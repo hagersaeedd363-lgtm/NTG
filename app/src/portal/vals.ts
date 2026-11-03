@@ -443,7 +443,7 @@ function passwordVals(s: PortalState): Obj {
     onN0: (ev: { target: { value: string } }) => up({ n0: ev.target.value, err: '' }),
     pwRules: rules.map((r) => ({ ...r, color: r.ok ? '#2E7D52' : 'var(--muted)', bg: r.ok ? '#2E7D52' : 'transparent', bd: r.ok ? '#2E7D52' : 'var(--line)' })),
     openPw: () => up({ step: 1 }),
-    openPwEdit: () => portal.openPassword(),
+    openPwEdit: EMAIL_AUTH ? undefined : () => portal.openPassword(),
     pwClose: () => {
       portal.set({ view: a?.status === 'approved' ? 'profile' : 'status', pw: { step: 0, otp: '', n0: '', n1: '', n2: '', show: false, err: '' } });
       portal.scrollTop();

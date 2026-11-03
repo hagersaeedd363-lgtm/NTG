@@ -21,7 +21,7 @@ function FlowStepper({ s }: { s: PortalState }) {
   return (
     <Stepper
       steps={[
-        { label: EMAIL_AUTH ? (isNew ? 'إنشاء الحساب' : 'تسجيل الدخول') : 'التحقق عبر نفاذ', done: true, cur: false },
+        { label: EMAIL_AUTH ? (isNew ? 'تأكيد البريد' : 'تسجيل الدخول') : 'التحقق عبر نفاذ', done: true, cur: false },
         ...order.map((id, i) => ({
           label: id === 'account' ? (isNew ? 'التسجيل' : 'بياناتك') : id === 'products' ? 'المنتجات' : 'المراجعة',
           done: i < cur,
@@ -51,7 +51,7 @@ function ProfileActions({ s }: { s: PortalState }) {
           أُرسل في {a.changeRequest.at}. تبقى بياناتك الحالية سارية حتى الاعتماد، ويمكنك إنشاء الطلبات ومتابعتها خلال المراجعة.
         </Alert>
       ) : null}
-      {!a.password && !s.pwHintOff ? (
+      {!EMAIL_AUTH && !a.password && !s.pwHintOff ? (
         <Alert
           tone="info"
           icon={ICON.lock}

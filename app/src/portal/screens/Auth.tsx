@@ -37,17 +37,17 @@ const COPY = {
 const COPY_EMAIL = {
   order: {
     title: "ابدأ طلبك",
-    desc: "أنشئ حسابك ببريدك الإلكتروني، أو سجّل الدخول إن كان لديك حساب.",
+    desc: "أدخل بريدك الإلكتروني وسنرسل إليك رمز تحقق.",
     side: "ننشئ حسابك أولاً، ثم تختار المنتجات والكميات وتراجع طلبك قبل إرساله.",
   },
   login: {
     title: "تسجيل الدخول",
-    desc: "سجّل الدخول بالبريد الإلكتروني وكلمة المرور.",
+    desc: "أدخل بريدك الإلكتروني وسنرسل إليك رمز دخول. لا تحتاج إلى كلمة مرور.",
     side: "تابع طلباتك وحالة حسابك، وأنشئ طلبات جديدة بعد اعتماد حسابك.",
   },
   register: {
     title: "إنشاء حساب جديد",
-    desc: "أنشئ حسابك بالبريد الإلكتروني وكلمة المرور، ثم أكّد بريدك برمز نرسله إليك.",
+    desc: "أدخل بريدك الإلكتروني وأكّده برمز نرسله إليك، ثم أكمل بيانات حسابك.",
     side: "بعد التسجيل تراجع الجهة المختصة بياناتك، وتبدأ الطلبات بعد اعتماد حسابك.",
   },
 } as const;
@@ -344,35 +344,24 @@ function ForgotPanel({ f }: { f: NonNullable<PortalState["auth"]["forgot"]> }) {
   );
 }
 
-function Rules({ n1, n2 }: { n1: string; n2: string }) {
-  return (
-    <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexWrap: "wrap", gap: "6px 20px" }}>
-      {passwordRules(n1, n2).map((r) => (
-        <li key={r.t} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 13, color: r.ok ? "var(--al-ok-fg)" : "var(--muted)" }}>
-          <Icon d={r.ok ? ICON.check : ICON.info} size={15} sw={2} />
-          {r.t}
-        </li>
-      ))}
-    </ul>
-  );
-}
+const AR = (n: number) => String(n).replace(/\d/g, (d) => "٠١٢٣٤٥٦٧٨٩"[+d]);
 
-/** Email-only version: «حساب جديد» (email + password), then the code sent to the email. */
-function SignupPanel({ s }: { s: PortalState }) {
+/** Email-only version, every entry (navbar, registration, quick order): the email, then the code sent to it. */
+function EmailCodePanel({ s }: { s: PortalState }) {
   const { auth } = s;
   const su = auth.su;
   if (su.step === 2) {
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
         <Alert tone="info" icon={ICON.mail} title={"أرسلنا رمزاً من ٤ أرقام إلى " + auth.email.trim()}>
-          قد يصل الرمز خلال دقيقة. تحقّق من مجلد الرسائل غير المرغوب فيها إن لم تجده.
+          الرمز صالح لمدة ١٠ دقائق. إن لم تجده فتحقّق من مجلد الرسائل غير المرغوب فيها.
         </Alert>
         {su.err ? <Alert tone="bad" title={su.err} /> : null}
         <form
           noValidate
           onSubmit={(e) => {
             e.preventDefault();
-            portal.verifySignup();
+            portal.emailVerify();
           }}
           style={{ display: "flex", flexDirection: "column", gap: 20 }}
         >
@@ -387,16 +376,30 @@ function SignupPanel({ s }: { s: PortalState }) {
             ltr
             autoComplete="one-time-code"
           />
+          <label style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 15, color: "var(--ink)", cursor: "pointer" }}>
+            <input
+              type="checkbox"
+              checked={su.remember}
+              onChange={(e) => portal.setSignup({ remember: e.target.checked })}
+              style={{ width: 18, height: 18, accentColor: "#996C2E", margin: 0 }}
+            />
+            تذكرني على هذا الجهاز لمدة ٣٠ يوماً
+          </label>
+          <PrimaryButton type="submit" full style={{ height: 56 }}>
+            متابعة
+          </PrimaryButton>
           <span style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: 8, fontSize: 14, color: "var(--muted)" }}>
-            <span>
-              لم يصلك الرمز؟{" "}
-              <TextButton onClick={() => portal.toast("تم إرسال رمز جديد")}>إعادة الإرسال</TextButton>
-            </span>
+            {su.wait > 0 ? (
+              <span>
+                إعادة الإرسال بعد <strong style={{ color: "var(--ink)" }}>{AR(su.wait)}</strong> ث
+              </span>
+            ) : (
+              <span>
+                لم يصلك الرمز؟ <TextButton onClick={() => portal.resendCode()}>إعادة الإرسال</TextButton>
+              </span>
+            )}
             <TextButton onClick={() => portal.backToSignup()}>تغيير البريد الإلكتروني</TextButton>
           </span>
-          <PrimaryButton type="submit" full style={{ height: 56 }}>
-            تأكيد البريد
-          </PrimaryButton>
         </form>
         {DEMO_TOOLS ? (
           <DemoChips>
@@ -406,58 +409,41 @@ function SignupPanel({ s }: { s: PortalState }) {
       </div>
     );
   }
-  const eye = <EyeToggle shown={su.show} onToggle={() => portal.setSignup({ show: !su.show })} />;
   return (
-    <form
-      noValidate
-      onSubmit={(e) => {
-        e.preventDefault();
-        portal.startSignup();
-      }}
-      style={{ display: "flex", flexDirection: "column", gap: 20 }}
-    >
-      <Field
-        id="su-email"
-        label="البريد الإلكتروني"
-        value={auth.email}
-        onChange={(v) => portal.setAuth({ email: v, errors: {}, notice: null })}
-        error={auth.errors.email}
-        placeholder="email@example.com"
-        type="email"
-        inputMode="email"
-        ltr
-        autoComplete="username"
-      />
-      <Field
-        id="su-pw1"
-        label="كلمة المرور"
-        value={su.n1}
-        onChange={(v) => portal.setSignup({ n1: v })}
-        type={su.show ? "text" : "password"}
-        ltr
-        autoComplete="new-password"
-        placeholder="٨ أحرف على الأقل"
-        trailing={eye}
-      />
-      <Field
-        id="su-pw2"
-        label="تأكيد كلمة المرور"
-        value={su.n2}
-        onChange={(v) => portal.setSignup({ n2: v })}
-        error={auth.errors.password}
-        type={su.show ? "text" : "password"}
-        ltr
-        autoComplete="new-password"
-        trailing={eye}
-      />
-      <Rules n1={su.n1} n2={su.n2} />
-      <PrimaryButton type="submit" full style={{ height: 56 }}>
-        إنشاء الحساب
-      </PrimaryButton>
-      <span style={{ textAlign: "center", fontSize: 14, color: "var(--muted)" }}>
-        نرسل رمز تحقق إلى بريدك لتأكيده.
-      </span>
-    </form>
+    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+      <form
+        noValidate
+        onSubmit={(e) => {
+          e.preventDefault();
+          portal.emailStart();
+        }}
+        style={{ display: "flex", flexDirection: "column", gap: 20 }}
+      >
+        <Field
+          id="su-email"
+          label="البريد الإلكتروني"
+          value={auth.email}
+          onChange={(v) => portal.setAuth({ email: v, errors: {}, notice: null })}
+          error={auth.errors.email}
+          placeholder="email@example.com"
+          type="email"
+          inputMode="email"
+          ltr
+          autoComplete="email"
+          hint={auth.entry === "order" ? "إن كان لديك حساب نكمل طلبك به، وإن لم يكن ننشئ حسابك أثناء الطلب." : "إن كان لديك حساب نسجّل دخولك، وإن لم يكن ننشئ حسابك."}
+        />
+        <PrimaryButton type="submit" full style={{ height: 56 }}>
+          إرسال رمز التحقق
+        </PrimaryButton>
+      </form>
+      {DEMO_TOOLS ? (
+        <DemoChips>
+          {[...DEMO_EMAIL_LIST, { email: "new.user@example.com", label: "مستخدم جديد" }].map((d) => (
+            <Chip key={d.email} label={d.label} onClick={() => portal.setAuth({ email: d.email, errors: {}, notice: null })} />
+          ))}
+        </DemoChips>
+      ) : null}
+    </div>
   );
 }
 
@@ -476,9 +462,9 @@ export function AuthScreen({ s }: { s: PortalState }) {
     : nafathOnly
       ? "nafath"
       : auth.tab;
-  const showTabs = EMAIL_AUTH ? auth.entry === "order" : !nafathOnly;
+  const showTabs = !EMAIL_AUTH && !nafathOnly;
   const f = auth.forgot;
-  const codeStep = EMAIL_AUTH && tab === "signup" && auth.su.step === 2;
+  const codeStep = EMAIL_AUTH && auth.su.step === 2;
   return (
     <div
       style={{
@@ -532,7 +518,7 @@ export function AuthScreen({ s }: { s: PortalState }) {
                   ? "نتحقق منك برمز يصل إلى بريدك الإلكتروني، ثم تعيّن كلمة مرور جديدة."
                   : "نتحقق منك برمز يصل إلى الجوال المسجّل في حسابك، ثم تعيّن كلمة مرور جديدة."
                 : codeStep
-                  ? "أدخل الرمز الذي أرسلناه إلى بريدك لإكمال إنشاء حسابك."
+                  ? "أدخل الرمز الذي أرسلناه إلى بريدك للمتابعة."
                   : c.desc}
             </p>
           </div>
@@ -553,8 +539,8 @@ export function AuthScreen({ s }: { s: PortalState }) {
               </Alert>
             ) : null}
 
-            {tab === "signup" ? (
-              <SignupPanel s={s} />
+            {EMAIL_AUTH ? (
+              <EmailCodePanel s={s} />
             ) : tab === "nafath" ? (
               <form
                 noValidate
@@ -675,7 +661,7 @@ export function AuthScreen({ s }: { s: PortalState }) {
               </form>
             )}
 
-            <div
+            {EMAIL_AUTH ? null : <div
               style={{
                 display: "flex",
                 flexWrap: "wrap",
@@ -707,28 +693,10 @@ export function AuthScreen({ s }: { s: PortalState }) {
                   لا تحتاج إلى التسجيل مسبقاً. نكمل بياناتك خلال الطلب.
                 </span>
               )}
-            </div>
+            </div>}
 
             {DEMO_TOOLS ? (
-              tab === "signup" ? null : EMAIL_AUTH ? (
-                <DemoChips>
-                  {DEMO_EMAIL_LIST.map((d) => (
-                    <Chip
-                      key={d.email}
-                      label={d.label}
-                      onClick={() =>
-                        portal.setAuth({ email: d.email, password: DEMO_EMAIL_LOGIN.password, errors: {}, notice: null })
-                      }
-                    />
-                  ))}
-                  <Chip
-                    label="كلمة مرور خاطئة"
-                    onClick={() =>
-                      portal.setAuth({ email: DEMO_EMAIL_LOGIN.email, password: "wrong-pass", errors: {}, notice: null })
-                    }
-                  />
-                </DemoChips>
-              ) : tab === "nafath" ? (
+              EMAIL_AUTH ? null : tab === "nafath" ? (
                 <DemoChips>
                   {DEMO_ID_LIST.map((d) => (
                     <Chip
@@ -838,7 +806,7 @@ export function AuthScreen({ s }: { s: PortalState }) {
             }}
           >
             {[
-              EMAIL_AUTH ? "إنشاء الحساب وتأكيد البريد" : "التحقق عبر نفاذ",
+              EMAIL_AUTH ? "تأكيد البريد الإلكتروني برمز" : "التحقق عبر نفاذ",
               "نوع الحساب والبيانات المطلوبة",
               "مراجعة الجهة المختصة واعتماد الحساب",
             ].map((t, i) => (

@@ -291,7 +291,7 @@ export function ProfileView({ v }: { v: V }) {
               </svg>
               {v.ox?.editLabel}
             </button>
-            <button
+            {v.ox?.openPwEdit ? (<button
               onClick={v.ox?.openPwEdit}
               style={{
                 width: '100%',
@@ -325,7 +325,7 @@ export function ProfileView({ v }: { v: V }) {
                 <path d="M8 11V8a4 4 0 0 1 8 0v3" />
               </svg>
               {v.ox?.pwBtn}
-            </button>
+            </button>) : null}
           </aside>
           <div style={{ flex: '3 1 560px', minWidth: '0', display: 'flex', flexDirection: 'column', gap: '24px' }}>
             {list(v.ox?.profSecs).map((sec: any, $index: number) => (

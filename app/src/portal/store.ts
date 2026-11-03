@@ -28,20 +28,23 @@ export interface AuthState {
   busy: boolean;
   /** «نسيت كلمة المرور» while signed out: email → code to the registered mobile → new password. */
   forgot: ForgotState | null;
-  /** Email-only version: new account (email + password), then the code sent to the email. */
+  /** Email-only version: the email, then the code sent to it. */
   su: SignupState;
 }
 
 export interface SignupState {
   step: 1 | 2;
-  n1: string;
-  n2: string;
-  show: boolean;
   otp: string;
   err: string;
+  /** Wrong codes entered for the current code (max 5). */
+  tries: number;
+  /** Seconds until «إعادة الإرسال» is available. */
+  wait: number;
+  /** «تذكرني على هذا الجهاز». */
+  remember: boolean;
 }
 
-const emptySu = (): SignupState => ({ step: 1, n1: '', n2: '', show: false, otp: '', err: '' });
+const emptySu = (): SignupState => ({ step: 1, otp: '', err: '', tries: 0, wait: 0, remember: true });
 
 export interface ForgotState {
   step: 1 | 2 | 3;
@@ -178,7 +181,7 @@ export const emptyDraft = (): OrderDraft => ({
 
 const emptyAuth = (entry: Entry = 'login'): AuthState => ({
   entry,
-  tab: EMAIL_AUTH ? (entry === 'login' ? 'email' : 'signup') : 'nafath',
+  tab: EMAIL_AUTH ? 'signup' : 'nafath',
   nid: '',
   email: '',
   password: '',
@@ -401,6 +404,7 @@ export class PortalStore {
   guardView(view: View): View {
     const a = this.account();
     if (!a) return ['auth', 'register', 'flow', 'done'].includes(view) ? view : 'auth';
+    if (EMAIL_AUTH && view === 'password') return this.landingView(a);
     if (a.status !== 'approved') {
       return ['status', 'blocked', 'registered', 'orders', 'done', 'password'].includes(view) ? view : 'status';
     }
@@ -506,7 +510,7 @@ export class PortalStore {
     });
   }
 
-  // ------------------------------------------------------------------ email-only sign-up
+  // ------------------------------------------------------------------ email-only version: email + code, no password
   private accountByEmail(email: string) {
     const e = email.trim().toLowerCase();
     return Object.values(this.state.db.accounts).find((a) => a.identity.email.toLowerCase() === e);
@@ -516,47 +520,57 @@ export class PortalStore {
     this.set((s) => ({ auth: { ...s.auth, su: { ...s.auth.su, err: '', ...p }, errors: {}, notice: null } }));
   }
 
-  /** Step 1: email + password. A code is then sent to the email. */
-  startSignup() {
+  /** Step 1 (sign-in and sign-up alike): send a code to the email. Whether it has an account is told only after the code. */
+  emailStart() {
     const { email, su } = this.state.auth;
-    const errors: Errors = {};
-    if (!EMAIL_RE.test(email.trim())) errors.email = 'أدخل بريداً إلكترونياً صحيحاً';
-    if (!passwordRules(su.n1, su.n2).every((r) => r.ok)) errors.password = 'كلمة المرور لا تستوفي الشروط';
-    if (Object.keys(errors).length) return this.setAuth({ errors, notice: null });
-    if (this.accountByEmail(email)) {
-      return this.setAuth({
-        tab: 'email',
-        entry: this.state.auth.entry === 'register' ? 'login' : this.state.auth.entry,
-        password: '',
-        errors: {},
-        notice: { tone: 'warn', title: 'لديك حساب بهذا البريد الإلكتروني', text: 'سجّل الدخول بكلمة المرور، أو استخدم «نسيت كلمة المرور؟».' },
-      });
-    }
-    this.setAuth({ errors: {}, notice: null, su: { ...su, step: 2, otp: '', err: '' } });
+    if (!EMAIL_RE.test(email.trim())) return this.setAuth({ errors: { email: 'أدخل بريداً إلكترونياً صحيحاً' }, notice: null });
+    this.setAuth({ errors: {}, notice: null, su: { ...su, step: 2, otp: '', err: '', tries: 0, wait: 60 } });
+    this.tickResend();
     this.toast(sim('أرسلنا رمز التحقق إلى ' + email.trim()));
   }
 
-  /** Step 2: the code from the email. The account details come next; nothing is saved yet. */
-  verifySignup() {
+  private tickResend() {
+    this.later('resend', 1000, () => {
+      const su = this.state.auth.su;
+      if (su.step !== 2 || su.wait <= 0) return;
+      this.set((s) => ({ auth: { ...s.auth, su: { ...s.auth.su, wait: s.auth.su.wait - 1 } } }));
+      this.tickResend();
+    });
+  }
+
+  resendCode() {
+    if (this.state.auth.su.wait > 0) return;
+    this.setSignup({ otp: '', tries: 0, wait: 60 });
+    this.tickResend();
+    this.toast(sim('أرسلنا رمزاً جديداً إلى ' + this.state.auth.email.trim()));
+  }
+
+  /** Step 2: the code. Existing account → signed in; new email → account details (in the order, or the registration form). */
+  emailVerify() {
     const { email, su, entry } = this.state.auth;
-    if (su.otp !== '1234') return this.setSignup({ err: 'رمز التحقق غير صحيح' });
+    if (su.tries >= 5) return this.setSignup({ err: 'تجاوزت عدد المحاولات المسموح. اطلب رمزاً جديداً.' });
+    if (su.otp !== '1234') return this.setSignup({ err: 'رمز التحقق غير صحيح', tries: su.tries + 1 });
+    clearTimeout(this.timers.resend);
     const e = email.trim();
+    const existing = this.accountByEmail(e);
+    this.setAuth({ su: emptySu() });
+    if (existing) return this.signIn(existing, 'email', sim('تم تسجيل الدخول'));
     const identity: Identity = { fullName: '', nationalId: '', email: e, phone: '' };
     this.set((s) => ({
       verified: identity,
       reg: { type: '', company: { ...emptyCompany(), repEmail: e }, crQuery: '', crStatus: '' },
-      regPw: { on: true, n1: su.n1, n2: su.n2, show: false },
+      regPw: { on: false, n1: '', n2: '', show: false },
       draft: { ...s.draft, recvName: '', recvPhone: '', recvEmail: e },
       errors: {},
-      auth: { ...s.auth, su: emptySu() },
     }));
     if (entry === 'order') this.set({ view: 'flow', flow: { step: 'account', detailsOpen: false } });
     else this.set({ view: 'register' });
-    this.toast(sim('تم تأكيد بريدك الإلكتروني'));
+    this.toast(sim('تم تأكيد بريدك الإلكتروني. أكمل بيانات حسابك'));
     this.scrollTop();
   }
 
   backToSignup() {
+    clearTimeout(this.timers.resend);
     this.setSignup({ step: 1, otp: '' });
   }
 
@@ -1176,12 +1190,12 @@ export class PortalStore {
   /** Hero title for the «order» page, so it names the screen the user is on. */
   pageMeta(s = this.state): { tag: string; title: string; lead: string; inAccount: boolean } {
     const a = this.account(s);
-    const order = { tag: 'اطلب الآن', title: 'اقتن عبوة زمزم', lead: EMAIL_AUTH ? 'سجّل الدخول أو أنشئ حسابك، ثم اختر المنتجات وأكمل طلبك.' : 'تحقّق من هويتك، ثم اختر المنتجات وأكمل طلبك.', inAccount: false };
+    const order = { tag: 'اطلب الآن', title: 'اقتن عبوة زمزم', lead: EMAIL_AUTH ? 'أدخل بريدك الإلكتروني ونتعرّف عليك برمز، ثم اختر المنتجات وأكمل طلبك.' : 'تحقّق من هويتك، ثم اختر المنتجات وأكمل طلبك.', inAccount: false };
     const acct = (title: string, lead: string) => ({ tag: 'حسابي', title, lead, inAccount: title !== 'حسابي' });
     switch (this.guardView(s.view)) {
       case 'auth':
-        if (s.auth.entry === 'login') return { tag: 'حسابي', title: 'تسجيل الدخول', lead: EMAIL_AUTH ? 'سجّل الدخول بالبريد الإلكتروني وكلمة المرور.' : 'سجّل الدخول عبر نفاذ أو بالبريد الإلكتروني وكلمة المرور.', inAccount: false };
-        if (s.auth.entry === 'register') return { tag: 'حساب جديد', title: 'إنشاء حساب جديد', lead: EMAIL_AUTH ? 'أنشئ حسابك ببريدك الإلكتروني، ثم تراجع الجهة المختصة بياناتك وتعتمد حسابك.' : 'سجّل عبر نفاذ، ثم تراجع الجهة المختصة بياناتك وتعتمد حسابك.', inAccount: false };
+        if (s.auth.entry === 'login') return { tag: 'حسابي', title: 'تسجيل الدخول', lead: EMAIL_AUTH ? 'أدخل بريدك الإلكتروني وسنرسل إليك رمز دخول.' : 'سجّل الدخول عبر نفاذ أو بالبريد الإلكتروني وكلمة المرور.', inAccount: false };
+        if (s.auth.entry === 'register') return { tag: 'حساب جديد', title: 'إنشاء حساب جديد', lead: EMAIL_AUTH ? 'أدخل بريدك الإلكتروني وأكّده برمز نرسله إليك، ثم أكمل بياناتك للمراجعة.' : 'سجّل عبر نفاذ، ثم تراجع الجهة المختصة بياناتك وتعتمد حسابك.', inAccount: false };
         return order;
       case 'register':
         return { tag: 'حساب جديد', title: 'إنشاء حساب جديد', lead: 'اختر نوع الحساب وأكمل البيانات المطلوبة، ثم أرسلها للمراجعة.', inAccount: false };

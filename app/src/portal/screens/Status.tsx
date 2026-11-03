@@ -430,9 +430,11 @@ export function AccountStatusScreen({ s }: { s: PortalState }) {
           </div>
           <div style={{ width: '100%', height: 1, background: 'var(--line)' }} />
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12, width: '100%' }}>
-            <SecondaryButton full icon={ICON.lock} onClick={() => portal.openPassword()}>
-              {a.password ? 'تغيير كلمة المرور' : 'تعيين كلمة المرور'}
-            </SecondaryButton>
+            {EMAIL_AUTH ? null : (
+              <SecondaryButton full icon={ICON.lock} onClick={() => portal.openPassword()}>
+                {a.password ? 'تغيير كلمة المرور' : 'تعيين كلمة المرور'}
+              </SecondaryButton>
+            )}
             <SecondaryButton full onClick={() => portal.logout()}>
               تسجيل الخروج
             </SecondaryButton>

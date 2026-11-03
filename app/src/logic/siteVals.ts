@@ -1,6 +1,7 @@
 // @ts-nocheck -- view-model ported verbatim from the Claude Design prototype.
 // Builds the flat object (`v`) every view renders from.
 import { PAGES, META, PARENT, ABOUT_MENU, SUPPORT_MENU, STATIONS, STAKE, LOGOS, CHAPTERS, FILMS, AR, MUSEUM_AXES, MUSEUM_INFO, MUSEUM_RULES, FAQ, MUSEUM_PENDING, NEWS, PRESS, GALLERY_CATS, GALLERY, REPORT_CATS, REPORTS, POINTS } from '../data/site';
+import { EMAIL_AUTH } from '../config';
 import { FORMS } from '../data/portal';
 import { DEMO_TOOLS } from '../config';
 import { portal } from '../portal/store';
@@ -125,7 +126,7 @@ export function siteVals(self) {
       hasPhoto:!!PS.photo,
       statusLabel:acct?(acct.status==='approved'?'حساب معتمد':acct.status==='pending'?'قيد المراجعة':'مرفوض'):'',
       statusTone:acct?(acct.status==='approved'?'ok':acct.status==='pending'?'info':'bad'):'info',
-      pwLabel:acct?.password?'تغيير كلمة المرور':'تعيين كلمة المرور',
+      pwLabel:EMAIL_AUTH?'':acct?.password?'تغيير كلمة المرور':'تعيين كلمة المرور',
       acctPassword:()=>portal.openPassword()};
     return {
       demoTools:DEMO_TOOLS,
