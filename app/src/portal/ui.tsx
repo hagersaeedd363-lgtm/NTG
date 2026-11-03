@@ -2,7 +2,7 @@
  * Portal UI kit. Measurements, colours and states follow the design system the generated
  * screens use (cards r24, fields 46px r12, gold #996C2E actions, 56px single-line alerts).
  */
-import type { CSSProperties, ReactNode } from 'react';
+import { useRef, useState, type CSSProperties, type ReactNode } from 'react';
 
 export const GOLD = '#996C2E';
 
@@ -804,6 +804,85 @@ export function Modal({ children, label, onClose }: { children: ReactNode; label
     >
       <div onClick={(e) => e.stopPropagation()} style={{ ...cardStyle, width: 'min(480px,100%)', padding: 32, gap: 20, animation: 'zzfade .25s ease both', maxHeight: '90vh', overflowY: 'auto' }}>
         {children}
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Verification code as square boxes (one real input underneath, so typing, paste, backspace and
+ * the phone's one-time-code autofill all work). Calls onComplete when the last digit is typed.
+ */
+export function OtpInput({
+  id,
+  value,
+  onChange,
+  onComplete,
+  error,
+  length = 4,
+  label = 'رمز التحقق',
+}: {
+  id: string;
+  value: string;
+  onChange: (v: string) => void;
+  onComplete?: () => void;
+  error?: boolean;
+  length?: number;
+  label?: string;
+}) {
+  const ref = useRef<HTMLInputElement>(null);
+  const [focus, setFocus] = useState(false);
+  const cur = Math.min(value.length, length - 1);
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+      <Label htmlFor={id}>{label}</Label>
+      <div dir="ltr" style={{ position: 'relative', display: 'flex', justifyContent: 'center', gap: 12 }}>
+        {Array.from({ length }, (_, i) => {
+          const ch = value[i] || '';
+          const active = focus && i === cur && !(value.length === length && i === length - 1 && ch);
+          return (
+            <span
+              key={i}
+              aria-hidden="true"
+              style={{
+                width: 'clamp(52px,14vw,64px)',
+                height: 'clamp(56px,15vw,68px)',
+                borderRadius: 14,
+                border: '1.5px solid ' + (error ? 'var(--danger)' : active ? 'var(--gold-2)' : ch ? 'var(--gold-3)' : 'var(--line)'),
+                background: ch ? 'var(--card-2)' : 'var(--card)',
+                boxShadow: active ? '0 0 0 4px var(--gold-soft)' : 'none',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: 28,
+                fontWeight: 700,
+                color: 'var(--ink)',
+                transition: 'border-color .15s, box-shadow .15s',
+              }}
+            >
+              {ch || (active ? <span style={{ width: 2, height: 28, background: 'var(--gold-2)', animation: 'zzblink 1s step-end infinite' }} /> : '')}
+            </span>
+          );
+        })}
+        <input
+          ref={ref}
+          id={id}
+          value={value}
+          autoFocus
+          inputMode="numeric"
+          autoComplete="one-time-code"
+          maxLength={length}
+          aria-label={label}
+          aria-invalid={!!error}
+          onFocus={() => setFocus(true)}
+          onBlur={() => setFocus(false)}
+          onChange={(e) => {
+            const v = e.target.value.replace(/\D/g, '').slice(0, length);
+            onChange(v);
+            if (v.length === length && v !== value) onComplete?.();
+          }}
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0, border: 0, padding: 0, fontSize: 16, caretColor: 'transparent', cursor: 'text' }}
+        />
       </div>
     </div>
   );

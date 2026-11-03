@@ -33,7 +33,8 @@ export interface AuthState {
 }
 
 export interface SignupState {
-  step: 1 | 2;
+  /** 1 email · 2 code (new email) · 3 password (existing account, quick order). */
+  step: 1 | 2 | 3;
   otp: string;
   err: string;
   /** Wrong codes entered for the current code (max 5). */
@@ -183,7 +184,7 @@ export const emptyDraft = (): OrderDraft => ({
 
 const emptyAuth = (entry: Entry = 'login'): AuthState => ({
   entry,
-  tab: EMAIL_AUTH ? 'signup' : 'nafath',
+  tab: EMAIL_AUTH ? (entry === 'login' ? 'email' : 'signup') : 'nafath',
   nid: '',
   email: '',
   password: '',
@@ -500,7 +501,7 @@ export class PortalStore {
             tone: 'bad',
             title: 'البريد الإلكتروني أو كلمة المرور غير صحيحة',
             text: EMAIL_AUTH
-              ? 'تحقق من البيانات وأعد المحاولة، أو ادخل برمز يصل إلى بريدك.'
+              ? 'تحقق من البيانات وأعد المحاولة، أو استخدم «نسيت كلمة المرور؟».'
               : 'تحقق من البيانات وأعد المحاولة. إن نسيت كلمة المرور فاستخدم «نسيت كلمة المرور؟»، أو سجّل الدخول عبر نفاذ.',
           },
         });
@@ -521,10 +522,24 @@ export class PortalStore {
     this.set((s) => ({ auth: { ...s.auth, su: { ...s.auth.su, err: '', ...p }, errors: {}, notice: null } }));
   }
 
-  /** Step 1 (sign-in and sign-up alike): send a code to the email. Whether it has an account is told only after the code. */
+  /**
+   * Step 1 of quick order and registration: the email. Quick order: an existing account asks for its
+   * password, a new email gets a code. Registration: an existing account is sent to sign-in.
+   */
   emailStart() {
-    const { email, su } = this.state.auth;
+    const { email, su, entry } = this.state.auth;
     if (!EMAIL_RE.test(email.trim())) return this.setAuth({ errors: { email: 'أدخل بريداً إلكترونياً صحيحاً' }, notice: null });
+    if (this.accountByEmail(email)) {
+      if (entry === 'order') return this.setAuth({ errors: {}, notice: null, password: '', su: { ...su, step: 3, err: '' } });
+      return this.setAuth({
+        entry: 'login',
+        tab: 'email',
+        password: '',
+        errors: {},
+        su: emptySu(),
+        notice: { tone: 'info', title: 'لديك حساب بهذا البريد الإلكتروني', text: 'سجّل الدخول بكلمة المرور، أو استخدم «نسيت كلمة المرور؟».' },
+      });
+    }
     this.setAuth({ errors: {}, notice: null, su: { ...su, step: 2, otp: '', err: '', tries: 0, wait: 60 } });
     this.tickResend();
     this.toast(sim('أرسلنا رمز التحقق إلى ' + email.trim()));
@@ -1191,11 +1206,11 @@ export class PortalStore {
   /** Hero title for the «order» page, so it names the screen the user is on. */
   pageMeta(s = this.state): { tag: string; title: string; lead: string; inAccount: boolean } {
     const a = this.account(s);
-    const order = { tag: 'اطلب الآن', title: 'اقتن عبوة زمزم', lead: EMAIL_AUTH ? 'أدخل بريدك الإلكتروني ونتعرّف عليك برمز، ثم اختر المنتجات وأكمل طلبك.' : 'تحقّق من هويتك، ثم اختر المنتجات وأكمل طلبك.', inAccount: false };
+    const order = { tag: 'اطلب الآن', title: 'اقتن عبوة زمزم', lead: EMAIL_AUTH ? 'أدخل بريدك الإلكتروني للمتابعة، ثم اختر المنتجات وأكمل طلبك.' : 'تحقّق من هويتك، ثم اختر المنتجات وأكمل طلبك.', inAccount: false };
     const acct = (title: string, lead: string) => ({ tag: 'حسابي', title, lead, inAccount: title !== 'حسابي' });
     switch (this.guardView(s.view)) {
       case 'auth':
-        if (s.auth.entry === 'login') return { tag: 'حسابي', title: 'تسجيل الدخول', lead: EMAIL_AUTH ? 'أدخل بريدك الإلكتروني وسنرسل إليك رمز دخول.' : 'سجّل الدخول عبر نفاذ أو بالبريد الإلكتروني وكلمة المرور.', inAccount: false };
+        if (s.auth.entry === 'login') return { tag: 'حسابي', title: 'تسجيل الدخول', lead: EMAIL_AUTH ? 'سجّل الدخول بالبريد الإلكتروني وكلمة المرور.' : 'سجّل الدخول عبر نفاذ أو بالبريد الإلكتروني وكلمة المرور.', inAccount: false };
         if (s.auth.entry === 'register') return { tag: 'حساب جديد', title: 'إنشاء حساب جديد', lead: EMAIL_AUTH ? 'أدخل بريدك الإلكتروني وأكّده برمز نرسله إليك، ثم أكمل بياناتك للمراجعة.' : 'سجّل عبر نفاذ، ثم تراجع الجهة المختصة بياناتك وتعتمد حسابك.', inAccount: false };
         return order;
       case 'register':

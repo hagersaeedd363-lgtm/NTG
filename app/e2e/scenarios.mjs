@@ -472,7 +472,7 @@ const scenarios = [
       await c.click('تحقق', { exact: true });
       await c.see('رمز التحقق غير صحيح');
       await c.fill('رمز التحقق', '1234');
-      await c.click('تحقق', { exact: true });
+      await c.tick(300); // the 4th digit continues on its own
       await c.fill('كلمة المرور الجديدة', '123456');
       await c.fill('تأكيد كلمة المرور', '123456');
       await c.click('حفظ كلمة المرور');

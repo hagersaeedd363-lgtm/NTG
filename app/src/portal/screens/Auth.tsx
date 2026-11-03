@@ -5,6 +5,7 @@ import { passwordRules, portal, type PortalState } from "../store";
 import {
   Alert,
   EyeToggle,
+  OtpInput,
   Field,
   ICON,
   Icon,
@@ -37,12 +38,12 @@ const COPY = {
 const COPY_EMAIL = {
   order: {
     title: "ابدأ طلبك",
-    desc: "أدخل بريدك الإلكتروني وسنرسل إليك رمز تحقق.",
+    desc: "أدخل بريدك الإلكتروني للمتابعة.",
     side: "ننشئ حسابك أولاً، ثم تختار المنتجات والكميات وتراجع طلبك قبل إرساله.",
   },
   login: {
     title: "تسجيل الدخول",
-    desc: "أدخل بريدك الإلكتروني وسنرسل إليك رمز دخول، أو ادخل بكلمة المرور.",
+    desc: "سجّل الدخول بالبريد الإلكتروني وكلمة المرور.",
     side: "تابع طلباتك وحالة حسابك، وأنشئ طلبات جديدة بعد اعتماد حسابك.",
   },
   register: {
@@ -240,20 +241,7 @@ function ForgotPanel({ f }: { f: NonNullable<PortalState["auth"]["forgot"]> }) {
                 ? "إذا كان البريد " + f.email.trim() + " مسجّلاً لدينا، أرسلنا إليه رمز تحقق من ٤ أرقام."
                 : "إذا كان البريد " + f.email.trim() + " مسجّلاً لدينا، أرسلنا رمز تحقق من ٤ أرقام إلى الجوال المسجّل في الحساب."}
             </Alert>
-            <Field
-              id="fg-otp"
-            autoFocus
-              label="رمز التحقق"
-              value={f.otp}
-              onChange={(v) =>
-                portal.setForgot({ otp: v.replace(/\D/g, "").slice(0, 4) })
-              }
-              placeholder="٤ أرقام"
-              inputMode="numeric"
-              maxLength={4}
-              ltr
-              autoComplete="one-time-code"
-            />
+            <OtpInput id="fg-otp" value={f.otp} onChange={(v) => portal.setForgot({ otp: v })} onComplete={() => portal.forgotVerify()} error={!!f.err} />
             <span style={{ fontSize: 14, color: "var(--muted)" }}>
               لم يصلك الرمز؟{" "}
               <TextButton onClick={() => portal.toast("تم إرسال رمز جديد")}>
@@ -347,7 +335,10 @@ function ForgotPanel({ f }: { f: NonNullable<PortalState["auth"]["forgot"]> }) {
 
 const AR = (n: number) => String(n).replace(/\d/g, (d) => "٠١٢٣٤٥٦٧٨٩"[+d]);
 
-/** Email-only version, every entry (navbar, registration, quick order): the email, then the code sent to it. */
+/**
+ * Email-only version, quick order and registration: the email first. New email → code → account form
+ * (with a required password). Existing account in quick order → its password.
+ */
 function EmailCodePanel({ s }: { s: PortalState }) {
   const { auth } = s;
   const su = auth.su;
@@ -366,18 +357,7 @@ function EmailCodePanel({ s }: { s: PortalState }) {
           }}
           style={{ display: "flex", flexDirection: "column", gap: 20 }}
         >
-          <Field
-            id="su-otp"
-            autoFocus
-            label="رمز التحقق"
-            value={su.otp}
-            onChange={(v) => portal.setSignup({ otp: v.replace(/\D/g, "").slice(0, 4) })}
-            placeholder="٤ أرقام"
-            inputMode="numeric"
-            maxLength={4}
-            ltr
-            autoComplete="one-time-code"
-          />
+          <OtpInput id="su-otp" value={su.otp} onChange={(v) => portal.setSignup({ otp: v })} onComplete={() => portal.emailVerify()} error={!!su.err} />
           <label style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 15, color: "var(--ink)", cursor: "pointer" }}>
             <input
               type="checkbox"
@@ -411,23 +391,65 @@ function EmailCodePanel({ s }: { s: PortalState }) {
       </div>
     );
   }
-  const pwMode = auth.tab === "email";
-  const toggle = (
-    <span style={{ display: "flex", justifyContent: "center", fontSize: 14, color: "var(--muted)", gap: 6 }}>
-      {pwMode ? "نسيت كلمة المرور؟" : "لديك كلمة مرور؟"}
-      <TextButton onClick={() => portal.setAuth({ tab: pwMode ? "signup" : "email", password: "", errors: {}, notice: null })}>
-        {pwMode ? "ادخل برمز التحقق" : "الدخول بكلمة المرور"}
-      </TextButton>
-    </span>
-  );
+  if (su.step === 3) {
+    return (
+      <form
+        noValidate
+        onSubmit={(e) => {
+          e.preventDefault();
+          portal.emailLogin();
+        }}
+        style={{ display: "flex", flexDirection: "column", gap: 20 }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 16px", borderRadius: 12, background: "var(--card-2)", boxShadow: "inset 0 0 0 1px var(--line)" }}>
+          <Icon d={ICON.mail} size={18} />
+          <span dir="ltr" style={{ flex: 1, minWidth: 0, textAlign: "right", fontSize: 15, fontWeight: 600, color: "var(--ink)", overflow: "hidden", textOverflow: "ellipsis" }}>
+            {auth.email.trim()}
+          </span>
+          <TextButton onClick={() => portal.backToSignup()}>تغيير</TextButton>
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          <Field
+            id="auth-pass"
+            label="كلمة المرور"
+            value={auth.password}
+            onChange={(v) => portal.setAuth({ password: v, errors: {}, notice: null })}
+            error={auth.errors.password}
+            type="password"
+            ltr
+            autoComplete="current-password"
+            autoFocus
+            hint="لديك حساب بهذا البريد. أدخل كلمة المرور لمتابعة طلبك."
+          />
+          <span style={{ alignSelf: "flex-end" }}>
+            <TextButton onClick={() => portal.startForgot()}>نسيت كلمة المرور؟</TextButton>
+          </span>
+        </div>
+        <PrimaryButton type="submit" full busy={auth.busy} style={{ height: 56 }}>
+          {auth.busy ? "جارٍ التحقق…" : "متابعة الطلب"}
+        </PrimaryButton>
+        {DEMO_TOOLS ? (
+          <DemoChips>
+            <Chip label="كلمة مرور المعاينة" onClick={() => portal.setAuth({ password: DEMO_EMAIL_LOGIN.password, errors: {}, notice: null })} />
+          </DemoChips>
+        ) : null}
+      </form>
+    );
+  }
+  const order = auth.entry === "order";
+  const chips = order
+    ? [...DEMO_EMAIL_LIST, { email: "new.user@example.com", label: "مستخدم جديد" }]
+    : [
+        { email: "new.user@example.com", label: "مستخدم جديد" },
+        { email: DEMO_EMAIL_LOGIN.email, label: "بريد مسجّل مسبقاً" },
+      ];
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
       <form
         noValidate
         onSubmit={(e) => {
           e.preventDefault();
-          if (pwMode) portal.emailLogin();
-          else portal.emailStart();
+          portal.emailStart();
         }}
         style={{ display: "flex", flexDirection: "column", gap: 20 }}
       >
@@ -442,30 +464,16 @@ function EmailCodePanel({ s }: { s: PortalState }) {
           inputMode="email"
           ltr
           autoComplete="email"
-          hint={pwMode ? undefined : auth.entry === "order" ? "إن كان لديك حساب نكمل طلبك به، وإن لم يكن ننشئ حسابك أثناء الطلب." : "إن كان لديك حساب نسجّل دخولك، وإن لم يكن ننشئ حسابك."}
+          hint={order ? "إن كان لديك حساب نطلب كلمة المرور، وإن لم يكن نرسل رمزاً لتأكيد بريدك وننشئ حسابك أثناء الطلب." : "نرسل رمز تحقق إلى بريدك لتأكيده."}
         />
-        {pwMode ? (
-          <Field
-            id="auth-pass"
-            label="كلمة المرور"
-            value={auth.password}
-            onChange={(v) => portal.setAuth({ password: v, errors: {}, notice: null })}
-            error={auth.errors.password}
-            type="password"
-            ltr
-            autoComplete="current-password"
-            autoFocus
-          />
-        ) : null}
-        <PrimaryButton type="submit" full busy={pwMode && auth.busy} style={{ height: 56 }}>
-          {pwMode ? (auth.busy ? "جارٍ التحقق…" : auth.entry === "order" ? "متابعة الطلب" : "تسجيل الدخول") : "إرسال رمز التحقق"}
+        <PrimaryButton type="submit" full style={{ height: 56 }}>
+          {order ? "متابعة" : "إرسال رمز التحقق"}
         </PrimaryButton>
-        {toggle}
       </form>
       {DEMO_TOOLS ? (
         <DemoChips>
-          {[...DEMO_EMAIL_LIST, { email: "new.user@example.com", label: "مستخدم جديد" }].map((d) => (
-            <Chip key={d.email} label={d.label} onClick={() => portal.setAuth({ email: d.email, password: pwMode && d.email !== "new.user@example.com" ? DEMO_EMAIL_LOGIN.password : "", errors: {}, notice: null })} />
+          {chips.map((d) => (
+            <Chip key={d.email} label={d.label} onClick={() => portal.setAuth({ email: d.email, errors: {}, notice: null })} />
           ))}
         </DemoChips>
       ) : null}
@@ -490,7 +498,7 @@ export function AuthScreen({ s }: { s: PortalState }) {
       : auth.tab;
   const showTabs = !EMAIL_AUTH && !nafathOnly;
   const f = auth.forgot;
-  const codeStep = EMAIL_AUTH && auth.su.step === 2;
+  const codeStep = EMAIL_AUTH && auth.entry !== "login" && auth.su.step === 2;
   return (
     <div
       style={{
@@ -565,7 +573,7 @@ export function AuthScreen({ s }: { s: PortalState }) {
               </Alert>
             ) : null}
 
-            {EMAIL_AUTH ? (
+            {EMAIL_AUTH && auth.entry !== "login" ? (
               <EmailCodePanel s={s} />
             ) : tab === "nafath" ? (
               <form
@@ -687,7 +695,7 @@ export function AuthScreen({ s }: { s: PortalState }) {
               </form>
             )}
 
-            {EMAIL_AUTH ? null : <div
+            {EMAIL_AUTH && (auth.entry === "order" || codeStep) ? null : <div
               style={{
                 display: "flex",
                 flexWrap: "wrap",
@@ -722,7 +730,16 @@ export function AuthScreen({ s }: { s: PortalState }) {
             </div>}
 
             {DEMO_TOOLS ? (
-              EMAIL_AUTH ? null : tab === "nafath" ? (
+              EMAIL_AUTH ? (
+                auth.entry === "login" ? (
+                  <DemoChips>
+                    {DEMO_EMAIL_LIST.map((d) => (
+                      <Chip key={d.email} label={d.label} onClick={() => portal.setAuth({ email: d.email, password: DEMO_EMAIL_LOGIN.password, errors: {}, notice: null })} />
+                    ))}
+                    <Chip label="كلمة مرور خاطئة" onClick={() => portal.setAuth({ email: DEMO_EMAIL_LOGIN.email, password: "wrong-pass", errors: {}, notice: null })} />
+                  </DemoChips>
+                ) : null
+              ) : tab === "nafath" ? (
                 <DemoChips>
                   {DEMO_ID_LIST.map((d) => (
                     <Chip

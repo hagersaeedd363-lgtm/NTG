@@ -15,6 +15,7 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:.8}
 @keyframes zzspin{to{transform:rotate(360deg)}}
 @keyframes zzfade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 @keyframes zzfadeout{to{opacity:0;visibility:hidden}}
+@keyframes zzblink{50%{opacity:0}}
 .zz-orders-tabs{scrollbar-width:none;-ms-overflow-style:none}
 .zz-orders-tabs::-webkit-scrollbar{display:none}
 @media(max-width:1365px){.zz-header-nav{gap:22px!important}.zz-header-actions{gap:8px!important}.zz-header-mech{padding-left:14px!important;padding-right:14px!important}.zz-header-buy{padding-left:14px!important;padding-right:14px!important}.zz-header-account{padding-left:12px!important;padding-right:12px!important}}

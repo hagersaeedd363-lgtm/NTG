@@ -1,30 +1,39 @@
-// End-to-end check of the email-only version: email + code for everyone (no Nafath, password, national ID or account mobile).
+// End-to-end check of the email-only version (no Nafath, national ID or account mobile):
+//   - sign-in: email + password («نسيت كلمة المرور» → code to the email → new password)
+//   - registration: email → code (square boxes) → account form with a required password → review
+//   - quick order: email first → existing account asks for its password, a new email gets a code
 // Run against a demo build of that version:
 //   VITE_AUTH=email VITE_DEMO_TOOLS=true npx vite --port 5174
 //   node e2e/email-scenarios.mjs http://localhost:5174/ [screenshotDir]
 import { runScenarios } from './harness.mjs';
 
-/** Email → code (one wrong attempt first) → continue. Same screen for sign-in and sign-up. */
-async function emailCode(c, email, { wrong = false } = {}) {
-  await c.fill('البريد الإلكتروني', email);
-  await c.click('إرسال رمز التحقق', { exact: true });
+const PW = 'Zamzam2026';
+
+/** Code step: the boxes take the cursor; a wrong code is refused as soon as the 4th digit is typed. */
+async function code(c, email, { wrong = false } = {}) {
   await c.see('أرسلنا رمزاً من ٤ أرقام إلى ' + email);
   await c.see('إعادة الإرسال بعد');
-  if ((await c.p.evaluate(() => document.activeElement?.id)) !== 'su-otp') throw new Error('the code field should be focused');
+  if ((await c.p.evaluate(() => document.activeElement?.id)) !== 'su-otp') throw new Error('the code boxes should have the cursor');
   if (wrong) {
     await c.fill('رمز التحقق', '0000');
-    await c.click('متابعة', { exact: true });
     await c.see('رمز التحقق غير صحيح');
   }
-  await c.click('رمز التحقق ١٢٣٤');
-  await c.click('متابعة', { exact: true });
+  await c.fill('رمز التحقق', '1234'); // completes → continues on its own
+  await c.tick(300);
 }
 
-async function noIdentityFields(c) {
-  for (const t of ['رقم الهوية', 'رقم الجوال', 'نفاذ', 'تعيين كلمة مرور الآن']) await c.notSee(t);
+/** Email step of registration / quick order. */
+async function email(c, address) {
+  await c.fill('البريد الإلكتروني', address);
+  await c.click(/^(متابعة|إرسال رمز التحقق)$/);
 }
 
-const PW = 'Zamzam2026';
+async function passwordLogin(c, address, password) {
+  await c.fill('البريد الإلكتروني', address);
+  await c.p.locator('#auth-pass').fill(password);
+  await c.p.locator('#auth-pass').press('Enter');
+  await c.tick(1200);
+}
 
 async function setPassword(c) {
   await c.p.locator('#reg-pw1').fill(PW);
@@ -32,12 +41,8 @@ async function setPassword(c) {
   await c.tick(100);
 }
 
-async function passwordLogin(c, email, password) {
-  await c.click('الدخول بكلمة المرور');
-  await c.fill('البريد الإلكتروني', email);
-  await c.p.locator('#auth-pass').fill(password);
-  await c.p.locator('#auth-pass').press('Enter');
-  await c.tick(1200);
+async function noIdentityFields(c) {
+  for (const t of ['رقم الهوية', 'رقم الجوال', 'نفاذ', 'تعيين كلمة مرور الآن']) await c.notSee(t);
 }
 
 async function logout(c) {
@@ -49,13 +54,15 @@ async function logout(c) {
 const scenarios = [
   {
     id: 1,
-    title: 'Navbar: new email → code → details + required password → review; then signs in with the password',
+    title: 'Register from the navbar: email → code → details + required password → review → sign in',
     run: async (c) => {
       await c.openLogin();
+      await c.see('سجّل الدخول بالبريد الإلكتروني وكلمة المرور');
       await noIdentityFields(c);
-      await c.notSee('إنشاء حساب جديد');
-      await c.shot('email');
-      await emailCode(c, 'new.user@example.com', { wrong: true });
+      await c.click('إنشاء حساب جديد');
+      await email(c, 'new.user@example.com');
+      await code(c, 'new.user@example.com', { wrong: true });
+      await c.shot('code-error');
       await c.see('بيانات الحساب');
       await c.see('مؤكَّد');
       await noIdentityFields(c);
@@ -65,7 +72,6 @@ const scenarios = [
       await c.see('أدخل كلمة مرور تستوفي الشروط وأكّدها.');
       await c.fill('الاسم الكامل', 'سلمان علي الشهري');
       await setPassword(c);
-      await c.shot('details');
       await c.click('إرسال للمراجعة', { exact: true });
       await c.see('تم إرسال بيانات تسجيلك');
       await noIdentityFields(c);
@@ -75,18 +81,17 @@ const scenarios = [
       await c.landedHomeThenAccount();
       await c.see('حسابك قيد المراجعة');
       await c.see('بريد مؤكَّد');
-      await noIdentityFields(c);
-      return 'New email + required password become a pending account; signs in again with the password.';
+      return 'Email confirmed by code, password set in the form, pending review; signs in with email + password.';
     },
   },
   {
     id: 2,
-    title: 'Quick order, new company: email → code → account details in the order → submit',
+    title: 'Quick order, new company: email → code → account details + password in the order → submit',
     run: async (c) => {
       await c.startOrderFromHome();
       await c.see('ابدأ طلبك');
-      await c.notSee('لدي حساب');
-      await emailCode(c, 'buyer@example.com');
+      await email(c, 'buyer@example.com');
+      await code(c, 'buyer@example.com');
       await c.see('بيانات الحساب');
       await c.fill('الاسم الكامل', 'منى سعيد القرني');
       await setPassword(c);
@@ -99,7 +104,6 @@ const scenarios = [
       if ((await c.p.locator('#co-repname').inputValue()) !== 'منى سعيد القرني') throw new Error('representative name should follow the account name');
       if ((await c.p.locator('#co-repemail').inputValue()) !== 'buyer@example.com') throw new Error('representative email should be the account email');
       for (const id of ['co-repid', 'co-repphone', 'co-idtype']) if (await c.p.locator('#' + id).count()) throw new Error('unexpected field ' + id);
-      await c.shot('account-step');
       await c.click('متابعة إلى المنتجات');
       await c.products();
       if ((await c.p.locator('#of-recvEmail').inputValue()) !== 'buyer@example.com') throw new Error('receiver email not prefilled');
@@ -109,71 +113,94 @@ const scenarios = [
       await c.select('of-warehouse', 'مستودع كدي — مكة المكرمة');
       await c.click('إرسال الطلب وبيانات التسجيل');
       await c.see('تم إرسال طلبك وبيانات تسجيلك');
-      await c.shot('done');
-      return 'Registration + first order submitted together; password set in the form; no ID or mobile on the account.';
+      return 'Registration + first order submitted together.';
     },
   },
   {
     id: 3,
-    title: 'Quick order, existing approved user: same email + code continues the order',
+    title: 'Quick order, existing user: email → password → continues the order',
     run: async (c) => {
       await c.startOrderFromHome();
-      await emailCode(c, 'n.alqahtani@example.com');
+      await email(c, 'n.alqahtani@example.com');
+      await c.see('لديك حساب بهذا البريد. أدخل كلمة المرور لمتابعة طلبك.');
+      await c.see('نسيت كلمة المرور؟');
+      await c.shot('password-step');
+      await c.p.locator('#auth-pass').fill('wrong-pass');
+      await c.click('متابعة الطلب', { wait: 1200 });
+      await c.see('البريد الإلكتروني أو كلمة المرور غير صحيحة');
+      await c.p.locator('#auth-pass').fill('123456');
+      await c.click('متابعة الطلب', { wait: 1200 });
       await c.see('تفاصيل الطلب');
       await c.see('معتمد');
-      await c.click('متابعة إلى المنتجات');
-      await c.products();
-      if ((await c.p.locator('#of-recvEmail').inputValue()) !== 'n.alqahtani@example.com') throw new Error('receiver email not prefilled');
-      return 'Recognised after the code and continued to products.';
+      return 'Existing account asked for its password inside the order, then continued.';
     },
   },
   {
     id: 4,
-    title: 'Navbar sign-in with a password instead of a code',
+    title: 'Navbar sign-in: email + password on one screen',
     run: async (c) => {
       await c.openLogin();
+      await c.shot('login');
       await passwordLogin(c, 'a.alharbi@example.com', 'wrong-pass');
       await c.see('البريد الإلكتروني أو كلمة المرور غير صحيحة');
-      await c.p.locator('#auth-pass').fill('123456');
-      await c.p.locator('#auth-pass').press('Enter');
-      await c.tick(1200);
+      await passwordLogin(c, 'a.alharbi@example.com', '123456');
       await c.see('طلبك بانتظار إثبات الدفع');
       await c.landedHomeThenAccount();
       await c.see('عبدالله محمد الحربي');
       await c.notSee('رقم الهوية');
       await c.notSee('جوال الممثل');
-      await c.p.locator('.zz-header-account').click();
-      await c.tick();
-      await c.click('تغيير كلمة المرور', { role: 'menuitem' });
-      await c.see('البريد');
-      await c.shot('password');
-      return 'Password sign-in works alongside the code; the password can be changed from the menu.';
+      return 'Signed in with email + password.';
     },
   },
   {
     id: 5,
-    title: 'Code screen: resend countdown, change email, attempt limit',
+    title: 'Forgot password: code boxes → new password → sign in',
     run: async (c) => {
       await c.openLogin();
-      await c.fill('البريد الإلكتروني', 'f.aldosari@example.com');
-      await c.click('إرسال رمز التحقق', { exact: true });
+      await c.click('نسيت كلمة المرور؟');
+      await c.fill('البريد الإلكتروني المسجّل', 'f.aldosari@example.com');
+      await c.click('إرسال رمز التحقق');
+      await c.see('أرسلنا إليه رمز تحقق');
+      if ((await c.p.evaluate(() => document.activeElement?.id)) !== 'fg-otp') throw new Error('the code boxes should have the cursor');
+      await c.fill('رمز التحقق', '1234');
+      await c.see('كلمة المرور الجديدة');
+      await c.fill('كلمة المرور الجديدة', PW);
+      await c.fill('تأكيد كلمة المرور', PW);
+      await c.click('حفظ كلمة المرور');
+      await c.see('تم تعيين كلمة المرور الجديدة');
+      await c.p.locator('#auth-pass').fill(PW);
+      await c.p.locator('#auth-pass').press('Enter');
+      await c.tick(1200);
+      await c.landedHomeThenAccount();
+      await c.see('حسابك قيد المراجعة');
+      return 'Reset by email code, then signed in with the new password.';
+    },
+  },
+  {
+    id: 6,
+    title: 'Registration: existing email goes to sign-in; code resend and attempt limit',
+    run: async (c) => {
+      await c.openLogin();
+      await c.click('إنشاء حساب جديد');
+      await email(c, 'a.alharbi@example.com');
+      await c.see('لديك حساب بهذا البريد الإلكتروني');
+      await c.see('نسيت كلمة المرور؟');
+      await c.click('إنشاء حساب جديد');
+      await email(c, 'another@example.com');
       await c.see('إعادة الإرسال بعد');
       await c.tick(61000);
       await c.click('إعادة الإرسال');
       await c.see('إعادة الإرسال بعد');
       for (let i = 0; i < 5; i++) {
+        await c.fill('رمز التحقق', '');
         await c.fill('رمز التحقق', '0000');
-        await c.click('متابعة', { exact: true });
       }
-      await c.click('رمز التحقق ١٢٣٤');
-      await c.click('متابعة', { exact: true });
+      await c.fill('رمز التحقق', '');
+      await c.fill('رمز التحقق', '1234');
       await c.see('تجاوزت عدد المحاولات المسموح');
       await c.click('تغيير البريد الإلكتروني');
       await c.see('إرسال رمز التحقق');
-      await emailCode(c, 'f.aldosari@example.com');
-      await c.landedHomeThenAccount();
-      await c.see('حسابك قيد المراجعة');
-      return 'Resend after 60 s; locked after 5 wrong codes until a new code is sent.';
+      return 'Existing email sent to sign-in; resend after 60 s; locked after 5 wrong codes.';
     },
   },
 ];
