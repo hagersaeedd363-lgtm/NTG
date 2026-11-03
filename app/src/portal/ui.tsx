@@ -836,7 +836,7 @@ export function OtpInput({
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
       <Label htmlFor={id}>{label}</Label>
-      <div dir="ltr" style={{ position: 'relative', display: 'flex', justifyContent: 'center', gap: 12 }}>
+      <div dir="ltr" style={{ position: 'relative', display: 'flex', width: '100%', gap: 12 }}>
         {Array.from({ length }, (_, i) => {
           const ch = value[i] || '';
           const active = focus && i === cur && !(value.length === length && i === length - 1 && ch);
@@ -845,8 +845,9 @@ export function OtpInput({
               key={i}
               aria-hidden="true"
               style={{
-                width: 'clamp(52px,14vw,64px)',
-                height: 'clamp(56px,15vw,68px)',
+                flex: '1 1 0',
+                minWidth: 0,
+                height: 64,
                 borderRadius: 14,
                 border: '1.5px solid ' + (error ? 'var(--danger)' : active ? 'var(--gold-2)' : ch ? 'var(--gold-3)' : 'var(--line)'),
                 background: ch ? 'var(--card-2)' : 'var(--card)',
