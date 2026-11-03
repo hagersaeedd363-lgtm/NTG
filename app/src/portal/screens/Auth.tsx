@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
-import { DEMO_TOOLS } from "../../config";
-import { DEMO_EMAIL_LOGIN, DEMO_ID_LIST } from "../fixtures";
+import { DEMO_TOOLS, EMAIL_AUTH } from "../../config";
+import { DEMO_EMAIL_LIST, DEMO_EMAIL_LOGIN, DEMO_ID_LIST } from "../fixtures";
 import { passwordRules, portal, type PortalState } from "../store";
 import {
   Alert,
@@ -33,11 +33,37 @@ const COPY = {
   },
 } as const;
 
-function Tabs({ tab }: { tab: "nafath" | "email" }) {
-  const items = [
-    { id: "nafath" as const, label: "نفاذ" },
-    { id: "email" as const, label: "البريد الإلكتروني" },
-  ];
+/** Email-only version: no Nafath; new accounts start with email + password. */
+const COPY_EMAIL = {
+  order: {
+    title: "ابدأ طلبك",
+    desc: "أنشئ حسابك ببريدك الإلكتروني، أو سجّل الدخول إن كان لديك حساب.",
+    side: "ننشئ حسابك أولاً، ثم تختار المنتجات والكميات وتراجع طلبك قبل إرساله.",
+  },
+  login: {
+    title: "تسجيل الدخول",
+    desc: "سجّل الدخول بالبريد الإلكتروني وكلمة المرور.",
+    side: "تابع طلباتك وحالة حسابك، وأنشئ طلبات جديدة بعد اعتماد حسابك.",
+  },
+  register: {
+    title: "إنشاء حساب جديد",
+    desc: "أنشئ حسابك بالبريد الإلكتروني وكلمة المرور، ثم أكّد بريدك برمز نرسله إليك.",
+    side: "بعد التسجيل تراجع الجهة المختصة بياناتك، وتبدأ الطلبات بعد اعتماد حسابك.",
+  },
+} as const;
+
+type Tab = "nafath" | "email" | "signup";
+
+function Tabs({ tab }: { tab: Tab }) {
+  const items: Array<{ id: Tab; label: string }> = EMAIL_AUTH
+    ? [
+        { id: "signup", label: "حساب جديد" },
+        { id: "email", label: "لدي حساب" },
+      ]
+    : [
+        { id: "nafath", label: "نفاذ" },
+        { id: "email", label: "البريد الإلكتروني" },
+      ];
   return (
     <div
       role="tablist"
@@ -86,7 +112,7 @@ function Tabs({ tab }: { tab: "nafath" | "email" }) {
                 style={{ width: 24, height: 24, borderRadius: 6 }}
               />
             ) : (
-              <Icon d={ICON.mail} />
+              <Icon d={t.id === "signup" ? ICON.user : ICON.mail} />
             )}
             {t.label}
           </button>
@@ -210,8 +236,9 @@ function ForgotPanel({ f }: { f: NonNullable<PortalState["auth"]["forgot"]> }) {
         {f.step === 2 ? (
           <>
             <Alert tone="info">
-              إذا كان البريد {f.email.trim()} مسجّلاً لدينا، أرسلنا رمز تحقق من
-              ٤ أرقام إلى الجوال المسجّل في الحساب.
+              {EMAIL_AUTH
+                ? "إذا كان البريد " + f.email.trim() + " مسجّلاً لدينا، أرسلنا إليه رمز تحقق من ٤ أرقام."
+                : "إذا كان البريد " + f.email.trim() + " مسجّلاً لدينا، أرسلنا رمز تحقق من ٤ أرقام إلى الجوال المسجّل في الحساب."}
             </Alert>
             <Field
               id="fg-otp"
@@ -317,12 +344,141 @@ function ForgotPanel({ f }: { f: NonNullable<PortalState["auth"]["forgot"]> }) {
   );
 }
 
+function Rules({ n1, n2 }: { n1: string; n2: string }) {
+  return (
+    <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexWrap: "wrap", gap: "6px 20px" }}>
+      {passwordRules(n1, n2).map((r) => (
+        <li key={r.t} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 13, color: r.ok ? "var(--al-ok-fg)" : "var(--muted)" }}>
+          <Icon d={r.ok ? ICON.check : ICON.info} size={15} sw={2} />
+          {r.t}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+/** Email-only version: «حساب جديد» (email + password), then the code sent to the email. */
+function SignupPanel({ s }: { s: PortalState }) {
+  const { auth } = s;
+  const su = auth.su;
+  if (su.step === 2) {
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+        <Alert tone="info" icon={ICON.mail} title={"أرسلنا رمزاً من ٤ أرقام إلى " + auth.email.trim()}>
+          قد يصل الرمز خلال دقيقة. تحقّق من مجلد الرسائل غير المرغوب فيها إن لم تجده.
+        </Alert>
+        {su.err ? <Alert tone="bad" title={su.err} /> : null}
+        <form
+          noValidate
+          onSubmit={(e) => {
+            e.preventDefault();
+            portal.verifySignup();
+          }}
+          style={{ display: "flex", flexDirection: "column", gap: 20 }}
+        >
+          <Field
+            id="su-otp"
+            label="رمز التحقق"
+            value={su.otp}
+            onChange={(v) => portal.setSignup({ otp: v.replace(/\D/g, "").slice(0, 4) })}
+            placeholder="٤ أرقام"
+            inputMode="numeric"
+            maxLength={4}
+            ltr
+            autoComplete="one-time-code"
+          />
+          <span style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: 8, fontSize: 14, color: "var(--muted)" }}>
+            <span>
+              لم يصلك الرمز؟{" "}
+              <TextButton onClick={() => portal.toast("تم إرسال رمز جديد")}>إعادة الإرسال</TextButton>
+            </span>
+            <TextButton onClick={() => portal.backToSignup()}>تغيير البريد الإلكتروني</TextButton>
+          </span>
+          <PrimaryButton type="submit" full style={{ height: 56 }}>
+            تأكيد البريد
+          </PrimaryButton>
+        </form>
+        {DEMO_TOOLS ? (
+          <DemoChips>
+            <Chip label="رمز التحقق ١٢٣٤" onClick={() => portal.setSignup({ otp: "1234" })} />
+          </DemoChips>
+        ) : null}
+      </div>
+    );
+  }
+  const eye = <EyeToggle shown={su.show} onToggle={() => portal.setSignup({ show: !su.show })} />;
+  return (
+    <form
+      noValidate
+      onSubmit={(e) => {
+        e.preventDefault();
+        portal.startSignup();
+      }}
+      style={{ display: "flex", flexDirection: "column", gap: 20 }}
+    >
+      <Field
+        id="su-email"
+        label="البريد الإلكتروني"
+        value={auth.email}
+        onChange={(v) => portal.setAuth({ email: v, errors: {}, notice: null })}
+        error={auth.errors.email}
+        placeholder="email@example.com"
+        type="email"
+        inputMode="email"
+        ltr
+        autoComplete="username"
+      />
+      <Field
+        id="su-pw1"
+        label="كلمة المرور"
+        value={su.n1}
+        onChange={(v) => portal.setSignup({ n1: v })}
+        type={su.show ? "text" : "password"}
+        ltr
+        autoComplete="new-password"
+        placeholder="٨ أحرف على الأقل"
+        trailing={eye}
+      />
+      <Field
+        id="su-pw2"
+        label="تأكيد كلمة المرور"
+        value={su.n2}
+        onChange={(v) => portal.setSignup({ n2: v })}
+        error={auth.errors.password}
+        type={su.show ? "text" : "password"}
+        ltr
+        autoComplete="new-password"
+        trailing={eye}
+      />
+      <Rules n1={su.n1} n2={su.n2} />
+      <PrimaryButton type="submit" full style={{ height: 56 }}>
+        إنشاء الحساب
+      </PrimaryButton>
+      <span style={{ textAlign: "center", fontSize: 14, color: "var(--muted)" }}>
+        نرسل رمز تحقق إلى بريدك لتأكيده.
+      </span>
+    </form>
+  );
+}
+
 export function AuthScreen({ s }: { s: PortalState }) {
   const { auth } = s;
-  const c = COPY[auth.entry];
+  const c = (EMAIL_AUTH ? COPY_EMAIL : COPY)[auth.entry];
   const nafathOnly = auth.entry === "register";
-  const tab = nafathOnly ? "nafath" : auth.tab;
+  const tab: Tab = EMAIL_AUTH
+    ? auth.entry === "register"
+      ? "signup"
+      : auth.entry === "login"
+        ? "email"
+        : auth.tab === "nafath"
+          ? "signup"
+          : auth.tab
+    : nafathOnly
+      ? "nafath"
+      : auth.tab;
+  const showTabs = EMAIL_AUTH ? auth.entry === "order" : !nafathOnly;
   const f = auth.forgot;
+  const codeStep = EMAIL_AUTH && tab === "signup" && auth.su.step === 2;
   return (
     <div
       style={{
@@ -361,7 +517,7 @@ export function AuthScreen({ s }: { s: PortalState }) {
                 color: "var(--ink)",
               }}
             >
-              {f ? "نسيت كلمة المرور" : c.title}
+              {f ? "نسيت كلمة المرور" : codeStep ? "تأكيد البريد الإلكتروني" : c.title}
             </h2>
             <p
               style={{
@@ -372,8 +528,12 @@ export function AuthScreen({ s }: { s: PortalState }) {
               }}
             >
               {f
-                ? "نتحقق منك برمز يصل إلى الجوال المسجّل في حسابك، ثم تعيّن كلمة مرور جديدة."
-                : c.desc}
+                ? EMAIL_AUTH
+                  ? "نتحقق منك برمز يصل إلى بريدك الإلكتروني، ثم تعيّن كلمة مرور جديدة."
+                  : "نتحقق منك برمز يصل إلى الجوال المسجّل في حسابك، ثم تعيّن كلمة مرور جديدة."
+                : codeStep
+                  ? "أدخل الرمز الذي أرسلناه إلى بريدك لإكمال إنشاء حسابك."
+                  : c.desc}
             </p>
           </div>
         </div>
@@ -382,7 +542,7 @@ export function AuthScreen({ s }: { s: PortalState }) {
           <ForgotPanel f={f} />
         ) : (
           <>
-            {nafathOnly ? null : <Tabs tab={tab} />}
+            {showTabs && !codeStep ? <Tabs tab={tab} /> : null}
 
             {auth.notice ? (
               <Alert
@@ -393,7 +553,9 @@ export function AuthScreen({ s }: { s: PortalState }) {
               </Alert>
             ) : null}
 
-            {tab === "nafath" ? (
+            {tab === "signup" ? (
+              <SignupPanel s={s} />
+            ) : tab === "nafath" ? (
               <form
                 noValidate
                 onSubmit={(e) => {
@@ -485,7 +647,7 @@ export function AuthScreen({ s }: { s: PortalState }) {
                       ? "متابعة الطلب"
                       : "تسجيل الدخول"}
                 </PrimaryButton>
-                <p
+                {EMAIL_AUTH ? null : <p
                   style={{
                     margin: "-8px 0 0",
                     display: "flex",
@@ -509,7 +671,7 @@ export function AuthScreen({ s }: { s: PortalState }) {
                   >
                     تحقّق عبر نفاذ
                   </TextButton>
-                </p>
+                </p>}
               </form>
             )}
 
@@ -540,7 +702,7 @@ export function AuthScreen({ s }: { s: PortalState }) {
                     إنشاء حساب جديد
                   </TextButton>
                 </>
-              ) : (
+              ) : EMAIL_AUTH ? null : (
                 <span style={{ fontSize: 14, color: "var(--muted)" }}>
                   لا تحتاج إلى التسجيل مسبقاً. نكمل بياناتك خلال الطلب.
                 </span>
@@ -548,7 +710,25 @@ export function AuthScreen({ s }: { s: PortalState }) {
             </div>
 
             {DEMO_TOOLS ? (
-              tab === "nafath" ? (
+              tab === "signup" ? null : EMAIL_AUTH ? (
+                <DemoChips>
+                  {DEMO_EMAIL_LIST.map((d) => (
+                    <Chip
+                      key={d.email}
+                      label={d.label}
+                      onClick={() =>
+                        portal.setAuth({ email: d.email, password: DEMO_EMAIL_LOGIN.password, errors: {}, notice: null })
+                      }
+                    />
+                  ))}
+                  <Chip
+                    label="كلمة مرور خاطئة"
+                    onClick={() =>
+                      portal.setAuth({ email: DEMO_EMAIL_LOGIN.email, password: "wrong-pass", errors: {}, notice: null })
+                    }
+                  />
+                </DemoChips>
+              ) : tab === "nafath" ? (
                 <DemoChips>
                   {DEMO_ID_LIST.map((d) => (
                     <Chip
@@ -658,7 +838,7 @@ export function AuthScreen({ s }: { s: PortalState }) {
             }}
           >
             {[
-              "التحقق عبر نفاذ",
+              EMAIL_AUTH ? "إنشاء الحساب وتأكيد البريد" : "التحقق عبر نفاذ",
               "نوع الحساب والبيانات المطلوبة",
               "مراجعة الجهة المختصة واعتماد الحساب",
             ].map((t, i) => (

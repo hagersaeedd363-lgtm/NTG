@@ -1,4 +1,4 @@
-import { DEMO_TOOLS } from '../config';
+import { DEMO_TOOLS, EMAIL_AUTH } from '../config';
 import type { V } from '../types';
 import { OrdersView } from '../views/portal/OrdersView';
 import { PasswordView } from '../views/portal/PasswordView';
@@ -21,7 +21,7 @@ function FlowStepper({ s }: { s: PortalState }) {
   return (
     <Stepper
       steps={[
-        { label: 'التحقق عبر نفاذ', done: true, cur: false },
+        { label: EMAIL_AUTH ? (isNew ? 'إنشاء الحساب' : 'تسجيل الدخول') : 'التحقق عبر نفاذ', done: true, cur: false },
         ...order.map((id, i) => ({
           label: id === 'account' ? (isNew ? 'التسجيل' : 'بياناتك') : id === 'products' ? 'المنتجات' : 'المراجعة',
           done: i < cur,

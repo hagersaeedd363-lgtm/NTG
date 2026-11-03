@@ -4,7 +4,7 @@
  * Replace those with API calls when the services exist; the screens only use this store.
  */
 import { useSyncExternalStore } from 'react';
-import { DEMO_TOOLS } from '../config';
+import { DEMO_TOOLS, EMAIL_AUTH } from '../config';
 import { COMPANIES, EMAIL_RE, MAX_BOTTLES, PRODUCTS, REGIONS, SAR } from '../data/portal';
 import { DEMO_IDS, initialDb, sampleIdentity } from './fixtures';
 import { canCreateOrder, computeTotals, createOrderBlockReason, isPayable } from './rules';
@@ -17,7 +17,8 @@ export type Errors = Record<string, string>;
 
 export interface AuthState {
   entry: Entry;
-  tab: 'nafath' | 'email';
+  /** 'signup' is the email-only version's «حساب جديد» form. */
+  tab: 'nafath' | 'email' | 'signup';
   nid: string;
   email: string;
   password: string;
@@ -27,7 +28,20 @@ export interface AuthState {
   busy: boolean;
   /** «نسيت كلمة المرور» while signed out: email → code to the registered mobile → new password. */
   forgot: ForgotState | null;
+  /** Email-only version: new account (email + password), then the code sent to the email. */
+  su: SignupState;
 }
+
+export interface SignupState {
+  step: 1 | 2;
+  n1: string;
+  n2: string;
+  show: boolean;
+  otp: string;
+  err: string;
+}
+
+const emptySu = (): SignupState => ({ step: 1, n1: '', n2: '', show: false, otp: '', err: '' });
 
 export interface ForgotState {
   step: 1 | 2 | 3;
@@ -164,7 +178,7 @@ export const emptyDraft = (): OrderDraft => ({
 
 const emptyAuth = (entry: Entry = 'login'): AuthState => ({
   entry,
-  tab: 'nafath',
+  tab: EMAIL_AUTH ? (entry === 'login' ? 'email' : 'signup') : 'nafath',
   nid: '',
   email: '',
   password: '',
@@ -172,6 +186,7 @@ const emptyAuth = (entry: Entry = 'login'): AuthState => ({
   notice: null,
   busy: false,
   forgot: null,
+  su: emptySu(),
 });
 
 function initialState(): PortalState {
@@ -227,6 +242,7 @@ function load(): PortalState {
       lastOrderId: saved.lastOrderId ?? null,
       openOrderId: saved.openOrderId ?? null,
       pwHintOff: saved.pwHintOff ?? false,
+      regPw: saved.regPw ?? base.regPw,
     };
   } catch {
     return base;
@@ -253,10 +269,10 @@ export class PortalStore {
     const p = typeof patch === 'function' ? patch(this.state) : patch;
     this.state = { ...this.state, ...p };
     try {
-      const { db, session, view, reg, verified, draft, flow, auth, lastOrderId, openOrderId, pwHintOff } = this.state;
+      const { db, session, view, reg, verified, draft, flow, auth, lastOrderId, openOrderId, pwHintOff, regPw } = this.state;
       sessionStorage.setItem(
         STORAGE_KEY,
-        JSON.stringify({ db, session, view, reg, verified, draft, flow, auth: { entry: auth.entry, tab: auth.tab }, lastOrderId, openOrderId, pwHintOff }),
+        JSON.stringify({ db, session, view, reg, verified, draft, flow, auth: { entry: auth.entry, tab: auth.tab }, lastOrderId, openOrderId, pwHintOff, regPw }),
       );
     } catch {
       /* storage unavailable: state still works in memory */
@@ -478,7 +494,9 @@ export class PortalStore {
           notice: {
             tone: 'bad',
             title: 'البريد الإلكتروني أو كلمة المرور غير صحيحة',
-            text: 'تحقق من البيانات وأعد المحاولة. إن نسيت كلمة المرور فاستخدم «نسيت كلمة المرور؟»، أو سجّل الدخول عبر نفاذ.',
+            text: EMAIL_AUTH
+              ? 'تحقق من البيانات وأعد المحاولة، أو استخدم «نسيت كلمة المرور؟».'
+              : 'تحقق من البيانات وأعد المحاولة. إن نسيت كلمة المرور فاستخدم «نسيت كلمة المرور؟»، أو سجّل الدخول عبر نفاذ.',
           },
         });
         return;
@@ -486,6 +504,75 @@ export class PortalStore {
       this.setAuth({ busy: false });
       this.signIn(acct, 'email', 'تم تسجيل الدخول');
     });
+  }
+
+  // ------------------------------------------------------------------ email-only sign-up
+  private accountByEmail(email: string) {
+    const e = email.trim().toLowerCase();
+    return Object.values(this.state.db.accounts).find((a) => a.identity.email.toLowerCase() === e);
+  }
+
+  setSignup(p: Partial<SignupState>) {
+    this.set((s) => ({ auth: { ...s.auth, su: { ...s.auth.su, err: '', ...p }, errors: {}, notice: null } }));
+  }
+
+  /** Step 1: email + password. A code is then sent to the email. */
+  startSignup() {
+    const { email, su } = this.state.auth;
+    const errors: Errors = {};
+    if (!EMAIL_RE.test(email.trim())) errors.email = 'أدخل بريداً إلكترونياً صحيحاً';
+    if (!passwordRules(su.n1, su.n2).every((r) => r.ok)) errors.password = 'كلمة المرور لا تستوفي الشروط';
+    if (Object.keys(errors).length) return this.setAuth({ errors, notice: null });
+    if (this.accountByEmail(email)) {
+      return this.setAuth({
+        tab: 'email',
+        entry: this.state.auth.entry === 'register' ? 'login' : this.state.auth.entry,
+        password: '',
+        errors: {},
+        notice: { tone: 'warn', title: 'لديك حساب بهذا البريد الإلكتروني', text: 'سجّل الدخول بكلمة المرور، أو استخدم «نسيت كلمة المرور؟».' },
+      });
+    }
+    this.setAuth({ errors: {}, notice: null, su: { ...su, step: 2, otp: '', err: '' } });
+    this.toast(sim('أرسلنا رمز التحقق إلى ' + email.trim()));
+  }
+
+  /** Step 2: the code from the email. The account details come next; nothing is saved yet. */
+  verifySignup() {
+    const { email, su, entry } = this.state.auth;
+    if (su.otp !== '1234') return this.setSignup({ err: 'رمز التحقق غير صحيح' });
+    const e = email.trim();
+    const identity: Identity = { fullName: '', nationalId: '', email: e, phone: '' };
+    this.set((s) => ({
+      verified: identity,
+      reg: { type: '', company: { ...emptyCompany(), repEmail: e }, crQuery: '', crStatus: '' },
+      regPw: { on: true, n1: su.n1, n2: su.n2, show: false },
+      draft: { ...s.draft, recvName: '', recvPhone: '', recvEmail: e },
+      errors: {},
+      auth: { ...s.auth, su: emptySu() },
+    }));
+    if (entry === 'order') this.set({ view: 'flow', flow: { step: 'account', detailsOpen: false } });
+    else this.set({ view: 'register' });
+    this.toast(sim('تم تأكيد بريدك الإلكتروني'));
+    this.scrollTop();
+  }
+
+  backToSignup() {
+    this.setSignup({ step: 1, otp: '' });
+  }
+
+  /** Email-only version: the name is typed (no Nafath). The company representative follows it until edited. */
+  setFullName(v: string) {
+    this.set((s) => {
+      if (!s.verified) return {};
+      const rc = s.reg.company;
+      const company = rc.repName === s.verified.fullName ? { ...rc, repName: v } : rc;
+      return { verified: { ...s.verified, fullName: v }, reg: { ...s.reg, company }, errors: { ...s.errors, fullName: '' } };
+    });
+  }
+
+  /** Key of a new account: the national ID, or the email in the email-only version. */
+  private accountKey(identity: Identity) {
+    return EMAIL_AUTH ? 'em:' + identity.email.trim().toLowerCase() : identity.nationalId;
   }
 
   // ------------------------------------------------------------------ forgotten password (signed out)
@@ -508,7 +595,7 @@ export class PortalStore {
     if (!EMAIL_RE.test(f.email.trim())) return this.setForgot({ err: 'أدخل بريداً إلكترونياً صحيحاً' });
     // Same answer whether or not the email is registered, so accounts cannot be discovered.
     this.setForgot({ step: 2, otp: '' });
-    this.toast(sim('أرسلنا رمز التحقق إلى الجوال المسجّل'));
+    this.toast(sim(EMAIL_AUTH ? 'أرسلنا رمز التحقق إلى بريدك الإلكتروني' : 'أرسلنا رمز التحقق إلى الجوال المسجّل'));
   }
   forgotVerify() {
     const f = this.state.auth.forgot;
@@ -638,6 +725,7 @@ export class PortalStore {
 
   private validateRegistration(errors: Errors) {
     const { type, company: c, crStatus } = this.state.reg;
+    if (EMAIL_AUTH && (this.state.verified?.fullName.trim().length ?? 0) < 3) errors.fullName = 'أدخل اسمك الكامل';
     if (!type) errors.type = 'اختر نوع الحساب: فرد أو جهة';
     if (type !== 'company') return;
     if (!c.entityType) errors['co.entityType'] = 'اختر نوع الجهة';
@@ -649,10 +737,10 @@ export class PortalStore {
       if (!c.city) errors['co.city'] = 'اختر المدينة';
     }
     if (crStatus === 'found' || crStatus === 'notfound') {
-      if (!c.repIdType) errors['co.repIdType'] = 'اختر نوع الهوية';
-      if (!NID_RE.test(c.repId.trim())) errors['co.repId'] = 'أدخل رقم هوية / إقامة من 10 أرقام';
+      if (!EMAIL_AUTH && !c.repIdType) errors['co.repIdType'] = 'اختر نوع الهوية';
+      if (!EMAIL_AUTH && !NID_RE.test(c.repId.trim())) errors['co.repId'] = 'أدخل رقم هوية / إقامة من 10 أرقام';
       if (!c.repName.trim()) errors['co.repName'] = 'أدخل اسم الممثل بالكامل';
-      if (!PHONE_RE.test(c.repPhone.trim())) errors['co.repPhone'] = 'أدخل رقم جوال صحيحاً يبدأ بـ 05';
+      if (!EMAIL_AUTH && !PHONE_RE.test(c.repPhone.trim())) errors['co.repPhone'] = 'أدخل رقم جوال صحيحاً يبدأ بـ 05';
       if (!EMAIL_RE.test(c.repEmail.trim())) errors['co.repEmail'] = 'أدخل بريداً إلكترونياً صحيحاً';
     }
   }
@@ -752,7 +840,7 @@ export class PortalStore {
       const identity = s.verified!;
       const { type, company: c, crStatus } = s.reg;
       acct = {
-        nationalId: identity.nationalId,
+        nationalId: this.accountKey(identity),
         status: 'pending',
         type: type as AccountType,
         identity,
@@ -805,7 +893,7 @@ export class PortalStore {
     const newAcct = acct;
     this.set((st) => ({
       db: { ...st.db, accounts: { ...st.db.accounts, [newAcct.nationalId]: newAcct }, orders: [order, ...st.db.orders], seq: st.db.seq + 1 },
-      session: st.session ?? { nationalId: newAcct.nationalId, method: 'nafath' },
+      session: st.session ?? { nationalId: newAcct.nationalId, method: EMAIL_AUTH ? 'email' : 'nafath' },
       verified: null,
       regPw: { on: false, n1: '', n2: '', show: false },
       view: 'done',
@@ -832,7 +920,7 @@ export class PortalStore {
     const identity = s.verified!;
     const { type, company: c, crStatus } = s.reg;
     const acct: Account = {
-      nationalId: identity.nationalId,
+      nationalId: this.accountKey(identity),
       status: 'pending',
       type: type as AccountType,
       identity,
@@ -844,7 +932,7 @@ export class PortalStore {
     this.set((st) => ({
       regPw: { on: false, n1: '', n2: '', show: false },
       db: { ...st.db, accounts: { ...st.db.accounts, [acct.nationalId]: acct } },
-      session: { nationalId: acct.nationalId, method: 'nafath' },
+      session: { nationalId: acct.nationalId, method: EMAIL_AUTH ? 'email' : 'nafath' },
       verified: null,
       view: 'registered',
       errors: {},
@@ -985,10 +1073,10 @@ export class PortalStore {
     if (!/^\d{10}$/.test(e.cr.trim())) errors.cr = 'أدخل سجلاً تجارياً من 10 أرقام';
     if (!e.region) errors.region = 'اختر المنطقة';
     if (!e.city) errors.city = 'اختر المدينة';
-    if (!e.repIdType) errors.repIdType = 'اختر نوع الهوية';
-    if (!NID_RE.test(e.repId.trim())) errors.repId = 'أدخل رقم هوية / إقامة من 10 أرقام';
+    if (!EMAIL_AUTH && !e.repIdType) errors.repIdType = 'اختر نوع الهوية';
+    if (!EMAIL_AUTH && !NID_RE.test(e.repId.trim())) errors.repId = 'أدخل رقم هوية / إقامة من 10 أرقام';
     if (!e.repName.trim()) errors.repName = 'أدخل اسم الممثل بالكامل';
-    if (!PHONE_RE.test(e.repPhone.trim())) errors.repPhone = 'أدخل رقم جوال صحيحاً يبدأ بـ 05';
+    if (!EMAIL_AUTH && !PHONE_RE.test(e.repPhone.trim())) errors.repPhone = 'أدخل رقم جوال صحيحاً يبدأ بـ 05';
     if (!EMAIL_RE.test(e.repEmail.trim())) errors.repEmail = 'أدخل بريداً إلكترونياً صحيحاً';
     if (Object.keys(errors).length) return this.set({ edit: { ...e, errors } });
     const LABELS: Record<string, string> = {
@@ -1088,12 +1176,12 @@ export class PortalStore {
   /** Hero title for the «order» page, so it names the screen the user is on. */
   pageMeta(s = this.state): { tag: string; title: string; lead: string; inAccount: boolean } {
     const a = this.account(s);
-    const order = { tag: 'اطلب الآن', title: 'اقتن عبوة زمزم', lead: 'تحقّق من هويتك، ثم اختر المنتجات وأكمل طلبك.', inAccount: false };
+    const order = { tag: 'اطلب الآن', title: 'اقتن عبوة زمزم', lead: EMAIL_AUTH ? 'سجّل الدخول أو أنشئ حسابك، ثم اختر المنتجات وأكمل طلبك.' : 'تحقّق من هويتك، ثم اختر المنتجات وأكمل طلبك.', inAccount: false };
     const acct = (title: string, lead: string) => ({ tag: 'حسابي', title, lead, inAccount: title !== 'حسابي' });
     switch (this.guardView(s.view)) {
       case 'auth':
-        if (s.auth.entry === 'login') return { tag: 'حسابي', title: 'تسجيل الدخول', lead: 'سجّل الدخول عبر نفاذ أو بالبريد الإلكتروني وكلمة المرور.', inAccount: false };
-        if (s.auth.entry === 'register') return { tag: 'حساب جديد', title: 'إنشاء حساب جديد', lead: 'سجّل عبر نفاذ، ثم تراجع الجهة المختصة بياناتك وتعتمد حسابك.', inAccount: false };
+        if (s.auth.entry === 'login') return { tag: 'حسابي', title: 'تسجيل الدخول', lead: EMAIL_AUTH ? 'سجّل الدخول بالبريد الإلكتروني وكلمة المرور.' : 'سجّل الدخول عبر نفاذ أو بالبريد الإلكتروني وكلمة المرور.', inAccount: false };
+        if (s.auth.entry === 'register') return { tag: 'حساب جديد', title: 'إنشاء حساب جديد', lead: EMAIL_AUTH ? 'أنشئ حسابك ببريدك الإلكتروني، ثم تراجع الجهة المختصة بياناتك وتعتمد حسابك.' : 'سجّل عبر نفاذ، ثم تراجع الجهة المختصة بياناتك وتعتمد حسابك.', inAccount: false };
         return order;
       case 'register':
         return { tag: 'حساب جديد', title: 'إنشاء حساب جديد', lead: 'اختر نوع الحساب وأكمل البيانات المطلوبة، ثم أرسلها للمراجعة.', inAccount: false };
@@ -1110,9 +1198,9 @@ export class PortalStore {
       case 'profile':
         return acct('حسابي', 'بياناتك وطلباتك في مكان واحد.');
       case 'editProfile':
-        return acct('تحديث البيانات', 'بيانات الهوية من نفاذ، ويمكنك طلب تعديل بيانات ممثل المؤسسة.');
+        return acct('تحديث البيانات', EMAIL_AUTH ? 'يمكنك طلب تعديل بيانات المؤسسة والممثل.' : 'بيانات الهوية من نفاذ، ويمكنك طلب تعديل بيانات ممثل المؤسسة.');
       case 'password':
-        return acct('كلمة المرور', 'عيّن كلمة مرور أو غيّرها بعد التحقق برمز يصل إلى جوالك.');
+        return acct('كلمة المرور', EMAIL_AUTH ? 'غيّر كلمة المرور بعد التحقق برمز يصل إلى بريدك الإلكتروني.' : 'عيّن كلمة مرور أو غيّرها بعد التحقق برمز يصل إلى جوالك.');
       case 'orders':
         return acct('طلباتي', 'تابع حالة طلباتك، وأكمل الدفع بعد الموافقة.');
       case 'pay':

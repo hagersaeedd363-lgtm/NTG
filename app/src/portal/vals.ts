@@ -2,6 +2,7 @@
  * View-model for the screens kept from the design (products, review, orders, payment,
  * password, profile). Maps the typed portal state to the props those screens render.
  */
+import { EMAIL_AUTH } from '../config';
 import { MAX_BOTTLES, PRODUCTS, REGIONS } from '../data/portal';
 import { DEMO_TOOLS } from '../config';
 import { createOrderBlockReason, isPayable, nextStep, orderStage, orderStages, orderStatusLabel, orderTone } from './rules';
@@ -404,6 +405,8 @@ function passwordVals(s: PortalState): Obj {
   const pw = s.pw;
   const up = (p: Partial<PortalState['pw']>) => portal.set((st) => ({ pw: { ...st.pw, ...p } }));
   const phone = a?.identity.phone || '';
+  const em = a?.identity.email || '';
+  const maskedEmail = em ? em.slice(0, 2) + '•••' + em.slice(em.indexOf('@')) : '';
   const rules = passwordRules(pw.n1, pw.n2, a?.password);
   return {
     pwIdle: pw.step === 0,
@@ -416,11 +419,15 @@ function passwordVals(s: PortalState): Obj {
     pwChipFg: hp ? 'var(--muted)' : 'var(--gold-on-soft)',
     pwTitle: hp ? 'تغيير كلمة المرور' : 'تعيين كلمة المرور',
     pwBtn: hp ? 'تغيير كلمة المرور' : 'تعيين كلمة المرور',
-    pwIdleText: hp ? 'كلمة المرور محمية. يمكنك تغييرها في أي وقت بعد التحقق من هويتك برمز يصل إلى جوالك.' : 'لم تعيّن كلمة مرور بعد، وتسجّل الدخول حالياً عبر نفاذ. عيّن كلمة مرور للدخول بالبريد الإلكتروني أيضاً، بعد التحقق برمز يصل إلى جوالك.',
-    pwIntro: hp ? 'لحماية حسابك، أرسلنا رمز تحقق من أربعة أرقام إلى الجوال' : 'للبدء بتعيين كلمة المرور، أرسلنا رمز تحقق من أربعة أرقام إلى الجوال',
+    pwIdleText: EMAIL_AUTH ? 'كلمة المرور محمية. يمكنك تغييرها في أي وقت بعد التحقق برمز يصل إلى بريدك الإلكتروني.' : hp ? 'كلمة المرور محمية. يمكنك تغييرها في أي وقت بعد التحقق من هويتك برمز يصل إلى جوالك.' : 'لم تعيّن كلمة مرور بعد، وتسجّل الدخول حالياً عبر نفاذ. عيّن كلمة مرور للدخول بالبريد الإلكتروني أيضاً، بعد التحقق برمز يصل إلى جوالك.',
+    pwIntro: EMAIL_AUTH
+      ? 'لحماية حسابك، أرسلنا رمز تحقق من أربعة أرقام إلى البريد'
+      : hp
+        ? 'لحماية حسابك، أرسلنا رمز تحقق من أربعة أرقام إلى الجوال'
+        : 'للبدء بتعيين كلمة المرور، أرسلنا رمز تحقق من أربعة أرقام إلى الجوال',
     pwSaveLabel: hp ? 'حفظ كلمة المرور' : 'تعيين كلمة المرور',
     pwDoneTitle: hp ? 'تم تغيير كلمة المرور' : 'تم تعيين كلمة المرور',
-    pwPhone: phone ? phone.slice(0, 3) + '••••' + phone.slice(-3) : '',
+    pwPhone: EMAIL_AUTH ? maskedEmail : phone ? phone.slice(0, 3) + '••••' + phone.slice(-3) : '',
     pwOtp: pw.otp,
     bgOtp: pw.otp ? 'var(--card-2)' : 'var(--card)',
     bgN1: pw.n1 ? 'var(--card-2)' : 'var(--card)',
@@ -470,13 +477,20 @@ function profileVals(s: PortalState): Obj {
     {
       title: 'البيانات الشخصية',
       icon: 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c0-4.4 3.6-7 8-7s8 2.6 8 7',
-      note: 'من نفاذ · غير قابلة للتعديل',
-      rows: lockRows([
-        { k: 'الاسم الكامل', v: id.fullName, dir: 'rtl' },
-        { k: 'رقم الهوية الوطنية / الإقامة', v: id.nationalId.slice(0, 1) + '•••••••' + id.nationalId.slice(-2), dir: 'ltr' },
-        { k: 'رقم الجوال', v: id.phone, dir: 'ltr' },
-        { k: 'البريد الإلكتروني', v: id.email, dir: 'ltr' },
-      ]),
+      note: EMAIL_AUTH ? 'غير قابلة للتعديل' : 'من نفاذ · غير قابلة للتعديل',
+      rows: lockRows(
+        EMAIL_AUTH
+          ? [
+              { k: 'الاسم الكامل', v: id.fullName, dir: 'rtl' },
+              { k: 'البريد الإلكتروني', v: id.email, dir: 'ltr' },
+            ]
+          : [
+              { k: 'الاسم الكامل', v: id.fullName, dir: 'rtl' },
+              { k: 'رقم الهوية الوطنية / الإقامة', v: id.nationalId.slice(0, 1) + '•••••••' + id.nationalId.slice(-2), dir: 'ltr' },
+              { k: 'رقم الجوال', v: id.phone, dir: 'ltr' },
+              { k: 'البريد الإلكتروني', v: id.email, dir: 'ltr' },
+            ],
+      ),
     },
     {
       title: 'الحساب',
@@ -485,7 +499,7 @@ function profileVals(s: PortalState): Obj {
         { k: 'نوع الحساب', v: a.type === 'company' ? 'جهة' : 'فرد', dir: 'rtl', color: 'var(--ink)' },
         { k: 'حالة الحساب', v: 'معتمد', dir: 'rtl', color: 'var(--ink)' },
         { k: 'طريقة الدخول الحالية', v: nafath ? 'نفاذ' : 'البريد الإلكتروني', dir: 'rtl', color: 'var(--ink)' },
-      ],
+      ].filter((r) => !EMAIL_AUTH || r.k !== 'طريقة الدخول الحالية'),
     },
   ];
   if (a.company) {
@@ -501,12 +515,12 @@ function profileVals(s: PortalState): Obj {
         { k: 'المنطقة والمدينة', v: [c.region, c.city].filter(Boolean).join(' — '), dir: 'rtl' },
         { k: 'ممثل المؤسسة', v: c.repName, dir: 'rtl' },
         { k: 'جوال الممثل', v: c.repPhone, dir: 'ltr' },
-      ].map((r) => ({ ...r, color: 'var(--ink)' })),
+      ].filter((r) => r.v).map((r) => ({ ...r, color: 'var(--ink)' })),
     });
   }
   return {
     userName: id.fullName,
-    badge: nafath ? { t: 'موثّق عبر نفاذ', naf: true, noNaf: false, bg: 'var(--gold-soft)', fg: 'var(--gold-2)' } : { t: 'دخول بالبريد الإلكتروني', naf: false, noNaf: true, bg: 'var(--gold-soft)', fg: 'var(--gold-2)' },
+    badge: EMAIL_AUTH ? { t: 'بريد مؤكَّد', naf: false, noNaf: true, bg: 'var(--gold-soft)', fg: 'var(--gold-2)' } : nafath ? { t: 'موثّق عبر نفاذ', naf: true, noNaf: false, bg: 'var(--gold-soft)', fg: 'var(--gold-2)' } : { t: 'دخول بالبريد الإلكتروني', naf: false, noNaf: true, bg: 'var(--gold-soft)', fg: 'var(--gold-2)' },
     profDone: true,
     profReview: false,
     profNotDone: false,

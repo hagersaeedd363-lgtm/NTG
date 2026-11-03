@@ -1,3 +1,4 @@
+import { EMAIL_AUTH } from '../../config';
 import { ETYPES, PILL_ICONS, PURPOSES, REGIONS } from '../../data/portal';
 import { passwordRules, portal, type PortalState } from '../store';
 import type { Account, Identity } from '../types';
@@ -29,7 +30,29 @@ import {
 
 const hasErrors = (e: Record<string, string>) => Object.values(e).some(Boolean);
 
-export function IdentityCard({ identity }: { identity: Identity }) {
+export function IdentityCard({ identity, s }: { identity: Identity; s?: PortalState }) {
+  if (EMAIL_AUTH && !s) {
+    return (
+      <Card>
+        <CardHeader icon={ICON.user} title="بيانات الحساب" desc="الاسم والبريد الإلكتروني المسجّلان في حسابك." />
+        <div style={formGrid}>
+          <ReadOnlyField id="id-name" label="الاسم الكامل" value={identity.fullName} />
+          <ReadOnlyField id="id-email" label="البريد الإلكتروني" value={identity.email} ltr />
+        </div>
+      </Card>
+    );
+  }
+  if (EMAIL_AUTH) {
+    return (
+      <Card>
+        <CardHeader icon={ICON.user} title="بيانات الحساب" desc="أدخل اسمك الكامل كما في هويتك. البريد الإلكتروني مؤكَّد ولا يمكن تغييره هنا." />
+        <div style={formGrid}>
+          <Field id="id-name" label="الاسم الكامل" required value={identity.fullName} onChange={(v) => portal.setFullName(v)} error={s?.errors.fullName} placeholder="الاسم الثلاثي أو الرباعي" autoComplete="name" />
+          <ReadOnlyField id="id-email" label="البريد الإلكتروني" value={identity.email} ltr source="مؤكَّد" />
+        </div>
+      </Card>
+    );
+  }
   return (
     <Card>
       <CardHeader icon={ICON.user} title="بيانات الهوية" desc="جُلبت من نفاذ بعد التحقق من هويتك، ولا يمكن تعديلها." aside={<NafathTag />} />
@@ -44,7 +67,7 @@ export function IdentityCard({ identity }: { identity: Identity }) {
 }
 
 const TYPES = [
-  { id: 'individual', t: 'فرد', d: 'حساب شخصي بهويتك من نفاذ، دون بيانات إضافية', icon: ICON.user },
+  { id: 'individual', t: 'فرد', d: EMAIL_AUTH ? 'حساب شخصي باسمك وبريدك، دون بيانات إضافية' : 'حساب شخصي بهويتك من نفاذ، دون بيانات إضافية', icon: ICON.user },
   { id: 'company', t: 'جهة', d: 'شركة أو جهة حكومية أو غير ربحية، تتطلب بيانات المنشأة', icon: ICON.bld },
 ];
 
@@ -58,7 +81,7 @@ export function AccountTypeCard({ s }: { s: PortalState }) {
           {s.errors.type}
         </span>
       ) : null}
-      {s.reg.type === 'individual' ? <Hint>يكفي حساب الفرد بيانات الهوية من نفاذ، ولا نطلب منك إدخال أي بيانات أخرى.</Hint> : null}
+      {s.reg.type === 'individual' ? <Hint>{EMAIL_AUTH ? 'يكفي حساب الفرد اسمك وبريدك، ولا نطلب منك أي بيانات أخرى.' : 'يكفي حساب الفرد بيانات الهوية من نفاذ، ولا نطلب منك إدخال أي بيانات أخرى.'}</Hint> : null}
     </Card>
   );
 }
@@ -173,8 +196,8 @@ export function CompanyCards({ s, withPurpose }: { s: PortalState; withPurpose?:
                 />
               </>
             )}
-            <SelectField id="co-idtype" label="نوع الهوية" required value={c.repIdType} onChange={(v) => portal.setCompany({ repIdType: v })} options={['هوية وطنية', 'إقامة']} placeholder="اختر نوع الهوية" error={errors['co.repIdType']} />
-            <Field
+            {EMAIL_AUTH ? null : <SelectField id="co-idtype" label="نوع الهوية" required value={c.repIdType} onChange={(v) => portal.setCompany({ repIdType: v })} options={['هوية وطنية', 'إقامة']} placeholder="اختر نوع الهوية" error={errors['co.repIdType']} />}
+            {EMAIL_AUTH ? null : <Field
               id="co-repid"
               label="رقم هوية / إقامة ممثل المؤسسة"
               required
@@ -184,9 +207,9 @@ export function CompanyCards({ s, withPurpose }: { s: PortalState; withPurpose?:
               placeholder="رقم هوية / إقامة من 10 أرقام"
               inputMode="numeric"
               ltr
-            />
+            />}
             <Field id="co-repname" label="اسم ممثل المؤسسة كامل" required value={c.repName} onChange={(v) => portal.setCompany({ repName: v })} error={errors['co.repName']} placeholder="الاسم الكامل للممثل" />
-            <Field id="co-repphone" label="رقم جوال ممثل المؤسسة" required value={c.repPhone} onChange={(v) => portal.setCompany({ repPhone: v })} error={errors['co.repPhone']} placeholder="05XXXXXXXX" inputMode="tel" ltr />
+            {EMAIL_AUTH ? null : <Field id="co-repphone" label="رقم جوال ممثل المؤسسة" required value={c.repPhone} onChange={(v) => portal.setCompany({ repPhone: v })} error={errors['co.repPhone']} placeholder="05XXXXXXXX" inputMode="tel" ltr />}
             <Field id="co-repemail" label="بريد الممثل الإلكتروني" required value={c.repEmail} onChange={(v) => portal.setCompany({ repEmail: v })} error={errors['co.repEmail']} placeholder="email@example.com" inputMode="email" ltr />
             {found ? (
               <>
@@ -211,7 +234,11 @@ export function CompanyCards({ s, withPurpose }: { s: PortalState; withPurpose?:
               </>
             )}
           </div>
-          <Hint>بيانات الممثل مأخوذة مبدئياً من هويتك في نفاذ، ويمكنك تعديلها إن كان الممثل شخصاً آخر. هذه البيانات مطلوبة لإكمال التحقق وإصدار الفاتورة.</Hint>
+          <Hint>
+            {EMAIL_AUTH
+              ? 'بيانات الممثل مأخوذة مبدئياً من بيانات حسابك، ويمكنك تعديلها إن كان الممثل شخصاً آخر. هذه البيانات مطلوبة لإكمال التحقق وإصدار الفاتورة.'
+              : 'بيانات الممثل مأخوذة مبدئياً من هويتك في نفاذ، ويمكنك تعديلها إن كان الممثل شخصاً آخر. هذه البيانات مطلوبة لإكمال التحقق وإصدار الفاتورة.'}
+          </Hint>
         </Card>
       ) : null}
     </>
@@ -286,8 +313,8 @@ export function AccountStep({ s }: { s: PortalState }) {
   const identity = s.verified!;
   return (
     <>
-      <IdentityCard identity={identity} />
-      <PasswordOptionCard s={s} />
+      <IdentityCard identity={identity} s={s} />
+      {EMAIL_AUTH ? null : <PasswordOptionCard s={s} />}
       <AccountTypeCard s={s} />
       {s.reg.type === 'company' ? <CompanyCards s={s} withPurpose /> : null}
       <ActionBar onBack={() => portal.back()} note={<RequiredNote hasErrors={hasErrors(s.errors)} />}>
@@ -373,15 +400,24 @@ export function RegisterScreen({ s }: { s: PortalState }) {
   return (
     <>
       <Stepper
-        steps={[
-          { label: 'التحقق عبر نفاذ', done: true, cur: false },
-          { label: 'بيانات الحساب', done: false, cur: true },
-          { label: 'الإرسال للمراجعة', done: false, cur: false },
-          { label: 'اعتماد الحساب', done: false, cur: false },
-        ]}
+        steps={
+          EMAIL_AUTH
+            ? [
+                { label: 'إنشاء الحساب', done: true, cur: false },
+                { label: 'تأكيد البريد', done: true, cur: false },
+                { label: 'بيانات الحساب', done: false, cur: true },
+                { label: 'اعتماد الحساب', done: false, cur: false },
+              ]
+            : [
+                { label: 'التحقق عبر نفاذ', done: true, cur: false },
+                { label: 'بيانات الحساب', done: false, cur: true },
+                { label: 'الإرسال للمراجعة', done: false, cur: false },
+                { label: 'اعتماد الحساب', done: false, cur: false },
+              ]
+        }
       />
-      <IdentityCard identity={identity} />
-      <PasswordOptionCard s={s} />
+      <IdentityCard identity={identity} s={s} />
+      {EMAIL_AUTH ? null : <PasswordOptionCard s={s} />}
       <AccountTypeCard s={s} />
       {s.reg.type === 'company' ? <CompanyCards s={s} /> : null}
       <ActionBar onBack={() => portal.backToLogin()} note={<RequiredNote hasErrors={hasErrors(s.errors)} />}>

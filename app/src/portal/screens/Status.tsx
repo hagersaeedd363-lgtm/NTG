@@ -25,6 +25,7 @@ import {
   formGrid,
 } from '../ui';
 import { IdentityCard } from './Account';
+import { EMAIL_AUTH } from '../../config';
 
 const AR = (n: number) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[+d]);
 
@@ -40,7 +41,7 @@ function companyRows(a: Account) {
     { k: 'هوية الممثل', v: (c.repIdType ? c.repIdType + ' · ' : '') + c.repId },
     { k: 'جوال الممثل', v: c.repPhone, ltr: true },
     { k: 'بريد الممثل', v: c.repEmail, ltr: true },
-  ];
+  ].filter((r) => r.v.trim());
 }
 
 /** Label/value rows in a light panel (up to three per line), used by the success screens. */
@@ -177,8 +178,12 @@ export function RegisteredScreen({ s }: { s: PortalState }) {
   const rows: Array<[string, string, boolean?]> = [
     ['نوع الحساب', c ? 'جهة' : 'فرد'],
     ['الاسم الكامل', id.fullName],
-    ['رقم الهوية الوطنية / الإقامة', id.nationalId, true],
-    ['رقم الجوال', id.phone, true],
+    ...(EMAIL_AUTH
+      ? []
+      : ([
+          ['رقم الهوية الوطنية / الإقامة', id.nationalId, true],
+          ['رقم الجوال', id.phone, true],
+        ] as Array<[string, string, boolean?]>)),
     ['البريد الإلكتروني', id.email, true],
     ...(c
       ? ([
@@ -405,7 +410,13 @@ export function AccountStatusScreen({ s }: { s: PortalState }) {
               {a.identity.fullName}
             </span>
             <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 8 }}>
-              <NafathTag>موثّق عبر نفاذ</NafathTag>
+              {EMAIL_AUTH ? (
+                <Tag tone="gold" dot>
+                  بريد مؤكَّد
+                </Tag>
+              ) : (
+                <NafathTag>موثّق عبر نفاذ</NafathTag>
+              )}
               <Tag tone={pending ? 'info' : 'bad'} dot>
                 {pending ? 'حسابك قيد المراجعة' : 'حساب مرفوض'}
               </Tag>
@@ -433,13 +444,13 @@ export function AccountStatusScreen({ s }: { s: PortalState }) {
           <DataCard
             icon={ICON.user}
             title="البيانات الشخصية"
-            aside={<NafathTag>من نفاذ</NafathTag>}
+            aside={EMAIL_AUTH ? undefined : <NafathTag>من نفاذ</NafathTag>}
             rows={[
               { k: 'الاسم الكامل', v: a.identity.fullName, lock: true },
               { k: 'رقم الهوية الوطنية / الإقامة', v: a.identity.nationalId, ltr: true, lock: true },
               { k: 'رقم الجوال', v: a.identity.phone, ltr: true, lock: true },
               { k: 'البريد الإلكتروني', v: a.identity.email, ltr: true, lock: true },
-            ]}
+            ].filter((r) => r.v)}
           />
           {c ? (
             <>
@@ -463,7 +474,7 @@ export function AccountStatusScreen({ s }: { s: PortalState }) {
                   { k: 'هوية الممثل', v: (c.repIdType ? c.repIdType + ' · ' : '') + c.repId },
                   { k: 'جوال الممثل', v: c.repPhone, ltr: true },
                   { k: 'بريد الممثل', v: c.repEmail, ltr: true },
-                ]}
+                ].filter((r) => r.v.trim())}
               />
             </>
           ) : null}
@@ -506,8 +517,7 @@ function PendingChange({ a }: { a: Account }) {
           title="ممثل المؤسسة"
           rows={[
             row('الاسم', 'repName', c.repName),
-            row('رقم ' + (c.repIdType || 'الهوية'), 'repId', c.repId, true),
-            row('رقم الجوال', 'repPhone', c.repPhone, true),
+            ...(EMAIL_AUTH ? [] : [row('رقم ' + (c.repIdType || 'الهوية'), 'repId', c.repId, true), row('رقم الجوال', 'repPhone', c.repPhone, true)]),
             row('البريد الإلكتروني', 'repEmail', c.repEmail, true),
           ]}
         />
@@ -528,7 +538,7 @@ export function EditProfileScreen({ s }: { s: PortalState }) {
   if (company && req) return <PendingChange a={a} />;
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24, animation: 'zzfade .3s ease both' }}>
-      <PageTitle icon={ICON.user} title="تحديث البيانات" desc="بيانات الهوية من نفاذ ولا تُعدّل هنا. يمكنك طلب تعديل بيانات المؤسسة والممثل." />
+      <PageTitle icon={ICON.user} title="تحديث البيانات" desc={EMAIL_AUTH ? 'يمكنك طلب تعديل بيانات المؤسسة والممثل.' : 'بيانات الهوية من نفاذ ولا تُعدّل هنا. يمكنك طلب تعديل بيانات المؤسسة والممثل.'} />
       {company ? (
         <Alert tone="info">تُرسل التعديلات إلى الجهة المختصة للمراجعة. تبقى بياناتك الحالية سارية، ويمكنك إنشاء الطلبات ومتابعتها خلال المراجعة.</Alert>
       ) : null}
@@ -588,7 +598,7 @@ export function EditProfileScreen({ s }: { s: PortalState }) {
           <Card>
             <CardHeader icon={ICON.user} title="بيانات ممثل المؤسسة" desc="عدّل ما تريد تغييره، وسيُراجع قبل اعتماده." />
             <div style={formGrid}>
-              <SelectField
+              {EMAIL_AUTH ? null : <SelectField
                 id="ed-idtype"
                 label="نوع الهوية"
                 required
@@ -597,8 +607,8 @@ export function EditProfileScreen({ s }: { s: PortalState }) {
                 options={['هوية وطنية', 'إقامة']}
                 placeholder="اختر نوع الهوية"
                 error={e.errors.repIdType}
-              />
-              <Field
+              />}
+              {EMAIL_AUTH ? null : <Field
                 id="ed-repid"
                 label="رقم هوية / إقامة ممثل المؤسسة"
                 required
@@ -607,7 +617,7 @@ export function EditProfileScreen({ s }: { s: PortalState }) {
                 error={e.errors.repId}
                 inputMode="numeric"
                 ltr
-              />
+              />}
               <Field
                 id="ed-repname"
                 label="اسم ممثل المؤسسة كامل"
@@ -616,7 +626,7 @@ export function EditProfileScreen({ s }: { s: PortalState }) {
                 onChange={(v) => portal.setEdit({ repName: v })}
                 error={e.errors.repName}
               />
-              <Field
+              {EMAIL_AUTH ? null : <Field
                 id="ed-repphone"
                 label="رقم جوال ممثل المؤسسة"
                 required
@@ -625,7 +635,7 @@ export function EditProfileScreen({ s }: { s: PortalState }) {
                 error={e.errors.repPhone}
                 inputMode="tel"
                 ltr
-              />
+              />}
               <Field
                 id="ed-repemail"
                 label="بريد الممثل الإلكتروني"
@@ -640,7 +650,7 @@ export function EditProfileScreen({ s }: { s: PortalState }) {
           </Card>
         </>
       ) : (
-        <Alert tone="info">كل بيانات حساب الفرد مأخوذة من نفاذ، ولا توجد بيانات أخرى يمكن تعديلها هنا.</Alert>
+        <Alert tone="info">{EMAIL_AUTH ? 'لا توجد بيانات أخرى يمكن تعديلها لحساب الفرد. لتغيير الاسم تواصل معنا.' : 'كل بيانات حساب الفرد مأخوذة من نفاذ، ولا توجد بيانات أخرى يمكن تعديلها هنا.'}</Alert>
       )}
       {e.errors.form ? <Alert tone="bad">{e.errors.form}</Alert> : null}
       <ActionBar onBack={() => portal.openProfile()}>

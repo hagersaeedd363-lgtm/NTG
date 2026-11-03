@@ -2,7 +2,7 @@
  * Sample data for the simulated back office. Identities, companies and orders here are examples,
  * not real records. The order history comes from the design prototype.
  */
-import { DEMO_TOOLS } from '../config';
+import { DEMO_TOOLS, EMAIL_AUTH } from '../config';
 import { COMPANIES, DEMO_REQS, SEED_REQS } from '../data/portal';
 import type { Account, Db, Identity, Order, OrderStatus, PaymentMethod } from './types';
 
@@ -29,6 +29,25 @@ export const DEMO_ID_LIST: Array<{ id: string; label: string }> = [
 ];
 
 export const DEMO_EMAIL_LOGIN = { email: 'a.alharbi@example.com', password: '123456' };
+
+/** Email-only version: every demo account signs in with its email and this password. */
+export const DEMO_EMAIL_LIST: Array<{ email: string; label: string }> = [
+  { email: 'a.alharbi@example.com', label: 'حساب جهة معتمد' },
+  { email: 'n.alqahtani@example.com', label: 'حساب فرد معتمد' },
+  { email: 'f.aldosari@example.com', label: 'حساب قيد المراجعة' },
+  { email: 'l.alsubaie@example.com', label: 'قيد المراجعة مع طلب' },
+  { email: 't.alanazi@example.com', label: 'حساب مرفوض' },
+];
+
+/** Email-only version: no national ID or mobile on the account; every demo account has a password. */
+function emailOnly(a: Account): Account {
+  return {
+    ...a,
+    identity: { ...a.identity, nationalId: '', phone: '' },
+    password: DEMO_EMAIL_LOGIN.password,
+    ...(a.company ? { company: { ...a.company, repIdType: '', repId: '', repPhone: '' } } : {}),
+  };
+}
 
 const SAMPLE_NAMES = ['سارة خالد العتيبي', 'محمد عبدالرحمن الغامدي', 'ريم فيصل الشهري', 'خالد سعود المطيري', 'هند عبدالله الزهراني'];
 
@@ -200,6 +219,6 @@ export function initialDb(): Db {
   const history = (SEED_REQS as unknown as Array<{ demo?: boolean }>).filter((r) => !r.demo).map((r) => fromDesign(r, DEMO_IDS.approvedCompany, false));
   const samples = DEMO_TOOLS ? DEMO_REQS.map((r: unknown) => fromDesign(r, DEMO_IDS.approvedCompany, true)) : [];
   const accounts: Record<string, Account> = {};
-  for (const a of ACCOUNTS) accounts[a.nationalId] = a;
+  for (const a of ACCOUNTS) accounts[a.nationalId] = EMAIL_AUTH ? emailOnly(a) : a;
   return { accounts, orders: [...samples, pendingOrder(), ...history], seq: 442 };
 }

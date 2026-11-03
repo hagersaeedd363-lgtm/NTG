@@ -10,7 +10,7 @@ npm install
 npm run dev                    # http://localhost:5173 — demo tools on
 npm run build                  # production build in dist/ — demo tools off
 npm run typecheck
-node e2e/scenarios.mjs         # 18 portal scenarios against the dev server
+node e2e/scenarios.mjs         # 20 portal scenarios against the dev server (Nafath version)
 ```
 
 ## Structure
@@ -58,3 +58,20 @@ Everything runs on the client and is kept in `sessionStorage` (`zz-portal`). Naf
 sign-in, the commercial-register lookup, approvals and payment are simulated in
 `src/portal/store.ts`; replace those methods with API calls when the services exist. Bank details,
 transaction references and failure reasons are labelled in the UI as sample data.
+
+## Email-only version
+
+`VITE_AUTH=email` builds a second version without Nafath (see `EMAIL_AUTH` in `src/config.ts`):
+
+- Register: email + password → 4-digit code sent to the email → account details (full name, account type,
+  company data) → review. No national ID and no account mobile; the company representative has name and email only.
+- Sign in: email + password only. «نسيت كلمة المرور» sends the code to the email.
+- New users from «اطلب الآن» choose «حساب جديد» or «لدي حساب» inside the order.
+- The receiver's mobile on each order is still required.
+
+```
+VITE_AUTH=email VITE_DEMO_TOOLS=true npx vite --port 5174
+node e2e/email-scenarios.mjs http://localhost:5174/
+```
+
+Demo accounts sign in with their sample email and the password `123456`; the demo email code is `1234`.
