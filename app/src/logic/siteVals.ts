@@ -126,7 +126,7 @@ export function siteVals(self) {
       hasPhoto:!!PS.photo,
       statusLabel:acct?(acct.status==='approved'?'حساب معتمد':acct.status==='pending'?'قيد المراجعة':'مرفوض'):'',
       statusTone:acct?(acct.status==='approved'?'ok':acct.status==='pending'?'info':'bad'):'info',
-      pwLabel:EMAIL_AUTH?'':acct?.password?'تغيير كلمة المرور':'تعيين كلمة المرور',
+      pwLabel:acct?.password?'تغيير كلمة المرور':'تعيين كلمة المرور',
       acctPassword:()=>portal.openPassword()};
     return {
       demoTools:DEMO_TOOLS,

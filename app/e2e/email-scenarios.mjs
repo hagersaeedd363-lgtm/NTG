@@ -21,7 +21,23 @@ async function emailCode(c, email, { wrong = false } = {}) {
 }
 
 async function noIdentityFields(c) {
-  for (const t of ['رقم الهوية', 'رقم الجوال', 'نفاذ', 'كلمة المرور']) await c.notSee(t);
+  for (const t of ['رقم الهوية', 'رقم الجوال', 'نفاذ', 'تعيين كلمة مرور الآن']) await c.notSee(t);
+}
+
+const PW = 'Zamzam2026';
+
+async function setPassword(c) {
+  await c.p.locator('#reg-pw1').fill(PW);
+  await c.p.locator('#reg-pw2').fill(PW);
+  await c.tick(100);
+}
+
+async function passwordLogin(c, email, password) {
+  await c.click('الدخول بكلمة المرور');
+  await c.fill('البريد الإلكتروني', email);
+  await c.p.locator('#auth-pass').fill(password);
+  await c.p.locator('#auth-pass').press('Enter');
+  await c.tick(1200);
 }
 
 async function logout(c) {
@@ -33,7 +49,7 @@ async function logout(c) {
 const scenarios = [
   {
     id: 1,
-    title: 'Navbar: new email → code → registration form → review; then signs in by code',
+    title: 'Navbar: new email → code → details + required password → review; then signs in with the password',
     run: async (c) => {
       await c.openLogin();
       await noIdentityFields(c);
@@ -46,19 +62,21 @@ const scenarios = [
       await c.click(/^فرد/, { role: 'radio' });
       await c.click('إرسال للمراجعة', { exact: true });
       await c.see('أدخل اسمك الكامل');
+      await c.see('أدخل كلمة مرور تستوفي الشروط وأكّدها.');
       await c.fill('الاسم الكامل', 'سلمان علي الشهري');
+      await setPassword(c);
       await c.shot('details');
       await c.click('إرسال للمراجعة', { exact: true });
       await c.see('تم إرسال بيانات تسجيلك');
       await noIdentityFields(c);
       await logout(c);
       await c.openLogin();
-      await emailCode(c, 'new.user@example.com');
+      await passwordLogin(c, 'new.user@example.com', PW);
       await c.landedHomeThenAccount();
       await c.see('حسابك قيد المراجعة');
       await c.see('بريد مؤكَّد');
       await noIdentityFields(c);
-      return 'New email becomes a pending account; the next sign-in is the same email + code.';
+      return 'New email + required password become a pending account; signs in again with the password.';
     },
   },
   {
@@ -71,6 +89,7 @@ const scenarios = [
       await emailCode(c, 'buyer@example.com');
       await c.see('بيانات الحساب');
       await c.fill('الاسم الكامل', 'منى سعيد القرني');
+      await setPassword(c);
       await c.click(/^جهة/, { role: 'radio' });
       await c.click('غير ربحي', { role: 'radio' });
       await c.click('فعالية رسمية', { role: 'radio' });
@@ -91,7 +110,7 @@ const scenarios = [
       await c.click('إرسال الطلب وبيانات التسجيل');
       await c.see('تم إرسال طلبك وبيانات تسجيلك');
       await c.shot('done');
-      return 'Registration + first order submitted together; no password, ID or mobile on the account.';
+      return 'Registration + first order submitted together; password set in the form; no ID or mobile on the account.';
     },
   },
   {
@@ -110,21 +129,25 @@ const scenarios = [
   },
   {
     id: 4,
-    title: 'Navbar sign-in, existing user: no password anywhere',
+    title: 'Navbar sign-in with a password instead of a code',
     run: async (c) => {
       await c.openLogin();
-      await emailCode(c, 'a.alharbi@example.com');
+      await passwordLogin(c, 'a.alharbi@example.com', 'wrong-pass');
+      await c.see('البريد الإلكتروني أو كلمة المرور غير صحيحة');
+      await c.p.locator('#auth-pass').fill('123456');
+      await c.p.locator('#auth-pass').press('Enter');
+      await c.tick(1200);
       await c.see('طلبك بانتظار إثبات الدفع');
       await c.landedHomeThenAccount();
       await c.see('عبدالله محمد الحربي');
       await c.notSee('رقم الهوية');
       await c.notSee('جوال الممثل');
-      await c.notSee('كلمة المرور');
       await c.p.locator('.zz-header-account').click();
       await c.tick();
-      if (await c.p.getByRole('menuitem', { name: /كلمة المرور/ }).count()) throw new Error('password menu item should not exist');
-      await c.shot('menu');
-      return 'Signed in by code; no password item in the menu or profile.';
+      await c.click('تغيير كلمة المرور', { role: 'menuitem' });
+      await c.see('البريد');
+      await c.shot('password');
+      return 'Password sign-in works alongside the code; the password can be changed from the menu.';
     },
   },
   {

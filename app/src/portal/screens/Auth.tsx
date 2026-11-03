@@ -42,7 +42,7 @@ const COPY_EMAIL = {
   },
   login: {
     title: "تسجيل الدخول",
-    desc: "أدخل بريدك الإلكتروني وسنرسل إليك رمز دخول. لا تحتاج إلى كلمة مرور.",
+    desc: "أدخل بريدك الإلكتروني وسنرسل إليك رمز دخول، أو ادخل بكلمة المرور.",
     side: "تابع طلباتك وحالة حسابك، وأنشئ طلبات جديدة بعد اعتماد حسابك.",
   },
   register: {
@@ -411,13 +411,23 @@ function EmailCodePanel({ s }: { s: PortalState }) {
       </div>
     );
   }
+  const pwMode = auth.tab === "email";
+  const toggle = (
+    <span style={{ display: "flex", justifyContent: "center", fontSize: 14, color: "var(--muted)", gap: 6 }}>
+      {pwMode ? "نسيت كلمة المرور؟" : "لديك كلمة مرور؟"}
+      <TextButton onClick={() => portal.setAuth({ tab: pwMode ? "signup" : "email", password: "", errors: {}, notice: null })}>
+        {pwMode ? "ادخل برمز التحقق" : "الدخول بكلمة المرور"}
+      </TextButton>
+    </span>
+  );
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
       <form
         noValidate
         onSubmit={(e) => {
           e.preventDefault();
-          portal.emailStart();
+          if (pwMode) portal.emailLogin();
+          else portal.emailStart();
         }}
         style={{ display: "flex", flexDirection: "column", gap: 20 }}
       >
@@ -432,16 +442,30 @@ function EmailCodePanel({ s }: { s: PortalState }) {
           inputMode="email"
           ltr
           autoComplete="email"
-          hint={auth.entry === "order" ? "إن كان لديك حساب نكمل طلبك به، وإن لم يكن ننشئ حسابك أثناء الطلب." : "إن كان لديك حساب نسجّل دخولك، وإن لم يكن ننشئ حسابك."}
+          hint={pwMode ? undefined : auth.entry === "order" ? "إن كان لديك حساب نكمل طلبك به، وإن لم يكن ننشئ حسابك أثناء الطلب." : "إن كان لديك حساب نسجّل دخولك، وإن لم يكن ننشئ حسابك."}
         />
-        <PrimaryButton type="submit" full style={{ height: 56 }}>
-          إرسال رمز التحقق
+        {pwMode ? (
+          <Field
+            id="auth-pass"
+            label="كلمة المرور"
+            value={auth.password}
+            onChange={(v) => portal.setAuth({ password: v, errors: {}, notice: null })}
+            error={auth.errors.password}
+            type="password"
+            ltr
+            autoComplete="current-password"
+            autoFocus
+          />
+        ) : null}
+        <PrimaryButton type="submit" full busy={pwMode && auth.busy} style={{ height: 56 }}>
+          {pwMode ? (auth.busy ? "جارٍ التحقق…" : auth.entry === "order" ? "متابعة الطلب" : "تسجيل الدخول") : "إرسال رمز التحقق"}
         </PrimaryButton>
+        {toggle}
       </form>
       {DEMO_TOOLS ? (
         <DemoChips>
           {[...DEMO_EMAIL_LIST, { email: "new.user@example.com", label: "مستخدم جديد" }].map((d) => (
-            <Chip key={d.email} label={d.label} onClick={() => portal.setAuth({ email: d.email, errors: {}, notice: null })} />
+            <Chip key={d.email} label={d.label} onClick={() => portal.setAuth({ email: d.email, password: pwMode && d.email !== "new.user@example.com" ? DEMO_EMAIL_LOGIN.password : "", errors: {}, notice: null })} />
           ))}
         </DemoChips>
       ) : null}

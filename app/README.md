@@ -62,14 +62,16 @@ transaction references and failure reasons are labelled in the UI as sample data
 ## Email-only version
 
 `VITE_AUTH=email` builds a second version without Nafath (see `EMAIL_AUTH` in `src/config.ts`).
-Everyone signs in the same way: **email → 4-digit code sent to the email**. No passwords.
+Everyone starts the same way: **email → 4-digit code sent to the email**. New users set a required
+password in the account-details form, so later they can sign in with either a code or the password
+(«الدخول بكلمة المرور» on the sign-in screen). The password can be changed from «حسابي» after a code.
 
 - Existing email → signed in (quick order continues to the order; navbar lands on home).
 - New email → account details (full name, account type, company data): inside the order for quick
   order, or the registration form from the navbar → review.
 - Whether an email has an account is only revealed after the code is confirmed.
 - Code screen: resend after 60 s, 10-minute validity note, max 5 wrong attempts, «تذكرني على هذا الجهاز».
-- No national ID, no account mobile, no password pages; the company representative has name and email only.
+- No national ID and no account mobile; the company representative has name and email only.
 - The receiver's mobile on each order is still required.
 
 ```
@@ -77,4 +79,5 @@ VITE_AUTH=email VITE_DEMO_TOOLS=true npx vite --port 5174
 node e2e/email-scenarios.mjs http://localhost:5174/
 ```
 
-Demo: the sample accounts' emails are on chips under the email field; the demo code is `1234`.
+Demo: the sample accounts' emails are on chips under the email field; the demo code is `1234` and the
+demo accounts' password is `123456`.

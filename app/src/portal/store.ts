@@ -144,6 +144,8 @@ export interface PortalState {
 }
 
 const STORAGE_KEY = 'zz-portal';
+const PW_ERR = () =>
+  EMAIL_AUTH ? 'أدخل كلمة مرور تستوفي الشروط وأكّدها.' : 'كلمة المرور لا تستوفي الشروط. أكملها أو أوقف «تعيين كلمة مرور الآن».';
 const NID_RE = /^[12]\d{9}$/;
 const PHONE_RE = /^(05\d{8}|\+9665\d{8})$/;
 export const REQUIRED = 'هذا الحقل مطلوب';
@@ -404,7 +406,6 @@ export class PortalStore {
   guardView(view: View): View {
     const a = this.account();
     if (!a) return ['auth', 'register', 'flow', 'done'].includes(view) ? view : 'auth';
-    if (EMAIL_AUTH && view === 'password') return this.landingView(a);
     if (a.status !== 'approved') {
       return ['status', 'blocked', 'registered', 'orders', 'done', 'password'].includes(view) ? view : 'status';
     }
@@ -499,7 +500,7 @@ export class PortalStore {
             tone: 'bad',
             title: 'البريد الإلكتروني أو كلمة المرور غير صحيحة',
             text: EMAIL_AUTH
-              ? 'تحقق من البيانات وأعد المحاولة، أو استخدم «نسيت كلمة المرور؟».'
+              ? 'تحقق من البيانات وأعد المحاولة، أو ادخل برمز يصل إلى بريدك.'
               : 'تحقق من البيانات وأعد المحاولة. إن نسيت كلمة المرور فاستخدم «نسيت كلمة المرور؟»، أو سجّل الدخول عبر نفاذ.',
           },
         });
@@ -559,7 +560,7 @@ export class PortalStore {
     this.set((s) => ({
       verified: identity,
       reg: { type: '', company: { ...emptyCompany(), repEmail: e }, crQuery: '', crStatus: '' },
-      regPw: { on: false, n1: '', n2: '', show: false },
+      regPw: { on: true, n1: '', n2: '', show: false },
       draft: { ...s.draft, recvName: '', recvPhone: '', recvEmail: e },
       errors: {},
     }));
@@ -795,7 +796,7 @@ export class PortalStore {
     if (this.isNewFlow()) {
       this.validateRegistration(errors);
       const rp = this.state.regPw;
-      if (rp.on && !passwordRules(rp.n1, rp.n2).every((r) => r.ok)) errors.regPw = 'كلمة المرور لا تستوفي الشروط. أكملها أو أوقف «تعيين كلمة مرور الآن».';
+      if (rp.on && !passwordRules(rp.n1, rp.n2).every((r) => r.ok)) errors.regPw = PW_ERR();
     }
     if (Object.values(errors).some(Boolean)) return this.set({ errors });
     this.goStep('products');
@@ -928,7 +929,7 @@ export class PortalStore {
     const errors: Errors = {};
     this.validateRegistration(errors);
     const rp = this.state.regPw;
-    if (rp.on && !passwordRules(rp.n1, rp.n2).every((r) => r.ok)) errors.regPw = 'كلمة المرور لا تستوفي الشروط. أكملها أو أوقف «تعيين كلمة مرور الآن».';
+    if (rp.on && !passwordRules(rp.n1, rp.n2).every((r) => r.ok)) errors.regPw = PW_ERR();
     if (Object.values(errors).some(Boolean)) return this.set({ errors });
     const s = this.state;
     const identity = s.verified!;

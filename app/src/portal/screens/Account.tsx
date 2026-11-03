@@ -314,7 +314,7 @@ export function AccountStep({ s }: { s: PortalState }) {
   return (
     <>
       <IdentityCard identity={identity} s={s} />
-      {EMAIL_AUTH ? null : <PasswordOptionCard s={s} />}
+      <PasswordOptionCard s={s} />
       <AccountTypeCard s={s} />
       {s.reg.type === 'company' ? <CompanyCards s={s} withPurpose /> : null}
       <ActionBar onBack={() => portal.back()} note={<RequiredNote hasErrors={hasErrors(s.errors)} />}>
@@ -327,18 +327,18 @@ export function AccountStep({ s }: { s: PortalState }) {
 }
 
 /** Flow B: registration without an order. */
-/** Optional email-sign-in password while registering from the header. Off by default. */
+/** Password while registering: optional in the Nafath version (off by default), required in the email version. */
 function PasswordOptionCard({ s }: { s: PortalState }) {
-  const p = s.regPw;
+  const p = EMAIL_AUTH ? { ...s.regPw, on: true } : s.regPw;
   const rules = passwordRules(p.n1, p.n2);
   return (
     <Card>
       <CardHeader
         icon={ICON.lock}
-        title="تسجيل الدخول بالبريد الإلكتروني"
-        desc="اختياري: عيّن كلمة مرور لتسجيل الدخول ببريدك إلى جانب نفاذ."
+        title={EMAIL_AUTH ? 'كلمة المرور' : 'تسجيل الدخول بالبريد الإلكتروني'}
+        desc={EMAIL_AUTH ? 'عيّن كلمة مرور لتسجيل الدخول بها، أو ادخل برمز يصل إلى بريدك في أي وقت.' : 'اختياري: عيّن كلمة مرور لتسجيل الدخول ببريدك إلى جانب نفاذ.'}
         divider={p.on}
-        aside={
+        aside={EMAIL_AUTH ? undefined : (
           <button
             type="button"
             role="switch"
@@ -351,13 +351,14 @@ function PasswordOptionCard({ s }: { s: PortalState }) {
               <span style={{ position: 'absolute', top: 3, insetInlineStart: p.on ? 23 : 3, width: 18, height: 18, borderRadius: '50%', background: '#fff', boxShadow: '0 1px 3px rgba(0,0,0,.25)', transition: 'inset-inline-start .2s' }} />
             </span>
           </button>
-        }
+        )}
       />
       {p.on ? (
         <>
           <div style={formGrid}>
             <Field
               id="reg-pw1"
+              required={EMAIL_AUTH}
               label="كلمة المرور"
               value={p.n1}
               onChange={(v) => portal.setRegPw({ n1: v })}
@@ -369,6 +370,7 @@ function PasswordOptionCard({ s }: { s: PortalState }) {
             />
             <Field
               id="reg-pw2"
+              required={EMAIL_AUTH}
               label="تأكيد كلمة المرور"
               value={p.n2}
               onChange={(v) => portal.setRegPw({ n2: v })}
@@ -417,7 +419,7 @@ export function RegisterScreen({ s }: { s: PortalState }) {
         }
       />
       <IdentityCard identity={identity} s={s} />
-      {EMAIL_AUTH ? null : <PasswordOptionCard s={s} />}
+      <PasswordOptionCard s={s} />
       <AccountTypeCard s={s} />
       {s.reg.type === 'company' ? <CompanyCards s={s} /> : null}
       <ActionBar onBack={() => portal.backToLogin()} note={<RequiredNote hasErrors={hasErrors(s.errors)} />}>

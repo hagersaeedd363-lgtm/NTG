@@ -30,7 +30,7 @@ export const DEMO_ID_LIST: Array<{ id: string; label: string }> = [
 
 export const DEMO_EMAIL_LOGIN = { email: 'a.alharbi@example.com', password: '123456' };
 
-/** Email-only version: demo accounts by email (sign-in is by a code sent to the email). */
+/** Email-only version: demo accounts by email (sign in with a code, or with the demo password). */
 export const DEMO_EMAIL_LIST: Array<{ email: string; label: string }> = [
   { email: 'a.alharbi@example.com', label: 'حساب جهة معتمد' },
   { email: 'n.alqahtani@example.com', label: 'حساب فرد معتمد' },
@@ -39,12 +39,12 @@ export const DEMO_EMAIL_LIST: Array<{ email: string; label: string }> = [
   { email: 't.alanazi@example.com', label: 'حساب مرفوض' },
 ];
 
-/** Email-only version: no national ID, mobile or password on the account. */
+/** Email-only version: no national ID or mobile on the account; demo accounts have the demo password. */
 function emailOnly(a: Account): Account {
   return {
     ...a,
     identity: { ...a.identity, nationalId: '', phone: '' },
-    password: undefined,
+    password: DEMO_EMAIL_LOGIN.password,
     ...(a.company ? { company: { ...a.company, repIdType: '', repId: '', repPhone: '' } } : {}),
   };
 }
