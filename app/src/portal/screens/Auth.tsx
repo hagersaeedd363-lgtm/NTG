@@ -242,6 +242,7 @@ function ForgotPanel({ f }: { f: NonNullable<PortalState["auth"]["forgot"]> }) {
             </Alert>
             <Field
               id="fg-otp"
+            autoFocus
               label="رمز التحقق"
               value={f.otp}
               onChange={(v) =>
@@ -367,6 +368,7 @@ function EmailCodePanel({ s }: { s: PortalState }) {
         >
           <Field
             id="su-otp"
+            autoFocus
             label="رمز التحقق"
             value={su.otp}
             onChange={(v) => portal.setSignup({ otp: v.replace(/\D/g, "").slice(0, 4) })}

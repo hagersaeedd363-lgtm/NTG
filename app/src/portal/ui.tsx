@@ -156,6 +156,8 @@ export function Hint({ children }: { children: ReactNode }) {
 }
 
 interface FieldProps {
+  /** Put the cursor here when the field appears (e.g. the verification code). */
+  autoFocus?: boolean;
   id: string;
   label: string;
   value: string;
@@ -191,7 +193,7 @@ export function EyeToggle({ shown, onToggle }: { shown: boolean; onToggle: () =>
   );
 }
 
-export function Field({ id, label, value, onChange, error, required, placeholder, ltr, type = 'text', inputMode, maxLength, autoComplete, hint, span, trailing }: FieldProps) {
+export function Field({ id, label, value, onChange, error, required, placeholder, ltr, type = 'text', inputMode, maxLength, autoComplete, hint, span, trailing, autoFocus }: FieldProps) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8, minWidth: 0, gridColumn: span ? '1/-1' : undefined }}>
       <Label htmlFor={id} required={required}>
@@ -202,6 +204,7 @@ export function Field({ id, label, value, onChange, error, required, placeholder
           id={id}
           type={type}
           value={value}
+          autoFocus={autoFocus}
           onChange={(e) => onChange?.(e.target.value)}
           placeholder={placeholder}
           dir={ltr ? 'ltr' : undefined}

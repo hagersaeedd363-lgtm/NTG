@@ -10,6 +10,7 @@ async function emailCode(c, email, { wrong = false } = {}) {
   await c.click('إرسال رمز التحقق', { exact: true });
   await c.see('أرسلنا رمزاً من ٤ أرقام إلى ' + email);
   await c.see('إعادة الإرسال بعد');
+  if ((await c.p.evaluate(() => document.activeElement?.id)) !== 'su-otp') throw new Error('the code field should be focused');
   if (wrong) {
     await c.fill('رمز التحقق', '0000');
     await c.click('متابعة', { exact: true });
