@@ -48,9 +48,16 @@ function BuyButton({ onClick, children, light }: { onClick: () => void; children
   );
 }
 
+/** The section: continues the band above, then deepens; a faint calligraphy watermark sits behind the card. */
 const wrap = (children: ReactNode) => (
-  <section id="buy-pack" data-screen-label="اقتن عبوة زمزم" style={{ background: 'var(--bg-alt)', padding: '0 0 64px' }}>
-    <div style={{ maxWidth: '1520px', margin: '0 auto', padding: '0 clamp(16px,2.5vw,32px)' }}>{children}</div>
+  <section
+    id="buy-pack"
+    data-screen-label="اقتن عبوة زمزم"
+    style={{ position: 'relative', overflow: 'hidden', background: 'linear-gradient(180deg,var(--bg-alt) 0%,var(--bg-alt) 35%,color-mix(in srgb,var(--bg-alt) 82%,#A47C1C) 100%)', padding: '0 0 80px' }}
+  >
+    <span aria-hidden="true" style={{ position: 'absolute', right: '-4%', bottom: -40, width: '46%', height: '120%', background: 'var(--callig-img) right bottom/contain no-repeat', opacity: 0.07, pointerEvents: 'none' }} />
+    <span aria-hidden="true" style={{ position: 'absolute', left: '-6%', top: '18%', width: 520, height: 520, borderRadius: '50%', background: 'radial-gradient(circle,rgba(212,168,67,.22) 0%,rgba(212,168,67,0) 70%)', pointerEvents: 'none' }} />
+    <div style={{ position: 'relative', maxWidth: '1520px', margin: '0 auto', padding: '0 clamp(16px,2.5vw,32px)' }}>{children}</div>
   </section>
 );
 
@@ -67,7 +74,63 @@ export function BuyBanner() {
   );
   return wrap(
     <div style={{ borderRadius: 24, overflow: 'hidden', background: 'var(--card)', boxShadow: 'var(--card-shadow)', display: 'flex', flexWrap: 'wrap-reverse', alignItems: 'stretch' }}>
-      <div style={{ flex: '1 1 380px', minHeight: 300, position: 'relative', background: 'linear-gradient(160deg,var(--card-2) 0%,var(--gold-soft) 140%)', display: 'flex', alignItems: 'flex-end', justifyContent: 'center', padding: '32px 24px 0', gap: 0 }}>
+      <div
+        style={{
+          flex: '1 1 380px',
+          minHeight: 340,
+          position: 'relative',
+          overflow: 'hidden',
+          background: 'radial-gradient(ellipse 70% 55% at 50% 78%,rgba(212,168,67,.38) 0%,rgba(212,168,67,0) 70%),linear-gradient(165deg,var(--card-2) 0%,color-mix(in srgb,var(--card-2) 70%,#D4A843) 100%)',
+          display: 'flex',
+          alignItems: 'flex-end',
+          justifyContent: 'center',
+          padding: '40px 24px 46px',
+        }}
+      >
+        {/* arch behind the products */}
+        <span
+          aria-hidden="true"
+          style={{
+            position: 'absolute',
+            left: '50%',
+            bottom: 46,
+            width: '58%',
+            height: '76%',
+            transform: 'translateX(-50%)',
+            borderRadius: '999px 999px 0 0',
+            background: 'linear-gradient(180deg,rgba(212,168,67,.28) 0%,rgba(212,168,67,.08) 100%)',
+            boxShadow: 'inset 0 0 0 1px rgba(164,124,28,.28)',
+          }}
+        />
+        <span
+          aria-hidden="true"
+          style={{
+            position: 'absolute',
+            left: '50%',
+            bottom: 46,
+            width: '46%',
+            height: '64%',
+            transform: 'translateX(-50%)',
+            borderRadius: '999px 999px 0 0',
+            boxShadow: 'inset 0 0 0 1px rgba(164,124,28,.18)',
+          }}
+        />
+        <span aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'var(--callig-img) 50% 18%/62% auto no-repeat', opacity: 0.06 }} />
+        {/* podium the products stand on */}
+        <span
+          aria-hidden="true"
+          style={{
+            position: 'absolute',
+            left: '50%',
+            bottom: 20,
+            width: '78%',
+            height: 54,
+            transform: 'translateX(-50%)',
+            borderRadius: '50%',
+            background: 'linear-gradient(180deg,var(--card) 0%,color-mix(in srgb,var(--card-2) 75%,#C9A65C) 100%)',
+            boxShadow: '0 18px 34px rgba(120,90,30,.28), inset 0 -2px 0 rgba(164,124,28,.25)',
+          }}
+        />
         {lineup.map((p, i) => (
           <img
             key={p.id}
@@ -81,7 +144,7 @@ export function BuyBanner() {
               marginInline: '-3%',
               position: 'relative',
               zIndex: i === 1 ? 2 : 1,
-              filter: 'drop-shadow(0 18px 22px rgba(0,0,0,.18))',
+              filter: 'drop-shadow(0 14px 14px rgba(60,40,10,.28))',
             }}
           />
         ))}
