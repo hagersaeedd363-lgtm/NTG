@@ -1,4 +1,5 @@
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
+import { BannerPicker, BuyBannerAlt } from './BuyBanner';
 import type { V } from '../../types';
 import { css, list } from '../../lib/dc';
 import { ActiveOrderCard, activeOrders } from '../../portal/ActiveOrderCard';
@@ -6,6 +7,21 @@ import { usePortal } from '../../portal/store';
 
 export function HomePage({ v }: { v: V }) {
   const hasActive = activeOrders(usePortal()).length > 0;
+  const [banner, setBanner] = useState(() => {
+    try {
+      return Number(localStorage.getItem('zz-banner')) || 1;
+    } catch {
+      return 1;
+    }
+  });
+  const pickBanner = (n: number) => {
+    setBanner(n);
+    try {
+      localStorage.setItem('zz-banner', String(n));
+    } catch {
+      /* preview only */
+    }
+  };
   return (
     <>
       <section
@@ -744,6 +760,10 @@ export function HomePage({ v }: { v: V }) {
           </div>
         </div>
       </section>
+      <BannerPicker option={banner} onPick={pickBanner} />
+      {banner > 1 ? (
+        <BuyBannerAlt option={banner} />
+      ) : (
       <section id="buy-pack" data-screen-label="اقتن عبوة زمزم" style={{ background: 'var(--bg-alt)', padding: '0 0 64px' }}>
         <div style={{ maxWidth: '1520px', margin: '0 auto', padding: '0 clamp(16px,2.5vw,32px)' }}>
           <div
@@ -884,6 +904,7 @@ export function HomePage({ v }: { v: V }) {
           </div>
         </div>
       </section>
+      )}
       <section data-screen-label="قنوات توفر أخرى" style={{ background: 'var(--bg)', padding: '72px 0' }}>
         <div
           style={{
