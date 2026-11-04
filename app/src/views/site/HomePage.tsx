@@ -1,5 +1,5 @@
-import { Fragment, useState } from 'react';
-import { BannerPicker, BuyBannerAlt } from './BuyBanner';
+import { Fragment } from 'react';
+import { BuyBanner } from './BuyBanner';
 import type { V } from '../../types';
 import { css, list } from '../../lib/dc';
 import { ActiveOrderCard, activeOrders } from '../../portal/ActiveOrderCard';
@@ -7,21 +7,7 @@ import { usePortal } from '../../portal/store';
 
 export function HomePage({ v }: { v: V }) {
   const hasActive = activeOrders(usePortal()).length > 0;
-  const [banner, setBanner] = useState(() => {
-    try {
-      return Number(localStorage.getItem('zz-banner')) || 1;
-    } catch {
-      return 1;
-    }
-  });
-  const pickBanner = (n: number) => {
-    setBanner(n);
-    try {
-      localStorage.setItem('zz-banner', String(n));
-    } catch {
-      /* preview only */
-    }
-  };
+
   return (
     <>
       <section
@@ -760,151 +746,7 @@ export function HomePage({ v }: { v: V }) {
           </div>
         </div>
       </section>
-      <BannerPicker option={banner} onPick={pickBanner} />
-      {banner > 1 ? (
-        <BuyBannerAlt option={banner} />
-      ) : (
-      <section id="buy-pack" data-screen-label="اقتن عبوة زمزم" style={{ background: 'var(--bg-alt)', padding: '0 0 64px' }}>
-        <div style={{ maxWidth: '1520px', margin: '0 auto', padding: '0 clamp(16px,2.5vw,32px)' }}>
-          <div
-            style={{
-              position: 'relative',
-              borderRadius: '24px',
-              background: 'var(--card)',
-              boxShadow: 'var(--card-shadow)',
-              display: 'flex',
-              flexWrap: 'wrap-reverse',
-              alignItems: 'center',
-              overflow: 'hidden',
-            }}
-          >
-            <div style={{ flex: '1 1 300px', minHeight: '280px', position: 'relative' }}>
-              <div
-                style={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  width: '240px',
-                  height: '560px',
-                  margin: '-280px 0 0 -120px',
-                  background: "url('assets/bottle.png') 50% 50%/contain no-repeat",
-                  transform: 'rotate(-28deg)',
-                  filter: 'drop-shadow(-30px 6px 28px rgba(0,0,0,.25))',
-                }}
-              />
-            </div>
-            <div style={{ flex: '1 1 440px', padding: '40px', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '16px' }}>
-              <h2 style={{ margin: '0', fontSize: 'clamp(40px,5vw,64px)', fontWeight: '700', lineHeight: '1.2', color: 'var(--ink)' }}>اقتن عبوة زمزم</h2>
-              <span style={{ fontSize: '24px', lineHeight: '1.3', color: 'var(--ink)' }}>كرتون ماء زمزم (24 عبوة * 330 مل)</span>
-              <div style={{ width: '64px', height: '4px', borderRadius: '2px', background: 'var(--gold-soft)' }} />
-              <p style={{ margin: '0', fontSize: '18px', lineHeight: '1.6', color: 'var(--muted)' }}>
-                زمزم... معجزة جعلها الله لأمة محمد ﷺ ، الآن على بعد <span style={{ color: 'var(--gold-2)' }}>نقرة زر.</span>
-              </p>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '24px', alignItems: 'flex-start', marginTop: '12px' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
-                  <div
-                    style={{
-                      height: '52px',
-                      width: '270px',
-                      maxWidth: '100%',
-                      borderRadius: '9px',
-                      background: 'var(--card-2)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '12px',
-                      padding: '4px 8px',
-                      boxShadow: 'inset 0 0 0 1px var(--line)',
-                    }}
-                  >
-                    <button
-                      onClick={v.qtyInc}
-                      aria-label="زيادة"
-                      style={{
-                        width: '44px',
-                        height: '44px',
-                        borderRadius: '8px',
-                        border: '0',
-                        background: 'var(--card)',
-                        boxShadow: 'var(--card-shadow)',
-                        color: 'var(--ink)',
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}
-                    >
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
-                        <path d="M12 5v14M5 12h14" />
-                      </svg>
-                    </button>
-                    <span style={css(`flex:1;text-align:center;font-size:22px;color:${v.qtyColor ?? ''}`)}>{v.qty}</span>
-                    <button
-                      onClick={v.qtyDec}
-                      aria-label="إنقاص"
-                      style={{
-                        width: '44px',
-                        height: '44px',
-                        borderRadius: '8px',
-                        border: '0',
-                        background: 'var(--card)',
-                        boxShadow: 'var(--card-shadow)',
-                        color: 'var(--ink)',
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}
-                    >
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
-                        <path d="M5 12h14" />
-                      </svg>
-                    </button>
-                  </div>
-                  <span style={{ fontSize: '16px', color: 'var(--gold-2)' }}>صندوق</span>
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <button
-                    onClick={v.buyNow}
-                    style={{
-                      height: '52px',
-                      padding: '0 22px',
-                      borderRadius: '9px',
-                      border: '1px solid rgba(255,255,255,.2)',
-                      background: '#A47C1C',
-                      color: '#fff',
-                      fontSize: '17px',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '10px',
-                    }}
-                    className="zp-011"
-                  >
-                    <svg
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.7"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      aria-hidden="true"
-                    >
-                      <circle cx="9" cy="20" r="1.5" />
-                      <circle cx="18" cy="20" r="1.5" />
-                      <path d="M3 4h2.5l2.2 11h10.6l1.7-8H6.2" />
-                    </svg>
-                    اقتن ماء زمزم الآن
-                  </button>
-                  <span style={{ fontSize: '14px', color: 'var(--danger)', minHeight: '18px' }}>{v.qtyErr}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      )}
+      <BuyBanner />
       <section data-screen-label="قنوات توفر أخرى" style={{ background: 'var(--bg)', padding: '72px 0' }}>
         <div
           style={{

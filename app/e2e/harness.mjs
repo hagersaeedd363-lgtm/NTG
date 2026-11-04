@@ -59,7 +59,7 @@ export class Ctx {
   // ---- composite steps
   async startOrderFromHome() {
     await this.goto('#home');
-    await this.p.locator('#buy-pack').getByRole('button', { name: /اقتن/ }).first().click();
+    await this.p.locator('#buy-pack').getByRole('button', { name: /اقتن|اطلب/ }).first().click();
     await this.tick(500);
   }
   async nafath(id) {
