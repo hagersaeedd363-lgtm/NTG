@@ -19,6 +19,9 @@ import { QuickOrderModal } from './shell/QuickOrderModal';
 import { ReportsPage } from './site/ReportsPage';
 import { SiteFooter } from './shell/SiteFooter';
 import { SiteHeader } from './shell/SiteHeader';
+import { CookieBanner, PageFeedback } from './shell/Platform';
+import { SearchPage } from './site/SearchPage';
+import { SitemapPage } from './site/SitemapPage';
 import { Splash } from './shell/Splash';
 import { StatsPage } from './site/StatsPage';
 import { StoryPage } from './site/StoryPage';
@@ -37,7 +40,8 @@ export function PortalView({ v }: { v: V }) {
           background: 'var(--bg)',
           color: 'var(--ink)',
           minHeight: '100vh',
-          overflowX: 'hidden',
+          // `clip` (not `hidden`) so this wrapper is not a scroll container and the sticky header stays put.
+          overflowX: 'clip',
           transition: 'background .3s,color .3s',
         }}
       >
@@ -62,10 +66,14 @@ export function PortalView({ v }: { v: V }) {
           {v.pg?.faq ? <FaqPage v={v} /> : null}
           {v.pg?.contact ? <ContactPage v={v} /> : null}
           {v.pg?.order ? <PortalPage v={v} /> : null}
+          {v.pg?.search ? <SearchPage v={v} /> : null}
+          {v.pg?.sitemap ? <SitemapPage v={v} /> : null}
         </main>
       </div>
       {v.pg?.buy ? <BuyPage v={v} /> : null}
+      {!v.pg?.order ? <PageFeedback page={v.page ?? ''} /> : null}
       <SiteFooter v={v} />
+      <CookieBanner onPolicy={v.policyToast} />
       {v.stepsOpen ? <OrderStepsModal v={v} /> : null}
       {v.orderOpen ? <QuickOrderModal v={v} /> : null}
       {v.videoOpen ? <VideoModal v={v} /> : null}

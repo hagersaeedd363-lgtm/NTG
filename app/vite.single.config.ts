@@ -6,6 +6,7 @@ import { viteSingleFile } from 'vite-plugin-singlefile';
 // Images are embedded afterwards by scripts/embed-assets.mjs.
 export default defineConfig({
   base: './',
+  define: { __BUILD_DATE__: JSON.stringify(new Date().toISOString()) },
   plugins: [react(), viteSingleFile()],
   build: { outDir: 'dist-single', emptyOutDir: true, copyPublicDir: false },
 });

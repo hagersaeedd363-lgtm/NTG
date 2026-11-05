@@ -56,3 +56,9 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1}
 :root[data-theme="dark"]{--dga-stamp-link:#7BC59C;--dga-stamp-tick:#7BC59C}
 :root{--footer-bg:#3A3022}
 :root[data-theme="dark"]{--footer-bg:#211D18}
+
+/* Accessibility tools: text size (whole page) and high colour contrast */
+/* Page content and footer scale; the header keeps its size so the menu never overlaps. */
+main,.zz-zoom{zoom:var(--zz-zoom,1)}
+html[data-contrast]{--muted:var(--ink);--ink-2:var(--ink);--line:var(--field-bd);--field-bd:var(--ink);--gold-2:var(--gold-h)}
+html[data-contrast] a{text-decoration:underline}

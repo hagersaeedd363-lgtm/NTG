@@ -112,6 +112,8 @@ export async function runScenarios(scenarios) {
   for (const sc of scenarios) {
     if (only && !only.includes(sc.id)) continue;
     const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+    // The cookies banner sits over the bottom of the page; answer it up front like a returning visitor.
+    await ctx.addInitScript(() => { try { localStorage.setItem('zz-cookies', 'all'); } catch {} });
     const page = await ctx.newPage();
     await page.clock.install({ time: new Date('2026-10-29T10:00:00+03:00') });
     await page.route(/nominatim|openstreetmap|fonts\.(googleapis|gstatic)/, (r) => r.abort());

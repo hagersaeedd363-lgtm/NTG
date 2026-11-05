@@ -1,7 +1,7 @@
 // @ts-nocheck -- content ported verbatim from the Claude Design prototype.
 // Public-site content: pages, chapters, news, FAQ, stats, sales points.
 
-export const PAGES = ['home','about','story','museum','journey','quality','properties','verify','stats','reports','certs','media','faq','contact','buy','order'];
+export const PAGES = ['home','about','story','museum','journey','quality','properties','verify','stats','reports','certs','media','faq','contact','buy','order','search','sitemap'];
 export const META = {
   about:{title:'عن المشروع',tag:'نبذة · الرؤية · الرسالة',lead:'نسقي العالم بخير ماء على وجه الارض'},
   story:{title:'قصة زمزم',tag:'أربعة آلاف عام',lead:'ليست زمزم بئراً في مدينة، بل موضعٌ في ذاكرة أمة.'},
@@ -17,6 +17,8 @@ export const META = {
   faq:{title:'الأسئلة الشائعة',tag:'الدعم والمساعدة',lead:'إجابات مباشرة لأكثر ما يُسأل عنه'},
   contact:{title:'تواصل معنا',tag:'الدعم والمساعدة',lead:'نستقبل استفساراتك وملاحظاتك وبلاغاتك.'},
   order:{title:'اقتن عبوة زمزم',tag:'اطلب الآن',lead:'سجّل الدخول عبر نفاذ أو البريد الإلكتروني، ثم أكمل خطوات طلبك.'},
+  search:{title:'البحث',tag:'',lead:'ابحث في صفحات الموقع والأسئلة الشائعة والأخبار.'},
+  sitemap:{title:'خريطة الموقع',tag:'',lead:'جميع صفحات موقع سقيا زمزم في مكان واحد.'},
   buy:{title:'اقتنِ ماء زمزم',tag:'القنوات الرسمية',lead:'ماء زمزم متاح عبر قنوات رسمية معتمدة. اختر ما يناسبك..'}
 };
 export const PARENT = {journey:'about',quality:'about',properties:'about',verify:'about',stats:'about',reports:'about',certs:'about',museum:'about',faq:'support',contact:'support'};

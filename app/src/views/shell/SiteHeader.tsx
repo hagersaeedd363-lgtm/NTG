@@ -3,6 +3,7 @@ import type { V } from '../../types';
 import { css, list } from '../../lib/dc';
 import { Icon } from '../../portal/ui';
 import { wrap } from '../ds';
+import { SecondNavHeader } from './Platform';
 
 const LINK_I = 'M13.5 10.5l-3 3M9.6 7.8l1.2-1.2a4 4 0 0 1 5.6 5.6l-1.2 1.2M14.4 16.2l-1.2 1.2a4 4 0 0 1-5.6-5.6l1.2-1.2';
 const LOCK_I = 'M6 10h12v10H6zM8.5 10V7.5a3.5 3.5 0 0 1 7 0V10M12 14v2';
@@ -85,6 +86,7 @@ export function SiteHeader({ v }: { v: V }) {
     <>
       <header style={{ position: 'sticky', top: 0, zIndex: 60, background: 'var(--card)' }}>
         <DigitalStamp />
+        {v.desktop ? <SecondNavHeader onTheme={v.toggleTheme} isDark={v.isDark} /> : null}
         {/* DGA Nav Header: logo + menu items at the start, header actions at the end, 1px divider */}
         <div style={{ borderBottom: '1px solid var(--line)' }}>
         <div style={{ ...wrap, height: 72, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
@@ -180,6 +182,14 @@ export function SiteHeader({ v }: { v: V }) {
           <div style={{ display: 'flex', alignItems: 'center', gap: 0, flexShrink: '0' }} className="zz-header-actions">
             {v.desktop ? (
               <>
+                <button onClick={v.go?.search} aria-label="البحث" aria-current={v.pg?.search ? 'page' : undefined} className="dga-hact" style={hAct}>
+                  <Icon d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM20 20l-3.5-3.5" size={24} />
+                  <span className="zz-hact-label">البحث</span>
+                </button>
+                <button onClick={v.langToast} aria-label="English" lang="en" className="dga-hact" style={hAct}>
+                  <Icon d="M3 5h8M7 3v2M9 5c0 4-2.5 7-6 8M5 9c1.2 2 3 3.4 5 4M13 21l4-9 4 9M14.4 18h5.2" size={24} />
+                  <span className="zz-hact-label">English</span>
+                </button>
                 <button
                   onClick={v.scrollToBuyPack}
                   style={{
@@ -399,6 +409,7 @@ export function SiteHeader({ v }: { v: V }) {
                 </>
               ) : null}
             </div>
+            {!v.desktop ? (
             <button
               onClick={v.toggleTheme}
               aria-label="تبديل الوضع"
@@ -431,6 +442,7 @@ export function SiteHeader({ v }: { v: V }) {
                 </>
               ) : null}
             </button>
+            ) : null}
             {v.showHeaderMenu ? (
               <>
                 <button

@@ -296,7 +296,7 @@ export class PortalStore {
       () =>
         requestAnimationFrame(() => {
           const el = document.getElementById('oflow');
-          window.scrollTo({ top: el ? el.getBoundingClientRect().top + window.scrollY - 80 : 0, behavior: instant ? 'auto' : 'smooth' });
+          window.scrollTo({ top: el ? el.getBoundingClientRect().top + window.scrollY - ((document.querySelector('header')?.getBoundingClientRect().height || 80) + 16) : 0, behavior: instant ? 'auto' : 'smooth' });
         }),
       instant ? 180 : 120,
     );

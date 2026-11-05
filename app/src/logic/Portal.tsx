@@ -51,7 +51,7 @@ export class Portal extends Component {
     if(location.hash!==h){ try{history.replaceState(null,'',h);}catch(e){} }
     setTimeout(()=>{
       const el=anchor&&document.getElementById(anchor);
-      if(el){ window.scrollTo({top:el.getBoundingClientRect().top+window.scrollY-90,behavior:'smooth'}); }
+      if(el){ window.scrollTo({top:el.getBoundingClientRect().top+window.scrollY-((document.querySelector('header')?.getBoundingClientRect().height||90)+16),behavior:'smooth'}); }
       else window.scrollTo(0,0);
     },30);
   }
@@ -59,7 +59,7 @@ export class Portal extends Component {
     this.setState({mobileNav:false,menu:null,stepsOpen:false});
     const jump=()=>{
       const el=document.getElementById('buy-pack');
-      if(el) window.scrollTo({top:el.getBoundingClientRect().top+window.scrollY-90,behavior:'smooth'});
+      if(el) window.scrollTo({top:el.getBoundingClientRect().top+window.scrollY-((document.querySelector('header')?.getBoundingClientRect().height||90)+16),behavior:'smooth'});
     };
     if(this.state.page==='home'){ setTimeout(jump,0); return; }
     this.go('home');
