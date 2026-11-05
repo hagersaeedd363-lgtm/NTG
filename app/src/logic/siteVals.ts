@@ -24,7 +24,7 @@ export function siteVals(self) {
     go.museumAxes=()=>self.go('museum',{museumTab:1});
     go.museumGroups=()=>self.go('museum',{museumTab:3});
     const active=(id)=>id===P;
-    const mk=(arr)=>arr.map(([id,label])=>({label,onClick:()=>self.go(id),active:active(id),color:active(id)?'var(--gold-2)':'var(--ink)',bg:active(id)?'var(--card-2)':'transparent'}));
+    const mk=(arr)=>arr.map(([id,label])=>({id,label,onClick:()=>self.go(id),active:active(id),color:active(id)?'var(--gold-2)':'var(--ink)',bg:active(id)?'var(--card-2)':'transparent'}));
     const menuItem=(id,label,children)=>{
       const isActive=children?children.some(c=>c[0]===P):P===id;
       return {label,hasMenu:!!children,open:!!children&&S.menu===id,children:children?mk(children):[],

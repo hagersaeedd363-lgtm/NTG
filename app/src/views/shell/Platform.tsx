@@ -5,7 +5,8 @@
  */
 import { useEffect, useState, type ReactNode } from 'react';
 import { Icon } from '../../portal/ui';
-import { DsButton, wrap } from '../ds';
+import { Calendar03Icon, Clock01Icon, Location01Icon, Moon02Icon, Sun03Icon, ViewIcon, ZoomInAreaIcon, ZoomOutAreaIcon } from '@hugeicons/core-free-icons';
+import { DsButton, Hi, wrap, type IconSvgElement } from '../ds';
 
 /* ---------- Accessibility tools (text size + colour contrast), remembered per browser ---------- */
 const ZOOMS = [0.9, 1, 1.1, 1.2, 1.3];
@@ -59,7 +60,7 @@ export const I_ZOOM_OUT = 'M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM20 20l-3.5-3.5M8
 /** The three accessibility tools as 32px icon buttons (`onColor` for the dark footer). */
 export function A11yTools({ onColor, onTheme, isDark }: { onColor?: boolean; onTheme?: () => void; isDark?: boolean }) {
   const a = useA11y();
-  const btn = (d: string, label: string, onClick: () => void, opts: { pressed?: boolean; disabled?: boolean } = {}) => (
+  const btn = (d: IconSvgElement, label: string, onClick: () => void, opts: { pressed?: boolean; disabled?: boolean } = {}) => (
     <button
       type="button"
       onClick={onClick}
@@ -84,15 +85,15 @@ export function A11yTools({ onColor, onTheme, isDark }: { onColor?: boolean; onT
         opacity: opts.disabled ? 0.45 : 1,
       }}
     >
-      <Icon d={d} size={20} />
+      <Hi icon={d} size={20} />
     </button>
   );
   return (
     <div role="group" aria-label="أدوات الإتاحة والوصول" style={{ display: 'flex', alignItems: 'center', gap: onColor ? 8 : 6 }}>
-      {btn(I_EYE, 'تباين الألوان', a.toggleContrast, { pressed: a.contrast })}
-      {btn(I_ZOOM_IN, 'تكبير النص', a.zoomIn, { disabled: !a.canIn })}
-      {btn(I_ZOOM_OUT, 'تصغير النص', a.zoomOut, { disabled: !a.canOut })}
-      {onTheme ? btn(isDark ? I_SUN : I_MOON, isDark ? 'الوضع الفاتح' : 'الوضع الداكن', onTheme, { pressed: !!isDark }) : null}
+      {btn(ViewIcon, 'تباين الألوان', a.toggleContrast, { pressed: a.contrast })}
+      {btn(ZoomInAreaIcon, 'تكبير النص', a.zoomIn, { disabled: !a.canIn })}
+      {btn(ZoomOutAreaIcon, 'تصغير النص', a.zoomOut, { disabled: !a.canOut })}
+      {onTheme ? btn(isDark ? Sun03Icon : Moon02Icon, isDark ? 'الوضع الفاتح' : 'الوضع الداكن', onTheme, { pressed: !!isDark }) : null}
     </div>
   );
 }
@@ -113,10 +114,10 @@ const I_CAL = 'M4 6h16v14H4zM4 10h16M8 3v4M16 3v4';
 const I_CLOCK = 'M12 7v5l3 2M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0';
 const I_PIN = 'M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21zM12 12a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z';
 
-function SubItem({ d, children }: { d: string; children: ReactNode }) {
+function SubItem({ d, children }: { d: IconSvgElement; children: ReactNode }) {
   return (
     <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 14, lineHeight: '20px', color: 'var(--ink-2)', whiteSpace: 'nowrap' }}>
-      <Icon d={d} size={20} />
+      <Hi icon={d} size={20} />
       {children}
     </span>
   );
@@ -132,11 +133,11 @@ export function SecondNavHeader({ onTheme, isDark }: { onTheme?: () => void; isD
     <div style={{ background: 'var(--card-2)', borderTop: '1px solid var(--line)', borderBottom: '1px solid var(--line)' }}>
       <div style={{ ...wrap, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          <SubItem d={I_CAL}>
+          <SubItem d={Calendar03Icon}>
             <time>{now.date}</time>
           </SubItem>
-          <SubItem d={I_CLOCK}>{now.time}</SubItem>
-          <SubItem d={I_PIN}>مكة المكرمة</SubItem>
+          <SubItem d={Clock01Icon}>{now.time}</SubItem>
+          <SubItem d={Location01Icon}>مكة المكرمة</SubItem>
         </div>
         <A11yTools onTheme={onTheme} isDark={isDark} />
       </div>

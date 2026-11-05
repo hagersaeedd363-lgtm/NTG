@@ -2,8 +2,79 @@ import { Fragment, useState, type CSSProperties, type ReactNode } from 'react';
 import type { V } from '../../types';
 import { css, list } from '../../lib/dc';
 import { Icon } from '../../portal/ui';
-import { wrap } from '../ds';
 import { SecondNavHeader } from './Platform';
+import {
+  Analytics01Icon,
+  CheckmarkBadge01Icon,
+  ChemistryIcon,
+  CustomerService01Icon,
+  HelpCircleIcon,
+  HierarchyIcon,
+  InformationCircleIcon,
+  LandmarkIcon,
+  RouteIcon,
+  Search01Icon,
+  ShieldUserIcon,
+  LanguageSquareIcon,
+  UserIcon,
+  ArrowDown01Icon,
+} from '@hugeicons/core-free-icons';
+import { Hi, wrap, type IconSvgElement } from '../ds';
+
+/** DS Nav Header Sub-Menu content: groups (label in brand colour) of items with a boxed icon, title and supporting line. */
+const MEGA: Record<string, Array<{ label: string; items: Array<[string, IconSvgElement, string]> }>> = {
+  'عن المشروع': [
+    { label: 'المشروع', items: [['about', InformationCircleIcon, 'نبذة عن المشروع ورؤيته ورسالته'], ['museum', LandmarkIcon, 'متحف يروي قصة البئر ومنظومة خدمتها']] },
+    { label: 'ماء زمزم', items: [['journey', RouteIcon, 'ست محطات من البئر إلى ضيف الرحمن'], ['quality', ShieldUserIcon, 'رقابة متصلة من المصدر حتى ضيف الرحمن'], ['properties', ChemistryIcon, 'التركيب والخصائص الفيزيائية والكيميائية']] },
+    { label: 'الثقة والبيانات', items: [['verify', CheckmarkBadge01Icon, 'كيف تميّز العبوة الأصلية وتبلّغ عن المشتبه بها'], ['stats', Analytics01Icon, 'المؤشرات والتقارير والاعتمادات']] },
+  ],
+  'الدعم والمساعدة': [
+    { label: 'المساعدة', items: [['faq', HelpCircleIcon, 'إجابات مباشرة لأكثر ما يُسأل عنه'], ['contact', CustomerService01Icon, 'استفساراتك وملاحظاتك وبلاغاتك']] },
+    { label: 'تصفّح الموقع', items: [['search', Search01Icon, 'ابحث في صفحات الموقع والأسئلة والأخبار'], ['sitemap', HierarchyIcon, 'جميع صفحات الموقع في مكان واحد']] },
+  ],
+};
+
+function MegaMenu({ item, go }: { item: any; go: any }) {
+  const kids: any[] = list(item?.children);
+  const byId = (id: string) => kids.find((c) => c?.id === id);
+  const groups = MEGA[item?.label] || [{ label: item?.label, items: kids.map((c) => [c?.id, InformationCircleIcon, ''] as [string, IconSvgElement, string]) }];
+  return (
+    <div role="menu" aria-label={item?.label} style={{ position: 'absolute', top: '100%', left: 0, right: 0, background: 'var(--card)', borderTop: '1px solid var(--line)', boxShadow: '0 12px 16px -4px rgba(16,24,40,.08),0 4px 6px -2px rgba(16,24,40,.03)', animation: 'zzfade .18s ease both' }}>
+      <div style={{ ...wrap, display: 'flex', flexWrap: 'wrap', gap: 24, paddingTop: 32, paddingBottom: 32 }}>
+        {groups.map((g) => (
+          <div key={g.label} style={{ flex: '1 1 240px', minWidth: 240, maxWidth: 400, display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <span style={{ padding: '0 16px', fontSize: 18, lineHeight: '28px', fontWeight: 700, color: 'var(--gold-2)' }}>{g.label}</span>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+              {g.items.map(([id, icon, desc]) => {
+                const c = byId(id);
+                const label = c?.label || ({ search: 'البحث', sitemap: 'خريطة الموقع' } as any)[id] || id;
+                const onClick = c?.onClick || go?.[id];
+                return (
+                  <button
+                    key={id}
+                    role="menuitem"
+                    onClick={onClick}
+                    aria-current={c?.active ? 'page' : undefined}
+                    className="dga-navlink"
+                    style={{ display: 'flex', alignItems: 'flex-start', gap: 16, padding: '8px 16px', border: 0, borderRadius: 'var(--r-md)', background: c?.active ? 'var(--card-2)' : 'transparent', textAlign: 'right', cursor: 'pointer', fontFamily: 'inherit' }}
+                  >
+                    <span style={{ width: 48, height: 48, flexShrink: 0, borderRadius: 'var(--r-md)', background: 'var(--gold-soft)', color: 'var(--gold-on-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <Hi icon={icon} />
+                    </span>
+                    <span style={{ display: 'flex', flexDirection: 'column', gap: 4, minWidth: 0 }}>
+                      <span style={{ fontSize: 16, lineHeight: '24px', fontWeight: c?.active ? 700 : 500, color: c?.active ? 'var(--gold-2)' : 'var(--ink)' }}>{label}</span>
+                      {desc ? <span style={{ fontSize: 14, lineHeight: '20px', color: 'var(--ink-2)' }}>{desc}</span> : null}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 const LINK_I = 'M13.5 10.5l-3 3M9.6 7.8l1.2-1.2a4 4 0 0 1 5.6 5.6l-1.2 1.2M14.4 16.2l-1.2 1.2a4 4 0 0 1-5.6-5.6l1.2-1.2';
 const LOCK_I = 'M6 10h12v10H6zM8.5 10V7.5a3.5 3.5 0 0 1 7 0V10M12 14v2';
@@ -88,7 +159,7 @@ export function SiteHeader({ v }: { v: V }) {
         <DigitalStamp />
         {v.desktop ? <SecondNavHeader onTheme={v.toggleTheme} isDark={v.isDark} /> : null}
         {/* DGA Nav Header: logo + menu items at the start, header actions at the end, 1px divider */}
-        <div style={{ borderBottom: '1px solid var(--line)' }}>
+        <div style={{ position: 'relative', borderBottom: '1px solid var(--line)' }}>
         <div style={{ ...wrap, height: 72, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 16, minWidth: 0 }}>
             <button onClick={v.go?.home} aria-label="الرئيسية" style={{ background: 'none', border: '0', padding: 0, cursor: 'pointer', display: 'flex', flexShrink: 0 }}>
@@ -98,7 +169,7 @@ export function SiteHeader({ v }: { v: V }) {
               <nav aria-label="القائمة الرئيسية" style={{ display: 'flex', alignItems: 'center' }} className="zz-header-nav">
                 {list(v.navItems).map((item: any, $index: number) => (
                   <Fragment key={$index}>
-                    <div onMouseEnter={item?.onEnter} onMouseLeave={item?.onLeave} style={{ position: 'relative' }}>
+                    <div onMouseEnter={item?.onEnter} onMouseLeave={item?.onLeave} style={{ position: 'static' }}>
                       <button
                         onClick={item?.onClick}
                         aria-current={item?.active ? 'page' : undefined}
@@ -124,55 +195,9 @@ export function SiteHeader({ v }: { v: V }) {
                         className="dga-menu"
                       >
                         <span>{item?.label}</span>
-                        {item?.hasMenu ? <Icon d="M6 9l6 6 6-6" size={20} /> : null}
+                        {item?.hasMenu ? <Hi icon={ArrowDown01Icon} size={20} style={{ transition: 'transform .2s', transform: item?.open ? 'rotate(180deg)' : 'none' }} /> : null}
                       </button>
-                      {item?.open ? (
-                        <div
-                          role="menu"
-                          style={{
-                            position: 'absolute',
-                            top: '100%',
-                            right: 0,
-                            minWidth: '240px',
-                            padding: '8px',
-                            borderRadius: 'var(--r-md)',
-                            background: 'var(--card)',
-                            boxShadow: 'inset 0 0 0 1px var(--line),var(--shadow-lg)',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: '2px',
-                            animation: 'zzfade .18s ease both',
-                          }}
-                        >
-                          {list(item?.children).map((c: any, $index: number) => (
-                            <Fragment key={$index}>
-                              <button
-                                role="menuitem"
-                                onClick={c?.onClick}
-                                aria-current={c?.active ? 'page' : undefined}
-                                style={{
-                                  background: c?.active ? 'var(--gold-soft)' : 'transparent',
-                                  border: 0,
-                                  borderRadius: 'var(--r-sm)',
-                                  padding: '8px 16px',
-                                  minHeight: 40,
-                                  textAlign: 'right',
-                                  cursor: 'pointer',
-                                  fontSize: 16,
-                                  lineHeight: '24px',
-                                  fontWeight: c?.active ? 600 : 500,
-                                  color: c?.active ? 'var(--gold-on-soft)' : 'var(--ink)',
-                                  whiteSpace: 'nowrap',
-                                  fontFamily: 'inherit',
-                                }}
-                                className="dga-navlink"
-                              >
-                                {c?.label}
-                              </button>
-                            </Fragment>
-                          ))}
-                        </div>
-                      ) : null}
+                      {item?.open ? <MegaMenu item={item} go={v.go} /> : null}
                     </div>
                   </Fragment>
                 ))}
@@ -183,11 +208,11 @@ export function SiteHeader({ v }: { v: V }) {
             {v.desktop ? (
               <>
                 <button onClick={v.go?.search} aria-label="البحث" aria-current={v.pg?.search ? 'page' : undefined} className="dga-hact" style={hAct}>
-                  <Icon d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM20 20l-3.5-3.5" size={24} />
+                  <Hi icon={Search01Icon} />
                   <span className="zz-hact-label">البحث</span>
                 </button>
                 <button onClick={v.langToast} aria-label="English" lang="en" className="dga-hact" style={hAct}>
-                  <Icon d="M3 5h8M7 3v2M9 5c0 4-2.5 7-6 8M5 9c1.2 2 3 3.4 5 4M13 21l4-9 4 9M14.4 18h5.2" size={24} />
+                  <Hi icon={LanguageSquareIcon} />
                   <span className="zz-hact-label">English</span>
                 </button>
               </>
@@ -217,19 +242,7 @@ export function SiteHeader({ v }: { v: V }) {
                   </>
                 ) : (
                   <>
-                    <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <circle cx="12" cy="8" r="4" />
-                      <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7" />
-                    </svg>
+                    <Hi icon={UserIcon} />
                     {v.desktop ? <span>{v.ox?.authLabel}</span> : null}
                   </>
                 )}
