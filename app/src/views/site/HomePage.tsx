@@ -65,22 +65,22 @@ function HeroCarousel({ v, extra }: { v: V; extra?: ReactNode }) {
   const slides = [
     {
       bg: 'var(--hero-img) 30% 30%/cover no-repeat',
-      title: 'زمزم .. من قلب البئر الى قلب الانسان',
-      text: 'من بئرٍ في جوف المسجد الحرام، لم ينقطع ماؤها منذ آلاف السنين، إلى يد كل قاصدٍ لبيت الله. منظومةٌ متكاملة تسحب وتعالج وتعبّئ وتوزّع ماء زمزم المبارك، بمعايير تليق بمكانته.',
+      title: 'زمزم .. من البئر إليك',
+      text: 'من بئرٍ لم ينقطع ماؤها منذ آلاف السنين في جوف المسجد الحرام، إلى يد كل قاصدٍ لبيت الله، بمعايير تليق بمكانته.',
       cta: 'اقتنِ ماء زمزم',
       onClick: v.go?.buy,
     },
     {
       bg: "url('assets/news-clock-tower.jpg') center 35%/cover no-repeat",
-      title: 'عالمية زمزم .. من مكة المكرمة إلى العالم',
-      text: 'من البئر المباركة في قلب المسجد الحرام، يصل ماء زمزم إلى ضيوف الرحمن القادمين من شتى أنحاء العالم. فيلمٌ يروي رحلة السقيا التي تخدمهم على مدار العام، بعنايةٍ تليق بمكانته.',
+      title: 'زمزم .. من مكة للعالم',
+      text: 'فيلمٌ يروي رحلة السقيا التي تحمل ماء زمزم من البئر المباركة إلى ضيوف الرحمن القادمين من شتى أنحاء العالم.',
       cta: 'شاهد الفيلم',
       onClick: v.film?.global,
     },
     {
       bg: 'var(--kaaba-img) center 40%/cover no-repeat',
-      title: 'زمزم الأصلي .. من المصدر المعتمد إلى يدك',
-      text: 'ماء زمزم لا يُعبَّأ إلا في منشآت المشروع، ولا يُوزَّع إلا عبر قنوات معتمدة. تعرّف على علامات العبوة الأصلية وطرق التحقق منها، وبلّغ عن أي منتج مشتبه به حمايةً لك ولغيرك.',
+      title: 'زمزم .. الأصلي المعتمد',
+      text: 'لا يُعبَّأ ماء زمزم إلا في منشآت المشروع ولا يُوزَّع إلا عبر قنوات معتمدة. تعرّف على علامات العبوة الأصلية وطرق التحقق منها.',
       cta: 'كيف تتحقق',
       onClick: v.go?.verify,
     },
@@ -105,16 +105,16 @@ function HeroCarousel({ v, extra }: { v: V; extra?: ReactNode }) {
       style={{ position: 'relative', background: s.bg, padding: '40px 0', display: 'flex', flexDirection: 'column', gap: 32, boxSizing: 'border-box', minHeight: 491, transition: 'background .4s' }}
     >
       <div aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'rgba(42,34,23,.8)' }} />
-      {/* DS Hero: 491px at 1440 = 40 padding + 359 content + 32 gap + 20 carousel controls + 40 padding */}
-      <div style={{ ...wrap, position: 'relative', flex: 1, minHeight: 359, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 32 }}>
+      {/* DS Hero (Figma 24341:267352): 491px; content bottom-anchored 32px above the carousel; title 1 line (60/72), description 2 lines (20/30), one button */}
+      <div style={{ ...wrap, position: 'relative', flex: 1, minHeight: 359, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', gap: 32 }}>
         <div key={i} aria-roledescription="slide" aria-label={`${i + 1} من ${slides.length}`} style={{ maxWidth: 624, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 32, animation: 'zzfade .35s ease both' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 24, color: '#FFFFFF' }}>
             {i === 0 ? (
-              <h1 style={{ margin: 0, fontSize: 'clamp(36px,4.2vw,60px)', lineHeight: 1.2, fontWeight: 600, letterSpacing: '-1.2px' }}>{s.title}</h1>
+              <h1 style={{ margin: 0, fontSize: 'clamp(36px,4.2vw,60px)', lineHeight: 1.2, fontWeight: 600, letterSpacing: '-1.2px', whiteSpace: 'nowrap' }}>{s.title}</h1>
             ) : (
-              <h2 style={{ margin: 0, fontSize: 'clamp(36px,4.2vw,60px)', lineHeight: 1.2, fontWeight: 600, letterSpacing: '-1.2px' }}>{s.title}</h2>
+              <h2 style={{ margin: 0, fontSize: 'clamp(36px,4.2vw,60px)', lineHeight: 1.2, fontWeight: 600, letterSpacing: '-1.2px', whiteSpace: 'nowrap' }}>{s.title}</h2>
             )}
-            <p style={{ margin: 0, fontSize: 20, lineHeight: '30px' }}>{s.text}</p>
+            <p style={{ margin: 0, fontSize: 20, lineHeight: '30px', ...clamp(2) }}>{s.text}</p>
           </div>
           <DsButton onColor="primary" onClick={s.onClick}>
             {s.cta}
@@ -135,6 +135,7 @@ export function HomePage({ v }: { v: V }) {
   const P = (t: ReactNode) => <p style={{ margin: 0 }}>{t}</p>;
   const [film, setFilm] = useState(0);
   const [stn, setStn] = useState(0);
+  const filmStyle = typeof location !== 'undefined' ? new URLSearchParams(location.search).get('films') : null;
   const stations = list(v.stationCards);
 
   // Services: the site's four services + tags (DS card: icon, title, text, tags, one primary action — the same «استكشف» on every card).
@@ -234,24 +235,70 @@ export function HomePage({ v }: { v: V }) {
       {/* Films — DGA Service Page "video" pattern: horizontal tab list (one tab per film) above a video frame with a play icon */}
       <Section label="أفلام زمزم">
         <SectionHeader title="أفلام زمزم" action={<DsButton onClick={v.go?.gallery}>عرض الكل</DsButton>} desc={P('أفلام قصيرة تروي قصة زمزم ورحلة مائه المبارك من البئر إلى العالم.')} />
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-          <Tabs label="أفلام زمزم" items={FILMS.map((f, k) => ({ label: (<><Hi icon={f.icon} size={20} />{f.title}</>), selected: k === film, onClick: () => setFilm(k) }))} />
-          <button
-            key={film}
-            type="button"
-            onClick={FILMS[film].onClick}
-            aria-label={'تشغيل فيلم ' + FILMS[film].title}
-            className="zz-film"
-            style={{ position: 'relative', display: 'block', width: '100%', height: 'clamp(240px,32vw,440px)', padding: 0, border: 0, borderRadius: 'var(--r-lg)', overflow: 'hidden', background: FILMS[film].bg, cursor: 'pointer', animation: 'zzfade .3s ease both' }}
-          >
-            <span aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'rgba(28,25,21,.25)' }} />
-            <span style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <span style={{ width: 72, height: 72, borderRadius: 9999, background: 'var(--card)', color: 'var(--gold)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 'var(--shadow-lg)' }}>
-                <Hi icon={PlayIcon} size={32} />
+        {filmStyle === 'playlist' ? (
+          /* Option B — featured player + playlist (DS media list: thumbnail, title, meta; selected item highlighted) */
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 24, alignItems: 'stretch' }}>
+            <button key={film} type="button" onClick={FILMS[film].onClick} aria-label={'تشغيل فيلم ' + FILMS[film].title} className="zz-film" style={{ flex: '2 1 560px', minHeight: 420, position: 'relative', padding: 0, border: 0, borderRadius: 'var(--r-lg)', overflow: 'hidden', background: FILMS[film].bg, cursor: 'pointer', animation: 'zzfade .3s ease both', textAlign: 'start' }}>
+              <span aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg,rgba(28,25,21,0) 40%,rgba(28,25,21,.85))' }} />
+              <span style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ width: 72, height: 72, borderRadius: 9999, background: 'var(--card)', color: 'var(--gold)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 'var(--shadow-lg)' }}><Hi icon={PlayIcon} size={32} /></span></span>
+              <span style={{ position: 'absolute', insetInline: 24, bottom: 24, display: 'flex', flexDirection: 'column', gap: 8, color: '#FFFFFF' }}>
+                <span style={{ fontSize: 24, lineHeight: '32px', fontWeight: 700 }}>{FILMS[film].title}</span>
+                <span style={{ fontSize: 16, lineHeight: '24px', opacity: 0.9 }}>{FILMS[film].text}</span>
               </span>
-            </span>
-          </button>
-        </div>
+            </button>
+            <ul role="tablist" aria-label="قائمة الأفلام" style={{ flex: '1 1 320px', margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 12 }}>
+              {FILMS.map((f, k) => (
+                <li key={k} style={{ flex: 1, display: 'flex' }}>
+                  <button type="button" role="tab" aria-selected={k === film} onClick={() => setFilm(k)} className="dga-card-link" style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 16, padding: 12, borderRadius: 'var(--r-lg)', border: '1px solid ' + (k === film ? 'var(--gold)' : 'var(--line)'), background: k === film ? 'var(--brand-25, var(--bg-alt))' : 'var(--card)', cursor: 'pointer', fontFamily: 'inherit', textAlign: 'start', color: 'var(--ink)' }}>
+                    <span style={{ width: 120, height: 84, flexShrink: 0, borderRadius: 'var(--r-md)', background: f.bg, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ width: 32, height: 32, borderRadius: 9999, background: 'var(--card)', color: 'var(--gold)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 'var(--shadow-lg)' }}><Hi icon={PlayIcon} size={14} /></span></span>
+                    <span style={{ display: 'flex', flexDirection: 'column', gap: 4, minWidth: 0 }}>
+                      <span style={{ fontSize: 16, lineHeight: '24px', fontWeight: 700 }}>{f.title}</span>
+                      <span style={{ fontSize: 14, lineHeight: '20px', color: 'var(--ink-2)', display: 'flex', alignItems: 'center', gap: 4 }}><Hi icon={f.icon} size={16} />{f.tags.join(' · ')}</span>
+                    </span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : filmStyle === 'cards' ? (
+          /* Option C — DS media cards: 16:9 thumbnail with play icon, tag + duration, title, 2-line text */
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(min(100%,320px),1fr))', gap: 24 }}>
+            {FILMS.map((f, k) => (
+              <button key={k} type="button" onClick={f.onClick} aria-label={'تشغيل فيلم ' + f.title} className="dga-card-link zz-film" style={{ ...dsCard, padding: 16, cursor: 'pointer', fontFamily: 'inherit', textAlign: 'start', color: 'var(--ink)' }}>
+                <span style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', aspectRatio: '16/9', borderRadius: 'var(--r-md)', overflow: 'hidden', background: f.bg }}>
+                  <span aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'rgba(28,25,21,.2)' }} />
+                  <span style={{ position: 'relative' }}><span style={{ width: 56, height: 56, borderRadius: 9999, background: 'var(--card)', color: 'var(--gold)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 'var(--shadow-lg)' }}><Hi icon={PlayIcon} size={24} /></span></span>
+                </span>
+                <span style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                  {f.tags.map((t, j) => (<DsTag key={t} tone={j === 0 ? 'brand' : undefined}>{t}</DsTag>))}
+                </span>
+                <span style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  <span style={{ fontSize: 18, lineHeight: '28px', fontWeight: 700, ...clamp(1) }}>{f.title}</span>
+                  <span style={{ fontSize: 16, lineHeight: '24px', height: 48, ...clamp(2) }}>{f.text}</span>
+                </span>
+              </button>
+            ))}
+          </div>
+        ) : (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+            <Tabs label="أفلام زمزم" items={FILMS.map((f, k) => ({ label: (<><Hi icon={f.icon} size={20} />{f.title}</>), selected: k === film, onClick: () => setFilm(k) }))} />
+            <button
+              key={film}
+              type="button"
+              onClick={FILMS[film].onClick}
+              aria-label={'تشغيل فيلم ' + FILMS[film].title}
+              className="zz-film"
+              style={{ position: 'relative', display: 'block', width: '100%', height: 'clamp(240px,32vw,440px)', padding: 0, border: 0, borderRadius: 'var(--r-lg)', overflow: 'hidden', background: FILMS[film].bg, cursor: 'pointer', animation: 'zzfade .3s ease both' }}
+            >
+              <span aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'rgba(28,25,21,.25)' }} />
+              <span style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <span style={{ width: 72, height: 72, borderRadius: 9999, background: 'var(--card)', color: 'var(--gold)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 'var(--shadow-lg)' }}>
+                  <Hi icon={PlayIcon} size={32} />
+                </span>
+              </span>
+            </button>
+          </div>
+        )}
       </Section>
 
       {/* Journey — DS tabs (icon + station) above a media card: station tag, title, text, detail, prev/next controls */}
