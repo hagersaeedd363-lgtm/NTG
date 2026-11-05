@@ -1,44 +1,43 @@
 import { PRODUCTS } from '../../data/portal';
 import { portal } from '../../portal/store';
-import { ICON } from '../../portal/ui';
-import { DsButton, FeaturedIcon, Section, SectionHeader } from '../ds';
+import type { V } from '../../types';
+import { list } from '../../lib/dc';
+import { DsButton, ProgressSteps, Section, SectionHeader } from '../ds';
 
 type Product = { id: string; t: string; pack: string; bottles: number; price: number; img: string };
 const ITEMS = PRODUCTS as Product[];
 const AR = (n: number) => n.toLocaleString('ar-EG');
 const FROM = Math.min(...ITEMS.map((p) => p.price));
-const CART = 'M3 4h2.5l2.2 11h10.6l1.7-8H6.2M9 20h.01M18 20h.01';
-const TRUCK = 'M3 6h11v9H3zM14 9h4l3 3v3h-7M7.5 18.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM17.5 18.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z';
 
-/** Home «اقتن ماء زمزم» section (DS section header + featured-icon list + primary action, products image card). */
-export function BuyBanner() {
+/**
+ * Home «اقتن ماء زمزم»: DS section header, the order cycle as a DS Progress Indicator
+ * (the site's own three steps), primary + secondary actions, and the product line-up card.
+ */
+export function BuyBanner({ v }: { v: V }) {
   const lineup = [ITEMS.find((p) => p.id === 'p5000'), ITEMS.find((p) => p.id === 'p330'), ITEMS.find((p) => p.id === 'p500')].filter(Boolean) as Product[];
-  const point = (d: string, t: string) => (
-    <li style={{ display: 'flex', alignItems: 'center', gap: 16, fontSize: '16px', lineHeight: '24px', color: 'var(--ink)' }}>
-      <FeaturedIcon d={d} size={40} />
-      {t}
-    </li>
-  );
+  const steps = list(v.orderSteps).map((s: any) => ({ title: s?.ar, state: 'current' as const }));
   return (
     <div id="buy-pack">
       <Section label="اقتن عبوة زمزم">
-        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'stretch', gap: 32 }}>
-          <div style={{ flex: '1 1 460px', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 32 }}>
-            <SectionHeader title="اقتن ماء زمزم" desc={<p style={{ margin: 0 }}>زمزم... معجزة جعلها الله لأمة محمد ﷺ ، الآن على بعد نقرة زر.</p>} />
-            <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 16 }}>
-              {point(ICON.box, AR(ITEMS.length) + ' أحجام من ٣٣٠ مل إلى ٥ لتر · تبدأ من ' + AR(FROM) + ' ر.س للكرتون')}
-              {point(TRUCK, 'توصيل إلى عنوانك أو استلام من أقرب مستودع')}
-              {point(ICON.shield, 'للأفراد والجهات، مع خصم ٥٠٪ للجهات غير الربحية')}
-            </ul>
-            <div style={{ display: 'flex' }}>
-              <DsButton primary icon={CART} onClick={() => portal.startOrder()}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(min(100%,480px),1fr))', alignItems: 'center', gap: 32 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
+            <SectionHeader
+              title="اقتن ماء زمزم"
+              desc={<p style={{ margin: 0 }}>زمزم... معجزة جعلها الله لأمة محمد ﷺ ، الآن على بعد نقرة زر. {AR(ITEMS.length)} أحجام من ٣٣٠ مل إلى ٥ لتر، تبدأ من {AR(FROM)} ر.س للكرتون.</p>}
+            />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+              <span style={{ fontSize: 18, lineHeight: '28px', fontWeight: 700, color: 'var(--ink)' }}>خطوات الطلب</span>
+              <ProgressSteps steps={steps} />
+            </div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
+              <DsButton primary onClick={() => portal.startOrder()}>
                 اطلب الآن
               </DsButton>
+              <DsButton onClick={v.go?.buyMap}>أقرب نقطة بيع</DsButton>
             </div>
           </div>
           <div
             style={{
-              flex: '1 1 400px',
               minHeight: 340,
               background: 'var(--bg-alt)',
               border: '1px solid var(--line)',

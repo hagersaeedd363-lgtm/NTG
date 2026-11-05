@@ -4,7 +4,14 @@
  * Page header). Colours come from the Zamzam palette tokens; everything else follows the DS.
  */
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
+import { HugeiconsIcon, type IconSvgElement } from '@hugeicons/react';
 import { Icon } from '../portal/ui';
+
+export type { IconSvgElement };
+/** DS icon set (Hugeicons, stroke rounded, 1.5 stroke on a 24 grid). */
+export function Hi({ icon, size = 24, style }: { icon: IconSvgElement; size?: number; style?: CSSProperties }) {
+  return <HugeiconsIcon icon={icon} size={size} strokeWidth={1.5} color="currentColor" style={style} aria-hidden="true" />;
+}
 
 export const PLAY = 'M8 5.5v13l11-6.5z';
 export const CHEV_DOWN = 'M6 9l6 6 6-6';
@@ -28,7 +35,8 @@ export function Section({ children, band, label, id, gap = 32 }: { children: Rea
 }
 
 /** DS neutral tag (24px, r4, 12/18 medium). */
-export function DsTag({ children, onColor }: { children: ReactNode; onColor?: boolean }) {
+export function DsTag({ children, onColor, tone }: { children: ReactNode; onColor?: boolean; tone?: 'brand' | 'neutral' | 'info' }) {
+  const t = tone === 'brand' ? ['var(--gold-soft)', 'var(--gold-3)', 'var(--gold-on-soft)'] : tone === 'info' ? ['var(--bg-alt)', 'var(--field-bd)', 'var(--ink-2)'] : null;
   return (
     <span
       style={{
@@ -38,9 +46,9 @@ export function DsTag({ children, onColor }: { children: ReactNode; onColor?: bo
         height: 24,
         padding: '0 8px',
         borderRadius: 'var(--r-sm)',
-        background: onColor ? 'rgba(255,255,255,.12)' : 'var(--card-2)',
-        boxShadow: 'inset 0 0 0 1px ' + (onColor ? 'rgba(255,255,255,.4)' : 'var(--line)'),
-        color: onColor ? '#fff' : 'var(--ink)',
+        background: onColor ? 'rgba(255,255,255,.12)' : t ? t[0] : 'var(--card-2)',
+        boxShadow: 'inset 0 0 0 1px ' + (onColor ? 'rgba(255,255,255,.4)' : t ? t[1] : 'var(--line)'),
+        color: onColor ? '#fff' : t ? t[2] : 'var(--ink)',
         fontSize: 12,
         lineHeight: '18px',
         fontWeight: 500,
@@ -145,10 +153,11 @@ export const dsCard: CSSProperties = {
 };
 
 /** Featured icon: brand-light circle (48 → 24 icon, 56 → 28 icon). */
-export function FeaturedIcon({ d, size = 48 }: { d: string; size?: 40 | 48 | 56 }) {
+export function FeaturedIcon({ d, hi, size = 48 }: { d?: string; hi?: IconSvgElement; size?: 40 | 48 | 56 }) {
+  const s = size === 40 ? 20 : size === 56 ? 28 : 24;
   return (
     <span style={{ width: size, height: size, flexShrink: 0, borderRadius: 'var(--r-full)', background: 'var(--gold-soft)', color: 'var(--gold-on-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <Icon d={d} size={size === 40 ? 20 : 24} />
+      {hi ? <Hi icon={hi} size={s} /> : d ? <Icon d={d} size={s} /> : null}
     </span>
   );
 }
@@ -164,10 +173,10 @@ export function CardText({ title, text }: { title: ReactNode; text?: ReactNode }
 }
 
 /** Metric card: featured icon 56, value Display lg regular in brand colour, label 16/24. */
-export function Metric({ icon, value, label }: { icon: string; value: ReactNode; label: ReactNode }) {
+export function Metric({ icon, hi, value, label }: { icon?: string; hi?: IconSvgElement; value: ReactNode; label: ReactNode }) {
   return (
     <div style={{ ...dsCard, border: 0, alignItems: 'center', textAlign: 'center' }}>
-      <FeaturedIcon d={icon} size={56} />
+      <FeaturedIcon d={icon} hi={hi} size={56} />
       <span style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center' }}>
         <span style={{ fontSize: 48, lineHeight: '60px', fontWeight: 400, color: 'var(--gold)', whiteSpace: 'nowrap' }}>{value}</span>
         <span style={{ fontSize: 16, lineHeight: '24px', color: 'var(--ink)' }}>{label}</span>
@@ -399,5 +408,100 @@ export function Tabs({ items, label }: { items: Array<{ label: ReactNode; select
         </button>
       ))}
     </div>
+  );
+}
+
+/** DS Progress Indicator (horizontal): 24px markers joined by a line; completed = brand fill + check, current = brand ring. */
+export function ProgressSteps({ steps }: { steps: Array<{ title: ReactNode; desc?: ReactNode; state?: 'done' | 'current' | 'todo' }> }) {
+  return (
+    <ol style={{ margin: 0, padding: 0, listStyle: 'none', display: 'grid', gridTemplateColumns: `repeat(${steps.length},minmax(0,1fr))`, gap: 0 }}>
+      {steps.map((s, i) => {
+        const st = s.state || 'todo';
+        const last = i === steps.length - 1;
+        return (
+          <li key={i} style={{ display: 'flex', flexDirection: 'column', gap: 12, minWidth: 0 }}>
+            <span style={{ display: 'flex', alignItems: 'center' }}>
+              <span
+                style={{
+                  width: 24,
+                  height: 24,
+                  flexShrink: 0,
+                  borderRadius: 9999,
+                  boxSizing: 'border-box',
+                  background: st === 'done' ? 'var(--gold)' : 'var(--card)',
+                  border: st === 'done' ? 0 : '1.5px solid ' + (st === 'current' ? 'var(--gold)' : 'var(--field-bd)'),
+                  color: st === 'done' ? '#FFFFFF' : st === 'current' ? 'var(--gold)' : 'var(--muted)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: 12,
+                  lineHeight: '18px',
+                  fontWeight: 600,
+                }}
+              >
+                {st === 'done' ? <Icon d="M6 12.5l4 4 8-9" size={16} /> : (i + 1).toLocaleString('ar-EG')}
+              </span>
+              {!last ? <span aria-hidden="true" style={{ flex: 1, height: 2, margin: '0 8px', borderRadius: 2, background: st === 'done' ? 'var(--gold)' : 'var(--line)' }} /> : null}
+            </span>
+            <span style={{ display: 'flex', flexDirection: 'column', gap: 4, paddingInlineEnd: 16 }}>
+              <span style={{ fontSize: 16, lineHeight: '24px', fontWeight: 600, color: 'var(--ink)' }}>{s.title}</span>
+              {s.desc ? <span style={{ fontSize: 14, lineHeight: '20px', color: 'var(--ink-2)' }}>{s.desc}</span> : null}
+            </span>
+          </li>
+        );
+      })}
+    </ol>
+  );
+}
+
+/** DS Vertical Tab List: 16px items, selected = bold ink with a 4px brand bar on the start side. */
+export function VerticalTabs({ items, value, onChange, label }: { items: ReactNode[]; value: number; onChange: (i: number) => void; label: string }) {
+  return (
+    <div role="tablist" aria-orientation="vertical" aria-label={label} style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+      {items.map((it, i) => {
+        const on = i === value;
+        return (
+          <button
+            key={i}
+            type="button"
+            role="tab"
+            aria-selected={on}
+            onClick={() => onChange(i)}
+            className={on ? undefined : 'dga-tab'}
+            style={{
+              minHeight: 40,
+              padding: '8px 16px',
+              border: 0,
+              borderInlineStart: '4px solid ' + (on ? 'var(--gold)' : 'transparent'),
+              borderRadius: 0,
+              background: 'transparent',
+              color: on ? 'var(--ink)' : 'var(--ink-2)',
+              fontSize: 16,
+              lineHeight: '24px',
+              fontWeight: on ? 700 : 400,
+              textAlign: 'right',
+              cursor: 'pointer',
+              fontFamily: 'inherit',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 8,
+            }}
+          >
+            {it}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+/** DS Quote: card with a brand quotation mark, Text lg quote and a semibold citation. */
+export function Quote({ children, cite }: { children: ReactNode; cite?: ReactNode }) {
+  return (
+    <blockquote style={{ margin: 0, padding: 24, borderRadius: 'var(--r-lg)', background: 'var(--card)', border: '1px solid var(--line)', display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <span aria-hidden="true" style={{ fontFamily: 'Georgia,serif', fontSize: 48, lineHeight: '32px', height: 24, fontWeight: 700, color: 'var(--gold)' }}>”</span>
+      <span style={{ fontSize: 20, lineHeight: '30px', color: 'var(--ink)' }}>{children}</span>
+      {cite ? <span style={{ fontSize: 16, lineHeight: '24px', fontWeight: 600, color: 'var(--ink-2)' }}>{cite}</span> : null}
+    </blockquote>
   );
 }

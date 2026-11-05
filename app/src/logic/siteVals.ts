@@ -6,6 +6,9 @@ import { FORMS } from '../data/portal';
 import { DEMO_TOOLS } from '../config';
 import { portal } from '../portal/store';
 
+// Literal paths (not built from strings) so the single-file build can embed every logo.
+const LOGO_SRC={emirate:['assets/logos/emirate-on-light.png','assets/logos/emirate-on-dark.png'],hajj:['assets/logos/hajj-on-light.png','assets/logos/hajj-on-dark.png'],haramain:['assets/logos/haramain-on-light.png','assets/logos/haramain-on-dark.png'],program:['assets/logos/program-on-light.png','assets/logos/program-on-dark.png'],rcmc:['assets/logos/rcmc-on-light.png','assets/logos/rcmc-on-dark.png'],sgs:['assets/logos/sgs-on-light.png','assets/logos/sgs-on-dark.png']};
+
 export function siteVals(self) {
 
     const S=self.state, P=S.page, isDark=S.theme==='dark', desktop=S.w>=1080;
@@ -147,7 +150,7 @@ export function siteVals(self) {
       orderOpen:S.orderOpen,orderPending:!S.orderDone,orderDone:S.orderDone,confirmOrder:()=>self.setState({orderDone:true}),finishOrder:()=>self.setState({orderOpen:false,orderDone:false,qty:0}),
       toast:S.toast,hasToast:!!S.toast,storeToast:()=>self.toast('سيتم تحويلك إلى متجر التطبيقات لتحميل تطبيق نسك'),policyToast:()=>self.toast('الصفحة قيد الإعداد'),langToast:()=>self.toast('النسخة الإنجليزية من الموقع قيد الإعداد'),page:P,
       footerLinks:[['story','قصة زمزم'],['about','عن المشروع'],['journey','رحلة ماء زمزم'],['quality','الجودة والسلامة'],['museum','متحف زمزم'],['verify','التحقق من المنتج الأصلي'],['media','المركز الإعلامي'],['faq','الأسئلة الشائعة'],['contact','تواصل معنا'],['buy','اقتنِ ماء زمزم']].map(([id,label])=>({label,onClick:()=>self.go(id)})),
-      homeStats,services,stationCards:STATIONS,stations,stakeholders:STAKE.map(s=>{const [f,k]=LOGOS[s.name];const sz={sq:['76px','76px','68px','64px'],mid:['140px','68px','150px','64px'],wide:['156px','52px','190px','54px']}[k];return {...s,logoL:'assets/logos/'+f+'-on-light.png',logoD:'assets/logos/'+f+'-on-dark.png',logoLBg:"url('assets/logos/"+f+"-on-light.png') center/contain no-repeat",logoDBg:"url('assets/logos/"+f+"-on-dark.png') center/contain no-repeat",mw:sz[0],mh:sz[1],mwA:sz[2],mhA:sz[3]};}),latestNews:newsAll.slice(0,3),topFaq,
+      homeStats,services,stationCards:STATIONS,stations,stakeholders:STAKE.map(s=>{const [f,k]=LOGOS[s.name];const sz={sq:['76px','76px','68px','64px'],mid:['140px','68px','150px','64px'],wide:['156px','52px','190px','54px']}[k];const L=LOGO_SRC[f];return {...s,logoL:L[0],logoD:L[1],logoLBg:"url('"+L[0]+"') center/contain no-repeat",logoDBg:"url('"+L[1]+"') center/contain no-repeat",mw:sz[0],mh:sz[1],mwA:sz[2],mhA:sz[3]};}),latestNews:newsAll.slice(0,3),topFaq,
       faqGroups,faqChips,faqEmpty:faqGroups.length===0,faqQ:S.faqQ,onFaqQ:(e)=>self.setState({faqQ:e.target.value}),
       chapterCards,chapterNav,chapter,isOverview:S.chapter<0,isChapter:S.chapter>=0,hasPrev,hasNext,prevCh,nextCh,
       prevChapter:()=>{self.setState({chapter:S.chapter-1});window.scrollTo(0,0);},nextChapter:()=>{self.setState({chapter:S.chapter+1});window.scrollTo(0,0);},
