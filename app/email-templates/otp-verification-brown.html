@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light only">
+<title>رمز التحقق – سقيا زمزم / Verification code – Zamzam</title>
+<!--
+  OTP verification email — the existing message, word for word, in the Zamzam design (style F):
+  Zamzam pattern banner on deep brown, light sand code panel, pattern band in the footer.
+  Zamzam palette + DGA Platforms Code (type scale, spacing, r16 card, r8 boxes).
+  Subject line (set by the sender):  رمز التحقق – سقيا زمزم / Verification code – Zamzam
+  Inbox preview line: the hidden preheader right after <body> (code + validity), padded so no body text leaks into the preview.
+  Placeholders to fill on send:
+    {{NAME}}             recipient name (the current email leaves it empty: "Dear ,")
+    {{OTP}}              the code (e.g. 676397)
+    {{MINUTES}}          validity in minutes (e.g. 10)
+    {{BANNER_URL}}       absolute https URL of images/banner-e-brown.png (pattern + logo on deep brown)
+    {{FOOTER_BAND_URL}}  absolute https URL of images/banner-h-band.png (pattern band)
+  Images must be hosted at public https URLs — email clients block relative paths, SVG and data: images.
+  Table layout + inline styles so it renders the same in Outlook, Gmail and Apple Mail.
+-->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap');
+  body{margin:0;padding:0;background:#F8F4F0}
+  @media (max-width:620px){ .px{padding-left:16px!important;padding-right:16px!important} .code{font-size:32px!important;letter-spacing:8px!important} }
+</style>
+</head>
+<body style="margin:0;padding:0;background:#F8F4F0;">
+<!-- inbox preview line (preheader) -->
+<div style="display:none;font-size:1px;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all;">رمز التحقق: {{OTP}} · صالح لمدة {{MINUTES}} دقائق | Your code: {{OTP}} · valid for {{MINUTES}} minutes&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;</div>
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#F8F4F0;">
+<tr><td align="center" style="padding:32px 16px;">
+
+  <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" dir="ltr" style="width:100%;max-width:600px;background:#FFFFFF;border:1px solid #E0D2BF;border-radius:16px;overflow:hidden;font-family:'IBM Plex Sans Arabic',Tahoma,Arial,sans-serif;color:#1C1915;">
+
+    <!-- pattern banner with the logo -->
+    <tr><td style="padding:0;font-size:0;line-height:0;">
+      <img src="{{BANNER_URL}}" width="600" alt="Zamzam" style="display:block;width:100%;max-width:600px;height:auto;border:0;">
+    </td></tr>
+
+    <tr><td style="padding:40px 40px 0;text-align:left;" class="px">
+      <h1 style="margin:0 0 24px;font-size:24px;line-height:32px;font-weight:700;color:#1C1915;">OTP Verification</h1>
+      <p style="margin:0 0 16px;font-size:16px;line-height:24px;color:#1C1915;">Dear {{NAME}},</p>
+      <p style="margin:0;font-size:16px;line-height:24px;color:#3A3022;">You have requested to verify your email address. Please use the One-Time Password (OTP) below to complete your verification.</p>
+    </td></tr>
+
+    <!-- code: light sand panel -->
+    <tr><td style="padding:24px 40px;" class="px">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#FBF8F3;border:1px solid #E0D2BF;border-radius:8px;">
+        <tr><td align="center" class="code" style="padding:28px 16px 12px;font-size:44px;line-height:56px;font-weight:700;letter-spacing:14px;color:#7E6646;">{{OTP}}</td></tr>
+        <tr><td align="center" style="padding:0 0 28px;"><table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td style="width:48px;height:4px;background:#926D39;border-radius:9999px;font-size:0;line-height:0;">&nbsp;</td></tr></table></td></tr>
+      </table>
+    </td></tr>
+
+    <tr><td style="padding:0 40px 40px;text-align:left;" class="px">
+      <p style="margin:0 0 16px;font-size:16px;line-height:24px;color:#3A3022;">This OTP is valid for <strong style="color:#1C1915;">{{MINUTES}} minutes</strong>.</p>
+      <p style="margin:0 0 16px;font-size:16px;line-height:24px;color:#3A3022;">Please do not share this code with anyone. NTG Clarity will never ask you to share your OTP.</p>
+      <p style="margin:0 0 24px;font-size:16px;line-height:24px;color:#3A3022;">If you did not request this verification code, please ignore this email.</p>
+      <p style="margin:0;font-size:16px;line-height:24px;color:#1C1915;">Thank You,<br>NTG Clarity Team</p>
+    </td></tr>
+
+    <!-- footer: pattern band on deep brown -->
+    <tr><td style="padding:0;background:#3A3022;font-size:0;line-height:0;">
+      <img src="{{FOOTER_BAND_URL}}" width="600" alt="" style="display:block;width:100%;max-width:600px;height:auto;border:0;">
+    </td></tr>
+    <tr><td align="center" style="padding:0 40px 24px;background:#3A3022;" class="px">
+      <div style="font-size:14px;line-height:20px;color:#FFFFFF;">Copyright © NTG Clarity Networks Inc</div>
+      <div style="margin-top:12px;font-size:14px;line-height:20px;color:#FFFFFF;">Website: <a href="https://www.NTGClarity.com" style="color:#D9BF94;text-decoration:underline;">www.NTGClarity.com</a></div>
+    </td></tr>
+
+  </table>
+
+</td></tr>
+</table>
+</body>
+</html>

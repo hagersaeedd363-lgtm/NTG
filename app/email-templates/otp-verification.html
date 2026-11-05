@@ -4,11 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light only">
-<title>OTP Verification</title>
+<title>رمز التحقق – سقيا زمزم / Verification code – Zamzam</title>
 <!--
   OTP verification email — the existing message, word for word, in the Zamzam design (style F):
   Zamzam pattern banner on sand, light sand code panel, pattern band in the footer.
   Zamzam palette + DGA Platforms Code (type scale, spacing, r16 card, r8 boxes).
+  Subject line (set by the sender):  رمز التحقق – سقيا زمزم / Verification code – Zamzam
+  Inbox preview line: the hidden preheader right after <body> (code + validity), padded so no body text leaks into the preview.
   Placeholders to fill on send:
     {{NAME}}             recipient name (the current email leaves it empty: "Dear ,")
     {{OTP}}              the code (e.g. 676397)
@@ -25,6 +27,8 @@
 </style>
 </head>
 <body style="margin:0;padding:0;background:#F8F4F0;">
+<!-- inbox preview line (preheader) -->
+<div style="display:none;font-size:1px;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all;">رمز التحقق: {{OTP}} · صالح لمدة {{MINUTES}} دقائق | Your code: {{OTP}} · valid for {{MINUTES}} minutes&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;</div>
 
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#F8F4F0;">
 <tr><td align="center" style="padding:32px 16px;">
