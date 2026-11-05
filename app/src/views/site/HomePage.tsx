@@ -5,8 +5,6 @@ import {
   Clock01Icon,
   DeliveryTruck01Icon,
   DropletIcon,
-  FactoryIcon,
-  FilterIcon,
   Mosque01Icon,
   PackageIcon,
   PlayIcon,
@@ -16,7 +14,9 @@ import {
   SecurityCheckIcon,
   ShoppingCart01Icon,
   TestTube01Icon,
-  WaterPumpIcon,
+  ArrowLeft01Icon,
+  ArrowRight01Icon,
+  Location01Icon,
 } from '@hugeicons/core-free-icons';
 import { BuyBanner } from './BuyBanner';
 import type { V } from '../../types';
@@ -43,11 +43,21 @@ import {
   Tabs,
   Section,
   SectionHeader,
+  type IconSvgElement,
   wrap,
 } from '../ds';
 
 const STAT_ICONS = [Clock01Icon, SecurityCheckIcon, PackageIcon, DropletIcon, TestTube01Icon];
-const STATION_ICONS = [WaterPumpIcon, DeliveryTruck01Icon, FilterIcon, FactoryIcon, TestTube01Icon, Mosque01Icon];
+const STATION_ICONS = [DropletIcon, DeliveryTruck01Icon, SecurityCheckIcon, PackageIcon, TestTube01Icon, Location01Icon];
+/** One visual per station (site photos / product shots on the brand sand or dark frame). */
+const STATION_MEDIA = [
+  'var(--kaaba-img) center/cover no-repeat',
+  "url('assets/news-madinah.jpg') center/cover no-repeat",
+  "#1C1915 url('assets/bottle.png') center 55%/auto 120% no-repeat",
+  "var(--bg-alt) url('assets/prod-pack.png') center/auto 70% no-repeat",
+  "var(--bg-alt) url('assets/bottle-2.png') center/auto 80% no-repeat",
+  "url('assets/news-clock-tower.jpg') center/cover no-repeat",
+];
 const clamp = (lines: number) => ({ display: '-webkit-box', WebkitLineClamp: lines, WebkitBoxOrient: 'vertical' as const, overflow: 'hidden' });
 
 /** DS Hero Section as a carousel: full-bleed photo + dark brand overlay, Display xl title, Text xl copy, ONE on-colour primary action per slide, carousel dots. */
@@ -124,6 +134,7 @@ export function HomePage({ v }: { v: V }) {
   const scrollPartners = (dir: number) => document.getElementById('partners-row')?.scrollBy({ left: dir * 236, behavior: 'smooth' });
   const P = (t: ReactNode) => <p style={{ margin: 0 }}>{t}</p>;
   const [film, setFilm] = useState(0);
+  const [stn, setStn] = useState(0);
   const stations = list(v.stationCards);
 
   // Services: the site's four services + tags (DS card: icon, title, text, tags, one primary action — the same «استكشف» on every card).
@@ -243,32 +254,48 @@ export function HomePage({ v }: { v: V }) {
         </div>
       </Section>
 
-      {/* Journey — six numbered DS cards (icon, step number, title, text), read in order like a timeline */}
+      {/* Journey — DS tabs (icon + station) above a media card: station tag, title, text, detail, prev/next controls */}
       <Section band label="رحلة ماء زمزم - تمهيد">
         <SectionHeader
           title="من البئر إلى يديك"
           action={<DsButton onClick={v.go?.journey}>الرحلة كاملة</DsButton>}
           desc={P('لا يصل ماء زمزم إلى ضيف الرحمن صدفةً. بين البئر واليد ستّ محطات، تمرّ فيها كل قطرة تحت رقابةٍ متصلة لا تتوقف على مدار الساعة')}
         />
-        <ol style={{ margin: 0, padding: 0, listStyle: 'none', display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(min(100%,360px),1fr))', gap: 16 }}>
-          {stations.map((s: any, k: number) => (
-            <li key={k} style={dsCard}>
-              <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <FeaturedIcon hi={STATION_ICONS[k % STATION_ICONS.length]} />
-                <span aria-hidden="true" style={{ fontSize: 36, lineHeight: '44px', fontWeight: 700, color: 'var(--gold-3)' }}>
-                  {(k + 1).toLocaleString('ar-EG', { minimumIntegerDigits: 2 })}
-                </span>
-              </span>
-              <span style={{ display: 'flex', flexDirection: 'column', gap: 8, color: 'var(--ink)' }}>
-                <span style={{ fontSize: 18, lineHeight: '28px', fontWeight: 700 }}>
-                  <span className="zz-sr">المحطة {s?.n}: </span>
-                  {s?.title}
-                </span>
-                <span style={{ fontSize: 16, lineHeight: '24px', height: 72, ...clamp(3) }}>{s?.short}</span>
-              </span>
-            </li>
-          ))}
-        </ol>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 40 }}>
+          <Tabs label="محطات رحلة ماء زمزم" items={stations.map((s: any, k: number) => ({ label: (<><Hi icon={STATION_ICONS[k]} size={20} />{s?.title}</>), selected: k === stn, onClick: () => setStn(k) }))} />
+          {(() => {
+            const s: any = stations[stn] || {};
+            const ps: string[] = s.ps || [];
+            const extra = s.bullets ? ps[0] + ' ' + s.bullets.map((b: any) => b.k).join('، ') + '.' : ps[ps.length - 1];
+            const nav = (dir: number, icon: IconSvgElement, label: string) => {
+              const to = stn + dir;
+              const off = to < 0 || to >= stations.length;
+              return (
+                <button type="button" aria-label={label} disabled={off} onClick={() => setStn(to)} className="dga-btn dga-btn-neutral" style={{ width: 48, height: 48, borderRadius: 'var(--r-sm)', border: '1px solid var(--line)', background: 'var(--card)', color: off ? 'var(--line)' : 'var(--ink)', cursor: off ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Hi icon={icon} size={20} />
+                </button>
+              );
+            };
+            return (
+              <div role="tabpanel" key={stn} style={{ display: 'flex', flexWrap: 'wrap', background: 'var(--card)', border: '1px solid var(--line)', borderRadius: 'var(--r-xl, 16px)', overflow: 'hidden', animation: 'zzfade .3s ease both' }}>
+                <div style={{ flex: '1 1 420px', minWidth: 0, boxSizing: 'border-box', padding: 32, display: 'flex', flexDirection: 'column', gap: 16, color: 'var(--ink)' }}>
+                  <span style={{ display: 'flex' }}>
+                    <DsTag tone="brand">المحطة {(stn + 1).toLocaleString('ar-EG')} من {stations.length.toLocaleString('ar-EG')}</DsTag>
+                  </span>
+                  <span style={{ fontSize: 24, lineHeight: '32px', fontWeight: 700 }}>{s.title}</span>
+                  <span style={{ fontSize: 16, lineHeight: '26px', height: 78, ...clamp(3) }}>{s.short}</span>
+                  <span aria-hidden="true" style={{ height: 1, background: 'var(--line)' }} />
+                  <span style={{ fontSize: 16, lineHeight: '26px', color: 'var(--ink-2)', height: 78, ...clamp(3) }}>{extra}</span>
+                  <span style={{ marginTop: 'auto', paddingTop: 16, display: 'flex', gap: 8 }}>
+                    {nav(-1, ArrowRight01Icon, 'المحطة السابقة')}
+                    {nav(1, ArrowLeft01Icon, 'المحطة التالية')}
+                  </span>
+                </div>
+                <div role="img" aria-label={s.title} style={{ flex: '1 1 480px', minHeight: 400, background: STATION_MEDIA[stn] }} />
+              </div>
+            );
+          })()}
+        </div>
       </Section>
 
       {/* DS Articles and News Section: three cards (image 250, title, text, primary «قراءة المزيد») */}
@@ -282,7 +309,7 @@ export function HomePage({ v }: { v: V }) {
                 <span role="img" aria-label="" style={css(`display:block;width:100%;height:250px;border-radius:var(--r-md);background:${n?.img ?? ''}`)} />
                 <span style={{ display: 'flex', flexDirection: 'column', gap: 8, color: 'var(--ink)' }}>
                   <span style={{ fontSize: 18, lineHeight: '28px', fontWeight: 700, height: 56, ...clamp(2) }}>{n?.title}</span>
-                  <span style={{ fontSize: 16, lineHeight: '24px', height: 72, ...clamp(3) }}>{n?.body?.[0]}</span>
+                  <span style={{ fontSize: 16, lineHeight: '24px', height: 48, ...clamp(2) }}>{n?.body?.[0]}</span>
                 </span>
                 <div style={{ display: 'flex', marginTop: 'auto' }}>
                   <DsButton primary onClick={n?.onClick}>
