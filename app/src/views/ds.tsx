@@ -278,11 +278,11 @@ export function PlayBadge({ size = 56 }: { size?: number }) {
 }
 
 /** DS carousel controls: 12px dots, 8px apart, 12px padding; the current dot is the brand colour. */
-export function CarouselDots({ count, index, onPick, onColor }: { count: number; index: number; onPick: (i: number) => void; onColor?: boolean }) {
+export function CarouselDots({ count, index, onPick, onColor, compact }: { count: number; index: number; onPick: (i: number) => void; onColor?: boolean; compact?: boolean }) {
   if (count < 2) return null;
   return (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
-      <div role="tablist" aria-label="التنقل بين الشرائح" style={{ display: 'flex', gap: 8, padding: 12 }}>
+      <div role="tablist" aria-label="التنقل بين الشرائح" style={{ display: 'flex', gap: 8, padding: compact ? '4px 12px' : 12 }}>
         {Array.from({ length: count }, (_, i) => (
           <button
             key={i}

@@ -87,10 +87,11 @@ function HeroCarousel({ v, extra }: { v: V; extra?: ReactNode }) {
       onMouseLeave={() => setPaused(false)}
       onFocus={() => setPaused(true)}
       onBlur={() => setPaused(false)}
-      style={{ position: 'relative', background: s.bg, padding: '40px 0', transition: 'background .4s' }}
+      style={{ position: 'relative', background: s.bg, padding: '40px 0', display: 'flex', flexDirection: 'column', gap: 32, boxSizing: 'border-box', minHeight: 491, transition: 'background .4s' }}
     >
       <div aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'rgba(42,34,23,.8)' }} />
-      <div style={{ ...wrap, position: 'relative', minHeight: 411, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 32 }}>
+      {/* DS Hero: 491px at 1440 = 40 padding + 359 content + 32 gap + 20 carousel controls + 40 padding */}
+      <div style={{ ...wrap, position: 'relative', flex: 1, minHeight: 359, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 32 }}>
         <div key={i} aria-roledescription="slide" aria-label={`${i + 1} من ${slides.length}`} style={{ maxWidth: 624, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 32, animation: 'zzfade .35s ease both' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 24, color: '#FFFFFF' }}>
             {i === 0 ? (
@@ -106,8 +107,8 @@ function HeroCarousel({ v, extra }: { v: V; extra?: ReactNode }) {
         </div>
         {extra ? <div style={{ width: '100%', maxWidth: 624 }}>{extra}</div> : null}
       </div>
-      <div style={{ position: 'relative' }}>
-        <CarouselDots count={slides.length} index={i} onPick={setI} onColor />
+      <div style={{ position: 'relative', height: 20, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <CarouselDots count={slides.length} index={i} onPick={setI} onColor compact />
       </div>
     </section>
   );
