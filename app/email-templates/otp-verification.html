@@ -17,7 +17,6 @@
     {{MINUTES}}          validity in minutes (e.g. 10)
     {{BANNER_URL}}       absolute https URL of images/banner-f-sand.png (pattern + logo)
     {{NTG_MARK_URL}}     absolute https URL of images/ntg-mark-white.png
-    {{ZAMZAM_MARK_URL}}  absolute https URL of images/zamzam-mark-white.png
     {{ZAMZAM_URL}}       the Zamzam website address
   Images must be hosted at public https URLs — email clients block relative paths, SVG and data: images.
   Table layout + inline styles so it renders the same in Outlook, Gmail and Apple Mail.
@@ -63,7 +62,7 @@
       <p style="margin:0;font-size:16px;line-height:24px;color:#1C1915;">Thank You,<br>NTG Clarity Team</p>
     </td></tr>
 
-    <!-- footer (compact, no pattern): NTG mark + site, then Zamzam mark + site (same style), copyright -->
+    <!-- footer (compact, no pattern): NTG mark + site, then the Zamzam site link (same link style), copyright -->
     <tr><td style="padding:20px 40px;background:#3A3022;" class="px">
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
@@ -71,7 +70,7 @@
             <a href="https://www.NTGClarity.com" style="text-decoration:none;"><img src="{{NTG_MARK_URL}}" height="24" alt="NTG Clarity" style="display:inline-block;vertical-align:middle;height:24px;width:auto;border:0;margin-right:10px;"><span style="color:#D9BF94;text-decoration:underline;font-size:14px;line-height:20px;font-weight:500;vertical-align:middle;">www.NTGClarity.com</span></a>
           </td>
           <td class="stack" align="right" valign="middle" style="padding:4px 0;">
-            <a href="{{ZAMZAM_URL}}" style="text-decoration:none;"><img src="{{ZAMZAM_MARK_URL}}" height="24" alt="Zamzam" style="display:inline-block;vertical-align:middle;height:24px;width:auto;border:0;margin-right:10px;"><span style="color:#D9BF94;text-decoration:underline;font-size:14px;line-height:20px;font-weight:500;vertical-align:middle;">Zamzam website</span></a>
+            <a href="{{ZAMZAM_URL}}" style="text-decoration:none;"><span style="color:#D9BF94;text-decoration:underline;font-size:14px;line-height:20px;font-weight:500;vertical-align:middle;">Zamzam website</span></a>
           </td>
         </tr>
       </table>
