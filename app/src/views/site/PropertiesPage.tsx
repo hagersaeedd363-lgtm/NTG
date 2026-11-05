@@ -44,7 +44,7 @@ export function PropertiesPage({ v }: { v: V }) {
               SASO
             </span>
             <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>المطابقة للمواصفات</h2>
-            <p style={{ margin: '0', fontSize: '19px', lineHeight: '1.85', color: 'var(--ink-2)' }}>
+            <p style={{ margin: '0', fontSize: '18px', lineHeight: '28px', color: 'var(--ink-2)' }}>
               يخضع ماء زمزم للمواصفات القياسية السعودية لمياه الشرب الصادرة عن الهيئة السعودية للمواصفات والمقاييس والجودة (SASO) وتُجرى التحاليل للتحقق من
               المطابقة بشكل دوري.
             </p>

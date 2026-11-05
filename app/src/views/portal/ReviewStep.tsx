@@ -243,8 +243,7 @@ export function ReviewStep({ v }: { v: V }) {
                       role="radio"
                       aria-checked={d?.sel}
                       onClick={d?.onClick}
-                      style={css(
-                        `display:flex;align-items:center;gap:12px;padding:10px 16px;border-radius:var(--r-md);border:1px solid ${d?.bd2 ?? ""};background:${d?.bg ?? ""};color:var(--ink);cursor:pointer;text-align:right;width:100%`,
+                      style={css(`display:flex;align-items:center;gap:12px;padding:10px 16px;border-radius:var(--r-md);border:1px solid ${d?.bd2 ?? ""};background:${d?.bg ?? ""};color:var(--ink);cursor:pointer;text-align:right;width:100%`,
                       )}
                     >
                       <span
@@ -276,13 +275,11 @@ export function ReviewStep({ v }: { v: V }) {
                         </span>
                       </span>
                       <span
-                        style={css(
-                          `width:20px;height:20px;flex-shrink:0;border-radius:50%;background:${d?.dotBg ?? ""};box-shadow:${d?.dotRing ?? ""};display:flex;align-items:center;justify-content:center`,
+                        style={css(`width:20px;height:20px;flex-shrink:0;border-radius:50%;background:${d?.dotBg ?? ""};box-shadow:${d?.dotRing ?? ""};display:flex;align-items:center;justify-content:center`,
                         )}
                       >
                         <span
-                          style={css(
-                            `width:8px;height:8px;border-radius:50%;background:${d?.dotIn ?? ""}`,
+                          style={css(`width:8px;height:8px;border-radius:50%;background:${d?.dotIn ?? ""}`,
                           )}
                         />
                       </span>
@@ -352,8 +349,7 @@ export function ReviewStep({ v }: { v: V }) {
                           value={v.f?.region?.v ?? ""}
                           onChange={v.f?.region?.on}
                           aria-required="true"
-                          style={css(
-                            `width:100%;height:46px;padding:0 16px;border-radius:var(--r-md);border:1px solid ${v.f?.region?.bd ?? ""};background:${v.f?.region?.bg ?? ""};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box;appearance:none;-webkit-appearance:none;padding-left:44px;cursor:pointer`,
+                          style={css(`width:100%;height:46px;padding:0 16px;border-radius:var(--r-md);border:1px solid ${v.f?.region?.bd ?? ""};background:${v.f?.region?.bg ?? ""};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box;appearance:none;-webkit-appearance:none;padding-left:44px;cursor:pointer`,
                           )}
                           className="zp-020"
                         >
@@ -429,8 +425,7 @@ export function ReviewStep({ v }: { v: V }) {
                           value={v.f?.city?.v ?? ""}
                           onChange={v.f?.city?.on}
                           aria-required="true"
-                          style={css(
-                            `width:100%;height:46px;padding:0 16px;border-radius:var(--r-md);border:1px solid ${v.f?.city?.bd ?? ""};background:${v.f?.city?.bg ?? ""};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box;appearance:none;-webkit-appearance:none;padding-left:44px;cursor:pointer`,
+                          style={css(`width:100%;height:46px;padding:0 16px;border-radius:var(--r-md);border:1px solid ${v.f?.city?.bd ?? ""};background:${v.f?.city?.bg ?? ""};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box;appearance:none;-webkit-appearance:none;padding-left:44px;cursor:pointer`,
                           )}
                           className="zp-020"
                         >
@@ -509,8 +504,7 @@ export function ReviewStep({ v }: { v: V }) {
                               value={v.f?.warehouse?.v ?? ""}
                               onChange={v.f?.warehouse?.on}
                               aria-required="true"
-                              style={css(
-                                `width:100%;height:46px;padding:0 16px;border-radius:var(--r-md);border:1px solid ${v.f?.warehouse?.bd ?? ""};background:${v.f?.warehouse?.bg ?? ""};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box;appearance:none;-webkit-appearance:none;padding-left:44px;cursor:pointer`,
+                              style={css(`width:100%;height:46px;padding:0 16px;border-radius:var(--r-md);border:1px solid ${v.f?.warehouse?.bd ?? ""};background:${v.f?.warehouse?.bg ?? ""};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box;appearance:none;-webkit-appearance:none;padding-left:44px;cursor:pointer`,
                               )}
                               className="zp-020"
                             >
@@ -665,8 +659,7 @@ export function ReviewStep({ v }: { v: V }) {
                               placeholder="مثال: 1234 ABCD 5678"
                               dir="ltr"
                               aria-required="true"
-                              style={css(
-                                `width:100%;height:46px;padding:0 16px 0 56px;border-radius:var(--r-md);border:1px solid ${v.f?.nationalAddress?.bd ?? ""};background:${v.f?.nationalAddress?.bg ?? ""};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box;text-align:right`,
+                              style={css(`width:100%;height:46px;padding:0 16px 0 56px;border-radius:var(--r-md);border:1px solid ${v.f?.nationalAddress?.bd ?? ""};background:${v.f?.nationalAddress?.bg ?? ""};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box;text-align:right`,
                               )}
                               className="zp-020"
                             />
@@ -676,8 +669,7 @@ export function ReviewStep({ v }: { v: V }) {
                               disabled={v.ox?.locBusy}
                               aria-label="تحديد موقعي تلقائياً"
                               title="تحديد موقعي تلقائياً"
-                              style={css(
-                                `position:absolute;left:6px;top:6px;width:34px;height:34px;padding:0;border-radius:var(--r-sm);border:1px solid var(--gold-3);background:var(--gold-soft);color:var(--gold-on-soft);cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:${v.ox?.locOpacity ?? ""}`,
+                              style={css(`position:absolute;left:6px;top:6px;width:34px;height:34px;padding:0;border-radius:var(--r-sm);border:1px solid var(--gold-3);background:var(--gold-soft);color:var(--gold-on-soft);cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:${v.ox?.locOpacity ?? ""}`,
                               )}
                               className="zp-025"
                             >
@@ -754,8 +746,7 @@ export function ReviewStep({ v }: { v: V }) {
                     maxLength={500}
                     rows={2}
                     placeholder="أي تعليمات خاصة بالتوصيل أو التغليف..."
-                    style={css(
-                      `width:100%;min-height:72px;padding:12px 16px;border-radius:var(--r-md);border:1px solid ${v.ox?.notesBd ?? ""};background:${v.ox?.notesBg ?? ""};color:var(--ink);font-size:16px;font-weight:400;line-height:24px;outline:none;box-sizing:border-box;resize:vertical;font-family:inherit`,
+                    style={css(`width:100%;min-height:72px;padding:12px 16px;border-radius:var(--r-md);border:1px solid ${v.ox?.notesBd ?? ""};background:${v.ox?.notesBg ?? ""};color:var(--ink);font-size:16px;font-weight:400;line-height:24px;outline:none;box-sizing:border-box;resize:vertical;font-family:inherit`,
                     )}
                   />
                   <div
@@ -828,8 +819,7 @@ export function ReviewStep({ v }: { v: V }) {
                     onChange={v.f?.recvName?.on}
                     placeholder="الاسم الكامل للمستلم"
                     autoComplete="off"
-                    style={css(
-                      `width:100%;height:46px;padding:0 16px;border-radius:var(--r-md);border:1px solid ${v.f?.recvName?.bd ?? ""};background:${v.f?.recvName?.bg ?? ""};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box;text-align:right`,
+                    style={css(`width:100%;height:46px;padding:0 16px;border-radius:var(--r-md);border:1px solid ${v.f?.recvName?.bd ?? ""};background:${v.f?.recvName?.bg ?? ""};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box;text-align:right`,
                     )}
                     className="zp-020"
                   />
@@ -874,8 +864,7 @@ export function ReviewStep({ v }: { v: V }) {
                     placeholder="05XXXXXXXX"
                     inputMode="tel"
                     dir="ltr"
-                    style={css(
-                      `width:100%;height:46px;padding:0 16px;border-radius:var(--r-md);border:1px solid ${v.f?.recvPhone?.bd ?? ""};background:${v.f?.recvPhone?.bg ?? ""};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box;text-align:right`,
+                    style={css(`width:100%;height:46px;padding:0 16px;border-radius:var(--r-md);border:1px solid ${v.f?.recvPhone?.bd ?? ""};background:${v.f?.recvPhone?.bg ?? ""};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box;text-align:right`,
                     )}
                     className="zp-020"
                   />
@@ -923,8 +912,7 @@ export function ReviewStep({ v }: { v: V }) {
                     type="email"
                     dir="ltr"
                     autoComplete="off"
-                    style={css(
-                      `width:100%;height:46px;padding:0 16px;border-radius:var(--r-md);border:1px solid ${v.f?.recvEmail?.bd ?? ""};background:${v.f?.recvEmail?.bg ?? ""};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box;text-align:right`,
+                    style={css(`width:100%;height:46px;padding:0 16px;border-radius:var(--r-md);border:1px solid ${v.f?.recvEmail?.bd ?? ""};background:${v.f?.recvEmail?.bg ?? ""};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box;text-align:right`,
                     )}
                     className="zp-020"
                   />
@@ -1123,8 +1111,7 @@ export function ReviewStep({ v }: { v: V }) {
                         }}
                       >
                         <span
-                          style={css(
-                            `width:80%;height:80%;display:block;background:${l?.imgBg ?? ""}`,
+                          style={css(`width:80%;height:80%;display:block;background:${l?.imgBg ?? ""}`,
                           )}
                         />
                       </span>

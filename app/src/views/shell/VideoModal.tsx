@@ -80,7 +80,7 @@ export function VideoModal({ v }: { v: V }) {
                       <path d="M8 5.5v13l11-6.5z" />
                     </svg>
                   </span>
-                  <span style={{ fontSize: '15px' }}>يُضاف ملف الفيلم عند اعتماده</span>
+                  <span style={{ fontSize: '16px' }}>يُضاف ملف الفيلم عند اعتماده</span>
                 </span>
               </>
             ) : null}

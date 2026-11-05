@@ -17,7 +17,7 @@ export function StoryPage({ v }: { v: V }) {
                 flexDirection: 'column',
                 gap: '18px',
                 fontSize: '20px',
-                lineHeight: '1.8',
+                lineHeight: '30px',
                 color: 'var(--ink-2)',
                 textWrap: 'pretty',
               }}
@@ -63,10 +63,10 @@ export function StoryPage({ v }: { v: V }) {
                     }}
                     className="zp-010"
                   >
-                    <span style={{ fontSize: '34px', lineHeight: '1', color: 'var(--gold-3)' }}>{c?.n}</span>
-                    <span style={{ fontSize: '21px', fontWeight: '700', lineHeight: '1.3' }}>{c?.title}</span>
-                    <p style={{ margin: '0', fontSize: '16px', lineHeight: '1.7', color: 'var(--ink-2)', flex: '1' }}>{c?.line}</p>
-                    <span style={{ fontSize: '15px', color: 'var(--gold-2)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <span style={{ fontSize: '36px', lineHeight: '44px', color: 'var(--gold-3)' }}>{c?.n}</span>
+                    <span style={{ fontSize: '20px', fontWeight: '700', lineHeight: '30px' }}>{c?.title}</span>
+                    <p style={{ margin: '0', fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)', flex: '1' }}>{c?.line}</p>
+                    <span style={{ fontSize: '16px', color: 'var(--gold-2)', display: 'flex', alignItems: 'center', gap: '6px' }}>
                       اقرأ الفصل
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                         <path d="M15 6l-6 6 6 6" />
@@ -132,7 +132,7 @@ export function StoryPage({ v }: { v: V }) {
                 شاهد فيلم نشأة البئر
               </button>
             </div>
-            <div style={{ flex: '1 1 420px', minHeight: '300px', background: 'var(--kaaba-img) center/cover no-repeat', borderRadius: '0 161px 0 0' }} />
+            <div style={{ flex: '1 1 420px', minHeight: '300px', background: 'var(--kaaba-img) center/cover no-repeat', borderRadius: 'var(--r-lg)' }} />
           </section>
         </>
       ) : null}
@@ -156,8 +156,7 @@ export function StoryPage({ v }: { v: V }) {
                   <Fragment key={$index}>
                     <button
                       onClick={c?.onClick}
-                      style={css(
-                        `display:flex;gap:12px;align-items:center;text-align:right;border:0;border-radius:var(--r-md);padding:12px 14px;background:${c?.bg ?? ''};box-shadow:${c?.shadow ?? ''};color:${c?.color ?? ''};font-size:17px;cursor:pointer`,
+                      style={css(`display:flex;gap:12px;align-items:center;text-align:right;border:0;border-radius:var(--r-md);padding:12px 14px;background:${c?.bg ?? ''};box-shadow:${c?.shadow ?? ''};color:${c?.color ?? ''};font-size:16px;cursor:pointer`,
                       )}
                       className="zp-013"
                     >
@@ -173,8 +172,7 @@ export function StoryPage({ v }: { v: V }) {
                     <button
                       onClick={v.chapter?.playFilm}
                       aria-label={v.chapter?.filmTitle}
-                      style={css(
-                        `position:relative;aspect-ratio:16/7;border:0;padding:0;border-radius:var(--r-lg);overflow:hidden;background:${v.chapter?.filmBg ?? ''};cursor:pointer`,
+                      style={css(`position:relative;aspect-ratio:16/7;border:0;padding:0;border-radius:var(--r-lg);overflow:hidden;background:${v.chapter?.filmBg ?? ''};cursor:pointer`,
                       )}
                     >
                       <span style={{ position: 'absolute', inset: '0', background: 'rgba(0,0,0,.35)' }} />
@@ -212,8 +210,8 @@ export function StoryPage({ v }: { v: V }) {
                           textAlign: 'right',
                         }}
                       >
-                        <span style={{ padding: '3px 10px', borderRadius: 'var(--r-sm)', background: 'rgba(0,0,0,.4)', fontSize: '13px' }}>{v.chapter?.filmMeta}</span>
-                        <span style={{ fontSize: '17px', fontWeight: '600' }}>{v.chapter?.filmTitle}</span>
+                        <span style={{ padding: '3px 10px', borderRadius: 'var(--r-sm)', background: 'rgba(0,0,0,.4)', fontSize: '14px' }}>{v.chapter?.filmMeta}</span>
+                        <span style={{ fontSize: '16px', fontWeight: '600' }}>{v.chapter?.filmTitle}</span>
                       </span>
                     </button>
                   </>
@@ -222,28 +220,28 @@ export function StoryPage({ v }: { v: V }) {
                   <Fragment key={$index}>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                       <h3 style={{ margin: '0', fontSize: 'clamp(24px,2.4vw,30px)', fontWeight: '700', lineHeight: '1.35', color: 'var(--ink)' }}>{b?.h}</h3>
-                      <div style={{ width: '64px', height: '4px', borderRadius: '2px', background: 'var(--gold-soft)' }} />
                       {list(b?.ps).map((p: any, $index: number) => (
                         <Fragment key={$index}>
-                          <p style={{ margin: '0', fontSize: '19px', lineHeight: '1.95', color: 'var(--ink-2)', textWrap: 'pretty' }}>{p}</p>
+                          <p style={{ margin: '0', fontSize: '18px', lineHeight: '28px', color: 'var(--ink-2)', textWrap: 'pretty' }}>{p}</p>
                         </Fragment>
                       ))}
                       {b?.hasQuote ? (
                         <>
                           <blockquote
                             style={{
-                              margin: '6px 0',
-                              padding: '24px 28px',
-                              borderRadius: '15px 9px 15px 15px',
+                              margin: '0',
+                              padding: '24px',
+                              borderRadius: 'var(--r-lg)',
                               background: 'var(--card)',
-                              boxShadow: 'var(--card-shadow)',
+                              border: '1px solid var(--line)',
                               display: 'flex',
                               flexDirection: 'column',
-                              gap: '10px',
+                              gap: '16px',
                             }}
                           >
-                            <span style={{ fontSize: '25px', lineHeight: '1.9', color: 'var(--ink)' }}>{b?.quote}</span>
-                            <span style={{ fontSize: '15px', color: 'var(--gold-2)' }}>{b?.cite}</span>
+                            <span aria-hidden="true" style={{ fontFamily: 'Georgia,serif', fontSize: '48px', lineHeight: '32px', height: '24px', fontWeight: '700', color: 'var(--gold)' }}>”</span>
+                            <span style={{ fontSize: '18px', lineHeight: '28px', color: 'var(--ink-2)' }}>{b?.quote}</span>
+                            <span style={{ fontSize: '16px', lineHeight: '24px', fontWeight: '600', color: 'var(--ink)' }}>{b?.cite}</span>
                           </blockquote>
                         </>
                       ) : null}
@@ -255,7 +253,7 @@ export function StoryPage({ v }: { v: V }) {
                                 display: 'grid',
                                 gridTemplateColumns: 'minmax(0,1fr) minmax(0,1.4fr)',
                                 background: 'var(--card-2)',
-                                fontSize: '15px',
+                                fontSize: '16px',
                                 color: 'var(--muted)',
                               }}
                             >
@@ -269,8 +267,8 @@ export function StoryPage({ v }: { v: V }) {
                                     display: 'grid',
                                     gridTemplateColumns: 'minmax(0,1fr) minmax(0,1.4fr)',
                                     borderTop: '1px solid var(--line)',
-                                    fontSize: '17px',
-                                    lineHeight: '1.6',
+                                    fontSize: '16px',
+                                    lineHeight: '24px',
                                   }}
                                 >
                                   <span style={{ padding: '14px 20px', color: 'var(--ink)', fontWeight: '600' }}>{r?.k}</span>
@@ -283,7 +281,7 @@ export function StoryPage({ v }: { v: V }) {
                       ) : null}
                       {list(b?.after).map((p: any, $index: number) => (
                         <Fragment key={$index}>
-                          <p style={{ margin: '0', fontSize: '19px', lineHeight: '1.95', color: 'var(--ink-2)', textWrap: 'pretty' }}>{p}</p>
+                          <p style={{ margin: '0', fontSize: '18px', lineHeight: '28px', color: 'var(--ink-2)', textWrap: 'pretty' }}>{p}</p>
                         </Fragment>
                       ))}
                     </div>
@@ -300,7 +298,7 @@ export function StoryPage({ v }: { v: V }) {
                   }}
                 >
                   <span style={{ fontSize: '14px', color: 'var(--muted)' }}>المصادر</span>
-                  <span style={{ fontSize: '16px', lineHeight: '1.8', color: 'var(--ink-2)' }}>{v.chapter?.sources}</span>
+                  <span style={{ fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)' }}>{v.chapter?.sources}</span>
                 </div>
                 <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', gap: '12px' }}>
                   {v.hasPrev ? (
@@ -322,8 +320,8 @@ export function StoryPage({ v }: { v: V }) {
                         }}
                         className="zp-008"
                       >
-                        <span style={{ fontSize: '13px', color: 'var(--muted)' }}>الفصل السابق</span>
-                        <span style={{ fontSize: '17px' }}>{v.prevCh}</span>
+                        <span style={{ fontSize: '14px', color: 'var(--muted)' }}>الفصل السابق</span>
+                        <span style={{ fontSize: '16px' }}>{v.prevCh}</span>
                       </button>
                     </>
                   ) : null}
@@ -346,8 +344,8 @@ export function StoryPage({ v }: { v: V }) {
                         }}
                         className="zp-002"
                       >
-                        <span style={{ fontSize: '13px', opacity: '.8' }}>الفصل التالي</span>
-                        <span style={{ fontSize: '17px' }}>{v.nextCh}</span>
+                        <span style={{ fontSize: '14px', opacity: '.8' }}>الفصل التالي</span>
+                        <span style={{ fontSize: '16px' }}>{v.nextCh}</span>
                       </button>
                     </>
                   ) : null}

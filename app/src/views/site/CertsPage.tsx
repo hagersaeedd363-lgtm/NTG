@@ -44,7 +44,7 @@ export function CertsPage({ v }: { v: V }) {
             <span style={{ fontSize: '24px', fontWeight: '700', color: 'var(--ink)' }} dir="ltr">
               ISO/IEC 17025
             </span>
-            <p style={{ margin: '0', fontSize: '17px', lineHeight: '1.75', color: 'var(--ink-2)' }}>
+            <p style={{ margin: '0', fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)' }}>
               يعمل المختبر المركزي وفق معايير الاعتماد الدولية (ISO/IEC 17025) لكفاءة مختبرات الفحص والمعايرة.
             </p>
           </div>
@@ -76,7 +76,7 @@ export function CertsPage({ v }: { v: V }) {
               SASO
             </span>
             <span style={{ fontSize: '24px', fontWeight: '700', color: 'var(--ink)' }}>المواصفات القياسية السعودية لمياه الشرب</span>
-            <p style={{ margin: '0', fontSize: '17px', lineHeight: '1.75', color: 'var(--ink-2)' }}>
+            <p style={{ margin: '0', fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)' }}>
               يخضع ماء زمزم للمواصفات الصادرة عن الهيئة السعودية للمواصفات والمقاييس والجودة (SASO)، وتُجرى التحاليل للتحقق من المطابقة بشكل دوري.
             </p>
           </div>
@@ -108,7 +108,7 @@ export function CertsPage({ v }: { v: V }) {
               PT
             </span>
             <span style={{ fontSize: '24px', fontWeight: '700', color: 'var(--ink)' }}>اختبارات الكفاءة الخارجية</span>
-            <p style={{ margin: '0', fontSize: '17px', lineHeight: '1.75', color: 'var(--ink-2)' }}>
+            <p style={{ margin: '0', fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)' }}>
               مقارنات وتحقّق خارجي بالتعاون مع مختبرات معتمدة محلياً ودولياً، بما يعزز موثوقية النتائج ودقة الأداء.
             </p>
           </div>

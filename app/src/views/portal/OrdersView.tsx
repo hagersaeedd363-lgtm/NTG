@@ -58,7 +58,7 @@ export function OrdersView({ v }: { v: V }) {
               <>
                 <div style={{ display: 'flex', flexDirection: 'column', minWidth: '0' }}>
                   <h1 style={{ margin: '0', fontSize: '24px', fontWeight: '700', lineHeight: '32px', color: 'var(--ink)' }}>طلباتي</h1>
-                  <p style={{ margin: '0', fontSize: '14px', lineHeight: '24px', color: 'var(--muted)' }}>تابع جميع طلبات مياه زمزم من مكان واحد.</p>
+                  <p style={{ margin: '0', fontSize: '14px', lineHeight: '20px', color: 'var(--muted)' }}>تابع جميع طلبات مياه زمزم من مكان واحد.</p>
                 </div>
               </>
             ) : null}
@@ -70,14 +70,13 @@ export function OrdersView({ v }: { v: V }) {
                       {v.ox?.od?.id}
                     </h1>
                     <span
-                      style={css(
-                        `display:inline-flex;align-items:center;gap:8px;height:24px;padding:0 12px;border-radius:var(--r-sm);background:${v.ox?.od?.chipBg ?? ''};color:${v.ox?.od?.chipFg ?? ''};box-shadow:inset 0 0 0 1px ${v.ox?.od?.chipBd ?? ''};font-size:12px;font-weight:500;white-space:nowrap`,
+                      style={css(`display:inline-flex;align-items:center;gap:8px;height:24px;padding:0 12px;border-radius:var(--r-sm);background:${v.ox?.od?.chipBg ?? ''};color:${v.ox?.od?.chipFg ?? ''};box-shadow:inset 0 0 0 1px ${v.ox?.od?.chipBd ?? ''};font-size:12px;font-weight:500;white-space:nowrap`,
                       )}
                     >
                       {v.ox?.od?.statusLabel}
                     </span>
                   </div>
-                  <p style={{ margin: '0', fontSize: '14px', lineHeight: '24px', color: 'var(--muted)' }}>
+                  <p style={{ margin: '0', fontSize: '14px', lineHeight: '20px', color: 'var(--muted)' }}>
                     {v.ox?.od?.date} · {v.ox?.od?.units}
                   </p>
                 </div>
@@ -155,15 +154,13 @@ export function OrdersView({ v }: { v: V }) {
                       onClick={t?.onClick}
                       role="tab"
                       aria-selected={t?.active}
-                      style={css(
-                        `display:inline-flex;align-items:center;gap:8px;height:56px;padding:0;border:0;box-shadow:inset 0 -2px 0 ${t?.ul ?? ''};background:transparent;color:${t?.fg ?? ''};font-size:16px;font-weight:${t?.fw ?? ''};cursor:pointer;white-space:nowrap;transition:color .2s,border-color .2s`,
+                      style={css(`display:inline-flex;align-items:center;gap:8px;height:56px;padding:0;border:0;box-shadow:inset 0 -2px 0 ${t?.ul ?? ''};background:transparent;color:${t?.fg ?? ''};font-size:16px;font-weight:${t?.fw ?? ''};cursor:pointer;white-space:nowrap;transition:color .2s,border-color .2s`,
                       )}
                       className="zp-013"
                     >
                       {t?.label}
                       <span
-                        style={css(
-                          `display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;padding:0 8px;box-sizing:border-box;border-radius:var(--r-sm);background:${t?.countBg ?? ''};color:${t?.countFg ?? ''};font-size:12px;font-weight:500`,
+                        style={css(`display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;padding:0 8px;box-sizing:border-box;border-radius:var(--r-sm);background:${t?.countBg ?? ''};color:${t?.countFg ?? ''};font-size:12px;font-weight:500`,
                         )}
                       >
                         {t?.count}
@@ -293,7 +290,7 @@ export function OrdersView({ v }: { v: V }) {
                     <path d="M6 9l6 6 6-6" />
                   </svg>
                 </div>
-                <span style={{ fontSize: '14px', lineHeight: '24px', color: 'var(--muted)', marginInlineStart: 'auto' }}>{v.ox?.ordersShowing}</span>
+                <span style={{ fontSize: '14px', lineHeight: '20px', color: 'var(--muted)', marginInlineStart: 'auto' }}>{v.ox?.ordersShowing}</span>
               </div>
               {v.ox?.ordersHasRows ? (
                 <>
@@ -307,7 +304,7 @@ export function OrdersView({ v }: { v: V }) {
                         padding: '0 24px',
                         height: '48px',
                         background: 'var(--card-2)',
-                        fontSize: '13px',
+                        fontSize: '14px',
                         fontWeight: '500',
                         color: 'var(--muted)',
                       }}
@@ -317,8 +314,7 @@ export function OrdersView({ v }: { v: V }) {
                         <Fragment key={$index}>
                           <button
                             onClick={sc?.onClick}
-                            style={css(
-                              `display:inline-flex;align-items:center;gap:4px;justify-self:start;height:32px;padding:0;border:0;background:transparent;color:${sc?.fg ?? ''};font-size:13px;font-weight:500;cursor:pointer;font-family:inherit`,
+                            style={css(`display:inline-flex;align-items:center;gap:4px;justify-self:start;height:32px;padding:0;border:0;background:transparent;color:${sc?.fg ?? ''};font-size:14px;font-weight:500;cursor:pointer;font-family:inherit`,
                             )}
                             className="zp-013"
                           >
@@ -365,7 +361,7 @@ export function OrdersView({ v }: { v: V }) {
                             <span style={{ fontSize: '12px', color: 'var(--muted)' }} className="zz-lb">
                               رقم الطلب
                             </span>
-                            <span dir="ltr" style={{ fontSize: '14px', fontWeight: '500', lineHeight: '24px', color: 'var(--ink)', textAlign: 'right' }}>
+                            <span dir="ltr" style={{ fontSize: '14px', fontWeight: '500', lineHeight: '20px', color: 'var(--ink)', textAlign: 'right' }}>
                               {or?.ref}
                             </span>
                           </span>
@@ -394,7 +390,7 @@ export function OrdersView({ v }: { v: V }) {
                                   style={{
                                     fontSize: '14px',
                                     fontWeight: '500',
-                                    lineHeight: '24px',
+                                    lineHeight: '20px',
                                     color: 'var(--ink)',
                                     overflow: 'hidden',
                                     textOverflow: 'ellipsis',
@@ -426,26 +422,25 @@ export function OrdersView({ v }: { v: V }) {
                                   </>
                                 ) : null}
                               </span>
-                              <span style={{ fontSize: '13px', lineHeight: '20px', color: 'var(--muted)' }}>{or?.unitsLabel}</span>
+                              <span style={{ fontSize: '14px', lineHeight: '20px', color: 'var(--muted)' }}>{or?.unitsLabel}</span>
                             </span>
                           </span>
                           <span style={{ display: 'flex', flexDirection: 'column' }}>
                             <span style={{ fontSize: '12px', color: 'var(--muted)' }} className="zz-lb">
                               التاريخ
                             </span>
-                            <span style={{ fontSize: '14px', fontWeight: '500', lineHeight: '24px', color: 'var(--ink)' }}>{or?.date}</span>
+                            <span style={{ fontSize: '14px', fontWeight: '500', lineHeight: '20px', color: 'var(--ink)' }}>{or?.date}</span>
                           </span>
                           <span style={{ display: 'flex', flexDirection: 'column' }}>
                             <span style={{ fontSize: '12px', color: 'var(--muted)' }} className="zz-lb">
                               الإجمالي
                             </span>
-                            <strong style={{ fontSize: '14px', fontWeight: '500', lineHeight: '24px', color: 'var(--ink)', whiteSpace: 'nowrap' }}>
+                            <strong style={{ fontSize: '14px', fontWeight: '500', lineHeight: '20px', color: 'var(--ink)', whiteSpace: 'nowrap' }}>
                               {or?.totalLabel}
                             </strong>
                           </span>
                           <span
-                            style={css(
-                              `display:inline-flex;align-items:center;gap:8px;height:24px;padding:0 12px;border-radius:var(--r-sm);justify-self:start;background:${or?.chipBg ?? ''};color:${or?.chipFg ?? ''};box-shadow:inset 0 0 0 1px ${or?.chipBd ?? ''};font-size:12px;font-weight:500;white-space:nowrap`,
+                            style={css(`display:inline-flex;align-items:center;gap:8px;height:24px;padding:0 12px;border-radius:var(--r-sm);justify-self:start;background:${or?.chipBg ?? ''};color:${or?.chipFg ?? ''};box-shadow:inset 0 0 0 1px ${or?.chipBd ?? ''};font-size:12px;font-weight:500;white-space:nowrap`,
                             )}
                           >
                             {or?.statusLabel}
@@ -518,7 +513,7 @@ export function OrdersView({ v }: { v: V }) {
                       </svg>
                     </span>
                     <span style={{ fontSize: '16px', fontWeight: '600', lineHeight: '24px', color: 'var(--ink)' }}>لا توجد طلبات مطابقة</span>
-                    <span style={{ fontSize: '14px', lineHeight: '24px', color: 'var(--muted)' }}>جرّب تغيير البحث أو الفلتر، أو ابدأ طلباً جديداً.</span>
+                    <span style={{ fontSize: '14px', lineHeight: '20px', color: 'var(--muted)' }}>جرّب تغيير البحث أو الفلتر، أو ابدأ طلباً جديداً.</span>
                     {v.ox?.canNew ? (
                     <button
                       onClick={v.ox?.newOrder}
@@ -550,8 +545,7 @@ export function OrdersView({ v }: { v: V }) {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <div
                 role="status"
-                style={css(
-                  `display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 8px 16px; min-height: 44px; box-sizing: border-box; border-radius:var(--r-md); background: ${v.ox?.od?.alBg ?? ''}; border: 1px solid ${v.ox?.od?.alBd ?? ''}`,
+                style={css(`display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 8px 16px; min-height: 44px; box-sizing: border-box; border-radius:var(--r-md); background: ${v.ox?.od?.alBg ?? ''}; border: 1px solid ${v.ox?.od?.alBd ?? ''}`,
                 )}
               >
                 <span
@@ -572,15 +566,14 @@ export function OrdersView({ v }: { v: V }) {
                   </svg>
                 </span>
                 <span style={{ flex: '1 1 280px', minWidth: '0', display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '8px' }}>
-                  <span style={css(`font-size:14px;font-weight:600;line-height:22px;color:${v.ox?.od?.alFg ?? ''}`)}>
+                  <span style={css(`font-size:14px;font-weight:600;line-height:20px;color:${v.ox?.od?.alFg ?? ''}`)}>
                     {v.ox?.od?.pn?.title} · {v.ox?.od?.pn?.desc}
                     {v.ox?.od?.waitPay ? <> · مستحق قبل {v.ox?.od?.dueLabel}</> : null}
                   </span>
                   {v.ox?.od?.hasDisc ? (
                     <>
                       <span
-                        style={css(
-                          `display:inline-flex;align-items:center;gap:8px;height:24px;padding:0 12px;border-radius:var(--r-sm);background:${v.ox?.od?.alFg ?? ''};color:#fff;font-size:12px;font-weight:500;line-height:24px;white-space:nowrap`,
+                        style={css(`display:inline-flex;align-items:center;gap:8px;height:24px;padding:0 12px;border-radius:var(--r-sm);background:${v.ox?.od?.alFg ?? ''};color:#fff;font-size:12px;font-weight:500;line-height:18px;white-space:nowrap`,
                         )}
                       >
                         خصم {v.ox?.od?.discPct} · وفّرت {v.ox?.od?.savedLabel}
@@ -607,8 +600,7 @@ export function OrdersView({ v }: { v: V }) {
                         <div style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
                           <span style={css(`flex:1;height:2px;border-radius:1px;background:${ts?.bBg ?? ''}`)} />
                           <span
-                            style={css(
-                              `width:36px;height:36px;flex-shrink:0;border-radius:50%;background:${ts?.bg ?? ''};box-shadow:${ts?.ring ?? ''};color:#fff;display:flex;align-items:center;justify-content:center;margin:0 8px;font-size:14px;font-weight:700`,
+                            style={css(`width:36px;height:36px;flex-shrink:0;border-radius:50%;background:${ts?.bg ?? ''};box-shadow:${ts?.ring ?? ''};color:#fff;display:flex;align-items:center;justify-content:center;margin:0 8px;font-size:14px;font-weight:700`,
                             )}
                           >
                             {ts?.done ? (
@@ -634,8 +626,8 @@ export function OrdersView({ v }: { v: V }) {
                           <span style={css(`flex:1;height:2px;border-radius:1px;background:${ts?.aBg ?? ''}`)} />
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', padding: '0 8px', textAlign: 'center' }}>
-                          <span style={css(`font-size:14px;line-height:24px;font-weight:${ts?.fw ?? ''};color:${ts?.color ?? ''}`)}>{ts?.t}</span>
-                          <span style={css(`font-size:13px;line-height:20px;white-space:nowrap;color:${ts?.subColor ?? ''}`)}>{ts?.sub}</span>
+                          <span style={css(`font-size:14px;line-height:20px;font-weight:${ts?.fw ?? ''};color:${ts?.color ?? ''}`)}>{ts?.t}</span>
+                          <span style={css(`font-size:14px;line-height:20px;white-space:nowrap;color:${ts?.subColor ?? ''}`)}>{ts?.sub}</span>
                         </div>
                       </div>
                     </Fragment>
@@ -687,8 +679,8 @@ export function OrdersView({ v }: { v: V }) {
                             </svg>
                           </span>
                           <div style={{ display: 'flex', flexDirection: 'column', gap: '0', minWidth: '0' }}>
-                            <h2 style={{ margin: '0', fontSize: '16px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>فاتورة سداد</h2>
-                            <p style={{ margin: '0', fontSize: '13px', lineHeight: '20px', color: 'var(--muted)' }}>تفاصيل المبلغ المستحق ومرجع الدفع</p>
+                            <h2 style={{ margin: '0', fontSize: '16px', fontWeight: '700', lineHeight: '24px', color: 'var(--ink)' }}>فاتورة سداد</h2>
+                            <p style={{ margin: '0', fontSize: '14px', lineHeight: '20px', color: 'var(--muted)' }}>تفاصيل المبلغ المستحق ومرجع الدفع</p>
                           </div>
                         </div>
                         <div style={{ height: '1px', background: 'var(--line)', margin: '0 calc(-1*clamp(18px,2.5vw,28px))' }} />
@@ -700,19 +692,19 @@ export function OrdersView({ v }: { v: V }) {
                             padding: '24px',
                             borderRadius: 'var(--r-lg)',
                             background:
-                              'radial-gradient(120% 140% at 0% 0%,rgba(180,145,100,.38),rgba(180,145,100,0) 55%),linear-gradient(135deg,#99702A 0%,#7A5522 52%,#4A3213 100%)',
+                              'var(--gold)',
                             color: '#fff',
                             boxShadow: '0 8px 24px rgba(74,50,19,.28)',
                           }}
                         >
                           <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-end', justifyContent: 'space-between', gap: '16px' }}>
                             <span style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                              <span style={{ fontSize: '13px', lineHeight: '20px', color: '#fff', opacity: '.9' }}>رقم الفاتورة</span>
-                              <span dir="ltr" style={{ fontSize: '15px', fontWeight: '500', lineHeight: '24px', color: '#fff' }}>
+                              <span style={{ fontSize: '14px', lineHeight: '20px', color: '#fff', opacity: '.9' }}>رقم الفاتورة</span>
+                              <span dir="ltr" style={{ fontSize: '16px', fontWeight: '500', lineHeight: '24px', color: '#fff' }}>
                                 {v.ox?.od?.invNo}
                               </span>
                             </span>
-                            <span style={{ fontSize: '36px', fontWeight: '700', lineHeight: '1.1', color: '#fff', whiteSpace: 'nowrap' }}>
+                            <span style={{ fontSize: '36px', fontWeight: '700', lineHeight: '44px', color: '#fff', whiteSpace: 'nowrap' }}>
                               {v.ox?.od?.totalLabel}
                             </span>
                           </div>
@@ -733,19 +725,19 @@ export function OrdersView({ v }: { v: V }) {
                             >
                               {v.ox?.od?.daysLeft}
                             </span>
-                            <span style={{ fontSize: '14px', lineHeight: '24px', color: '#fff' }}>مستحق قبل {v.ox?.od?.dueLabel}</span>
+                            <span style={{ fontSize: '14px', lineHeight: '20px', color: '#fff' }}>مستحق قبل {v.ox?.od?.dueLabel}</span>
                           </div>
                           <div style={{ height: '1px', background: 'rgba(255,255,255,.35)' }} />
                           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px 32px', justifyContent: 'space-between' }}>
                             <span style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                              <span style={{ fontSize: '13px', lineHeight: '20px', color: '#fff', opacity: '.9' }}>مرجع الدفع</span>
-                              <span dir="ltr" style={{ fontSize: '14px', lineHeight: '24px', color: '#fff' }}>
+                              <span style={{ fontSize: '14px', lineHeight: '20px', color: '#fff', opacity: '.9' }}>مرجع الدفع</span>
+                              <span dir="ltr" style={{ fontSize: '14px', lineHeight: '20px', color: '#fff' }}>
                                 {v.ox?.od?.payRef}
                               </span>
                             </span>
                             <span style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                              <span style={{ fontSize: '13px', lineHeight: '20px', color: '#fff', opacity: '.9' }}>الجهة المصدرة</span>
-                              <span style={{ fontSize: '14px', lineHeight: '24px', color: '#fff' }}>وزارة البيئة والمياه والزراعة</span>
+                              <span style={{ fontSize: '14px', lineHeight: '20px', color: '#fff', opacity: '.9' }}>الجهة المصدرة</span>
+                              <span style={{ fontSize: '14px', lineHeight: '20px', color: '#fff' }}>وزارة البيئة والمياه والزراعة</span>
                             </span>
                           </div>
                         </div>
@@ -794,8 +786,8 @@ export function OrdersView({ v }: { v: V }) {
                         </svg>
                       </span>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '0', minWidth: '0' }}>
-                        <h2 style={{ margin: '0', fontSize: '16px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>معلومات الطلب</h2>
-                        <p style={{ margin: '0', fontSize: '13px', lineHeight: '20px', color: 'var(--muted)' }}>تفاصيل الطلب المقدَّم</p>
+                        <h2 style={{ margin: '0', fontSize: '16px', fontWeight: '700', lineHeight: '24px', color: 'var(--ink)' }}>معلومات الطلب</h2>
+                        <p style={{ margin: '0', fontSize: '14px', lineHeight: '20px', color: 'var(--muted)' }}>تفاصيل الطلب المقدَّم</p>
                       </div>
                     </div>
                     <div style={{ height: '1px', background: 'var(--line)', margin: '0 calc(-1*clamp(18px,2.5vw,28px))' }} />
@@ -807,7 +799,7 @@ export function OrdersView({ v }: { v: V }) {
                           alignItems: 'flex-start',
                           gap: '16px',
                           fontSize: '14px',
-                          lineHeight: '24px',
+                          lineHeight: '20px',
                         }}
                       >
                         <span style={{ color: 'var(--muted)', flexShrink: '0' }}>رقم الطلب</span>
@@ -822,7 +814,7 @@ export function OrdersView({ v }: { v: V }) {
                           alignItems: 'flex-start',
                           gap: '16px',
                           fontSize: '14px',
-                          lineHeight: '24px',
+                          lineHeight: '20px',
                         }}
                       >
                         <span style={{ color: 'var(--muted)', flexShrink: '0' }}>الغرض</span>
@@ -853,7 +845,7 @@ export function OrdersView({ v }: { v: V }) {
                           alignItems: 'flex-start',
                           gap: '16px',
                           fontSize: '14px',
-                          lineHeight: '24px',
+                          lineHeight: '20px',
                         }}
                       >
                         <span style={{ color: 'var(--muted)', flexShrink: '0' }}>المنتج</span>
@@ -866,7 +858,7 @@ export function OrdersView({ v }: { v: V }) {
                           alignItems: 'flex-start',
                           gap: '16px',
                           fontSize: '14px',
-                          lineHeight: '24px',
+                          lineHeight: '20px',
                         }}
                       >
                         <span style={{ color: 'var(--muted)', flexShrink: '0' }}>الكمية</span>
@@ -879,7 +871,7 @@ export function OrdersView({ v }: { v: V }) {
                           alignItems: 'flex-start',
                           gap: '16px',
                           fontSize: '14px',
-                          lineHeight: '24px',
+                          lineHeight: '20px',
                         }}
                       >
                         <span style={{ color: 'var(--muted)', flexShrink: '0' }}>المبلغ الإجمالي</span>
@@ -892,7 +884,7 @@ export function OrdersView({ v }: { v: V }) {
                           alignItems: 'flex-start',
                           gap: '16px',
                           fontSize: '14px',
-                          lineHeight: '24px',
+                          lineHeight: '20px',
                         }}
                       >
                         <span style={{ color: 'var(--muted)', flexShrink: '0' }}>تاريخ التقديم</span>
@@ -907,7 +899,7 @@ export function OrdersView({ v }: { v: V }) {
                               alignItems: 'flex-start',
                               gap: '16px',
                               fontSize: '14px',
-                              lineHeight: '24px',
+                              lineHeight: '20px',
                             }}
                           >
                             <span style={{ color: 'var(--muted)', flexShrink: '0' }}>ملاحظات الطلب</span>
@@ -958,14 +950,14 @@ export function OrdersView({ v }: { v: V }) {
                         </svg>
                       </span>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '0', minWidth: '0' }}>
-                        <h2 style={{ margin: '0', fontSize: '16px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>معلومات التوصيل</h2>
-                        <p style={{ margin: '0', fontSize: '13px', lineHeight: '20px', color: 'var(--muted)' }}>العنوان وجهة الاتصال</p>
+                        <h2 style={{ margin: '0', fontSize: '16px', fontWeight: '700', lineHeight: '24px', color: 'var(--ink)' }}>معلومات التوصيل</h2>
+                        <p style={{ margin: '0', fontSize: '14px', lineHeight: '20px', color: 'var(--muted)' }}>العنوان وجهة الاتصال</p>
                       </div>
                     </div>
                     <div style={{ height: '1px', background: 'var(--line)', margin: '0 calc(-1*clamp(18px,2.5vw,28px))' }} />
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                       {v.ox?.od?.receiveDate ? (
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '16px', fontSize: '14px', lineHeight: '24px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '16px', fontSize: '14px', lineHeight: '20px' }}>
                           <span style={{ color: 'var(--muted)', flexShrink: '0' }}>{v.ox?.od?.receiveLabel}</span>
                           <span style={{ color: 'var(--ink)', fontWeight: '600', textAlign: 'left', minWidth: '0' }}>{v.ox?.od?.receiveDate}</span>
                         </div>
@@ -977,7 +969,7 @@ export function OrdersView({ v }: { v: V }) {
                           alignItems: 'flex-start',
                           gap: '16px',
                           fontSize: '14px',
-                          lineHeight: '24px',
+                          lineHeight: '20px',
                         }}
                       >
                         <span style={{ color: 'var(--muted)', flexShrink: '0' }}>عنوان التسليم</span>
@@ -990,7 +982,7 @@ export function OrdersView({ v }: { v: V }) {
                           alignItems: 'flex-start',
                           gap: '16px',
                           fontSize: '14px',
-                          lineHeight: '24px',
+                          lineHeight: '20px',
                         }}
                       >
                         <span style={{ color: 'var(--muted)', flexShrink: '0' }}>العنوان الوطني</span>
@@ -1003,7 +995,7 @@ export function OrdersView({ v }: { v: V }) {
                           alignItems: 'flex-start',
                           gap: '16px',
                           fontSize: '14px',
-                          lineHeight: '24px',
+                          lineHeight: '20px',
                         }}
                       >
                         <span style={{ color: 'var(--muted)', flexShrink: '0' }}>المدينة</span>
@@ -1016,7 +1008,7 @@ export function OrdersView({ v }: { v: V }) {
                           alignItems: 'flex-start',
                           gap: '16px',
                           fontSize: '14px',
-                          lineHeight: '24px',
+                          lineHeight: '20px',
                         }}
                       >
                         <span style={{ color: 'var(--muted)', flexShrink: '0' }}>جهة الاتصال</span>
@@ -1029,7 +1021,7 @@ export function OrdersView({ v }: { v: V }) {
                           alignItems: 'flex-start',
                           gap: '16px',
                           fontSize: '14px',
-                          lineHeight: '24px',
+                          lineHeight: '20px',
                         }}
                       >
                         <span style={{ color: 'var(--muted)', flexShrink: '0' }}>رقم الهاتف</span>
@@ -1044,7 +1036,7 @@ export function OrdersView({ v }: { v: V }) {
                           alignItems: 'flex-start',
                           gap: '16px',
                           fontSize: '14px',
-                          lineHeight: '24px',
+                          lineHeight: '20px',
                         }}
                       >
                         <span style={{ color: 'var(--muted)', flexShrink: '0' }}>البريد الإلكتروني</span>
@@ -1059,7 +1051,7 @@ export function OrdersView({ v }: { v: V }) {
                           alignItems: 'flex-start',
                           gap: '16px',
                           fontSize: '14px',
-                          lineHeight: '24px',
+                          lineHeight: '20px',
                         }}
                       >
                         <span style={{ color: 'var(--muted)', flexShrink: '0' }}>ملاحظات التوصيل</span>
@@ -1121,8 +1113,8 @@ export function OrdersView({ v }: { v: V }) {
                         </svg>
                       </span>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '0', minWidth: '0' }}>
-                        <h2 style={{ margin: '0', fontSize: '16px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>ملخص الطلب</h2>
-                        <p style={{ margin: '0', fontSize: '13px', lineHeight: '20px', color: 'var(--muted)' }}>المنتجات والكميات</p>
+                        <h2 style={{ margin: '0', fontSize: '16px', fontWeight: '700', lineHeight: '24px', color: 'var(--ink)' }}>ملخص الطلب</h2>
+                        <p style={{ margin: '0', fontSize: '14px', lineHeight: '20px', color: 'var(--muted)' }}>المنتجات والكميات</p>
                       </div>
                     </div>
                     <div style={{ height: '1px', background: 'var(--line)', margin: '0 calc(-1*clamp(18px,2.5vw,28px))' }} />
@@ -1145,12 +1137,12 @@ export function OrdersView({ v }: { v: V }) {
                               <span style={css(`width:80%;height:80%;display:block;background:${l?.imgBg ?? ''}`)} />
                             </span>
                             <span style={{ flex: '1', minWidth: '0', display: 'flex', flexDirection: 'column' }}>
-                              <span style={{ fontSize: '15px', fontWeight: '600', lineHeight: '22px', color: 'var(--ink)' }}>{l?.t}</span>
-                              <span style={{ fontSize: '13px', lineHeight: '20px', color: 'var(--muted)' }}>
+                              <span style={{ fontSize: '16px', fontWeight: '600', lineHeight: '24px', color: 'var(--ink)' }}>{l?.t}</span>
+                              <span style={{ fontSize: '14px', lineHeight: '20px', color: 'var(--muted)' }}>
                                 {l?.q} × {l?.priceLabel}
                               </span>
                             </span>
-                            <span style={{ fontSize: '15px', fontWeight: '700', color: 'var(--ink)', whiteSpace: 'nowrap' }}>{l?.sum}</span>
+                            <span style={{ fontSize: '16px', fontWeight: '700', color: 'var(--ink)', whiteSpace: 'nowrap' }}>{l?.sum}</span>
                           </div>
                         </Fragment>
                       ))}
@@ -1163,7 +1155,7 @@ export function OrdersView({ v }: { v: V }) {
                           alignItems: 'flex-start',
                           gap: '16px',
                           fontSize: '14px',
-                          lineHeight: '22px',
+                          lineHeight: '20px',
                         }}
                       >
                         <span style={{ color: 'var(--muted)', flexShrink: '0' }}>المجموع الفرعي</span>
@@ -1176,7 +1168,7 @@ export function OrdersView({ v }: { v: V }) {
                           alignItems: 'flex-start',
                           gap: '16px',
                           fontSize: '14px',
-                          lineHeight: '22px',
+                          lineHeight: '20px',
                         }}
                       >
                         <span style={{ color: 'var(--muted)', flexShrink: '0' }}>الشحن</span>
@@ -1191,7 +1183,7 @@ export function OrdersView({ v }: { v: V }) {
                               alignItems: 'flex-start',
                               gap: '16px',
                               fontSize: '14px',
-                              lineHeight: '22px',
+                              lineHeight: '20px',
                             }}
                           >
                             <span style={{ color: 'var(--muted)', flexShrink: '0' }}>الخصم</span>
@@ -1206,7 +1198,7 @@ export function OrdersView({ v }: { v: V }) {
                           alignItems: 'flex-start',
                           gap: '16px',
                           fontSize: '14px',
-                          lineHeight: '22px',
+                          lineHeight: '20px',
                         }}
                       >
                         <span style={{ color: 'var(--muted)', flexShrink: '0' }}>ضريبة القيمة المضافة</span>
@@ -1226,10 +1218,10 @@ export function OrdersView({ v }: { v: V }) {
                       }}
                     >
                       <span style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                        <span style={{ fontSize: '15px', fontWeight: '600', color: '#fff' }}>الإجمالي</span>
-                        <span style={{ fontSize: '13px', color: '#fff' }}>شامل ضريبة القيمة المضافة</span>
+                        <span style={{ fontSize: '16px', fontWeight: '600', color: '#fff' }}>الإجمالي</span>
+                        <span style={{ fontSize: '14px', color: '#fff' }}>شامل ضريبة القيمة المضافة</span>
                       </span>
-                      <span style={{ fontSize: '28px', fontWeight: '700', lineHeight: '1.1', color: '#fff', whiteSpace: 'nowrap' }}>
+                      <span style={{ fontSize: '30px', fontWeight: '700', lineHeight: '38px', color: '#fff', whiteSpace: 'nowrap' }}>
                         {v.ox?.od?.totalLabel}
                       </span>
                     </div>
@@ -1275,8 +1267,8 @@ export function OrdersView({ v }: { v: V }) {
                         </svg>
                       </span>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '0', minWidth: '0' }}>
-                        <h2 style={{ margin: '0', fontSize: '16px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>تحتاج مساعدة؟</h2>
-                        <p dir="ltr" style={{ margin: '0', fontSize: '13px', lineHeight: '20px', color: 'var(--muted)', textAlign: 'right' }}>
+                        <h2 style={{ margin: '0', fontSize: '16px', fontWeight: '700', lineHeight: '24px', color: 'var(--ink)' }}>تحتاج مساعدة؟</h2>
+                        <p dir="ltr" style={{ margin: '0', fontSize: '14px', lineHeight: '20px', color: 'var(--muted)', textAlign: 'right' }}>
                           support@zamzam.gov.sa
                         </p>
                       </div>

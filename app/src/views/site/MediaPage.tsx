@@ -9,16 +9,16 @@ export function MediaPage({ v }: { v: V }) {
         <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '0 clamp(16px,5.6vw,80px)', display: 'flex', flexDirection: 'column', gap: '40px' }}>
           <div
             role="tablist"
-            style={{ overflowY: 'hidden', scrollbarWidth: 'none', display: 'flex', gap: '28px', overflowX: 'auto', borderBottom: '1px solid var(--line)' }}
+            style={{ overflowY: 'hidden', scrollbarWidth: 'none', display: 'flex', gap: '0', overflowX: 'auto', borderBottom: '1px solid var(--line)' }}
           >
             {list(v.mediaTabs).map((t: any, $index: number) => (
               <Fragment key={$index}>
                 <button
                   role="tab"
                   onClick={t?.onClick}
-                  style={css(
-                    `background:none;border:0;border-bottom:3px solid ${t?.bd ?? ''};padding:14px 0;margin-bottom:-1px;font-size:18px;color:${t?.color ?? ''};cursor:pointer;white-space:nowrap`,
+                  style={css(`background:none;border:0;border-radius:var(--r-sm) var(--r-sm) 0 0;border-bottom:2px solid ${t?.bd ?? ''};padding:12px 16px;margin-bottom:-1px;font-size:14px;line-height:20px;font-weight:${t?.fw ?? '500'};color:${t?.color ?? ''};cursor:pointer;white-space:nowrap;font-family:inherit`,
                   )}
+                  className="dga-tab"
                 >
                   {t?.label}
                 </button>
@@ -47,9 +47,9 @@ export function MediaPage({ v }: { v: V }) {
                     }}
                     className="zp-018"
                   >
-                    <span style={{ fontSize: '22px', fontWeight: '700' }}>الأخبار</span>
-                    <span style={{ fontSize: '16px', lineHeight: '1.7', color: 'var(--ink-2)', flex: '1' }}>مستجدّات المشروع ومبادراته وإنجازاته</span>
-                    <span style={{ fontSize: '15px', color: 'var(--gold-2)' }}>تصفّح</span>
+                    <span style={{ fontSize: '20px', fontWeight: '700' }}>الأخبار</span>
+                    <span style={{ fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)', flex: '1' }}>مستجدّات المشروع ومبادراته وإنجازاته</span>
+                    <span style={{ fontSize: '16px', color: 'var(--gold-2)' }}>تصفّح</span>
                   </button>
                   <button
                     onClick={v.mediaTabPress}
@@ -69,9 +69,9 @@ export function MediaPage({ v }: { v: V }) {
                     }}
                     className="zp-018"
                   >
-                    <span style={{ fontSize: '22px', fontWeight: '700' }}>البيانات الصحفية</span>
-                    <span style={{ fontSize: '16px', lineHeight: '1.7', color: 'var(--ink-2)', flex: '1' }}>البيانات الرسمية الصادرة عن المشروع</span>
-                    <span style={{ fontSize: '15px', color: 'var(--gold-2)' }}>تصفّح</span>
+                    <span style={{ fontSize: '20px', fontWeight: '700' }}>البيانات الصحفية</span>
+                    <span style={{ fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)', flex: '1' }}>البيانات الرسمية الصادرة عن المشروع</span>
+                    <span style={{ fontSize: '16px', color: 'var(--gold-2)' }}>تصفّح</span>
                   </button>
                   <button
                     onClick={v.mediaTabGallery}
@@ -91,9 +91,9 @@ export function MediaPage({ v }: { v: V }) {
                     }}
                     className="zp-018"
                   >
-                    <span style={{ fontSize: '22px', fontWeight: '700' }}>المكتبة المرئية</span>
-                    <span style={{ fontSize: '16px', lineHeight: '1.7', color: 'var(--ink-2)', flex: '1' }}>صور وفيديوهات وإنفوجرافيك متاحة للتحميل</span>
-                    <span style={{ fontSize: '15px', color: 'var(--gold-2)' }}>تصفّح</span>
+                    <span style={{ fontSize: '20px', fontWeight: '700' }}>المكتبة المرئية</span>
+                    <span style={{ fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)', flex: '1' }}>صور وفيديوهات وإنفوجرافيك متاحة للتحميل</span>
+                    <span style={{ fontSize: '16px', color: 'var(--gold-2)' }}>تصفّح</span>
                   </button>
                   <button
                     onClick={v.mediaTabId}
@@ -113,9 +113,9 @@ export function MediaPage({ v }: { v: V }) {
                     }}
                     className="zp-018"
                   >
-                    <span style={{ fontSize: '22px', fontWeight: '700' }}>الهوية والشعار</span>
-                    <span style={{ fontSize: '16px', lineHeight: '1.7', color: 'var(--ink-2)', flex: '1' }}>الشعار الرسمي وضوابط استخدامه</span>
-                    <span style={{ fontSize: '15px', color: 'var(--gold-2)' }}>تصفّح</span>
+                    <span style={{ fontSize: '20px', fontWeight: '700' }}>الهوية والشعار</span>
+                    <span style={{ fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)', flex: '1' }}>الشعار الرسمي وضوابط استخدامه</span>
+                    <span style={{ fontSize: '16px', color: 'var(--gold-2)' }}>تصفّح</span>
                   </button>
                 </div>
                 <div
@@ -163,7 +163,7 @@ export function MediaPage({ v }: { v: V }) {
                       <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>
                         التواصل الإعلامي
                       </h2>
-                      <p style={{ margin: '0', fontSize: '17px', lineHeight: '1.75', color: 'var(--ink-2)' }}>
+                      <p style={{ margin: '0', fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)' }}>
                         للاستفسارات الإعلامية وطلبات التغطية والمقابلات، تواصل مع الإدارة الإعلامية.
                       </p>
                     </div>
@@ -182,7 +182,7 @@ export function MediaPage({ v }: { v: V }) {
                     }}
                   >
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', padding: '0 10px' }}>
-                      <span style={{ fontSize: '13px', color: 'var(--muted)' }}>البريد الإلكتروني</span>
+                      <span style={{ fontSize: '14px', color: 'var(--muted)' }}>البريد الإلكتروني</span>
                       <a href="mailto:media@zamzam.sa" dir="ltr" style={{ fontSize: '18px', fontWeight: '500', textAlign: 'right' }}>
                         media@zamzam.sa
                       </a>
@@ -297,8 +297,7 @@ export function MediaPage({ v }: { v: V }) {
                           <Fragment key={$index}>
                             <button
                               onClick={c?.onClick}
-                              style={css(
-                                `height:36px;padding:0 14px;border-radius:var(--r-sm);border:1px solid ${c?.bd ?? ''};background:${c?.bg ?? ''};color:${c?.fg ?? ''};font-size:14px;cursor:pointer`,
+                              style={css(`height:32px;padding:0 12px;border-radius:var(--r-sm);border:0;background:${c?.bg ?? ''};color:${c?.fg ?? ''};font-size:16px;line-height:24px;font-weight:500;cursor:pointer;font-family:inherit`,
                               )}
                             >
                               {c?.label}
@@ -312,8 +311,7 @@ export function MediaPage({ v }: { v: V }) {
                           <Fragment key={$index}>
                             <button
                               onClick={c?.onClick}
-                              style={css(
-                                `height:36px;padding:0 14px;border-radius:var(--r-sm);border:1px solid ${c?.bd ?? ''};background:${c?.bg ?? ''};color:${c?.fg ?? ''};font-size:14px;cursor:pointer`,
+                              style={css(`height:32px;padding:0 12px;border-radius:var(--r-sm);border:0;background:${c?.bg ?? ''};color:${c?.fg ?? ''};font-size:16px;line-height:24px;font-weight:500;cursor:pointer;font-family:inherit`,
                               )}
                             >
                               {c?.label}
@@ -357,14 +355,14 @@ export function MediaPage({ v }: { v: V }) {
                               background: 'rgba(12,13,14,.62)',
                               backdropFilter: 'blur(6px)',
                               color: '#fff',
-                              fontSize: '13px',
+                              fontSize: '14px',
                             }}
                           >
                             {n?.cat}
                           </span>
                         </span>
                         <span style={{ flex: '1', padding: '18px 20px 18px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
-                          <span style={{ flex: '1', fontSize: '18px', fontWeight: '700', lineHeight: '1.55' }}>{n?.title}</span>
+                          <span style={{ flex: '1', fontSize: '18px', fontWeight: '700', lineHeight: '28px' }}>{n?.title}</span>
                           <span
                             style={{
                               display: 'flex',
@@ -453,18 +451,18 @@ export function MediaPage({ v }: { v: V }) {
                   aria-label={v.newsItem?.title}
                   style={css(`width:100%;aspect-ratio:16/7;border-radius:var(--r-lg);background:${v.newsItem?.img ?? ''}`)}
                 />
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px 18px', fontSize: '15px', color: 'var(--muted)' }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px 18px', fontSize: '16px', color: 'var(--muted)' }}>
                   <span style={{ color: 'var(--gold-2)' }}>{v.newsItem?.cat}</span>
                   <span>{v.newsItem?.dateH}</span>
                   <span>{v.newsItem?.dateG}</span>
                 </div>
                 {list(v.newsItem?.body).map((p: any, $index: number) => (
                   <Fragment key={$index}>
-                    <p style={{ margin: '0', fontSize: '19px', lineHeight: '1.95', color: 'var(--ink-2)' }}>{p}</p>
+                    <p style={{ margin: '0', fontSize: '18px', lineHeight: '28px', color: 'var(--ink-2)' }}>{p}</p>
                   </Fragment>
                 ))}
                 <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '10px', paddingTop: '20px', borderTop: '1px solid var(--line)' }}>
-                  <span style={{ fontSize: '15px', color: 'var(--muted)', marginInlineEnd: '4px' }}>شارك الخبر</span>
+                  <span style={{ fontSize: '16px', color: 'var(--muted)', marginInlineEnd: '4px' }}>شارك الخبر</span>
                   <button
                     onClick={v.shareX}
                     aria-label="مشاركة عبر X"
@@ -576,8 +574,8 @@ export function MediaPage({ v }: { v: V }) {
                         }}
                         className="zp-018"
                       >
-                        <span style={{ fontSize: '13px', color: 'var(--muted)' }}>{n?.dateH}</span>
-                        <span style={{ fontSize: '17px', fontWeight: '600', lineHeight: '1.5' }}>{n?.title}</span>
+                        <span style={{ fontSize: '14px', color: 'var(--muted)' }}>{n?.dateH}</span>
+                        <span style={{ fontSize: '16px', fontWeight: '600', lineHeight: '24px' }}>{n?.title}</span>
                       </button>
                     </Fragment>
                   ))}
@@ -588,7 +586,7 @@ export function MediaPage({ v }: { v: V }) {
           {v.md?.t2 ? (
             <>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '28px', animation: 'zzfade .3s ease both' }}>
-                <p style={{ margin: '0', maxWidth: '820px', fontSize: '18px', lineHeight: '1.8', color: 'var(--ink-2)' }}>
+                <p style={{ margin: '0', maxWidth: '820px', fontSize: '18px', lineHeight: '28px', color: 'var(--ink-2)' }}>
                   البيانات الرسمية الصادرة عن سقيا زمزم. تُنشر هنا كاملةً وقابلة للتحميل، ويُستشهد بها بذكر المصدر.
                 </p>
                 <div
@@ -615,7 +613,7 @@ export function MediaPage({ v }: { v: V }) {
                         }}
                       >
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', flex: '1 1 360px' }}>
-                          <span style={{ fontSize: '19px', fontWeight: '600', color: 'var(--ink)', lineHeight: '1.5' }}>{p?.title}</span>
+                          <span style={{ fontSize: '18px', fontWeight: '600', color: 'var(--ink)', lineHeight: '28px' }}>{p?.title}</span>
                           <span style={{ fontSize: '14px', color: 'var(--muted)' }}>
                             {p?.date} · {p?.size}
                           </span>
@@ -629,7 +627,7 @@ export function MediaPage({ v }: { v: V }) {
                             border: '1px solid var(--line)',
                             background: 'transparent',
                             color: 'var(--ink)',
-                            fontSize: '15px',
+                            fontSize: '16px',
                             cursor: 'pointer',
                             display: 'flex',
                             alignItems: 'center',
@@ -661,7 +659,7 @@ export function MediaPage({ v }: { v: V }) {
           {v.md?.t3 ? (
             <>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', animation: 'zzfade .3s ease both' }}>
-                <p style={{ margin: '0', maxWidth: '820px', fontSize: '18px', lineHeight: '1.8', color: 'var(--ink-2)' }}>
+                <p style={{ margin: '0', maxWidth: '820px', fontSize: '18px', lineHeight: '28px', color: 'var(--ink-2)' }}>
                   مواد بصرية عالية الجودة عن ماء زمزم ومنظومة سقيا زمزم، متاحة للإعلاميين والباحثين والجمهور.
                 </p>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
@@ -669,8 +667,7 @@ export function MediaPage({ v }: { v: V }) {
                     <Fragment key={$index}>
                       <button
                         onClick={c?.onClick}
-                        style={css(
-                          `height:40px;padding:0 18px;border-radius:var(--r-sm);border:1px solid ${c?.bd ?? ''};background:${c?.bg ?? ''};color:${c?.fg ?? ''};font-size:15px;cursor:pointer`,
+                        style={css(`height:32px;padding:0 12px;border-radius:var(--r-sm);border:0;background:${c?.bg ?? ''};color:${c?.fg ?? ''};font-size:16px;line-height:24px;font-weight:500;cursor:pointer;font-family:inherit`,
                         )}
                       >
                         {c?.label}
@@ -683,8 +680,7 @@ export function MediaPage({ v }: { v: V }) {
                     <Fragment key={$index}>
                       <button
                         onClick={g?.onClick}
-                        style={css(
-                          `position:relative;aspect-ratio:4/3;border:0;padding:0;border-radius:var(--r-lg);overflow:hidden;background:${g?.bg ?? ''};box-shadow:var(--card-shadow);cursor:pointer;text-align:right`,
+                        style={css(`position:relative;aspect-ratio:4/3;border:0;padding:0;border-radius:var(--r-lg);overflow:hidden;background:${g?.bg ?? ''};box-shadow:var(--card-shadow);cursor:pointer;text-align:right`,
                         )}
                       >
                         {g?.noImg ? (
@@ -749,7 +745,7 @@ export function MediaPage({ v }: { v: V }) {
                 </div>
                 <div style={{ borderRadius: 'var(--r-lg)', background: 'var(--bg-alt)', padding: '24px 28px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   <span style={{ fontSize: '18px', fontWeight: '700', color: 'var(--ink)' }}>شروط الاستخدام</span>
-                  <p style={{ margin: '0', fontSize: '16px', lineHeight: '1.8', color: 'var(--ink-2)' }}>
+                  <p style={{ margin: '0', fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)' }}>
                     تُستخدم المواد لأغراض إعلامية وتعليمية وغير تجارية، مع الإشارة إلى المصدر. لا يجوز تعديل المواد بما يغيّر مضمونها، ولا استخدامها في سياق
                     تجاري أو ترويجي دون إذن مسبق.
                   </p>
@@ -761,7 +757,7 @@ export function MediaPage({ v }: { v: V }) {
             <>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '32px', animation: 'zzfade .3s ease both' }}>
                 <div style={{ flex: '1.2 1 420px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                  <p style={{ margin: '0', fontSize: '18px', lineHeight: '1.8', color: 'var(--ink-2)' }}>
+                  <p style={{ margin: '0', fontSize: '18px', lineHeight: '28px', color: 'var(--ink-2)' }}>
                     الشعار الرسمي لسقيا زمزم وملفاته المعتمدة للاستخدام الإعلامي.
                   </p>
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: '12px' }}>
@@ -803,7 +799,7 @@ export function MediaPage({ v }: { v: V }) {
                       }}
                     >
                       <span style={{ width: '32px', height: '32px', borderRadius: 'var(--r-sm)', background: 'var(--gold-3)' }} />
-                      <span dir="ltr" style={{ fontFamily: 'ui-monospace,monospace', fontSize: '13px', color: 'var(--ink-2)' }}>
+                      <span dir="ltr" style={{ fontFamily: 'ui-monospace,monospace', fontSize: '14px', color: 'var(--ink-2)' }}>
                         var(--gold-3)
                       </span>
                     </div>
@@ -818,7 +814,7 @@ export function MediaPage({ v }: { v: V }) {
                       }}
                     >
                       <span style={{ width: '32px', height: '32px', borderRadius: 'var(--r-sm)', background: 'var(--gold)' }} />
-                      <span dir="ltr" style={{ fontFamily: 'ui-monospace,monospace', fontSize: '13px', color: 'var(--ink-2)' }}>
+                      <span dir="ltr" style={{ fontFamily: 'ui-monospace,monospace', fontSize: '14px', color: 'var(--ink-2)' }}>
                         var(--gold)
                       </span>
                     </div>
@@ -833,7 +829,7 @@ export function MediaPage({ v }: { v: V }) {
                       }}
                     >
                       <span style={{ width: '32px', height: '32px', borderRadius: 'var(--r-sm)', background: '#0C0D0E', boxShadow: 'inset 0 0 0 1px var(--line)' }} />
-                      <span dir="ltr" style={{ fontFamily: 'ui-monospace,monospace', fontSize: '13px', color: 'var(--ink-2)' }}>
+                      <span dir="ltr" style={{ fontFamily: 'ui-monospace,monospace', fontSize: '14px', color: 'var(--ink-2)' }}>
                         #0C0D0E
                       </span>
                     </div>
@@ -848,7 +844,7 @@ export function MediaPage({ v }: { v: V }) {
                       }}
                     >
                       <span style={{ width: '32px', height: '32px', borderRadius: 'var(--r-sm)', background: '#EFEDEA', boxShadow: 'inset 0 0 0 1px var(--line)' }} />
-                      <span dir="ltr" style={{ fontFamily: 'ui-monospace,monospace', fontSize: '13px', color: 'var(--ink-2)' }}>
+                      <span dir="ltr" style={{ fontFamily: 'ui-monospace,monospace', fontSize: '14px', color: 'var(--ink-2)' }}>
                         #EFEDEA
                       </span>
                     </div>
@@ -899,16 +895,16 @@ export function MediaPage({ v }: { v: V }) {
                     gap: '14px',
                   }}
                 >
-                  <span style={{ fontSize: '21px', fontWeight: '700', color: 'var(--ink)' }}>ضوابط الاستخدام</span>
-                  <div style={{ display: 'flex', gap: '10px', fontSize: '16px', lineHeight: '1.7', color: 'var(--ink-2)' }}>
+                  <span style={{ fontSize: '20px', fontWeight: '700', color: 'var(--ink)' }}>ضوابط الاستخدام</span>
+                  <div style={{ display: 'flex', gap: '10px', fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)' }}>
                     <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--gold-3)', marginTop: '11px', flexShrink: '0' }} />
                     يُستخدم الشعار بصورته المعتمدة دون تعديل في الألوان أو النسب أو العناصر.
                   </div>
-                  <div style={{ display: 'flex', gap: '10px', fontSize: '16px', lineHeight: '1.7', color: 'var(--ink-2)' }}>
+                  <div style={{ display: 'flex', gap: '10px', fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)' }}>
                     <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--gold-3)', marginTop: '11px', flexShrink: '0' }} />
                     لا يُستخدم الشعار بما يوحي بشراكة أو اعتماد أو تأييد من المشروع دون إذن كتابي.
                   </div>
-                  <div style={{ display: 'flex', gap: '10px', fontSize: '16px', lineHeight: '1.7', color: 'var(--ink-2)' }}>
+                  <div style={{ display: 'flex', gap: '10px', fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)' }}>
                     <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--gold-3)', marginTop: '11px', flexShrink: '0' }} />
                     لا يُدمج الشعار مع شعارات أخرى دون موافقة مسبقة.
                   </div>

@@ -21,7 +21,7 @@ export function JourneyPage({ v }: { v: V }) {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: '22px',
+                      fontSize: '20px',
                       color: 'var(--gold-2)',
                     }}
                   >
@@ -30,11 +30,11 @@ export function JourneyPage({ v }: { v: V }) {
                   <span style={{ flex: '1', width: '1.5px', background: 'var(--line)', margin: '8px 0' }} />
                 </div>
                 <div style={{ flex: '1', minWidth: '0', padding: '6px 0 40px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
-                  <span style={{ fontSize: '15px', color: 'var(--gold-2)' }}>المحطة {s?.n}</span>
+                  <span style={{ fontSize: '16px', color: 'var(--gold-2)' }}>المحطة {s?.n}</span>
                   <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>{s?.h}</h2>
                   {list(s?.ps).map((p: any, $index: number) => (
                     <Fragment key={$index}>
-                      <p style={{ margin: '0', fontSize: '18px', lineHeight: '1.85', color: 'var(--ink-2)', textWrap: 'pretty' }}>{p}</p>
+                      <p style={{ margin: '0', fontSize: '18px', lineHeight: '28px', color: 'var(--ink-2)', textWrap: 'pretty' }}>{p}</p>
                     </Fragment>
                   ))}
                   {s?.hasCallout ? (
@@ -43,7 +43,7 @@ export function JourneyPage({ v }: { v: V }) {
                         style={{
                           marginTop: '6px',
                           padding: '24px 26px',
-                          borderRadius: '15px 9px 15px 15px',
+                          borderRadius: 'var(--r-lg)',
                           background: 'var(--bg-alt)',
                           display: 'flex',
                           flexDirection: 'column',
@@ -51,7 +51,7 @@ export function JourneyPage({ v }: { v: V }) {
                         }}
                       >
                         <span style={{ fontSize: '20px', fontWeight: '700', color: 'var(--ink)' }}>{s?.callout?.q}</span>
-                        <p style={{ margin: '0', fontSize: '17px', lineHeight: '1.8', color: 'var(--ink-2)' }}>{s?.callout?.a}</p>
+                        <p style={{ margin: '0', fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)' }}>{s?.callout?.a}</p>
                       </div>
                     </>
                   ) : null}
@@ -72,7 +72,7 @@ export function JourneyPage({ v }: { v: V }) {
                               }}
                             >
                               <span style={{ fontSize: '18px', fontWeight: '700', color: 'var(--ink)' }}>{b?.k}</span>
-                              <p style={{ margin: '0', fontSize: '16px', lineHeight: '1.75', color: 'var(--ink-2)' }}>{b?.v}</p>
+                              <p style={{ margin: '0', fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)' }}>{b?.v}</p>
                             </div>
                           </Fragment>
                         ))}

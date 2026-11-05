@@ -49,46 +49,42 @@ export function ActiveOrderCard() {
     <aside
       aria-label="طلبك النشط"
       style={{
-        marginTop: 8,
         maxWidth: '100%',
         boxSizing: 'border-box',
-        alignSelf: 'flex-start',
-        display: 'inline-flex',
+        alignSelf: 'stretch',
+        display: 'flex',
         alignItems: 'center',
-        gap: 4,
-        padding: 6,
-        borderRadius: 999,
-        background: 'rgba(255,255,255,.14)',
-        backdropFilter: 'blur(16px)',
-        WebkitBackdropFilter: 'blur(16px)',
-        boxShadow: 'inset 0 0 0 1px rgba(255,255,255,.3), 0 8px 24px rgba(0,0,0,.18)',
-        color: '#fff',
-        animation: 'zzfade .6s ease both',
+        gap: 12,
+        padding: '12px 16px',
+        borderRadius: 'var(--r-md)',
+        background: 'var(--card)',
+        border: '1px solid var(--line)',
+        borderInlineStart: '4px solid ' + (warn ? 'var(--al-warn-fg)' : 'var(--gold)'),
+        boxShadow: 'var(--shadow-md)',
+        color: 'var(--ink)',
       }}
     >
+      <span style={{ width: 40, height: 40, flexShrink: 0, borderRadius: 'var(--r-full)', background: warn ? 'var(--al-warn-bg)' : 'var(--gold-soft)', color: warn ? 'var(--al-warn-fg)' : 'var(--gold-on-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <Icon d={icon} size={20} sw={1.8} />
+      </span>
+      <span style={{ flex: 1, minWidth: 0, fontSize: '16px', lineHeight: '24px', fontWeight: 600 }}>{message(o, a)}</span>
       <button
         type="button"
         onClick={() => portal.openOrders(o.id)}
-        style={{ minWidth: 0, display: 'flex', alignItems: 'center', gap: 10, padding: '0 6px 0 14px', height: 40, border: 0, background: 'transparent', color: 'inherit', cursor: 'pointer', fontFamily: 'inherit' }}
+        className="dga-btn dga-btn-text"
+        style={{ flexShrink: 0, border: 0, background: 'none', padding: 0, fontSize: '14px', lineHeight: '20px', fontWeight: 500, color: 'var(--gold-2)', textDecoration: 'underline', textUnderlineOffset: 4, cursor: 'pointer', fontFamily: 'inherit' }}
       >
-        <span style={{ width: 32, height: 32, flexShrink: 0, borderRadius: '50%', background: warn ? '#F5B25B' : '#7EC996', color: '#1F1A12', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <Icon d={icon} size={16} sw={2} />
-        </span>
-        <span style={{ minWidth: 0, fontSize: 15, fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{message(o, a)}</span>
-        <span aria-hidden style={{ width: 1, height: 18, flexShrink: 0, background: 'rgba(255,255,255,.3)', margin: '0 4px' }} />
-        <span style={{ flexShrink: 0, display: 'flex', alignItems: 'center', gap: 4, fontSize: 14, fontWeight: 700, color: '#C4A47A' }}>
-          عرض الطلب
-          <Icon d={ICON.arrowNext} size={14} sw={2} />
-        </span>
+        عرض الطلب
       </button>
       <button
         type="button"
         onClick={() => setClosed(true)}
         aria-label="إخفاء"
         title="إخفاء"
-        style={{ width: 32, height: 32, flexShrink: 0, padding: 0, border: 0, borderRadius: '50%', background: 'rgba(255,255,255,.12)', color: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+        className="dga-btn dga-btn-neutral"
+        style={{ width: 32, height: 32, flexShrink: 0, padding: 0, border: 0, borderRadius: 'var(--r-sm)', background: 'transparent', color: 'var(--ink)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
       >
-        <Icon d={ICON.x} size={12} sw={2.2} />
+        <Icon d={ICON.x} size={20} sw={1.8} />
       </button>
     </aside>
   );

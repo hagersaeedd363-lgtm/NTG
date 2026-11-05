@@ -40,20 +40,20 @@ export function QuickOrderModal({ v }: { v: V }) {
             <>
               <span style={{ fontSize: '30px', fontWeight: '700' }}>تأكيد الطلب</span>
               <div style={{ display: 'flex', flexDirection: 'column', borderRadius: 'var(--r-md)', background: 'var(--card-2)', padding: '6px 18px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '14px 0', borderBottom: '1px solid var(--line)', fontSize: '17px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '14px 0', borderBottom: '1px solid var(--line)', fontSize: '16px' }}>
                   <span style={{ color: 'var(--muted)' }}>المنتج</span>
                   <span>كرتون ماء زمزم (24 عبوة * 330 مل)</span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '14px 0', borderBottom: '1px solid var(--line)', fontSize: '17px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '14px 0', borderBottom: '1px solid var(--line)', fontSize: '16px' }}>
                   <span style={{ color: 'var(--muted)' }}>الكمية</span>
                   <span>{v.qty} صندوق</span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '14px 0', fontSize: '17px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '14px 0', fontSize: '16px' }}>
                   <span style={{ color: 'var(--muted)' }}>إجمالي العبوات</span>
                   <span>{v.bottles} عبوة</span>
                 </div>
               </div>
-              <p style={{ margin: '0', fontSize: '15px', lineHeight: '1.7', color: 'var(--muted)' }}>يُستكمل الطلب والاستلام عبر القنوات الرسمية المعتمدة.</p>
+              <p style={{ margin: '0', fontSize: '16px', lineHeight: '24px', color: 'var(--muted)' }}>يُستكمل الطلب والاستلام عبر القنوات الرسمية المعتمدة.</p>
               <div style={{ display: 'flex', gap: '12px' }}>
                 <button
                   onClick={v.confirmOrder}
@@ -80,7 +80,7 @@ export function QuickOrderModal({ v }: { v: V }) {
                     border: '1px solid var(--line)',
                     background: 'transparent',
                     color: 'var(--ink)',
-                    fontSize: '17px',
+                    fontSize: '16px',
                     cursor: 'pointer',
                   }}
                 >
@@ -117,8 +117,8 @@ export function QuickOrderModal({ v }: { v: V }) {
                     <path d="M5 12.5l4.5 4.5L19 7.5" />
                   </svg>
                 </span>
-                <span style={{ fontSize: '28px', fontWeight: '700' }}>تم استلام طلبك</span>
-                <p style={{ margin: '0', fontSize: '17px', lineHeight: '1.7', color: 'var(--ink-2)' }}>
+                <span style={{ fontSize: '30px', fontWeight: '700' }}>تم استلام طلبك</span>
+                <p style={{ margin: '0', fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)' }}>
                   {v.qty} صندوق — {v.bottles} عبوة. يمكنك متابعة الطلب عبر تطبيق نسك.
                 </p>
                 <button

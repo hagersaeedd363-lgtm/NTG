@@ -12,8 +12,7 @@ export function ReportsPage({ v }: { v: V }) {
               <Fragment key={$index}>
                 <button
                   onClick={c?.onClick}
-                  style={css(
-                    `height:40px;padding:0 18px;border-radius:var(--r-sm);border:1px solid ${c?.bd ?? ''};background:${c?.bg ?? ''};color:${c?.fg ?? ''};font-size:15px;cursor:pointer`,
+                  style={css(`height:32px;padding:0 12px;border-radius:var(--r-sm);border:0;background:${c?.bg ?? ''};color:${c?.fg ?? ''};font-size:16px;line-height:24px;font-weight:500;cursor:pointer;font-family:inherit`,
                   )}
                 >
                   {c?.label}
@@ -65,7 +64,7 @@ export function ReportsPage({ v }: { v: V }) {
                   </span>
                   <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: '8px', minWidth: '0', maxWidth: '540px', width: '100%' }}>
                     <span style={{ fontSize: '14px', color: 'var(--gold-2)' }}>{r?.catLabel}</span>
-                    <span style={{ fontSize: '19px', fontWeight: '700', lineHeight: '1.45', color: 'var(--ink)' }}>{r?.title}</span>
+                    <span style={{ fontSize: '18px', fontWeight: '700', lineHeight: '28px', color: 'var(--ink)' }}>{r?.title}</span>
                     <span style={{ fontSize: '14px', color: 'var(--muted)' }}>
                       {r?.date} · {r?.size}
                     </span>
@@ -80,7 +79,7 @@ export function ReportsPage({ v }: { v: V }) {
                         border: '1px solid var(--line)',
                         background: 'transparent',
                         color: 'var(--ink)',
-                        fontSize: '15px',
+                        fontSize: '16px',
                         cursor: 'pointer',
                         display: 'flex',
                         alignItems: 'center',

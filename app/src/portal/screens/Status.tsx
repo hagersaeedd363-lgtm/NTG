@@ -75,8 +75,8 @@ function SummaryPanel({ rows }: { rows: Array<[string, string, boolean?]> }) {
               borderBottom: '1px dashed var(--line)',
             }}
           >
-            <dt style={{ fontSize: 14, color: 'var(--muted)', flexShrink: 0 }}>{k}</dt>
-            <dd dir={ltr ? 'ltr' : undefined} style={{ margin: 0, fontSize: 15, fontWeight: 600, color: 'var(--ink)', textAlign: 'left', overflowWrap: 'anywhere' }}>
+            <dt style={{ fontSize: '14px', color: 'var(--muted)', flexShrink: 0 }}>{k}</dt>
+            <dd dir={ltr ? 'ltr' : undefined} style={{ margin: 0, fontSize: '16px', fontWeight: 600, color: 'var(--ink)', textAlign: 'left', overflowWrap: 'anywhere' }}>
               {v}
             </dd>
           </div>
@@ -110,10 +110,10 @@ export function DoneScreen({ s }: { s: PortalState }) {
         >
           <Icon d={ICON.check} size={34} sw={2} />
         </span>
-        <h1 style={{ margin: 0, fontSize: 24, fontWeight: 600, lineHeight: '32px', color: 'var(--ink)' }}>
+        <h1 style={{ margin: 0, fontSize: '24px', fontWeight: 600, lineHeight: '32px', color: 'var(--ink)' }}>
           {fresh ? 'تم إرسال طلبك وبيانات تسجيلك' : 'تم إرسال طلبك'}
         </h1>
-        <p style={{ margin: 0, fontSize: 16, lineHeight: '26px', color: 'var(--ink-2)', maxWidth: 620 }}>
+        <p style={{ margin: 0, fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)', maxWidth: 620 }}>
           {fresh
             ? 'حفظنا بيانات تسجيلك وطلبك، وكلاهما الآن قيد المراجعة. لن يُطلب منك أي دفع قبل اعتماد حسابك وقبول الطلب.'
             : 'طلبك الآن قيد مراجعة الجهة المختصة. لن يُطلب منك أي دفع قبل قبول الطلب.'}
@@ -138,7 +138,7 @@ export function DoneScreen({ s }: { s: PortalState }) {
             border: '1px dashed var(--gold-3)',
             background: 'var(--gold-soft)',
             color: 'var(--gold-on-soft)',
-            fontSize: 15,
+            fontSize: '16px',
             fontWeight: 700,
             cursor: 'pointer',
             fontFamily: 'inherit',
@@ -199,8 +199,8 @@ export function RegisteredScreen({ s }: { s: PortalState }) {
         <span style={{ width: 72, height: 72, borderRadius: '50%', background: 'rgba(46,160,90,.12)', color: '#2E8B57', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Icon d={ICON.check} size={34} sw={2} />
         </span>
-        <h1 style={{ margin: 0, fontSize: 24, fontWeight: 600, lineHeight: '32px', color: 'var(--ink)' }}>تم إرسال بيانات تسجيلك</h1>
-        <p style={{ margin: 0, fontSize: 16, lineHeight: '26px', color: 'var(--ink-2)', maxWidth: 620 }}>
+        <h1 style={{ margin: 0, fontSize: '24px', fontWeight: 600, lineHeight: '32px', color: 'var(--ink)' }}>تم إرسال بيانات تسجيلك</h1>
+        <p style={{ margin: 0, fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)', maxWidth: 620 }}>
           تراجع الجهة المختصة بياناتك الآن، وسنُشعرك فور اعتماد حسابك. بعدها يمكنك إنشاء طلباتك.
         </p>
         <Tag tone="info" dot>
@@ -270,9 +270,9 @@ function ApprovalSteps({ a }: { a: Account }) {
             <div style={{ display: 'flex', flexDirection: 'column', paddingBottom: i < steps.length - 1 ? 14 : 0, minWidth: 0 }}>
               <span
                 style={{
-                  fontSize: 14,
+                  fontSize: '14px',
                   fontWeight: st.state === 'cur' || st.state === 'bad' ? 700 : 500,
-                  lineHeight: '24px',
+                  lineHeight: '20px',
                   color: st.state === 'todo' ? 'var(--muted)' : 'var(--ink)',
                 }}
               >
@@ -280,7 +280,7 @@ function ApprovalSteps({ a }: { a: Account }) {
               </span>
               <span
                 style={{
-                  fontSize: 13,
+                  fontSize: '14px',
                   lineHeight: '20px',
                   color: st.state === 'cur' ? 'var(--gold-on-soft)' : st.state === 'bad' ? 'var(--danger)' : 'var(--muted)',
                 }}
@@ -325,10 +325,10 @@ export function BlockedOrderScreen({ s }: { s: PortalState }) {
         <Tag tone={rejected ? 'bad' : 'info'} dot>
           {rejected ? 'حساب مرفوض' : 'حسابك قيد المراجعة'}
         </Tag>
-        <h1 id="blocked-title" style={{ margin: 0, fontSize: 24, fontWeight: 600, lineHeight: '32px', color: 'var(--ink)' }}>
+        <h1 id="blocked-title" style={{ margin: 0, fontSize: '24px', fontWeight: 600, lineHeight: '32px', color: 'var(--ink)' }}>
           {rejected ? 'لا يمكن إنشاء طلبات بهذا الحساب' : order ? 'لا يمكنك إنشاء طلب جديد الآن' : 'يمكنك الطلب بعد اعتماد حسابك'}
         </h1>
-        <p style={{ margin: 0, fontSize: 16, lineHeight: '26px', color: 'var(--ink-2)', maxWidth: 620 }}>
+        <p style={{ margin: 0, fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)', maxWidth: 620 }}>
           {rejected
             ? 'سبب الرفض: ' + (a.rejectReason || 'لم تُذكر أسباب.')
             : order
@@ -406,7 +406,7 @@ export function AccountStatusScreen({ s }: { s: PortalState }) {
             <Icon d={c ? ICON.bld : ICON.user} size={28} />
           </span>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
-            <span style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 600, lineHeight: '24px', color: 'var(--ink)' }}>
+            <span style={{ fontFamily: 'var(--font-display)', fontSize: '18px', fontWeight: 600, lineHeight: '28px', color: 'var(--ink)' }}>
               {a.identity.fullName}
             </span>
             <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 8 }}>
@@ -421,11 +421,11 @@ export function AccountStatusScreen({ s }: { s: PortalState }) {
                 {pending ? 'حسابك قيد المراجعة' : 'حساب مرفوض'}
               </Tag>
             </div>
-            <span style={{ fontSize: 13, color: 'var(--muted)' }}>{c ? 'جهة · ' + c.name : 'فرد'}</span>
+            <span style={{ fontSize: '14px', color: 'var(--muted)' }}>{c ? 'جهة · ' + c.name : 'فرد'}</span>
           </div>
           <div style={{ width: '100%', height: 1, background: 'var(--line)' }} />
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12, width: '100%', textAlign: 'right' }}>
-            <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink)' }}>مراحل اعتماد الحساب</span>
+            <span style={{ fontSize: '14px', fontWeight: 600, color: 'var(--ink)' }}>مراحل اعتماد الحساب</span>
             <ApprovalSteps a={a} />
           </div>
           <div style={{ width: '100%', height: 1, background: 'var(--line)' }} />
@@ -548,12 +548,12 @@ export function EditProfileScreen({ s }: { s: PortalState }) {
           <Card>
             <CardHeader icon={ICON.bld} title="بيانات المؤسسة" desc="عدّل ما تريد تغييره، وسيُراجع قبل اعتماده." />
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              <span style={{ fontSize: 15, fontWeight: 500, color: 'var(--ink)' }}>
+              <span style={{ fontSize: '16px', fontWeight: 500, color: 'var(--ink)' }}>
                 نوع الجهة <span style={{ color: 'var(--danger)' }}>*</span>
               </span>
               <Pills label="نوع الجهة" options={ETYPES} value={e.entityType} onChange={(v) => portal.setEdit({ entityType: v })} icons={PILL_ICONS} />
               {e.errors.entityType ? (
-                <span role="alert" style={{ fontSize: 14, color: 'var(--danger)' }}>
+                <span role="alert" style={{ fontSize: '14px', color: 'var(--danger)' }}>
                   {e.errors.entityType}
                 </span>
               ) : null}

@@ -62,13 +62,13 @@ export function ContactPage({ v }: { v: V }) {
               <span style={{ fontSize: '14px', color: 'var(--muted)' }}>قبل أن تراسلنا</span>
               <button
                 onClick={v.go?.faq}
-                style={{ alignSelf: 'flex-start', background: 'none', border: '0', padding: '0', color: 'var(--gold-2)', fontSize: '17px', cursor: 'pointer' }}
+                style={{ alignSelf: 'flex-start', background: 'none', border: '0', padding: '0', color: 'var(--gold-2)', fontSize: '16px', cursor: 'pointer' }}
               >
                 تصفّح الأسئلة الشائعة
               </button>
               <button
                 onClick={v.go?.verifyReport}
-                style={{ alignSelf: 'flex-start', background: 'none', border: '0', padding: '0', color: 'var(--gold-2)', fontSize: '17px', cursor: 'pointer' }}
+                style={{ alignSelf: 'flex-start', background: 'none', border: '0', padding: '0', color: 'var(--gold-2)', fontSize: '16px', cursor: 'pointer' }}
               >
                 بلّغ عن منتج مشتبه به
               </button>
@@ -99,7 +99,7 @@ export function ContactPage({ v }: { v: V }) {
                       minWidth: '0',
                       maxWidth: '540px',
                       width: '100%',
-                      fontSize: '15px',
+                      fontSize: '16px',
                       fontWeight: '500',
                       color: 'var(--ink)',
                     }}
@@ -123,7 +123,7 @@ export function ContactPage({ v }: { v: V }) {
                       }}
                       className="zp-017"
                     />
-                    <span style={{ fontSize: '13px', lineHeight: '16px', color: 'var(--danger)', minHeight: '16px' }}>{v.err?.contact?.name}</span>
+                    <span style={{ fontSize: '14px', lineHeight: '20px', color: 'var(--danger)', minHeight: '16px' }}>{v.err?.contact?.name}</span>
                   </label>
                   <label
                     style={{
@@ -133,7 +133,7 @@ export function ContactPage({ v }: { v: V }) {
                       minWidth: '0',
                       maxWidth: '540px',
                       width: '100%',
-                      fontSize: '15px',
+                      fontSize: '16px',
                       fontWeight: '500',
                       color: 'var(--ink)',
                     }}
@@ -161,7 +161,7 @@ export function ContactPage({ v }: { v: V }) {
                       }}
                       className="zp-017"
                     />
-                    <span style={{ fontSize: '13px', lineHeight: '16px', color: 'var(--danger)', minHeight: '16px' }}>{v.err?.contact?.email}</span>
+                    <span style={{ fontSize: '14px', lineHeight: '20px', color: 'var(--danger)', minHeight: '16px' }}>{v.err?.contact?.email}</span>
                   </label>
                   <label
                     style={{
@@ -171,7 +171,7 @@ export function ContactPage({ v }: { v: V }) {
                       minWidth: '0',
                       maxWidth: '540px',
                       width: '100%',
-                      fontSize: '15px',
+                      fontSize: '16px',
                       fontWeight: '500',
                       color: 'var(--ink)',
                     }}
@@ -198,7 +198,7 @@ export function ContactPage({ v }: { v: V }) {
                       }}
                       className="zp-017"
                     />
-                    <span style={{ fontSize: '13px', lineHeight: '16px', color: 'var(--danger)', minHeight: '16px' }}>{v.err?.contact?.phone}</span>
+                    <span style={{ fontSize: '14px', lineHeight: '20px', color: 'var(--danger)', minHeight: '16px' }}>{v.err?.contact?.phone}</span>
                   </label>
                   <label
                     style={{
@@ -208,7 +208,7 @@ export function ContactPage({ v }: { v: V }) {
                       minWidth: '0',
                       maxWidth: '540px',
                       width: '100%',
-                      fontSize: '15px',
+                      fontSize: '16px',
                       fontWeight: '500',
                       color: 'var(--ink)',
                     }}
@@ -254,7 +254,7 @@ export function ContactPage({ v }: { v: V }) {
                         <path d="M6 9l6 6 6-6" />
                       </svg>
                     </span>
-                    <span style={{ fontSize: '13px', lineHeight: '16px', color: 'var(--danger)', minHeight: '16px' }}>{v.err?.contact?.type}</span>
+                    <span style={{ fontSize: '14px', lineHeight: '20px', color: 'var(--danger)', minHeight: '16px' }}>{v.err?.contact?.type}</span>
                   </label>
                   <label
                     style={{
@@ -264,7 +264,7 @@ export function ContactPage({ v }: { v: V }) {
                       minWidth: '0',
                       maxWidth: '540px',
                       width: '100%',
-                      fontSize: '15px',
+                      fontSize: '16px',
                       fontWeight: '500',
                       color: 'var(--ink)',
                       gridColumn: '1/-1',
@@ -288,7 +288,7 @@ export function ContactPage({ v }: { v: V }) {
                       }}
                       className="zp-017"
                     />
-                    <span style={{ fontSize: '13px', lineHeight: '16px', color: 'var(--danger)', minHeight: '16px' }}>{v.err?.contact?.subject}</span>
+                    <span style={{ fontSize: '14px', lineHeight: '20px', color: 'var(--danger)', minHeight: '16px' }}>{v.err?.contact?.subject}</span>
                   </label>
                   <label
                     style={{
@@ -298,7 +298,7 @@ export function ContactPage({ v }: { v: V }) {
                       minWidth: '0',
                       maxWidth: '540px',
                       width: '100%',
-                      fontSize: '15px',
+                      fontSize: '16px',
                       fontWeight: '500',
                       color: 'var(--ink)',
                       gridColumn: '1/-1',
@@ -317,7 +317,7 @@ export function ContactPage({ v }: { v: V }) {
                         background: 'var(--card)',
                         color: 'var(--ink)',
                         fontSize: '16px',
-                        lineHeight: '1.6',
+                        lineHeight: '24px',
                         outline: 'none',
                         resize: 'vertical',
                         boxSizing: 'border-box',
@@ -325,7 +325,7 @@ export function ContactPage({ v }: { v: V }) {
                       }}
                       className="zp-017"
                     />
-                    <span style={{ fontSize: '13px', lineHeight: '16px', color: 'var(--danger)', minHeight: '16px' }}>{v.err?.contact?.message}</span>
+                    <span style={{ fontSize: '14px', lineHeight: '20px', color: 'var(--danger)', minHeight: '16px' }}>{v.err?.contact?.message}</span>
                   </label>
                   <button
                     type="submit"
@@ -376,7 +376,7 @@ export function ContactPage({ v }: { v: V }) {
                     </svg>
                   </span>
                   <span style={{ fontSize: '24px', fontWeight: '700', color: 'var(--ink)' }}>تم استلام رسالتك</span>
-                  <p style={{ margin: '0', fontSize: '17px', color: 'var(--ink-2)' }}>سنعاود التواصل معك عبر البريد الإلكتروني.</p>
+                  <p style={{ margin: '0', fontSize: '16px', color: 'var(--ink-2)' }}>سنعاود التواصل معك عبر البريد الإلكتروني.</p>
                   <button
                     onClick={v.resetForm?.contact}
                     style={{

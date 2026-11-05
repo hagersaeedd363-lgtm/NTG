@@ -96,7 +96,7 @@ function Tabs({ tab }: { tab: Tab }) {
               borderRadius: 'var(--r-md)',
               background: sel ? "var(--card)" : "transparent",
               color: sel ? "var(--ink)" : "var(--muted)",
-              fontSize: 16,
+              fontSize: '16px',
               fontWeight: 600,
               cursor: "pointer",
               display: "flex",
@@ -136,7 +136,7 @@ function DemoChips({ children }: { children: ReactNode }) {
         borderTop: "1px dashed var(--line)",
       }}
     >
-      <span style={{ fontSize: 13, color: "var(--muted)" }}>
+      <span style={{ fontSize: '14px', color: "var(--muted)" }}>
         هويات المعاينة
       </span>
       {children}
@@ -156,7 +156,7 @@ function Chip({ label, onClick }: { label: string; onClick: () => void }) {
         border: "1px solid var(--line)",
         background: "var(--card-2)",
         color: "var(--ink-2)",
-        fontSize: 13,
+        fontSize: '14px',
         fontWeight: 600,
         cursor: "pointer",
         fontFamily: "inherit",
@@ -194,7 +194,7 @@ function ForgotPanel({ f }: { f: NonNullable<PortalState["auth"]["forgot"]> }) {
               display: "flex",
               flexDirection: "column",
               gap: 6,
-              fontSize: 13,
+              fontSize: '14px',
               fontWeight: i + 1 === f.step ? 700 : 500,
               color: i + 1 <= f.step ? "var(--ink)" : "var(--muted)",
             }}
@@ -242,7 +242,7 @@ function ForgotPanel({ f }: { f: NonNullable<PortalState["auth"]["forgot"]> }) {
                 : "إذا كان البريد " + f.email.trim() + " مسجّلاً لدينا، أرسلنا رمز تحقق من ٤ أرقام إلى الجوال المسجّل في الحساب."}
             </Alert>
             <OtpInput id="fg-otp" value={f.otp} onChange={(v) => portal.setForgot({ otp: v })} onComplete={() => portal.forgotVerify()} error={!!f.err} />
-            <span style={{ fontSize: 14, color: "var(--muted)" }}>
+            <span style={{ fontSize: '14px', color: "var(--muted)" }}>
               لم يصلك الرمز؟{" "}
               <TextButton onClick={() => portal.toast("تم إرسال رمز جديد")}>
                 إعادة الإرسال
@@ -290,7 +290,7 @@ function ForgotPanel({ f }: { f: NonNullable<PortalState["auth"]["forgot"]> }) {
                     display: "flex",
                     alignItems: "center",
                     gap: 8,
-                    fontSize: 14,
+                    fontSize: '14px',
                     color: r.ok ? "var(--al-ok-fg)" : "var(--muted)",
                   }}
                 >
@@ -358,7 +358,7 @@ function EmailCodePanel({ s }: { s: PortalState }) {
           style={{ display: "flex", flexDirection: "column", gap: 20 }}
         >
           <OtpInput id="su-otp" value={su.otp} onChange={(v) => portal.setSignup({ otp: v })} onComplete={() => portal.emailVerify()} error={!!su.err} />
-          <label style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 15, color: "var(--ink)", cursor: "pointer" }}>
+          <label style={{ display: "flex", alignItems: "center", gap: 10, fontSize: '16px', color: "var(--ink)", cursor: "pointer" }}>
             <input
               type="checkbox"
               checked={su.remember}
@@ -370,7 +370,7 @@ function EmailCodePanel({ s }: { s: PortalState }) {
           <PrimaryButton type="submit" full style={{ height: 56 }}>
             متابعة
           </PrimaryButton>
-          <span style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: 8, fontSize: 14, color: "var(--muted)" }}>
+          <span style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: 8, fontSize: '14px', color: "var(--muted)" }}>
             {su.wait > 0 ? (
               <span>
                 إعادة الإرسال بعد <strong style={{ color: "var(--ink)" }}>{AR(su.wait)}</strong> ث
@@ -403,7 +403,7 @@ function EmailCodePanel({ s }: { s: PortalState }) {
       >
         <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 16px", borderRadius: 'var(--r-md)', background: "var(--card-2)", boxShadow: "inset 0 0 0 1px var(--line)" }}>
           <Icon d={ICON.mail} size={18} />
-          <span dir="ltr" style={{ flex: 1, minWidth: 0, textAlign: "right", fontSize: 15, fontWeight: 600, color: "var(--ink)", overflow: "hidden", textOverflow: "ellipsis" }}>
+          <span dir="ltr" style={{ flex: 1, minWidth: 0, textAlign: "right", fontSize: '16px', fontWeight: 600, color: "var(--ink)", overflow: "hidden", textOverflow: "ellipsis" }}>
             {auth.email.trim()}
           </span>
           <TextButton onClick={() => portal.backToSignup()}>تغيير</TextButton>
@@ -531,7 +531,7 @@ export function AuthScreen({ s }: { s: PortalState }) {
             <h2
               style={{
                 margin: 0,
-                fontSize: 24,
+                fontSize: '24px',
                 fontWeight: 700,
                 lineHeight: "32px",
                 color: "var(--ink)",
@@ -542,7 +542,7 @@ export function AuthScreen({ s }: { s: PortalState }) {
             <p
               style={{
                 margin: 0,
-                fontSize: 16,
+                fontSize: '16px',
                 lineHeight: "24px",
                 color: "var(--ink-2)",
               }}
@@ -674,7 +674,7 @@ export function AuthScreen({ s }: { s: PortalState }) {
                     flexWrap: "wrap",
                     justifyContent: "center",
                     gap: 6,
-                    fontSize: 14,
+                    fontSize: '14px',
                     lineHeight: "24px",
                     color: "var(--muted)",
                   }}
@@ -704,7 +704,7 @@ export function AuthScreen({ s }: { s: PortalState }) {
                 gap: 8,
                 paddingTop: 24,
                 borderTop: "1px solid var(--line)",
-                fontSize: 15,
+                fontSize: '16px',
                 color: "var(--ink-2)",
               }}
             >
@@ -723,7 +723,7 @@ export function AuthScreen({ s }: { s: PortalState }) {
                   </TextButton>
                 </>
               ) : EMAIL_AUTH ? null : (
-                <span style={{ fontSize: 14, color: "var(--muted)" }}>
+                <span style={{ fontSize: '14px', color: "var(--muted)" }}>
                   لا تحتاج إلى التسجيل مسبقاً. نكمل بياناتك خلال الطلب.
                 </span>
               )}
@@ -826,8 +826,8 @@ export function AuthScreen({ s }: { s: PortalState }) {
         <p
           style={{
             margin: 0,
-            fontSize: 16,
-            lineHeight: 1.8,
+            fontSize: '16px',
+            lineHeight: '24px',
             color: "var(--ink-2)",
             maxWidth: "58%",
           }}
@@ -859,7 +859,7 @@ export function AuthScreen({ s }: { s: PortalState }) {
                   display: "flex",
                   alignItems: "center",
                   gap: 10,
-                  fontSize: 14,
+                  fontSize: '14px',
                   color: "var(--ink-2)",
                 }}
               >
@@ -871,7 +871,7 @@ export function AuthScreen({ s }: { s: PortalState }) {
                     background: "var(--card)",
                     boxShadow: "inset 0 0 0 1px var(--line)",
                     color: "var(--gold-2)",
-                    fontSize: 12,
+                    fontSize: '12px',
                     fontWeight: 700,
                     display: "flex",
                     alignItems: "center",
@@ -943,7 +943,7 @@ export function NafathDialog({ n }: { n: NonNullable<PortalState["nafath"]> }) {
         <h2
           style={{
             margin: 0,
-            fontSize: 20,
+            fontSize: '20px',
             fontWeight: 600,
             lineHeight: "28px",
             color: "var(--ink)",
@@ -970,8 +970,8 @@ export function NafathDialog({ n }: { n: NonNullable<PortalState["nafath"]> }) {
             <p
               style={{
                 margin: 0,
-                fontSize: 15,
-                lineHeight: 1.7,
+                fontSize: '16px',
+                lineHeight: '24px',
                 color: "var(--ink-2)",
               }}
             >
@@ -999,8 +999,8 @@ export function NafathDialog({ n }: { n: NonNullable<PortalState["nafath"]> }) {
             <p
               style={{
                 margin: 0,
-                fontSize: 15,
-                lineHeight: 1.7,
+                fontSize: '16px',
+                lineHeight: '24px',
                 color: "var(--ink-2)",
               }}
             >
@@ -1017,7 +1017,7 @@ export function NafathDialog({ n }: { n: NonNullable<PortalState["nafath"]> }) {
                 alignItems: "center",
                 justifyContent: "center",
                 color: "#fff",
-                fontSize: 56,
+                fontSize: '60px',
                 fontWeight: 700,
                 letterSpacing: ".2em",
               }}
@@ -1030,7 +1030,7 @@ export function NafathDialog({ n }: { n: NonNullable<PortalState["nafath"]> }) {
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
-                fontSize: 14,
+                fontSize: '14px',
               }}
             >
               <span
@@ -1079,7 +1079,7 @@ export function NafathDialog({ n }: { n: NonNullable<PortalState["nafath"]> }) {
               />
             </div>
             {DEMO_TOOLS ? (
-              <span style={{ fontSize: 12, color: "var(--muted)" }}>
+              <span style={{ fontSize: '12px', color: "var(--muted)" }}>
                 نموذج أولي: الموافقة في نفاذ محاكاة وتتم تلقائياً.
               </span>
             ) : null}

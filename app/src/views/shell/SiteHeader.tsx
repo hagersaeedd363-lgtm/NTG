@@ -12,12 +12,12 @@ export function SiteHeader({ v }: { v: V }) {
             <span aria-hidden="true" style={{ width: 20, height: 14, borderRadius: 2, background: '#006923', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <span style={{ width: 11, height: 2, borderRadius: 1, background: '#fff', marginTop: 4 }} />
             </span>
-            <span style={{ fontSize: 14, lineHeight: '20px', fontWeight: 500, color: 'var(--ink)', whiteSpace: 'nowrap' }}>موقع حكومي مسجل لدى هيئة الحكومة الرقمية</span>
+            <span style={{ fontSize: '14px', lineHeight: '20px', fontWeight: 500, color: 'var(--ink)', whiteSpace: 'nowrap' }}>موقع حكومي مسجل لدى هيئة الحكومة الرقمية</span>
             <a
               href="https://raqmi.dga.gov.sa/platforms/platforms"
               target="_blank"
               rel="noreferrer"
-              style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 14, lineHeight: '20px', color: 'var(--dga-stamp-link)', whiteSpace: 'nowrap' }}
+              style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: '14px', lineHeight: '20px', color: 'var(--dga-stamp-link)', whiteSpace: 'nowrap' }}
             >
               كيف تتحقق؟
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -64,7 +64,7 @@ export function SiteHeader({ v }: { v: V }) {
                           display: 'flex',
                           alignItems: 'center',
                           gap: 4,
-                          fontSize: 16,
+                          fontSize: '16px',
                           lineHeight: '24px',
                           fontWeight: 500,
                           color: item?.active ? 'var(--gold-2)' : 'var(--ink)',
@@ -110,7 +110,7 @@ export function SiteHeader({ v }: { v: V }) {
                                   padding: '10px 12px',
                                   textAlign: 'right',
                                   cursor: 'pointer',
-                                  fontSize: 16,
+                                  fontSize: '16px',
                                   lineHeight: '24px',
                                   fontWeight: 500,
                                   color: c?.active ? 'var(--gold-2)' : 'var(--ink)',
@@ -202,8 +202,7 @@ export function SiteHeader({ v }: { v: V }) {
                   <>
                     <span
                       aria-hidden="true"
-                      style={css(
-                        `width:28px;height:28px;flex-shrink:0;border-radius:50%;background:${v.ox?.chipBg ?? ''};color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-inline-start:-6px;white-space:nowrap`,
+                      style={css(`width:28px;height:28px;flex-shrink:0;border-radius:50%;background:${v.ox?.chipBg ?? ''};color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;margin-inline-start:-6px;white-space:nowrap`,
                       )}
                     >
                       {v.ox?.hasPhoto ? null : v.ox?.initials}
@@ -261,18 +260,16 @@ export function SiteHeader({ v }: { v: V }) {
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 12px 12px', borderBottom: '1px solid var(--line)', marginBottom: '4px' }}>
                       <span
                         aria-hidden="true"
-                        style={css(
-                          `width:44px;height:44px;flex-shrink:0;border-radius:50%;background:${v.ox?.photoBg ?? ''};color:var(--gold-on-soft);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;white-space:nowrap`,
+                        style={css(`width:44px;height:44px;flex-shrink:0;border-radius:50%;background:${v.ox?.photoBg ?? ''};color:var(--gold-on-soft);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;white-space:nowrap`,
                         )}
                       >
                         {v.ox?.hasPhoto ? null : v.ox?.initials}
                       </span>
                       <span style={{ display: 'flex', flexDirection: 'column', gap: '2px', minWidth: '0', textAlign: 'right' }}>
-                        <span style={{ fontSize: '15px', fontWeight: '700', color: 'var(--ink)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{v.ox?.fullName}</span>
-                        <span style={{ fontSize: '13px', color: 'var(--muted)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{v.ox?.acctSub}</span>
+                        <span style={{ fontSize: '16px', fontWeight: '700', color: 'var(--ink)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{v.ox?.fullName}</span>
+                        <span style={{ fontSize: '14px', color: 'var(--muted)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{v.ox?.acctSub}</span>
                         <span
-                          style={css(
-                            `align-self:flex-start;margin-top:4px;display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 10px;border-radius:var(--r-sm);font-size:12px;font-weight:500;background:var(--tag-${v.ox?.statusTone}-bg);color:var(--tag-${v.ox?.statusTone}-fg);box-shadow:inset 0 0 0 1px var(--tag-${v.ox?.statusTone}-bd)`,
+                          style={css(`align-self:flex-start;margin-top:4px;display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 10px;border-radius:var(--r-sm);font-size:12px;font-weight:500;background:var(--tag-${v.ox?.statusTone}-bg);color:var(--tag-${v.ox?.statusTone}-fg);box-shadow:inset 0 0 0 1px var(--tag-${v.ox?.statusTone}-bd)`,
                           )}
                         >
                           <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'currentColor' }} />
@@ -291,7 +288,7 @@ export function SiteHeader({ v }: { v: V }) {
                         borderRadius: 'var(--r-sm)',
                         background: 'transparent',
                         color: 'var(--ink)',
-                        fontSize: '15px',
+                        fontSize: '16px',
                         fontWeight: '500',
                         cursor: 'pointer',
                         textAlign: 'right',
@@ -313,7 +310,7 @@ export function SiteHeader({ v }: { v: V }) {
                         borderRadius: 'var(--r-sm)',
                         background: 'transparent',
                         color: 'var(--ink)',
-                        fontSize: '15px',
+                        fontSize: '16px',
                         fontWeight: '500',
                         cursor: 'pointer',
                         textAlign: 'right',
@@ -335,7 +332,7 @@ export function SiteHeader({ v }: { v: V }) {
                         borderRadius: 'var(--r-sm)',
                         background: 'transparent',
                         color: 'var(--ink)',
-                        fontSize: '15px',
+                        fontSize: '16px',
                         fontWeight: '500',
                         cursor: 'pointer',
                         textAlign: 'right',
@@ -358,7 +355,7 @@ export function SiteHeader({ v }: { v: V }) {
                         borderRadius: 'var(--r-sm)',
                         background: 'transparent',
                         color: 'var(--danger)',
-                        fontSize: '15px',
+                        fontSize: '16px',
                         fontWeight: '500',
                         cursor: 'pointer',
                         textAlign: 'right',

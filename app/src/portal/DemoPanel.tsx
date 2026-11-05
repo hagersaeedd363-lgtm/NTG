@@ -35,15 +35,15 @@ export function DemoPanel({ s }: { s: PortalState }) {
           style={{ width: 'min(360px, calc(100vw - 56px))', maxHeight: '80vh', overflowY: 'auto', background: 'var(--card)', borderRadius: 'var(--r-lg)', boxShadow: 'var(--card-shadow),0 20px 50px rgba(0,0,0,.25)', padding: 16, display: 'flex', flexDirection: 'column', gap: 14 }}
         >
           <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <strong style={{ fontSize: 15, color: 'var(--ink)' }}>أدوات المعاينة</strong>
-            <span style={{ fontSize: 12, color: 'var(--muted)' }}>تحاكي قرارات الجهة المختصة ونتائج الدفع. لا تظهر في النسخة الفعلية.</span>
+            <strong style={{ fontSize: '16px', color: 'var(--ink)' }}>أدوات المعاينة</strong>
+            <span style={{ fontSize: '12px', color: 'var(--muted)' }}>تحاكي قرارات الجهة المختصة ونتائج الدفع. لا تظهر في النسخة الفعلية.</span>
           </div>
 
           <section style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink-2)' }}>الحساب</span>
+            <span style={{ fontSize: '14px', fontWeight: 600, color: 'var(--ink-2)' }}>الحساب</span>
             {a ? (
               <>
-                <span style={{ fontSize: 13, color: 'var(--muted)' }}>
+                <span style={{ fontSize: '14px', color: 'var(--muted)' }}>
                   {a.identity.fullName} · {ACCOUNT_STATUS_LABEL[a.status]}
                 </span>
                 <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
@@ -56,14 +56,14 @@ export function DemoPanel({ s }: { s: PortalState }) {
                 </div>
               </>
             ) : (
-              <span style={{ fontSize: 13, color: 'var(--muted)' }}>لا يوجد مستخدم مسجّل الدخول.</span>
+              <span style={{ fontSize: '14px', color: 'var(--muted)' }}>لا يوجد مستخدم مسجّل الدخول.</span>
             )}
           </section>
 
           {a?.changeRequest ? (
             <section style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink-2)' }}>طلب تعديل البيانات</span>
-              <span style={{ fontSize: 12, color: 'var(--muted)' }}>{a.changeRequest.labels.join('، ')}</span>
+              <span style={{ fontSize: '14px', fontWeight: 600, color: 'var(--ink-2)' }}>طلب تعديل البيانات</span>
+              <span style={{ fontSize: '12px', color: 'var(--muted)' }}>{a.changeRequest.labels.join('، ')}</span>
               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                 <button type="button" style={btn()} onClick={() => portal.demoChange('approve')}>
                   اعتماد التعديل
@@ -77,10 +77,10 @@ export function DemoPanel({ s }: { s: PortalState }) {
 
           {orders.length ? (
             <section style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink-2)' }}>الطلبات</span>
+              <span style={{ fontSize: '14px', fontWeight: 600, color: 'var(--ink-2)' }}>الطلبات</span>
               {orders.map((o) => (
                 <div key={o.id} style={{ display: 'flex', flexDirection: 'column', gap: 6, padding: 10, borderRadius: 'var(--r-sm)', background: 'var(--card-2)' }}>
-                  <span style={{ fontSize: 12, color: 'var(--ink-2)' }}>
+                  <span style={{ fontSize: '12px', color: 'var(--ink-2)' }}>
                     <span dir="ltr">{o.id}</span> · {orderStatusLabel(o, a)}
                   </span>
                   <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
@@ -125,7 +125,7 @@ export function DemoPanel({ s }: { s: PortalState }) {
         onClick={() => setDemo({ panelOpen: !open })}
         aria-expanded={open}
         title="أدوات المعاينة"
-        style={{ width: 40, padding: '14px 0', borderRadius: '0 12px 12px 0', border: 0, background: GOLD, color: '#fff', fontSize: 13, fontWeight: 600, cursor: 'pointer', boxShadow: '0 6px 20px rgba(0,0,0,.25)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, fontFamily: 'inherit', writingMode: 'vertical-rl' }}
+        style={{ width: 40, padding: '14px 0', borderRadius: '0 12px 12px 0', border: 0, background: GOLD, color: '#fff', fontSize: '14px', fontWeight: 600, cursor: 'pointer', boxShadow: '0 6px 20px rgba(0,0,0,.25)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, fontFamily: 'inherit', writingMode: 'vertical-rl' }}
         className="zp-002"
       >
         <Icon d={open ? ICON.x : ICON.shield} size={18} />

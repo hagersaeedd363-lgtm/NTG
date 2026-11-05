@@ -49,7 +49,7 @@ export function ProfileView({ v }: { v: V }) {
                   <circle cx="12" cy="12" r="10" />
                 </svg>
               </span>
-              <span style={{ flex: '1', minWidth: '0', fontSize: '14px', fontWeight: '600', lineHeight: '24px', color: '#B42318' }}>
+              <span style={{ flex: '1', minWidth: '0', fontSize: '14px', fontWeight: '600', lineHeight: '20px', color: '#B42318' }}>
                 حسابك جديد، أكمل بياناتك لتوثيقه هذا حساب جديد. أكمل البيانات المطلوبة أدناه لتتم مراجعتها وتوثيق حسابك. يمكنك أيضاً بدء طلب جديد وتعبئتها أثناء
                 الخطوات.
               </span>
@@ -88,7 +88,7 @@ export function ProfileView({ v }: { v: V }) {
                   <circle cx="12" cy="12" r="10" />
                 </svg>
               </span>
-              <span style={{ flex: '1', minWidth: '0', fontSize: '14px', fontWeight: '600', lineHeight: '24px', color: 'var(--gold-2)' }}>
+              <span style={{ flex: '1', minWidth: '0', fontSize: '14px', fontWeight: '600', lineHeight: '20px', color: 'var(--gold-2)' }}>
                 حسابك قيد المراجعة استلمنا بياناتك وهي قيد المراجعة من الجهة المختصة، ولم يكتمل توثيق الحساب بعد. يمكنك إنشاء أول طلب أثناء انتظار الموافقة.
               </span>
             </div>
@@ -126,7 +126,7 @@ export function ProfileView({ v }: { v: V }) {
                   <circle cx="12" cy="12" r="10" />
                 </svg>
               </span>
-              <span style={{ flex: '1', minWidth: '0', fontSize: '14px', fontWeight: '600', lineHeight: '24px', color: '#B42318' }}>
+              <span style={{ flex: '1', minWidth: '0', fontSize: '14px', fontWeight: '600', lineHeight: '20px', color: '#B42318' }}>
                 حسابك بانتظار التحقق لا يمكنك إنشاء طلبات قبل التحقق من حسابك.
               </span>
             </div>
@@ -236,7 +236,7 @@ export function ProfileView({ v }: { v: V }) {
                       padding: '0',
                       height: '24px',
                       color: 'var(--muted)',
-                      fontSize: '13px',
+                      fontSize: '14px',
                       cursor: 'pointer',
                       textDecoration: 'underline',
                       textUnderlineOffset: '4px',
@@ -249,7 +249,7 @@ export function ProfileView({ v }: { v: V }) {
               ) : null}
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', minWidth: '0' }}>
-              <span style={{ fontFamily: 'var(--font-display)', fontSize: '18px', fontWeight: '600', lineHeight: '24px', color: 'var(--ink)' }}>
+              <span style={{ fontFamily: 'var(--font-display)', fontSize: '18px', fontWeight: '600', lineHeight: '28px', color: 'var(--ink)' }}>
                 {v.ox?.userName}
               </span>
               <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '8px', width: '100%' }}>
@@ -270,8 +270,7 @@ export function ProfileView({ v }: { v: V }) {
             <div style={{ width: '100%', height: '1px', background: 'var(--line)' }} />
             <button
               onClick={v.ox?.editProfile}
-              style={css(
-                `width:100%;height:48px;border-radius:var(--r-md);border:1px solid ${v.ox?.editBd ?? ''};background:${v.ox?.editBg ?? ''};color:${v.ox?.editFg ?? ''};font-size:16px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px`,
+              style={css(`width:100%;height:48px;border-radius:var(--r-md);border:1px solid ${v.ox?.editBd ?? ''};background:${v.ox?.editBg ?? ''};color:${v.ox?.editFg ?? ''};font-size:16px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px`,
               )}
               className="zp-028"
             >
@@ -360,7 +359,7 @@ export function ProfileView({ v }: { v: V }) {
                         <path d={sec?.icon} />
                       </svg>
                     </span>
-                    <h2 style={{ margin: '0', fontSize: '16px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>{sec?.title}</h2>
+                    <h2 style={{ margin: '0', fontSize: '16px', fontWeight: '700', lineHeight: '24px', color: 'var(--ink)' }}>{sec?.title}</h2>
                     {sec?.note ? (
                       <span style={{ marginInlineStart: 'auto' }}>
                         <LockTag>{sec?.note}</LockTag>
@@ -380,7 +379,7 @@ export function ProfileView({ v }: { v: V }) {
                             borderBottom: '1px solid var(--line)',
                           }}
                         >
-                          <span style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px', lineHeight: '24px', color: 'var(--muted)' }}>
+                          <span style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '14px', lineHeight: '20px', color: 'var(--muted)' }}>
                             {pr?.k}
                             {pr?.lock ? (
                               <>
@@ -405,8 +404,7 @@ export function ProfileView({ v }: { v: V }) {
                           </span>
                           <span
                             dir={pr?.dir}
-                            style={css(
-                              `font-size: 14px; font-weight: 600; line-height: 24px; color: ${pr?.color ?? ''}; text-align: right; overflow-wrap: anywhere`,
+                            style={css(`font-size:14px; font-weight: 600; line-height:20px; color: ${pr?.color ?? ''}; text-align: right; overflow-wrap: anywhere`,
                             )}
                           >
                             {pr?.v}

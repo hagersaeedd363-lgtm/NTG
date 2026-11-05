@@ -5,20 +5,20 @@ import { css, list } from '../../lib/dc';
 export function MuseumPage({ v }: { v: V }) {
   return (
     <>
-      <section data-screen-label="04 متحف زمزم" style={{ background: 'var(--bg)', padding: '56px 0 0' }}>
+      <section data-screen-label="04 متحف زمزم" style={{ background: 'var(--bg)', padding: '40px 0 0' }}>
         <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '0 clamp(16px,5.6vw,80px)' }}>
           <div
             role="tablist"
-            style={{ overflowY: 'hidden', scrollbarWidth: 'none', display: 'flex', gap: '28px', overflowX: 'auto', borderBottom: '1px solid var(--line)' }}
+            style={{ overflowY: 'hidden', scrollbarWidth: 'none', display: 'flex', gap: '0', overflowX: 'auto', borderBottom: '1px solid var(--line)' }}
           >
             {list(v.museumTabs).map((t: any, $index: number) => (
               <Fragment key={$index}>
                 <button
                   role="tab"
                   onClick={t?.onClick}
-                  style={css(
-                    `background:none;border:0;border-bottom:3px solid ${t?.bd ?? ''};padding:14px 0;margin-bottom:-1px;font-size:18px;color:${t?.color ?? ''};cursor:pointer;white-space:nowrap`,
+                  style={css(`background:none;border:0;border-radius:var(--r-sm) var(--r-sm) 0 0;border-bottom:2px solid ${t?.bd ?? ''};padding:12px 16px;margin-bottom:-1px;font-size:14px;line-height:20px;font-weight:${t?.fw ?? '500'};color:${t?.color ?? ''};cursor:pointer;white-space:nowrap;font-family:inherit`,
                   )}
+                  className="dga-tab"
                 >
                   {t?.label}
                 </button>
@@ -39,8 +39,8 @@ export function MuseumPage({ v }: { v: V }) {
                       display: 'flex',
                       flexDirection: 'column',
                       gap: '16px',
-                      fontSize: '19px',
-                      lineHeight: '1.85',
+                      fontSize: '18px',
+                      lineHeight: '28px',
                       color: 'var(--ink-2)',
                     }}
                   >
@@ -95,14 +95,14 @@ export function MuseumPage({ v }: { v: V }) {
                       flex: '1 1 380px',
                       minHeight: '340px',
                       alignSelf: 'stretch',
-                      borderRadius: '0 161px 0 0',
+                      borderRadius: 'var(--r-lg)',
                       background: 'repeating-linear-gradient(45deg,var(--ph-a) 0 10px,var(--ph-b) 10px 20px)',
                       boxShadow: 'inset 0 0 0 1px var(--line)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       fontFamily: 'ui-monospace,monospace',
-                      fontSize: '13px',
+                      fontSize: '14px',
                       color: 'var(--muted)',
                     }}
                   >
@@ -159,7 +159,7 @@ export function MuseumPage({ v }: { v: V }) {
                           <path d="M6 3h12M6 21h12M7 3v3.5a5 5 0 0 0 2.2 4.1L12 12l2.8-1.4A5 5 0 0 0 17 6.5V3M7 21v-3.5a5 5 0 0 1 2.2-4.1L12 12l2.8 1.4a5 5 0 0 1 2.2 4.1V21" />
                         </svg>
                       </span>
-                      <span style={{ padding: '6px 16px', borderRadius: 'var(--r-sm)', background: 'rgba(0,0,0,.35)', fontSize: '15px' }}>قيد الإعداد</span>
+                      <span style={{ padding: '6px 16px', borderRadius: 'var(--r-sm)', background: 'rgba(0,0,0,.35)', fontSize: '16px' }}>قيد الإعداد</span>
                     </span>
                   </div>
                   <div
@@ -188,7 +188,7 @@ export function MuseumPage({ v }: { v: V }) {
                     >
                       قبل الافتتاح
                     </span>
-                    <p style={{ margin: '0', fontSize: '21px', lineHeight: '1.7' }}>
+                    <p style={{ margin: '0', fontSize: '20px', lineHeight: '30px' }}>
                       متحف زمزم قيد الإعداد. سنعلن عن موعد الافتتاح وآلية الزيارة عبر هذه الصفحة وقنواتنا الرسمية.
                     </p>
                     {v.notSent?.notify ? (
@@ -228,7 +228,7 @@ export function MuseumPage({ v }: { v: V }) {
                                 border: '0',
                                 background: '#fff',
                                 color: '#070F25',
-                                fontSize: '17px',
+                                fontSize: '16px',
                                 fontWeight: '700',
                                 cursor: 'pointer',
                                 whiteSpace: 'nowrap',
@@ -237,7 +237,7 @@ export function MuseumPage({ v }: { v: V }) {
                               أشعرني عند الافتتاح
                             </button>
                           </div>
-                          <span style={{ fontSize: '13px', color: '#FFD2C9', minHeight: '16px' }}>{v.err?.notify?.email}</span>
+                          <span style={{ fontSize: '14px', color: '#FFD2C9', minHeight: '16px' }}>{v.err?.notify?.email}</span>
                         </form>
                       </>
                     ) : null}
@@ -303,7 +303,7 @@ export function MuseumPage({ v }: { v: V }) {
                         <path d="M12 4v11M7 10.5l5 5 5-5M5 20h14" />
                       </svg>
                       تحميل الملف التعريفي لمتحف زمزم
-                      <span style={{ fontSize: '13px', opacity: '.7' }}>PDF</span>
+                      <span style={{ fontSize: '14px', opacity: '.7' }}>PDF</span>
                     </button>
                   </div>
                 </div>
@@ -328,9 +328,9 @@ export function MuseumPage({ v }: { v: V }) {
                           gap: '12px',
                         }}
                       >
-                        <span style={{ fontSize: '15px', color: 'var(--gold-2)' }}>{a?.n}</span>
-                        <span style={{ fontSize: '21px', fontWeight: '700', color: 'var(--ink)' }}>{a?.t}</span>
-                        <p style={{ margin: '0', fontSize: '16px', lineHeight: '1.7', color: 'var(--ink-2)', flex: '1' }}>{a?.d}</p>
+                        <span style={{ fontSize: '16px', color: 'var(--gold-2)' }}>{a?.n}</span>
+                        <span style={{ fontSize: '20px', fontWeight: '700', color: 'var(--ink)' }}>{a?.t}</span>
+                        <p style={{ margin: '0', fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)', flex: '1' }}>{a?.d}</p>
                         <button
                           onClick={a?.onClick}
                           style={{
@@ -340,7 +340,7 @@ export function MuseumPage({ v }: { v: V }) {
                             border: '0',
                             padding: '0',
                             color: 'var(--gold-2)',
-                            fontSize: '15px',
+                            fontSize: '16px',
                             cursor: 'pointer',
                             display: 'flex',
                             alignItems: 'center',
@@ -373,7 +373,7 @@ export function MuseumPage({ v }: { v: V }) {
                             display: 'grid',
                             gridTemplateColumns: 'minmax(0,1fr) minmax(0,1.3fr)',
                             borderBottom: '1px solid var(--line)',
-                            fontSize: '17px',
+                            fontSize: '16px',
                           }}
                         >
                           <span style={{ padding: '16px 20px', color: 'var(--ink)', fontWeight: '600' }}>{r?.k}</span>
@@ -412,10 +412,10 @@ export function MuseumPage({ v }: { v: V }) {
                       gap: '14px',
                     }}
                   >
-                    <span style={{ fontSize: '21px', fontWeight: '700', color: 'var(--ink)' }}>إرشادات الزيارة</span>
+                    <span style={{ fontSize: '20px', fontWeight: '700', color: 'var(--ink)' }}>إرشادات الزيارة</span>
                     {list(v.museumRules).map((r: any, $index: number) => (
                       <Fragment key={$index}>
-                        <div style={{ display: 'flex', gap: '10px', fontSize: '16px', lineHeight: '1.6', color: 'var(--ink-2)' }}>
+                        <div style={{ display: 'flex', gap: '10px', fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)' }}>
                           <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--gold-3)', marginTop: '10px', flexShrink: '0' }} />
                           {r}
                         </div>
@@ -433,8 +433,8 @@ export function MuseumPage({ v }: { v: V }) {
                       gap: '10px',
                     }}
                   >
-                    <span style={{ fontSize: '21px', fontWeight: '700', color: 'var(--ink)' }}>سهولة الوصول للمتحف</span>
-                    <p style={{ margin: '0', fontSize: '16px', lineHeight: '1.7', color: 'var(--ink-2)' }}>نلتزم بأن تكون تجربة الزيارة متاحة لجميع الفئات.</p>
+                    <span style={{ fontSize: '20px', fontWeight: '700', color: 'var(--ink)' }}>سهولة الوصول للمتحف</span>
+                    <p style={{ margin: '0', fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)' }}>نلتزم بأن تكون تجربة الزيارة متاحة لجميع الفئات.</p>
                   </div>
                 </div>
               </div>
@@ -447,7 +447,7 @@ export function MuseumPage({ v }: { v: V }) {
                   <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>
                     الزيارات المدرسية والجماعية
                   </h2>
-                  <p style={{ margin: '0', fontSize: '19px', lineHeight: '1.8', color: 'var(--ink-2)' }}>
+                  <p style={{ margin: '0', fontSize: '18px', lineHeight: '28px', color: 'var(--ink-2)' }}>
                     نستقبل زيارات المدارس والجامعات والجهات والمجموعات السياحية بترتيب مسبق، مع إمكانية تخصيص جولة مصحوبة بمرشد.
                   </p>
                 </div>
@@ -479,7 +479,7 @@ export function MuseumPage({ v }: { v: V }) {
                             borderBottom: '1px solid var(--line)',
                           }}
                         >
-                          <span style={{ fontSize: '22px', fontWeight: '700', color: 'var(--ink)' }}>نموذج طلب زيارة جماعية</span>
+                          <span style={{ fontSize: '20px', fontWeight: '700', color: 'var(--ink)' }}>نموذج طلب زيارة جماعية</span>
                         </div>
                         <label
                           style={{
@@ -489,7 +489,7 @@ export function MuseumPage({ v }: { v: V }) {
                             minWidth: '0',
                             maxWidth: '540px',
                             width: '100%',
-                            fontSize: '15px',
+                            fontSize: '16px',
                             fontWeight: '500',
                             color: 'var(--ink)',
                           }}
@@ -512,7 +512,7 @@ export function MuseumPage({ v }: { v: V }) {
                             }}
                             className="zp-017"
                           />
-                          <span style={{ fontSize: '13px', lineHeight: '16px', color: 'var(--danger)', minHeight: '16px' }}>{v.err?.group?.org}</span>
+                          <span style={{ fontSize: '14px', lineHeight: '20px', color: 'var(--danger)', minHeight: '16px' }}>{v.err?.group?.org}</span>
                         </label>
                         <label
                           style={{
@@ -522,7 +522,7 @@ export function MuseumPage({ v }: { v: V }) {
                             minWidth: '0',
                             maxWidth: '540px',
                             width: '100%',
-                            fontSize: '15px',
+                            fontSize: '16px',
                             fontWeight: '500',
                             color: 'var(--ink)',
                           }}
@@ -569,7 +569,7 @@ export function MuseumPage({ v }: { v: V }) {
                               <path d="M6 9l6 6 6-6" />
                             </svg>
                           </span>
-                          <span style={{ fontSize: '13px', lineHeight: '16px', color: 'var(--danger)', minHeight: '16px' }}>{v.err?.group?.kind}</span>
+                          <span style={{ fontSize: '14px', lineHeight: '20px', color: 'var(--danger)', minHeight: '16px' }}>{v.err?.group?.kind}</span>
                         </label>
                         <label
                           style={{
@@ -579,7 +579,7 @@ export function MuseumPage({ v }: { v: V }) {
                             minWidth: '0',
                             maxWidth: '540px',
                             width: '100%',
-                            fontSize: '15px',
+                            fontSize: '16px',
                             fontWeight: '500',
                             color: 'var(--ink)',
                           }}
@@ -602,7 +602,7 @@ export function MuseumPage({ v }: { v: V }) {
                             }}
                             className="zp-017"
                           />
-                          <span style={{ fontSize: '13px', lineHeight: '16px', color: 'var(--danger)', minHeight: '16px' }}>{v.err?.group?.person}</span>
+                          <span style={{ fontSize: '14px', lineHeight: '20px', color: 'var(--danger)', minHeight: '16px' }}>{v.err?.group?.person}</span>
                         </label>
                         <label
                           style={{
@@ -612,7 +612,7 @@ export function MuseumPage({ v }: { v: V }) {
                             minWidth: '0',
                             maxWidth: '540px',
                             width: '100%',
-                            fontSize: '15px',
+                            fontSize: '16px',
                             fontWeight: '500',
                             color: 'var(--ink)',
                           }}
@@ -639,7 +639,7 @@ export function MuseumPage({ v }: { v: V }) {
                             }}
                             className="zp-017"
                           />
-                          <span style={{ fontSize: '13px', lineHeight: '16px', color: 'var(--danger)', minHeight: '16px' }}>{v.err?.group?.phone}</span>
+                          <span style={{ fontSize: '14px', lineHeight: '20px', color: 'var(--danger)', minHeight: '16px' }}>{v.err?.group?.phone}</span>
                         </label>
                         <label
                           style={{
@@ -649,7 +649,7 @@ export function MuseumPage({ v }: { v: V }) {
                             minWidth: '0',
                             maxWidth: '540px',
                             width: '100%',
-                            fontSize: '15px',
+                            fontSize: '16px',
                             fontWeight: '500',
                             color: 'var(--ink)',
                           }}
@@ -676,7 +676,7 @@ export function MuseumPage({ v }: { v: V }) {
                             }}
                             className="zp-017"
                           />
-                          <span style={{ fontSize: '13px', lineHeight: '16px', color: 'var(--danger)', minHeight: '16px' }}>{v.err?.group?.email}</span>
+                          <span style={{ fontSize: '14px', lineHeight: '20px', color: 'var(--danger)', minHeight: '16px' }}>{v.err?.group?.email}</span>
                         </label>
                         <label
                           style={{
@@ -686,7 +686,7 @@ export function MuseumPage({ v }: { v: V }) {
                             minWidth: '0',
                             maxWidth: '540px',
                             width: '100%',
-                            fontSize: '15px',
+                            fontSize: '16px',
                             fontWeight: '500',
                             color: 'var(--ink)',
                           }}
@@ -712,7 +712,7 @@ export function MuseumPage({ v }: { v: V }) {
                             }}
                             className="zp-017"
                           />
-                          <span style={{ fontSize: '13px', lineHeight: '16px', color: 'var(--danger)', minHeight: '16px' }}>{v.err?.group?.count}</span>
+                          <span style={{ fontSize: '14px', lineHeight: '20px', color: 'var(--danger)', minHeight: '16px' }}>{v.err?.group?.count}</span>
                         </label>
                         <label
                           style={{
@@ -722,7 +722,7 @@ export function MuseumPage({ v }: { v: V }) {
                             minWidth: '0',
                             maxWidth: '540px',
                             width: '100%',
-                            fontSize: '15px',
+                            fontSize: '16px',
                             fontWeight: '500',
                             color: 'var(--ink)',
                           }}
@@ -746,7 +746,7 @@ export function MuseumPage({ v }: { v: V }) {
                             }}
                             className="zp-017"
                           />
-                          <span style={{ fontSize: '13px', lineHeight: '16px', color: 'var(--danger)', minHeight: '16px' }}>{v.err?.group?.date}</span>
+                          <span style={{ fontSize: '14px', lineHeight: '20px', color: 'var(--danger)', minHeight: '16px' }}>{v.err?.group?.date}</span>
                         </label>
                         <div
                           style={{
@@ -756,7 +756,7 @@ export function MuseumPage({ v }: { v: V }) {
                             minWidth: '0',
                             maxWidth: '540px',
                             width: '100%',
-                            fontSize: '15px',
+                            fontSize: '16px',
                             fontWeight: '500',
                             color: 'var(--ink)',
                           }}
@@ -833,7 +833,7 @@ export function MuseumPage({ v }: { v: V }) {
                           </svg>
                         </span>
                         <span style={{ fontSize: '24px', fontWeight: '700', color: 'var(--ink)' }}>تسلّمنا طلب الزيارة</span>
-                        <p style={{ margin: '0', fontSize: '17px', color: 'var(--ink-2)' }}>سنتواصل معك لتأكيد الموعد.</p>
+                        <p style={{ margin: '0', fontSize: '16px', color: 'var(--ink-2)' }}>سنتواصل معك لتأكيد الموعد.</p>
                         <button
                           onClick={v.resetForm?.group}
                           style={{

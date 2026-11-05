@@ -56,7 +56,7 @@ export function PasswordView({ v }: { v: V }) {
           </button>
           <div style={{ display: 'flex', flexDirection: 'column', minWidth: '0' }}>
             <h1 style={{ margin: '0', fontSize: '24px', fontWeight: '700', lineHeight: '32px', color: 'var(--ink)' }}>{v.ox?.pwTitle}</h1>
-            <p style={{ margin: '0', fontSize: '14px', lineHeight: '24px', color: 'var(--muted)' }}>تحقق من هويتك ثم اختر كلمة مرور جديدة لحسابك.</p>
+            <p style={{ margin: '0', fontSize: '14px', lineHeight: '20px', color: 'var(--muted)' }}>تحقق من هويتك ثم اختر كلمة مرور جديدة لحسابك.</p>
           </div>
         </div>
         <section id="pw-card" style={{ background: 'var(--card)', borderRadius: 'var(--r-lg)', boxShadow: 'var(--card-shadow)', overflow: 'hidden' }}>
@@ -90,10 +90,9 @@ export function PasswordView({ v }: { v: V }) {
                 <path d="M8 11V8a4 4 0 0 1 8 0v3" />
               </svg>
             </span>
-            <h2 style={{ margin: '0', fontSize: '16px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>الأمان وكلمة المرور</h2>
+            <h2 style={{ margin: '0', fontSize: '16px', fontWeight: '700', lineHeight: '24px', color: 'var(--ink)' }}>الأمان وكلمة المرور</h2>
             <span
-              style={css(
-                `margin-inline-start:auto;display:flex;align-items:center;height:24px;padding:0 10px;border-radius:var(--r-sm);background:${v.ox?.pwChipBg ?? ''};box-shadow:inset 0 0 0 1px ${v.ox?.pwChipBd ?? ''};color:${v.ox?.pwChipFg ?? ''};font-size:14px;white-space:nowrap`,
+              style={css(`margin-inline-start:auto;display:flex;align-items:center;height:24px;padding:0 10px;border-radius:var(--r-sm);background:${v.ox?.pwChipBg ?? ''};box-shadow:inset 0 0 0 1px ${v.ox?.pwChipBd ?? ''};color:${v.ox?.pwChipFg ?? ''};font-size:14px;white-space:nowrap`,
               )}
             >
               {v.ox?.pwChip}
@@ -103,7 +102,7 @@ export function PasswordView({ v }: { v: V }) {
             {v.ox?.pwIdle ? (
               <>
                 <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '16px' }}>
-                  <p style={{ margin: '0', flex: '1 1 320px', fontSize: '14px', lineHeight: '24px', color: 'var(--ink-2)' }}>{v.ox?.pwIdleText}</p>
+                  <p style={{ margin: '0', flex: '1 1 320px', fontSize: '14px', lineHeight: '20px', color: 'var(--ink-2)' }}>{v.ox?.pwIdleText}</p>
                   <button
                     onClick={v.ox?.openPw}
                     style={{
@@ -129,7 +128,7 @@ export function PasswordView({ v }: { v: V }) {
               {v.ox?.pwStep1 ? (
                 <>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                    <p style={{ margin: '0', fontSize: '14px', lineHeight: '24px', color: 'var(--ink-2)' }}>
+                    <p style={{ margin: '0', fontSize: '14px', lineHeight: '20px', color: 'var(--ink-2)' }}>
                       {v.ox?.pwIntro}{' '}
                       <span dir="ltr" style={{ fontWeight: '600', color: 'var(--ink)' }}>
                         {v.ox?.pwPhone}
@@ -137,7 +136,7 @@ export function PasswordView({ v }: { v: V }) {
                     </p>
                     <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-start', gap: '24px' }}>
                       <div style={{ flex: '1 1 320px', display: 'flex', flexDirection: 'column', gap: '8px', minWidth: '0', maxWidth: '540px' }}>
-                        <label htmlFor="pw-otp" style={{ fontSize: '14px', fontWeight: '600', lineHeight: '24px', color: 'var(--ink-2)' }}>
+                        <label htmlFor="pw-otp" style={{ fontSize: '14px', fontWeight: '600', lineHeight: '20px', color: 'var(--ink-2)' }}>
                           رمز التحقق
                         </label>
                         <input
@@ -149,13 +148,12 @@ export function PasswordView({ v }: { v: V }) {
                           maxLength={4}
                           autoComplete="one-time-code"
                           placeholder="••••"
-                          style={css(
-                            `width:100%;height:46px;padding:0 16px;border-radius:var(--r-md);border:1px solid var(--line);background:${v.ox?.bgOtp ?? ''};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box;letter-spacing:.5em;text-align:center;border-color:${v.ox?.pwBd ?? ''}`,
+                          style={css(`width:100%;height:46px;padding:0 16px;border-radius:var(--r-md);border:1px solid var(--line);background:${v.ox?.bgOtp ?? ''};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box;letter-spacing:.5em;text-align:center;border-color:${v.ox?.pwBd ?? ''}`,
                           )}
                         />
                         {v.ox?.pwErr ? (
                           <>
-                            <span role="alert" style={{ fontSize: '13px', lineHeight: '20px', color: 'var(--danger)' }}>
+                            <span role="alert" style={{ fontSize: '14px', lineHeight: '20px', color: 'var(--danger)' }}>
                               {v.ox?.pwErr}
                             </span>
                           </>
@@ -208,7 +206,7 @@ export function PasswordView({ v }: { v: V }) {
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                     {v.ox?.pwNeedsCurrent ? (
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', minWidth: '0', maxWidth: '540px', width: '100%' }}>
-                        <label htmlFor="pw-n0" style={{ fontSize: '14px', fontWeight: '600', lineHeight: '24px', color: 'var(--ink-2)' }}>
+                        <label htmlFor="pw-n0" style={{ fontSize: '14px', fontWeight: '600', lineHeight: '20px', color: 'var(--ink-2)' }}>
                           كلمة المرور الحالية
                         </label>
                         <input
@@ -218,15 +216,14 @@ export function PasswordView({ v }: { v: V }) {
                           onInput={v.ox?.onN0}
                           autoComplete="current-password"
                           dir="ltr"
-                          style={css(
-                            `width:100%;height:46px;padding:0 16px;border-radius:var(--r-md);border:1px solid var(--line);background:${v.ox?.bgN0 ?? ''};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box`,
+                          style={css(`width:100%;height:46px;padding:0 16px;border-radius:var(--r-md);border:1px solid var(--line);background:${v.ox?.bgN0 ?? ''};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box`,
                           )}
                         />
                       </div>
                     ) : null}
                     <div style={css(`display:grid;grid-template-columns:${v.formCols ?? ''};gap:24px;align-items:start`)}>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', minWidth: '0', maxWidth: '540px', width: '100%' }}>
-                        <label htmlFor="pw-n1" style={{ fontSize: '14px', fontWeight: '600', lineHeight: '24px', color: 'var(--ink-2)' }}>
+                        <label htmlFor="pw-n1" style={{ fontSize: '14px', fontWeight: '600', lineHeight: '20px', color: 'var(--ink-2)' }}>
                           {v.ox?.pwNeedsCurrent ? 'كلمة المرور الجديدة' : 'كلمة المرور'}
                         </label>
                         <span style={{ position: 'relative', display: 'block' }}>
@@ -238,8 +235,7 @@ export function PasswordView({ v }: { v: V }) {
                             autoComplete="new-password"
                             dir="ltr"
                             placeholder="٨ أحرف على الأقل"
-                            style={css(
-                              `width:100%;height:46px;padding:0 16px;border-radius:var(--r-md);border:1px solid var(--line);background:${v.ox?.bgN1 ?? ''};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box;padding-inline-end:48px`,
+                            style={css(`width:100%;height:46px;padding:0 16px;border-radius:var(--r-md);border:1px solid var(--line);background:${v.ox?.bgN1 ?? ''};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box;padding-inline-end:48px`,
                             )}
                           />
                           <button
@@ -281,7 +277,7 @@ export function PasswordView({ v }: { v: V }) {
                         </span>
                       </div>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', minWidth: '0', maxWidth: '540px', width: '100%' }}>
-                        <label htmlFor="pw-n2" style={{ fontSize: '14px', fontWeight: '600', lineHeight: '24px', color: 'var(--ink-2)' }}>
+                        <label htmlFor="pw-n2" style={{ fontSize: '14px', fontWeight: '600', lineHeight: '20px', color: 'var(--ink-2)' }}>
                           تأكيد كلمة المرور
                         </label>
                         <input
@@ -292,8 +288,7 @@ export function PasswordView({ v }: { v: V }) {
                           autoComplete="new-password"
                           dir="ltr"
                           placeholder="أعد كتابة كلمة المرور"
-                          style={css(
-                            `width:100%;height:46px;padding:0 16px;border-radius:var(--r-md);border:1px solid var(--line);background:${v.ox?.bgN2 ?? ''};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box`,
+                          style={css(`width:100%;height:46px;padding:0 16px;border-radius:var(--r-md);border:1px solid var(--line);background:${v.ox?.bgN2 ?? ''};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box`,
                           )}
                         />
                       </div>
@@ -301,10 +296,9 @@ export function PasswordView({ v }: { v: V }) {
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                       {list(v.ox?.pwRules).map((r: any, $index: number) => (
                         <Fragment key={$index}>
-                          <span style={css(`display:flex;align-items:center;gap:8px;font-size:14px;line-height:24px;color:${r?.color ?? ''}`)}>
+                          <span style={css(`display:flex;align-items:center;gap:8px;font-size:14px;line-height:20px;color:${r?.color ?? ''}`)}>
                             <span
-                              style={css(
-                                `width:16px;height:16px;border-radius:50%;box-shadow:inset 0 0 0 1.5px ${r?.bd ?? ''};background:${r?.bg ?? ''};color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0`,
+                              style={css(`width:16px;height:16px;border-radius:50%;box-shadow:inset 0 0 0 1.5px ${r?.bd ?? ''};background:${r?.bg ?? ''};color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0`,
                               )}
                             >
                               {r?.ok ? (
@@ -332,7 +326,7 @@ export function PasswordView({ v }: { v: V }) {
                     </div>
                     {v.ox?.pwErr ? (
                       <>
-                        <span role="alert" style={{ fontSize: '13px', lineHeight: '20px', color: 'var(--danger)' }}>
+                        <span role="alert" style={{ fontSize: '14px', lineHeight: '20px', color: 'var(--danger)' }}>
                           {v.ox?.pwErr}
                         </span>
                       </>
@@ -409,10 +403,10 @@ export function PasswordView({ v }: { v: V }) {
                         <path d="M5 12.5l4.5 4.5L19 7.5" />
                       </svg>
                     </span>
-                    <h2 role="status" style={{ margin: '8px 0 0', fontSize: '20px', fontWeight: '600', lineHeight: '28px', color: 'var(--ink)' }}>
+                    <h2 role="status" style={{ margin: '8px 0 0', fontSize: '20px', fontWeight: '600', lineHeight: '30px', color: 'var(--ink)' }}>
                       {v.ox?.pwDoneTitle}
                     </h2>
-                    <p style={{ margin: '0', fontSize: '15px', lineHeight: '24px', color: 'var(--ink-2)' }}>
+                    <p style={{ margin: '0', fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)' }}>
                       يمكنك الآن تسجيل الدخول بالبريد الإلكتروني وكلمة المرور. إذا لم تقم بهذا الإجراء، تواصل معنا فوراً.
                     </p>
                     <button

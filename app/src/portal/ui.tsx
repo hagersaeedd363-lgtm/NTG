@@ -82,8 +82,8 @@ export function CardHeader({ icon, title, desc, aside, divider = true }: { icon:
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, flex: '1 1 280px', minWidth: 0 }}>
           <IconTile d={icon} size={48} />
           <div style={{ display: 'flex', flexDirection: 'column', gap: 2, minWidth: 0 }}>
-            <h2 style={{ margin: 0, fontSize: 18, fontWeight: 700, lineHeight: '28px', color: 'var(--ink)', textWrap: 'balance' }}>{title}</h2>
-            {desc ? <p style={{ margin: 0, fontSize: 14, lineHeight: '20px', color: 'var(--muted)' }}>{desc}</p> : null}
+            <h2 style={{ margin: 0, fontSize: '18px', fontWeight: 700, lineHeight: '28px', color: 'var(--ink)', textWrap: 'balance' }}>{title}</h2>
+            {desc ? <p style={{ margin: 0, fontSize: '14px', lineHeight: '20px', color: 'var(--muted)' }}>{desc}</p> : null}
           </div>
         </div>
         {aside}
@@ -98,9 +98,9 @@ export function PageTitle({ icon, eyebrow, title, desc, aside }: { icon: string;
     <Card style={{ padding: 24, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 16 }}>
       <IconTile d={icon} size={56} />
       <div style={{ display: 'flex', flexDirection: 'column', gap: 4, minWidth: 0, flex: '1 1 300px' }}>
-        {eyebrow ? <span style={{ fontSize: 14, lineHeight: '20px', color: 'var(--gold-2)', fontWeight: 600 }}>{eyebrow}</span> : null}
-        <h1 style={{ margin: 0, fontSize: 24, fontWeight: 700, lineHeight: '32px', color: 'var(--ink)', textWrap: 'balance' }}>{title}</h1>
-        {desc ? <p style={{ margin: 0, fontSize: 16, lineHeight: '24px', color: 'var(--ink-2)' }}>{desc}</p> : null}
+        {eyebrow ? <span style={{ fontSize: '14px', lineHeight: '20px', color: 'var(--gold-2)', fontWeight: 600 }}>{eyebrow}</span> : null}
+        <h1 style={{ margin: 0, fontSize: '24px', fontWeight: 700, lineHeight: '32px', color: 'var(--ink)', textWrap: 'balance' }}>{title}</h1>
+        {desc ? <p style={{ margin: 0, fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)' }}>{desc}</p> : null}
       </div>
       {aside}
     </Card>
@@ -128,7 +128,7 @@ const inputBase: CSSProperties = {
 
 function Label({ htmlFor, children, required, lock }: { htmlFor: string; children: ReactNode; required?: boolean; lock?: boolean }) {
   return (
-    <label htmlFor={htmlFor} style={{ display: 'flex', alignItems: 'center', gap: 4, minHeight: 20, fontSize: 14, lineHeight: '20px', fontWeight: 500, color: 'var(--ink)' }}>
+    <label htmlFor={htmlFor} style={{ display: 'flex', alignItems: 'center', gap: 4, minHeight: 20, fontSize: '14px', lineHeight: '20px', fontWeight: 500, color: 'var(--ink)' }}>
       {children}
       {required ? (
         <span aria-hidden="true" style={{ color: 'var(--danger)' }}>
@@ -146,7 +146,7 @@ function Label({ htmlFor, children, required, lock }: { htmlFor: string; childre
 
 function FieldError({ id, msg }: { id: string; msg?: string }) {
   return msg ? (
-    <span id={id} role="alert" style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 14, lineHeight: '20px', color: 'var(--danger)' }}>
+    <span id={id} role="alert" style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: '14px', lineHeight: '20px', color: 'var(--danger)' }}>
       <Icon d={ICON.alert} size={16} />
       {msg}
     </span>
@@ -154,7 +154,7 @@ function FieldError({ id, msg }: { id: string; msg?: string }) {
 }
 
 export function Hint({ children }: { children: ReactNode }) {
-  return <span style={{ fontSize: 14, lineHeight: '20px', color: 'var(--muted)' }}>{children}</span>;
+  return <span style={{ fontSize: '14px', lineHeight: '20px', color: 'var(--muted)' }}>{children}</span>;
 }
 
 interface FieldProps {
@@ -353,7 +353,7 @@ export function Alert({ tone, title, children, icon, action, compact }: { tone: 
       </span>
       <span style={{ flex: '1 1 260px', minWidth: 0, display: 'flex', flexDirection: compact ? 'row' : 'column', flexWrap: 'wrap', gap: compact ? 6 : 4, alignSelf: 'center' }}>
         {title ? <span style={{ fontSize: compact ? 14 : 16, fontWeight: 600, lineHeight: compact ? '20px' : '24px', color: fg }}>{title}</span> : null}
-        {children ? <span style={{ fontSize: 14, fontWeight: 400, lineHeight: '20px', color: 'var(--ink-2)' }}>{children}</span> : null}
+        {children ? <span style={{ fontSize: '14px', fontWeight: 400, lineHeight: '20px', color: 'var(--ink-2)' }}>{children}</span> : null}
       </span>
       {action ? <span style={{ alignSelf: 'center' }}>{action}</span> : null}
     </div>
@@ -389,7 +389,7 @@ export function Tag({ tone, children, dot, lead }: { tone: TagTone; children: Re
         background: bg,
         color: fg,
         boxShadow: 'inset 0 0 0 1px ' + bd,
-        fontSize: 12,
+        fontSize: '12px',
         fontWeight: 500,
         lineHeight: '18px',
         whiteSpace: 'nowrap',
@@ -447,7 +447,7 @@ export function PrimaryButton({ children, onClick, disabled, busy, icon, full, s
         border: 0,
         background: disabled ? 'var(--disabled-bg)' : GOLD,
         color: disabled ? 'var(--disabled-fg)' : '#fff',
-        fontSize: 16,
+        fontSize: '16px',
         lineHeight: '24px',
         fontWeight: 500,
         cursor: disabled || busy ? 'not-allowed' : 'pointer',
@@ -484,7 +484,7 @@ export function SecondaryButton({ children, onClick, disabled, icon, full, style
         border: '1px solid ' + (disabled ? 'var(--line)' : 'var(--field-bd)'),
         background: 'var(--card)',
         color: disabled ? 'var(--disabled-fg)' : 'var(--ink)',
-        fontSize: 16,
+        fontSize: '16px',
         lineHeight: '24px',
         fontWeight: 500,
         cursor: disabled ? 'not-allowed' : 'pointer',
@@ -511,7 +511,7 @@ export function TextButton({ children, onClick }: { children: ReactNode; onClick
       type="button"
       onClick={onClick}
       className="dga-btn dga-btn-text"
-      style={{ background: 'none', border: 0, padding: 0, fontSize: 16, lineHeight: '24px', fontWeight: 500, color: 'var(--gold-2)', cursor: 'pointer', textDecoration: 'underline', textUnderlineOffset: 4, fontFamily: 'inherit' }}
+      style={{ background: 'none', border: 0, padding: 0, fontSize: '16px', lineHeight: '24px', fontWeight: 500, color: 'var(--gold-2)', cursor: 'pointer', textDecoration: 'underline', textUnderlineOffset: 4, fontFamily: 'inherit' }}
     >
       {children}
     </button>
@@ -563,12 +563,12 @@ export function ActionBar({ onBack, children, note }: { onBack?: () => void; chi
 
 export function RequiredNote({ hasErrors }: { hasErrors: boolean }) {
   return hasErrors ? (
-    <span role="alert" style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 14, color: 'var(--danger)' }}>
+    <span role="alert" style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '14px', color: 'var(--danger)' }}>
       <Icon d={ICON.alert} size={16} />
       أكمل الحقول المطلوبة المُعلّمة بـ *
     </span>
   ) : (
-    <span style={{ fontSize: 13, color: 'var(--muted)' }}>
+    <span style={{ fontSize: '14px', color: 'var(--muted)' }}>
       الحقول المُعلّمة بـ <span style={{ color: 'var(--danger)' }}>*</span> مطلوبة
     </span>
   );
@@ -595,7 +595,7 @@ export function Pills({ options, value, onChange, icons, label }: { options: str
               boxShadow: sel ? 'inset 0 0 0 1px ' + GOLD : 'none',
               background: sel ? 'var(--gold-soft)' : 'var(--card)',
               color: 'var(--ink)',
-              fontSize: 16,
+              fontSize: '16px',
               lineHeight: '24px',
               fontWeight: 500,
               cursor: 'pointer',
@@ -651,8 +651,8 @@ export function ChoiceCards({ options, value, onChange, label }: { options: Arra
               <Icon d={o.icon} size={24} sw={1.6} />
             </span>
             <span style={{ display: 'flex', flexDirection: 'column', flex: 1, minWidth: 0 }}>
-              <span style={{ fontSize: 16, fontWeight: 600, lineHeight: '24px' }}>{o.t}</span>
-              <span style={{ fontSize: 14, lineHeight: '20px', color: 'var(--muted)' }}>{o.d}</span>
+              <span style={{ fontSize: '16px', fontWeight: 600, lineHeight: '24px' }}>{o.t}</span>
+              <span style={{ fontSize: '14px', lineHeight: '20px', color: 'var(--muted)' }}>{o.d}</span>
             </span>
             <span
               aria-hidden="true"
@@ -689,7 +689,7 @@ export function Stepper({ steps }: { steps: Array<{ label: string; done: boolean
                 background: s.done ? GOLD : 'var(--card)',
                 boxShadow: s.done ? 'none' : s.cur ? 'inset 0 0 0 1.5px ' + GOLD : 'inset 0 0 0 1.5px var(--line)',
                 color: s.done ? '#fff' : s.cur ? 'var(--gold)' : 'var(--muted)',
-                fontSize: 12,
+                fontSize: '12px',
                 lineHeight: '18px',
                 fontWeight: 600,
                 display: 'flex',
@@ -722,7 +722,7 @@ export function DataRows({ rows, title, aside }: { rows: Row[]; title?: string; 
     <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
       {title ? (
         <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 8, paddingBottom: 8 }}>
-          <h3 style={{ margin: 0, fontSize: 16, fontWeight: 600, lineHeight: '24px', color: 'var(--ink)' }}>{title}</h3>
+          <h3 style={{ margin: 0, fontSize: '16px', fontWeight: 600, lineHeight: '24px', color: 'var(--ink)' }}>{title}</h3>
           {aside}
         </div>
       ) : null}
@@ -730,7 +730,7 @@ export function DataRows({ rows, title, aside }: { rows: Row[]; title?: string; 
       <dl style={{ margin: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(max(min(100%,200px),calc(33.333% - 1px)),1fr))', overflow: 'hidden', borderTop: title ? '1px solid var(--line)' : undefined }}>
         {rows.map((r) => (
           <div key={r.k} style={{ display: 'flex', flexDirection: 'column', padding: '10px 0 10px 24px', minWidth: 0, borderBottom: '1px solid var(--line)', marginBottom: -1 }}>
-            <dt style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 14, lineHeight: '20px', color: 'var(--muted)' }}>
+            <dt style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: '14px', lineHeight: '20px', color: 'var(--muted)' }}>
               {r.k}
               {r.lock ? (
                 <span style={{ display: 'flex', opacity: 0.8 }}>
@@ -738,7 +738,7 @@ export function DataRows({ rows, title, aside }: { rows: Row[]; title?: string; 
                 </span>
               ) : null}
             </dt>
-            <dd dir={r.ltr ? 'ltr' : undefined} style={{ margin: 0, fontSize: 16, fontWeight: 500, lineHeight: '24px', color: r.v ? 'var(--ink)' : 'var(--muted)', textAlign: 'right', overflowWrap: 'anywhere' }}>
+            <dd dir={r.ltr ? 'ltr' : undefined} style={{ margin: 0, fontSize: '16px', fontWeight: 500, lineHeight: '24px', color: r.v ? 'var(--ink)' : 'var(--muted)', textAlign: 'right', overflowWrap: 'anywhere' }}>
               {r.v || '—'}
             </dd>
           </div>
@@ -759,13 +759,13 @@ export function DataGroup({ icon, title, aside, rows }: { icon: string; title: s
         <span style={{ width: 32, height: 32, flexShrink: 0, borderRadius: 'var(--r-full)', background: 'var(--gold-soft)', color: 'var(--gold-on-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Icon d={icon} size={18} />
         </span>
-        <h3 style={{ margin: 0, fontSize: 16, fontWeight: 600, lineHeight: '24px', color: 'var(--ink)' }}>{title}</h3>
+        <h3 style={{ margin: 0, fontSize: '16px', fontWeight: 600, lineHeight: '24px', color: 'var(--ink)' }}>{title}</h3>
         {aside ? <span style={{ marginInlineStart: 'auto' }}>{aside}</span> : null}
       </div>
       <dl style={{ margin: 0, padding: '14px 16px', display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(max(min(100%,200px),calc(25% - 15px)),1fr))', gap: '14px 20px' }}>
         {rows.map((r) => (
           <div key={r.k} style={{ display: 'flex', flexDirection: 'column', gap: 2, minWidth: 0 }}>
-            <dt style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 14, lineHeight: '20px', color: 'var(--muted)' }}>
+            <dt style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: '14px', lineHeight: '20px', color: 'var(--muted)' }}>
               {r.k}
               {r.lock ? (
                 <span style={{ display: 'flex', opacity: 0.7 }}>
@@ -773,7 +773,7 @@ export function DataGroup({ icon, title, aside, rows }: { icon: string; title: s
                 </span>
               ) : null}
             </dt>
-            <dd dir={r.ltr ? 'ltr' : undefined} style={{ margin: 0, fontSize: 16, fontWeight: 500, lineHeight: '24px', color: r.v ? 'var(--ink)' : 'var(--muted)', textAlign: 'right', overflowWrap: 'anywhere' }}>
+            <dd dir={r.ltr ? 'ltr' : undefined} style={{ margin: 0, fontSize: '16px', fontWeight: 500, lineHeight: '24px', color: r.v ? 'var(--ink)' : 'var(--muted)', textAlign: 'right', overflowWrap: 'anywhere' }}>
               {r.v || '—'}
             </dd>
           </div>
@@ -792,13 +792,13 @@ export function DataCard({ icon, title, aside, rows }: { icon: string; title: st
     <section style={{ background: 'var(--card)', borderRadius: 'var(--r-lg)', boxShadow: 'var(--card-shadow)', overflow: 'hidden' }}>
       <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 12, padding: '16px 24px', borderBottom: '1px solid var(--line)' }}>
         <IconTile d={icon} />
-        <h2 style={{ margin: 0, fontSize: 18, fontWeight: 700, lineHeight: '28px', color: 'var(--ink)' }}>{title}</h2>
+        <h2 style={{ margin: 0, fontSize: '18px', fontWeight: 700, lineHeight: '28px', color: 'var(--ink)' }}>{title}</h2>
         {aside ? <span style={{ marginInlineStart: 'auto' }}>{aside}</span> : null}
       </div>
       <dl style={{ margin: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(max(min(100%,240px),calc(50% - 1px)),1fr))' }}>
         {rows.map((r) => (
           <div key={r.k} style={{ display: 'flex', flexDirection: 'column', padding: '16px 24px', minWidth: 0, borderBottom: '1px solid var(--line)', marginBottom: -1 }}>
-            <dt style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 14, lineHeight: '20px', color: 'var(--muted)' }}>
+            <dt style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: '14px', lineHeight: '20px', color: 'var(--muted)' }}>
               {r.k}
               {r.lock ? (
                 <span style={{ display: 'flex', opacity: 0.8 }}>
@@ -806,7 +806,7 @@ export function DataCard({ icon, title, aside, rows }: { icon: string; title: st
                 </span>
               ) : null}
             </dt>
-            <dd dir={r.ltr ? 'ltr' : undefined} style={{ margin: 0, fontSize: 16, fontWeight: 500, lineHeight: '24px', color: r.v ? 'var(--ink)' : 'var(--muted)', textAlign: 'right', overflowWrap: 'anywhere' }}>
+            <dd dir={r.ltr ? 'ltr' : undefined} style={{ margin: 0, fontSize: '16px', fontWeight: 500, lineHeight: '24px', color: r.v ? 'var(--ink)' : 'var(--muted)', textAlign: 'right', overflowWrap: 'anywhere' }}>
               {r.v || '—'}
             </dd>
           </div>
@@ -878,7 +878,7 @@ export function OtpInput({
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: 24,
+                fontSize: '24px',
                 fontWeight: 600,
                 color: 'var(--ink)',
                 transition: 'border-color .15s, box-shadow .15s',
@@ -905,7 +905,7 @@ export function OtpInput({
             onChange(v);
             if (v.length === length && v !== value) onComplete?.();
           }}
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0, border: 0, padding: 0, fontSize: 16, caretColor: 'transparent', cursor: 'text' }}
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0, border: 0, padding: 0, fontSize: '16px', caretColor: 'transparent', cursor: 'text' }}
         />
       </div>
     </div>

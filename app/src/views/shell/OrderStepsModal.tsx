@@ -63,8 +63,8 @@ export function OrderStepsModal({ v }: { v: V }) {
             </svg>
           </button>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
-            <span style={{ fontSize: '37px', fontWeight: '700', lineHeight: '1.1' }}>خطوات الطلب</span>
-            <span style={{ fontSize: '24px', opacity: '.7', lineHeight: '1.1' }}>للأفراد — Individuals</span>
+            <span style={{ fontSize: '36px', fontWeight: '700', lineHeight: '44px' }}>خطوات الطلب</span>
+            <span style={{ fontSize: '24px', opacity: '.7', lineHeight: '32px' }}>للأفراد — Individuals</span>
           </div>
           <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
             {list(v.orderSteps).map((s: any, $index: number) => (
@@ -87,8 +87,8 @@ export function OrderStepsModal({ v }: { v: V }) {
                     {s?.n}
                   </div>
                   <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                    <span style={{ fontSize: '21px', lineHeight: '1.3' }}>{s?.ar}</span>
-                    <span dir="ltr" style={{ fontSize: '16px', opacity: '.8', lineHeight: '1.3', textAlign: 'right' }}>
+                    <span style={{ fontSize: '20px', lineHeight: '30px' }}>{s?.ar}</span>
+                    <span dir="ltr" style={{ fontSize: '16px', opacity: '.8', lineHeight: '24px', textAlign: 'right' }}>
                       {s?.en}
                     </span>
                   </div>
@@ -102,7 +102,7 @@ export function OrderStepsModal({ v }: { v: V }) {
               style={{
                 flex: '1',
                 height: '48px',
-                borderRadius: '7.34px',
+                borderRadius: 'var(--r-sm)',
                 border: '0',
                 background: '#fff',
                 color: '#070F25',
@@ -118,7 +118,7 @@ export function OrderStepsModal({ v }: { v: V }) {
               style={{
                 flex: '1',
                 height: '48px',
-                borderRadius: '7.34px',
+                borderRadius: 'var(--r-sm)',
                 border: '1px solid rgba(255,255,255,.4)',
                 background: 'transparent',
                 color: '#fff',

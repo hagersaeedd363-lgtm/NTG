@@ -70,7 +70,7 @@ export function siteVals(self) {
     const prevCh=hasPrev?CHAPTERS[S.chapter-1].title:'', nextCh=hasNext?CHAPTERS[S.chapter+1].title:'';
 
     // museum & media tabs
-    const tab=(labels,cur,key)=>labels.map((l,i)=>({label:l,onClick:()=>self.setState({[key]:i,newsId:null}),color:i===cur?'var(--ink)':'var(--muted)',bd:i===cur?'var(--gold-3)':'transparent'}));
+    const tab=(labels,cur,key)=>labels.map((l,i)=>({label:l,onClick:()=>self.setState({[key]:i,newsId:null}),color:i===cur?'var(--ink)':'var(--ink-2)',fw:i===cur?'700':'500',bd:i===cur?'var(--gold)':'transparent'}));
     const museumTabs=tab(['عن المتحف','محاور العرض','خطط لزيارتك','الزيارات المدرسية والجماعية'],S.museumTab,'museumTab');
     const mt={}; [0,1,2,3].forEach(i=>mt['t'+i]=S.museumTab===i);
     const mediaTabs=tab(['نظرة عامة','الأخبار','البيانات الصحفية','المكتبة المرئية','الهوية والشعار'],S.mediaTab,'mediaTab');

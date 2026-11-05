@@ -82,7 +82,7 @@ export class Portal extends Component {
       this.setState(s=>({errors:{...s.errors,[key]:{}},sent:{...s.sent,[key]:true}}));
     };
   }
-  chip(label,active,onClick){ return {label,onClick,bg:active?'var(--ink)':'transparent',fg:active?'var(--bg)':'var(--ink)',bd:active?'var(--ink)':'var(--line)'}; }
+  chip(label,active,onClick){ return {label,onClick,active,bg:active?'var(--ink-2)':'var(--card-2)',fg:active?'var(--card)':'var(--ink)',bd:'transparent'}; }
   renderVals(){return siteVals(this);}
   render(){return <PortalView v={this.renderVals()} />;}
 }

@@ -25,7 +25,7 @@ export function QualityPage({ v }: { v: V }) {
               دورنا
             </span>
             <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>قسم جودة المياه</h2>
-            <p style={{ margin: '0', fontSize: '18px', lineHeight: '1.85', color: 'var(--ink-2)' }}>
+            <p style={{ margin: '0', fontSize: '18px', lineHeight: '28px', color: 'var(--ink-2)' }}>
               قسم جودة المياه هو الجهة المعنيّة بضمان جودة وسلامة ماء زمزم المبارك في جميع مراحله. يرتكز عمله على منظومة علمية تشمل الرقابة والتحليل والتطوير
               المستمر، وتطبيق الممارسات والمعايير المعتمدة من الجهات الوطنية والدولية المختصة بجودة مياه الشرب.
             </p>
@@ -50,8 +50,8 @@ export function QualityPage({ v }: { v: V }) {
                 gap: '14px',
                 padding: '12px 0',
                 borderTop: '1px solid var(--line)',
-                fontSize: '17px',
-                lineHeight: '1.65',
+                fontSize: '16px',
+                lineHeight: '24px',
                 color: 'var(--ink-2)',
               }}
             >
@@ -91,8 +91,8 @@ export function QualityPage({ v }: { v: V }) {
                 gap: '14px',
                 padding: '12px 0',
                 borderTop: '1px solid var(--line)',
-                fontSize: '17px',
-                lineHeight: '1.65',
+                fontSize: '16px',
+                lineHeight: '24px',
                 color: 'var(--ink-2)',
               }}
             >
@@ -132,8 +132,8 @@ export function QualityPage({ v }: { v: V }) {
                 gap: '14px',
                 padding: '12px 0',
                 borderTop: '1px solid var(--line)',
-                fontSize: '17px',
-                lineHeight: '1.65',
+                fontSize: '16px',
+                lineHeight: '24px',
                 color: 'var(--ink-2)',
               }}
             >
@@ -173,8 +173,8 @@ export function QualityPage({ v }: { v: V }) {
                 gap: '14px',
                 padding: '12px 0',
                 borderTop: '1px solid var(--line)',
-                fontSize: '17px',
-                lineHeight: '1.65',
+                fontSize: '16px',
+                lineHeight: '24px',
                 color: 'var(--ink-2)',
               }}
             >
@@ -214,8 +214,8 @@ export function QualityPage({ v }: { v: V }) {
                 gap: '14px',
                 padding: '12px 0',
                 borderTop: '1px solid var(--line)',
-                fontSize: '17px',
-                lineHeight: '1.65',
+                fontSize: '16px',
+                lineHeight: '24px',
                 color: 'var(--ink-2)',
               }}
             >
@@ -259,8 +259,8 @@ export function QualityPage({ v }: { v: V }) {
             height: '900px',
             left: '-420px',
             top: '-300px',
-            background: 'radial-gradient(closest-side,rgba(104,93,73,.9),rgba(0,0,0,0))',
-            opacity: '.6',
+            background: 'none',
+            opacity: '0',
           }}
         />
         <div
@@ -293,17 +293,17 @@ export function QualityPage({ v }: { v: V }) {
                 ٢٤ ساعة يومياً
               </span>
               <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', lineHeight: '38px' }}>المختبر المركزي</h2>
-              <p style={{ margin: '0', fontSize: '18px', lineHeight: '1.8', color: 'rgba(255,255,255,.82)' }}>
+              <p style={{ margin: '0', fontSize: '18px', lineHeight: '28px', color: 'rgba(255,255,255,.82)' }}>
                 يعمل المختبر على مدار ٢٤ ساعة يومياً، ضمن إجراءات تشغيلية معتمدة تتماشى مع المعايير الصادرة عن الهيئة السعودية للمواصفات والمقاييس والجودة
                 (SASO).
               </p>
-              <p style={{ margin: '0', fontSize: '18px', lineHeight: '1.8', color: 'rgba(255,255,255,.82)' }}>
+              <p style={{ margin: '0', fontSize: '18px', lineHeight: '28px', color: 'rgba(255,255,255,.82)' }}>
                 يضم فريقاً فنياً متخصصاً في الكيمياء والميكروبيولوجي، يعمل بنظام المناوبات لضمان استمرارية التحليل والمراقبة والتوثيق دون انقطاع، ويطبّق إجراءات
                 التشغيل القياسية (SOPs) وممارسات السلامة الحيوية والمخبرية المعتمدة، وفق معايير الاعتماد الدولية (ISO/IEC 17025)
               </p>
             </div>
             <div style={{ flex: '1 1 380px', display: 'grid', gridTemplateColumns: '1.4fr 1fr', gridTemplateRows: '1fr 1fr', gap: '12px', minHeight: '340px' }}>
-              <div style={{ gridRow: '1/3', position: 'relative', borderRadius: '0 120px 0 0', overflow: 'hidden', background: 'rgba(255,255,255,.06)' }}>
+              <div style={{ gridRow: '1/3', position: 'relative', borderRadius: 'var(--r-lg)', overflow: 'hidden', background: 'rgba(255,255,255,.06)' }}>
                 <ImageSlot id="lab-main" shape="rect" placeholder="صورة المختبر المركزي" />
               </div>
               <div style={{ position: 'relative', borderRadius: 'var(--r-lg)', overflow: 'hidden', background: 'rgba(255,255,255,.06)' }}>
@@ -325,15 +325,15 @@ export function QualityPage({ v }: { v: V }) {
           >
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               <span style={{ fontSize: 'clamp(40px,4.4vw,60px)', lineHeight: '1.08' }}>١٥٬٩٢٠</span>
-              <span style={{ fontSize: '17px', color: 'rgba(255,255,255,.75)' }}>عدد العينات — ٢٠٢٤م</span>
+              <span style={{ fontSize: '16px', color: 'rgba(255,255,255,.75)' }}>عدد العينات — ٢٠٢٤م</span>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               <span style={{ fontSize: 'clamp(40px,4.4vw,60px)', lineHeight: '1.08' }}>٨٨٬٨٠٥</span>
-              <span style={{ fontSize: '17px', color: 'rgba(255,255,255,.75)' }}>عدد التحاليل — ٢٠٢٤م</span>
+              <span style={{ fontSize: '16px', color: 'rgba(255,255,255,.75)' }}>عدد التحاليل — ٢٠٢٤م</span>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               <span style={{ fontSize: 'clamp(40px,4.4vw,60px)', lineHeight: '1.08' }}>—</span>
-              <span style={{ fontSize: '17px', color: 'rgba(255,255,255,.75)' }}>نسبة التغيّر في التحاليل</span>
+              <span style={{ fontSize: '16px', color: 'rgba(255,255,255,.75)' }}>نسبة التغيّر في التحاليل</span>
             </div>
           </div>
           <span style={{ fontSize: '14px', color: 'rgba(255,255,255,.55)' }}>أرقام المختبر — محدَّث حتى سبتمبر ٢٠٢٥م</span>
@@ -357,8 +357,8 @@ export function QualityPage({ v }: { v: V }) {
                 <ImageSlot id="lab-reception" shape="rect" placeholder="صورة استقبال العينات" />
               </div>
               <div style={{ padding: '18px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <span style={{ fontSize: '21px', fontWeight: '700', color: 'var(--ink)' }}>استقبال العينات</span>
-                <p style={{ margin: '0', fontSize: '16px', lineHeight: '1.75', color: 'var(--ink-2)' }}>
+                <span style={{ fontSize: '20px', fontWeight: '700', color: 'var(--ink)' }}>استقبال العينات</span>
+                <p style={{ margin: '0', fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)' }}>
                   البوابة الأولى للتحليل. يتحقق من هوية العينة ومطابقتها لنموذج الطلب، ويفحص سلامة العبوة ودرجة الحرارة ووسيلة النقل، ويسجّل البيانات إلكترونياً
                   في نظام إدارة المعلومات المخبرية (LIMS) لضمان تتبّع العينة من لحظة استلامها حتى إصدار النتيجة.
                 </p>
@@ -378,8 +378,8 @@ export function QualityPage({ v }: { v: V }) {
                 <ImageSlot id="lab-physical" shape="rect" placeholder="صورة القسم الفيزيائي" />
               </div>
               <div style={{ padding: '18px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <span style={{ fontSize: '21px', fontWeight: '700', color: 'var(--ink)' }}>القسم الفيزيائي</span>
-                <p style={{ margin: '0', fontSize: '16px', lineHeight: '1.75', color: 'var(--ink-2)' }}>
+                <span style={{ fontSize: '20px', fontWeight: '700', color: 'var(--ink)' }}>القسم الفيزيائي</span>
+                <p style={{ margin: '0', fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)' }}>
                   يقيس الخصائص الفيزيائية التي تُعدّ المؤشر الأول على جودة المياه: درجة الحرارة، والعكارة، والتوصيلية الكهربائية، والرقم الهيدروجيني، واللون
                   والرائحة. نتائجه مرجع أساسي لتفسير أي تغيّر يُلاحظ في النظام التشغيلي.
                 </p>
@@ -399,13 +399,13 @@ export function QualityPage({ v }: { v: V }) {
                 <ImageSlot id="lab-chemistry" shape="rect" placeholder="صورة قسم الكيمياء" />
               </div>
               <div style={{ padding: '18px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <span style={{ fontSize: '21px', fontWeight: '700', color: 'var(--ink)' }}>قسم الكيمياء</span>
-                <p style={{ margin: '0', fontSize: '16px', lineHeight: '1.75', color: 'var(--ink-2)' }}>ينقسم إلى فرعين:</p>
-                <p style={{ margin: '0', fontSize: '16px', lineHeight: '1.75', color: 'var(--ink-2)' }}>
+                <span style={{ fontSize: '20px', fontWeight: '700', color: 'var(--ink)' }}>قسم الكيمياء</span>
+                <p style={{ margin: '0', fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)' }}>ينقسم إلى فرعين:</p>
+                <p style={{ margin: '0', fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)' }}>
                   <strong style={{ color: 'var(--ink)' }}>الكيمياء العضوية:</strong> تحليل المركبات العضوية التي قد توجد بنسب ضئيلة جداً، باستخدام أجهزة
                   الكروماتوغرافيا الغازية والسائلة (GC/MS و HPLC)
                 </p>
-                <p style={{ margin: '0', fontSize: '16px', lineHeight: '1.75', color: 'var(--ink-2)' }}>
+                <p style={{ margin: '0', fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)' }}>
                   <strong style={{ color: 'var(--ink)' }}>الكيمياء غير العضوية:</strong> قياس تراكيز العناصر والمعادن الذائبة — الصوديوم والكالسيوم والمغنيسيوم
                   والبوتاسيوم والكلوريد والكبريتات والنترات — إضافةً إلى الرقم الهيدروجيني والتوصيلية الكهربائية وإجمالي المواد الصلبة الذائبة، باستخدام مطياف
                   الامتصاص الذري (AAS) ومحللات الأيونات.
@@ -426,8 +426,8 @@ export function QualityPage({ v }: { v: V }) {
                 <ImageSlot id="lab-micro" shape="rect" placeholder="صورة قسم الميكروبيولوجي" />
               </div>
               <div style={{ padding: '18px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <span style={{ fontSize: '21px', fontWeight: '700', color: 'var(--ink)' }}>قسم الميكروبيولوجي</span>
-                <p style={{ margin: '0', fontSize: '16px', lineHeight: '1.75', color: 'var(--ink-2)' }}>
+                <span style={{ fontSize: '20px', fontWeight: '700', color: 'var(--ink)' }}>قسم الميكروبيولوجي</span>
+                <p style={{ margin: '0', fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)' }}>
                   خط الدفاع الأخير. يراقب السلامة الميكروبية للمياه عبر الكشف عن البكتيريا الممرضة بتقنيات الترشيح الغشائي، وتحليل الفطريات والخمائر، والرصد
                   الميكروبي العام، ويستخدم التحليل الجزيئي (PCR) عند الحاجة.
                 </p>
@@ -451,7 +451,7 @@ export function QualityPage({ v }: { v: V }) {
         >
           <div style={{ flex: '1 1 520px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', color: 'var(--ink)' }}>التحقق الخارجي</h2>
-            <p style={{ margin: '0', fontSize: '18px', lineHeight: '1.8', color: 'var(--ink-2)' }}>
+            <p style={{ margin: '0', fontSize: '18px', lineHeight: '28px', color: 'var(--ink-2)' }}>
               يجري المختبر مقارنات وتحقّقاً خارجياً (اختبارات الكفاءة)، بالتعاون مع مختبرات معتمدة محلياً ودولياً، بما يعزز موثوقية النتائج ودقة الأداء.
             </p>
           </div>

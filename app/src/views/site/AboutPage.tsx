@@ -39,7 +39,7 @@ export function AboutPage({ v }: { v: V }) {
               المنظومة الوطنية المعنيّة بماء زمزم
             </h2>
             <div
-              style={{ display: 'flex', flexDirection: 'column', gap: '14px', fontSize: '18px', lineHeight: '1.75', color: 'var(--ink-2)', textWrap: 'pretty' }}
+              style={{ display: 'flex', flexDirection: 'column', gap: '14px', fontSize: '18px', lineHeight: '28px', color: 'var(--ink-2)', textWrap: 'pretty' }}
             >
               <p style={{ margin: '0' }}>
                 مشروع خادم الحرمين الشريفين الملك عبدالله بن عبدالعزيز لسقيا زمزم هو المنظومة الوطنية المعنيّة بسحب ماء زمزم المبارك من البئر، ومعالجته وتعبئته
@@ -61,7 +61,7 @@ export function AboutPage({ v }: { v: V }) {
               minHeight: '360px',
               alignSelf: 'stretch',
               background: 'var(--kaaba-img) center/cover no-repeat',
-              borderRadius: '0 161px 0 0',
+              borderRadius: 'var(--r-lg)',
             }}
           />
         </div>
@@ -89,7 +89,6 @@ export function AboutPage({ v }: { v: V }) {
             }}
           >
             <span style={{ fontSize: '16px', color: 'var(--gold-2)' }}>الرؤية</span>
-            <div style={{ width: '64px', height: '4px', borderRadius: '2px', background: 'var(--gold-soft)' }} />
             <p style={{ margin: '0', fontSize: 'clamp(26px,2.6vw,34px)', fontWeight: '600', lineHeight: '1.4', color: 'var(--ink)' }}>
               نسقي العالم بخير ماء على وجه الارض
             </p>
@@ -106,7 +105,6 @@ export function AboutPage({ v }: { v: V }) {
             }}
           >
             <span style={{ fontSize: '16px', color: 'var(--gold-2)' }}>الرسالة</span>
-            <div style={{ width: '64px', height: '4px', borderRadius: '2px', background: 'var(--gold-soft)' }} />
             <p style={{ margin: '0', fontSize: 'clamp(22px,2.1vw,27px)', fontWeight: '500', lineHeight: '1.55', color: 'var(--ink)' }}>
               نتشرف بالعناية بماء زمزم، وسقايته، ونحكي قصته الخالدة، ونطبق أعلى معايير الجودة والاستدامة
             </p>
@@ -134,7 +132,7 @@ export function AboutPage({ v }: { v: V }) {
               ١٫٢
             </span>
             <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>الجهات ذات العلاقة</h2>
-            <p style={{ margin: '0', fontSize: '18px', lineHeight: '1.75', color: 'var(--ink-2)' }}>
+            <p style={{ margin: '0', fontSize: '18px', lineHeight: '28px', color: 'var(--ink-2)' }}>
               لا تعمل منظومة زمزم منفردة. تتكامل جهودنا مع عدد من الجهات الوطنية، لكلٍّ منها دور محدد في خدمة ماء زمزم وقاصديه.
             </p>
           </div>
@@ -164,9 +162,8 @@ export function AboutPage({ v }: { v: V }) {
                       style={css(`display:var(--show-d);width:${s?.mwA ?? ''};height:${s?.mhA ?? ''};max-width:100%;background:${s?.logoDBg ?? ''}`)}
                     />
                   </span>
-                  <div style={{ width: '64px', height: '4px', borderRadius: '2px', background: 'var(--gold-soft)' }} />
-                  <span style={{ fontSize: '19px', fontWeight: '700', lineHeight: '1.4', color: 'var(--ink)' }}>{s?.name}</span>
-                  <p style={{ margin: '0', fontSize: '16px', lineHeight: '1.75', color: 'var(--ink-2)' }}>{s?.role}</p>
+                  <span style={{ fontSize: '18px', fontWeight: '700', lineHeight: '28px', color: 'var(--ink)' }}>{s?.name}</span>
+                  <p style={{ margin: '0', fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)' }}>{s?.role}</p>
                 </div>
               </Fragment>
             ))}
@@ -188,7 +185,7 @@ export function AboutPage({ v }: { v: V }) {
         >
           <div style={{ flex: '1 1 320px', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '16px' }}>
             <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', lineHeight: '38px' }}>فيلم عن مراحل التصنيع</h2>
-            <p style={{ margin: '0', fontSize: '18px', lineHeight: '1.7', color: 'rgba(255,255,255,.78)' }}>من فوهة البئر إلى خطوط التعبئة، في دقائق.</p>
+            <p style={{ margin: '0', fontSize: '18px', lineHeight: '28px', color: 'rgba(255,255,255,.78)' }}>من فوهة البئر إلى خطوط التعبئة، في دقائق.</p>
             <button
               onClick={v.go?.journey}
               style={{

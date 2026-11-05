@@ -48,8 +48,7 @@ export function MobileNav({ v }: { v: V }) {
                   <Fragment key={$index}>
                     <button
                       onClick={c?.onClick}
-                      style={css(
-                        `background:none;border:0;border-bottom:1px solid rgba(255,255,255,.07);padding:14px 0;text-align:right;font-size:20px;color:${c?.color ?? ''};cursor:pointer`,
+                      style={css(`background:none;border:0;border-bottom:1px solid rgba(255,255,255,.07);padding:14px 0;text-align:right;font-size:20px;color:${c?.color ?? ''};cursor:pointer`,
                       )}
                     >
                       {c?.label}

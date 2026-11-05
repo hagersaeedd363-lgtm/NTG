@@ -31,7 +31,7 @@ function Thumb({ src, pdf, size = 64 }: { src: string; pdf: boolean; size?: numb
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        fontSize: 13,
+        fontSize: '14px',
         fontWeight: 700,
       }}
     >
@@ -46,8 +46,8 @@ export function InfoGrid({ rows }: { rows: Array<[string, string, boolean?]> }) 
     <dl style={{ margin: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(max(min(100%,200px),calc(33.333% - 14px)),1fr))', gap: '14px 20px' }}>
       {rows.map(([k, v, ltr]) => (
         <div key={k} style={{ display: 'flex', flexDirection: 'column', gap: 2, minWidth: 0 }}>
-          <dt style={{ fontSize: 13, lineHeight: '20px', color: 'var(--muted)' }}>{k}</dt>
-          <dd dir={ltr ? 'ltr' : undefined} style={{ margin: 0, fontSize: 15, fontWeight: 600, lineHeight: '24px', color: 'var(--ink)', textAlign: 'right', overflowWrap: 'anywhere' }}>
+          <dt style={{ fontSize: '14px', lineHeight: '20px', color: 'var(--muted)' }}>{k}</dt>
+          <dd dir={ltr ? 'ltr' : undefined} style={{ margin: 0, fontSize: '16px', fontWeight: 600, lineHeight: '24px', color: 'var(--ink)', textAlign: 'right', overflowWrap: 'anywhere' }}>
             {v}
           </dd>
         </div>
@@ -90,10 +90,10 @@ function ProofUploadCard({ o, s }: { o: Order; s: PortalState }) {
           <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 16, padding: 16, borderRadius: 'var(--r-lg)', background: 'var(--card-2)', boxShadow: 'inset 0 0 0 1px var(--line)' }}>
             <Thumb src={P.preview} pdf={pdf} />
             <span style={{ flex: '1 1 160px', minWidth: 0, display: 'flex', flexDirection: 'column' }}>
-              <span dir="ltr" style={{ fontSize: 15, fontWeight: 600, color: 'var(--ink)', textAlign: 'right', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              <span dir="ltr" style={{ fontSize: '16px', fontWeight: 600, color: 'var(--ink)', textAlign: 'right', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                 {P.file}
               </span>
-              <span style={{ fontSize: 13, color: 'var(--muted)' }}>{fileSize(P.fileSize)}</span>
+              <span style={{ fontSize: '14px', color: 'var(--muted)' }}>{fileSize(P.fileSize)}</span>
             </span>
             <span style={{ display: 'flex', gap: 8 }}>
               <SecondaryButton onClick={choose} style={{ height: 40 }}>
@@ -131,8 +131,8 @@ function ProofUploadCard({ o, s }: { o: Order; s: PortalState }) {
             <span style={{ width: 48, height: 48, borderRadius: '50%', background: 'var(--gold-soft)', color: 'var(--gold-on-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Icon d={UPLOAD} size={24} />
             </span>
-            <span style={{ fontSize: 16, fontWeight: 600 }}>اسحب الملف هنا أو اضغط للاختيار</span>
-            <span style={{ fontSize: 13, color: 'var(--muted)' }}>JPG · PNG · PDF — حتى ٥ ميجابايت</span>
+            <span style={{ fontSize: '16px', fontWeight: 600 }}>اسحب الملف هنا أو اضغط للاختيار</span>
+            <span style={{ fontSize: '14px', color: 'var(--muted)' }}>JPG · PNG · PDF — حتى ٥ ميجابايت</span>
           </button>
         )}
         {P.fileErr ? <Alert tone="bad" title={P.fileErr} /> : null}
@@ -164,10 +164,10 @@ function ProofCard({ o }: { o: Order }) {
       <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 16 }}>
         <Thumb src={src} pdf={pdf} size={56} />
         <span style={{ flex: '1 1 180px', minWidth: 0, display: 'flex', flexDirection: 'column' }}>
-          <span dir="ltr" style={{ fontSize: 15, fontWeight: 600, color: 'var(--ink)', textAlign: 'right', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          <span dir="ltr" style={{ fontSize: '16px', fontWeight: 600, color: 'var(--ink)', textAlign: 'right', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
             {p.proof}
           </span>
-          <span style={{ fontSize: 13, color: 'var(--muted)' }}>
+          <span style={{ fontSize: '14px', color: 'var(--muted)' }}>
             {['أُرسل ' + (p.proofAt || ''), fileSize(p.proofSize || 0)].filter((x) => x.trim() && x !== 'أُرسل ').join(' · ')}
           </span>
         </span>
@@ -177,7 +177,7 @@ function ProofCard({ o }: { o: Order }) {
       </div>
       {open ? (
         <Modal label="إيصال الدفع" onClose={() => setOpen(false)}>
-          <h2 style={{ margin: 0, fontSize: 18, fontWeight: 600, color: 'var(--ink)' }}>إيصال الدفع</h2>
+          <h2 style={{ margin: 0, fontSize: '18px', fontWeight: 600, color: 'var(--ink)' }}>إيصال الدفع</h2>
           {src ? (
             pdf ? (
               <iframe title="إيصال الدفع" src={src} style={{ width: '100%', height: '60vh', border: 0, borderRadius: 'var(--r-md)' }} />

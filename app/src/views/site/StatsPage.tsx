@@ -33,7 +33,7 @@ export function StatsPage({ v }: { v: V }) {
                         {it?.has ? (
                           <>
                             <span style={{ fontSize: 'clamp(34px,3.4vw,46px)', lineHeight: '1.1', color: 'var(--ink)' }}>{it?.v}</span>
-                            <span style={{ fontSize: '15px', lineHeight: '1.5', color: 'var(--ink-2)' }}>{it?.u}</span>
+                            <span style={{ fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)' }}>{it?.u}</span>
                           </>
                         ) : null}
                         {it?.pending ? (
@@ -66,7 +66,7 @@ export function StatsPage({ v }: { v: V }) {
               padding: '18px 22px',
               borderRadius: 'var(--r-md)',
               boxShadow: 'inset 0 0 0 1px var(--line)',
-              fontSize: '15px',
+              fontSize: '16px',
               color: 'var(--ink-2)',
               display: 'flex',
               flexWrap: 'wrap',

@@ -49,12 +49,12 @@ export function ProductsStep({ v }: { v: V }) {
               </span>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0', minWidth: '0', maxWidth: '540px', width: '100%' }}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <h2 style={{ margin: '0', fontSize: '16px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>اختر المنتجات والكميات</h2>
+                  <h2 style={{ margin: '0', fontSize: '16px', fontWeight: '700', lineHeight: '24px', color: 'var(--ink)' }}>اختر المنتجات والكميات</h2>
                 </div>
                 <p
                   style={{
                     margin: '0',
-                    fontSize: '13px',
+                    fontSize: '14px',
                     lineHeight: '20px',
                     color: 'var(--muted)',
                     whiteSpace: 'nowrap',
@@ -73,8 +73,7 @@ export function ProductsStep({ v }: { v: V }) {
             {list(v.ox?.products).map((p: any, $index: number) => (
               <Fragment key={$index}>
                 <div
-                  style={css(
-                    `display:flex;flex-direction:column;gap:10px;padding:14px;border-radius:var(--r-lg);border:${p?.bw ?? ''} solid ${p?.bd ?? ''};box-shadow:${p?.shadow ?? ''},${p?.ring ?? ''};background:${p?.cardBg ?? ''};transition:border-color .2s,box-shadow .2s,background .2s`,
+                  style={css(`display:flex;flex-direction:column;gap:10px;padding:14px;border-radius:var(--r-lg);border:${p?.bw ?? ''} solid ${p?.bd ?? ''};box-shadow:${p?.shadow ?? ''},${p?.ring ?? ''};background:${p?.cardBg ?? ''};transition:border-color .2s,box-shadow .2s,background .2s`,
                   )}
                 >
                   <div
@@ -82,7 +81,7 @@ export function ProductsStep({ v }: { v: V }) {
                       position: 'relative',
                       height: '150px',
                       borderRadius: 'var(--r-md)',
-                      background: 'radial-gradient(closest-side at 50% 55%,var(--card),var(--card-2))',
+                      background: 'var(--card-2)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -118,8 +117,8 @@ export function ProductsStep({ v }: { v: V }) {
                     ) : null}
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', flex: '1' }}>
-                    <span style={{ fontSize: '17px', fontWeight: '700', lineHeight: '26px', color: 'var(--ink)' }}>{p?.t}</span>
-                    <span style={{ fontSize: '13px', lineHeight: '22px', color: 'var(--muted)' }}>{p?.pack}</span>
+                    <span style={{ fontSize: '16px', fontWeight: '700', lineHeight: '24px', color: 'var(--ink)' }}>{p?.t}</span>
+                    <span style={{ fontSize: '14px', lineHeight: '20px', color: 'var(--muted)' }}>{p?.pack}</span>
                   </div>
                   <div
                     style={{
@@ -134,11 +133,11 @@ export function ProductsStep({ v }: { v: V }) {
                   >
                     <span style={{ display: 'flex', alignItems: 'baseline', gap: '4px', whiteSpace: 'nowrap' }}>
                       <span style={{ fontSize: '18px', fontWeight: '700', lineHeight: '28px', color: 'var(--gold-2)' }}>{p?.priceLabel}</span>
-                      <span style={{ fontSize: '13px', color: 'var(--muted)' }}>/ كرتون</span>
+                      <span style={{ fontSize: '14px', color: 'var(--muted)' }}>/ كرتون</span>
                     </span>
                     {p?.sel ? (
                       <>
-                        <span style={{ fontSize: '13px', color: 'var(--muted)', whiteSpace: 'nowrap' }}>
+                        <span style={{ fontSize: '14px', color: 'var(--muted)', whiteSpace: 'nowrap' }}>
                           المجموع <strong style={{ fontSize: '16px', color: 'var(--ink)' }}>{p?.lineLabel}</strong>
                         </span>
                       </>
@@ -195,15 +194,13 @@ export function ProductsStep({ v }: { v: V }) {
                       inputMode="numeric"
                       max={p?.maxQ}
                       aria-label="الكمية"
-                      style={css(
-                        `flex:1;min-width:0;height:32px;border:0;background:transparent;text-align:center;font-size:15px;font-weight:600;color:${p?.qColor ?? ''};outline:none`,
+                      style={css(`flex:1;min-width:0;height:32px;border:0;background:transparent;text-align:center;font-size:16px;font-weight:600;color:${p?.qColor ?? ''};outline:none`,
                       )}
                     />
                     <button
                       onClick={p?.dec}
                       aria-label="إنقاص"
-                      style={css(
-                        `width:32px;height:32px;border-radius:7px;border:0;background:var(--card);box-shadow:inset 0 0 0 1px var(--line);color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;opacity:${p?.decOp ?? ''};`,
+                      style={css(`width:32px;height:32px;border-radius:var(--r-sm);border:0;background:var(--card);box-shadow:inset 0 0 0 1px var(--line);color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;opacity:${p?.decOp ?? ''};`,
                       )}
                       className="zp-024"
                     >
@@ -280,15 +277,15 @@ export function ProductsStep({ v }: { v: V }) {
               </svg>
             </button>
             <span style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '2px' }}>
-              <span style={{ fontSize: '13px', lineHeight: '20px', color: 'var(--muted)' }}>الكمية</span>
-              <span style={{ fontSize: '18px', lineHeight: '26px', fontWeight: '700', color: 'var(--ink)', whiteSpace: 'nowrap' }}>
-                {v.ox?.cartCount} كرتون <span style={{ fontSize: '13px', fontWeight: '400', color: 'var(--muted)' }}>· {v.ox?.bottlesCount} عبوة</span>
+              <span style={{ fontSize: '14px', lineHeight: '20px', color: 'var(--muted)' }}>الكمية</span>
+              <span style={{ fontSize: '18px', lineHeight: '28px', fontWeight: '700', color: 'var(--ink)', whiteSpace: 'nowrap' }}>
+                {v.ox?.cartCount} كرتون <span style={{ fontSize: '14px', fontWeight: '400', color: 'var(--muted)' }}>· {v.ox?.bottlesCount} عبوة</span>
               </span>
             </span>
             <span style={{ width: '1px', height: '36px', background: 'var(--line)' }} />
             <span style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '2px' }}>
-              <span style={{ fontSize: '13px', lineHeight: '20px', color: 'var(--muted)' }}>الإجمالي قبل الخصم والشحن</span>
-              <span style={{ fontSize: '18px', lineHeight: '26px', fontWeight: '700', color: 'var(--gold-2)', whiteSpace: 'nowrap' }}>
+              <span style={{ fontSize: '14px', lineHeight: '20px', color: 'var(--muted)' }}>الإجمالي قبل الخصم والشحن</span>
+              <span style={{ fontSize: '18px', lineHeight: '28px', fontWeight: '700', color: 'var(--gold-2)', whiteSpace: 'nowrap' }}>
                 {v.ox?.cartTotalLabel}
               </span>
             </span>

@@ -6,7 +6,7 @@ export function VerifyPage({ v }: { v: V }) {
       <section data-screen-label="08 التحقق من المنتج الأصلي" style={{ background: 'var(--bg)', padding: '40px 0 40px' }}>
         <div style={{ maxWidth: '880px', margin: '0 auto', padding: '0 24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
           <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>لماذا هذه الصفحة</h2>
-          <p style={{ margin: '0', fontSize: '19px', lineHeight: '1.85', color: 'var(--ink-2)' }}>
+          <p style={{ margin: '0', fontSize: '18px', lineHeight: '28px', color: 'var(--ink-2)' }}>
             تظهر في السوق عبوات تحمل اسم زمزم أو ما يشبهه، لم تُعبَّأ في منشآت المشروع ولا تخضع لرقابته. نحن لا نضمن مصدر هذه العبوات ولا محتواها، ولا نتحمل
             مسؤولية ما ينتج عنها.
           </p>
@@ -42,8 +42,8 @@ export function VerifyPage({ v }: { v: V }) {
               >
                 ١
               </span>
-              <span style={{ fontSize: '22px', fontWeight: '700', color: 'var(--ink)' }}>القناة</span>
-              <p style={{ margin: '0', fontSize: '16px', lineHeight: '1.75', color: 'var(--ink-2)' }}>
+              <span style={{ fontSize: '20px', fontWeight: '700', color: 'var(--ink)' }}>القناة</span>
+              <p style={{ margin: '0', fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)' }}>
                 اشترِ من القنوات الرسمية المعتمدة فقط. القائمة الكاملة في صفحة{' '}
                 <a href="#buy" onClick={v.go?.buy}>
                   "اقتنِ ماء زمزم"
@@ -77,8 +77,8 @@ export function VerifyPage({ v }: { v: V }) {
               >
                 ٢
               </span>
-              <span style={{ fontSize: '22px', fontWeight: '700', color: 'var(--ink)' }}>العبوة</span>
-              <p style={{ margin: '0', fontSize: '16px', lineHeight: '1.75', color: 'var(--ink-2)' }}>تحقّق من مطابقة العبوة والغطاء والملصق للشكل المعتمد.</p>
+              <span style={{ fontSize: '20px', fontWeight: '700', color: 'var(--ink)' }}>العبوة</span>
+              <p style={{ margin: '0', fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)' }}>تحقّق من مطابقة العبوة والغطاء والملصق للشكل المعتمد.</p>
             </div>
             <div
               style={{
@@ -106,8 +106,8 @@ export function VerifyPage({ v }: { v: V }) {
               >
                 ٣
               </span>
-              <span style={{ fontSize: '22px', fontWeight: '700', color: 'var(--ink)' }}>البيانات</span>
-              <p style={{ margin: '0', fontSize: '16px', lineHeight: '1.75', color: 'var(--ink-2)' }}>
+              <span style={{ fontSize: '20px', fontWeight: '700', color: 'var(--ink)' }}>البيانات</span>
+              <p style={{ margin: '0', fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)' }}>
                 يجب أن تحمل العبوة اسم الجهة والرقم التسلسلي، وتاريخ الإنتاج والانتهاء.
               </p>
             </div>
@@ -137,8 +137,8 @@ export function VerifyPage({ v }: { v: V }) {
               >
                 !
               </span>
-              <span style={{ fontSize: '22px', fontWeight: '700', color: 'var(--ink)' }}>عند الشك</span>
-              <p style={{ margin: '0', fontSize: '16px', lineHeight: '1.75', color: 'var(--ink-2)' }}>لا تشترِ، وبلّغنا.</p>
+              <span style={{ fontSize: '20px', fontWeight: '700', color: 'var(--ink)' }}>عند الشك</span>
+              <p style={{ margin: '0', fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)' }}>لا تشترِ، وبلّغنا.</p>
             </div>
           </div>
         </div>
@@ -166,7 +166,7 @@ export function VerifyPage({ v }: { v: V }) {
             <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>
               بلّغ عن منتج مشتبه به
             </h2>
-            <p style={{ margin: '0', fontSize: '19px', lineHeight: '1.8', color: 'var(--ink-2)' }}>
+            <p style={{ margin: '0', fontSize: '18px', lineHeight: '28px', color: 'var(--ink-2)' }}>
               ساعدنا في حماية ماء زمزم. إذا صادفت عبوة تشتبه في مصدرها، أبلغنا عنها.
             </p>
           </div>
@@ -181,7 +181,7 @@ export function VerifyPage({ v }: { v: V }) {
                   style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(220px,1fr))', gap: '14px 18px' }}
                 >
                   <label
-                    style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '15px', color: 'var(--ink)', maxWidth: '540px', width: '100%' }}
+                    style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '16px', color: 'var(--ink)', maxWidth: '540px', width: '100%' }}
                   >
                     الاسم
                     <input
@@ -200,10 +200,10 @@ export function VerifyPage({ v }: { v: V }) {
                       }}
                       className="zp-017"
                     />
-                    <span style={{ fontSize: '13px', color: 'var(--danger)', minHeight: '16px' }}>{v.err?.report?.name}</span>
+                    <span style={{ fontSize: '14px', color: 'var(--danger)', minHeight: '16px' }}>{v.err?.report?.name}</span>
                   </label>
                   <label
-                    style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '15px', color: 'var(--ink)', maxWidth: '540px', width: '100%' }}
+                    style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '16px', color: 'var(--ink)', maxWidth: '540px', width: '100%' }}
                   >
                     رقم الجوال
                     <input
@@ -226,10 +226,10 @@ export function VerifyPage({ v }: { v: V }) {
                       }}
                       className="zp-017"
                     />
-                    <span style={{ fontSize: '13px', color: 'var(--danger)', minHeight: '16px' }}>{v.err?.report?.phone}</span>
+                    <span style={{ fontSize: '14px', color: 'var(--danger)', minHeight: '16px' }}>{v.err?.report?.phone}</span>
                   </label>
                   <label
-                    style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '15px', color: 'var(--ink)', maxWidth: '540px', width: '100%' }}
+                    style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '16px', color: 'var(--ink)', maxWidth: '540px', width: '100%' }}
                   >
                     المدينة
                     <input
@@ -248,10 +248,10 @@ export function VerifyPage({ v }: { v: V }) {
                       }}
                       className="zp-017"
                     />
-                    <span style={{ fontSize: '13px', color: 'var(--danger)', minHeight: '16px' }}>{v.err?.report?.city}</span>
+                    <span style={{ fontSize: '14px', color: 'var(--danger)', minHeight: '16px' }}>{v.err?.report?.city}</span>
                   </label>
                   <label
-                    style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '15px', color: 'var(--ink)', maxWidth: '540px', width: '100%' }}
+                    style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '16px', color: 'var(--ink)', maxWidth: '540px', width: '100%' }}
                   >
                     مكان الشراء أو المشاهدة
                     <input
@@ -271,7 +271,7 @@ export function VerifyPage({ v }: { v: V }) {
                       }}
                       className="zp-017"
                     />
-                    <span style={{ fontSize: '13px', color: 'var(--danger)', minHeight: '16px' }}>{v.err?.report?.place}</span>
+                    <span style={{ fontSize: '14px', color: 'var(--danger)', minHeight: '16px' }}>{v.err?.report?.place}</span>
                   </label>
                   <label
                     style={{
@@ -279,7 +279,7 @@ export function VerifyPage({ v }: { v: V }) {
                       display: 'flex',
                       flexDirection: 'column',
                       gap: '8px',
-                      fontSize: '15px',
+                      fontSize: '16px',
                       color: 'var(--ink)',
                       maxWidth: '540px',
                       width: '100%',
@@ -304,7 +304,7 @@ export function VerifyPage({ v }: { v: V }) {
                       }}
                       className="zp-017"
                     />
-                    <span style={{ fontSize: '13px', color: 'var(--danger)', minHeight: '16px' }}>{v.err?.report?.details}</span>
+                    <span style={{ fontSize: '14px', color: 'var(--danger)', minHeight: '16px' }}>{v.err?.report?.details}</span>
                   </label>
                   <label
                     style={{
@@ -312,7 +312,7 @@ export function VerifyPage({ v }: { v: V }) {
                       display: 'flex',
                       flexDirection: 'column',
                       gap: '8px',
-                      fontSize: '15px',
+                      fontSize: '16px',
                       color: 'var(--ink)',
                       maxWidth: '540px',
                       width: '100%',
@@ -323,14 +323,16 @@ export function VerifyPage({ v }: { v: V }) {
                       name="photo"
                       type="file"
                       accept="image/*"
+                      className="dga-file"
                       style={{
                         width: '100%',
-                        padding: '12px 16px',
+                        padding: '16px',
                         borderRadius: 'var(--r-md)',
-                        border: '1px dashed var(--line)',
-                        background: 'var(--card-2)',
+                        border: '1px dashed var(--field-bd)',
+                        background: 'var(--card)',
                         color: 'var(--muted)',
-                        fontSize: '15px',
+                        fontSize: '14px',
+                        lineHeight: '20px',
                       }}
                     />
                   </label>
@@ -381,7 +383,7 @@ export function VerifyPage({ v }: { v: V }) {
                       <path d="M5 12.5l4.5 4.5L19 7.5" />
                     </svg>
                   </span>
-                  <span style={{ fontSize: '24px', fontWeight: '700', color: 'var(--ink)', maxWidth: '420px', lineHeight: '1.5' }}>
+                  <span style={{ fontSize: '24px', fontWeight: '700', color: 'var(--ink)', maxWidth: '420px', lineHeight: '32px' }}>
                     تسلّمنا بلاغك. شكراً لحرصك على حماية ماء زمزم
                   </span>
                   <button

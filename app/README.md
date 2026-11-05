@@ -2,7 +2,8 @@
 > enhancements. Styled with the **DGA Platforms Code** design system (IBM Plex Sans Arabic type scale,
 > 4/8/16 radius, 40px controls, Digital Stamp + DGA nav header, inline alerts, stepper, dark footer)
 > using the Zamzam colour palette — tokens in `src/styles/base.css` / `portal.css`, components in
-> `src/portal/ui.tsx`, interaction states in `src/styles/pseudo.css`. Build it with `VITE_AUTH=email` (output: `zamzam-portal-email-v2.html` / `.zip`).
+> `src/portal/ui.tsx`, site components (section/header, card, metric, chip, accordion, breadcrumb,
+> page header) in `src/views/ds.tsx`, interaction states in `src/styles/pseudo.css`. Build it with `VITE_AUTH=email` (output: `zamzam-portal-email-v2.html` / `.zip`).
 > The Nafath and email versions as approved on 5 Nov 2026 are frozen on branch
 > `zamzam-portal-frozen-2026-11-05` (and on `zamzam-portal`, which is not changed from here).
 

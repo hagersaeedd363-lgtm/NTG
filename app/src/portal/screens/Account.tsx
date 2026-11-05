@@ -77,7 +77,7 @@ export function AccountTypeCard({ s }: { s: PortalState }) {
       <CardHeader icon={ICON.shield} title="نوع الحساب" desc="يحدد هذا الاختيار البيانات المطلوبة للتسجيل، ولا يمكن تغييره بعد الاعتماد." />
       <ChoiceCards label="نوع الحساب" options={TYPES} value={s.reg.type} onChange={(id) => portal.setAccountType(id as 'individual' | 'company')} />
       {s.errors.type ? (
-        <span role="alert" style={{ fontSize: 14, color: 'var(--danger)' }}>
+        <span role="alert" style={{ fontSize: '14px', color: 'var(--danger)' }}>
           {s.errors.type}
         </span>
       ) : null}
@@ -102,12 +102,12 @@ export function CompanyCards({ s, withPurpose }: { s: PortalState; withPurpose?:
           desc={withPurpose ? 'حدّد نوع الجهة وغرض الطلب، ثم ابحث عن المؤسسة بالاسم للتحقق منها.' : 'حدّد نوع الجهة، ثم ابحث عن المؤسسة بالاسم للتحقق منها.'}
         />
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-          <span style={{ fontSize: 15, fontWeight: 500, color: 'var(--ink)' }}>
+          <span style={{ fontSize: '16px', fontWeight: 500, color: 'var(--ink)' }}>
             نوع الجهة <span style={{ color: 'var(--danger)' }}>*</span>
           </span>
           <Pills label="نوع الجهة" options={ETYPES} value={c.entityType} onChange={(v) => portal.setCompany({ entityType: v })} icons={PILL_ICONS} />
           {errors['co.entityType'] ? (
-            <span role="alert" style={{ fontSize: 14, color: 'var(--danger)' }}>
+            <span role="alert" style={{ fontSize: '14px', color: 'var(--danger)' }}>
               {errors['co.entityType']}
             </span>
           ) : (
@@ -117,7 +117,7 @@ export function CompanyCards({ s, withPurpose }: { s: PortalState; withPurpose?:
         {withPurpose ? <PurposeField s={s} /> : null}
         <div style={{ height: 1, background: 'var(--line)' }} />
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8, maxWidth: 1104 }}>
-          <label htmlFor="co-query" style={{ fontSize: 15, fontWeight: 500, color: 'var(--ink)' }}>
+          <label htmlFor="co-query" style={{ fontSize: '16px', fontWeight: 500, color: 'var(--ink)' }}>
             اسم المؤسسة <span style={{ color: 'var(--danger)' }}>*</span>
           </label>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
@@ -137,7 +137,7 @@ export function CompanyCards({ s, withPurpose }: { s: PortalState; withPurpose?:
                 border: '1px solid ' + (errors.crQuery ? 'var(--danger)' : 'var(--line)'),
                 background: 'var(--card)',
                 color: 'var(--ink)',
-                fontSize: 16,
+                fontSize: '16px',
                 outline: 'none',
                 fontFamily: 'inherit',
                 minWidth: 0,
@@ -161,7 +161,7 @@ export function CompanyCards({ s, withPurpose }: { s: PortalState; withPurpose?:
             )}
           </div>
           {errors.crQuery ? (
-            <span role="alert" style={{ fontSize: 14, color: 'var(--danger)' }}>
+            <span role="alert" style={{ fontSize: '14px', color: 'var(--danger)' }}>
               {errors.crQuery}
             </span>
           ) : (
@@ -248,12 +248,12 @@ export function CompanyCards({ s, withPurpose }: { s: PortalState; withPurpose?:
 function PurposeField({ s, hint = true }: { s: PortalState; hint?: boolean }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-      <span style={{ fontSize: 15, fontWeight: 500, color: 'var(--ink)' }}>
+      <span style={{ fontSize: '16px', fontWeight: 500, color: 'var(--ink)' }}>
         غرض الطلب <span style={{ color: 'var(--danger)' }}>*</span>
       </span>
       <Pills label="غرض الطلب" options={PURPOSES} value={s.draft.purpose} onChange={(v) => portal.setDraft({ purpose: v })} icons={PILL_ICONS} />
       {s.errors.purpose ? (
-        <span role="alert" style={{ fontSize: 14, color: 'var(--danger)' }}>
+        <span role="alert" style={{ fontSize: '14px', color: 'var(--danger)' }}>
           {s.errors.purpose}
         </span>
       ) : hint ? (
@@ -288,7 +288,7 @@ function ExistingSummary({ s, a }: { s: PortalState; a: Account }) {
                 <span style={{ width: 26, height: 26, flexShrink: 0, borderRadius: 'var(--r-sm)', background: 'var(--gold-soft)', color: 'var(--gold-2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <Icon d={company ? ICON.bld : ICON.user} size={14} />
                 </span>
-                <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink)', overflowWrap: 'anywhere' }}>{company ? company.name : a.identity.fullName}</span>
+                <span style={{ fontSize: '14px', fontWeight: 600, color: 'var(--ink)', overflowWrap: 'anywhere' }}>{company ? company.name : a.identity.fullName}</span>
                 <Tag tone="ok" dot>
                   معتمد
                 </Tag>
@@ -344,7 +344,7 @@ function PasswordOptionCard({ s }: { s: PortalState }) {
             role="switch"
             aria-checked={p.on}
             onClick={() => portal.setRegPw({ on: !p.on })}
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: 0, border: 0, background: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: 14, fontWeight: 600, color: 'var(--ink)' }}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: 0, border: 0, background: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: '14px', fontWeight: 600, color: 'var(--ink)' }}
           >
             تعيين كلمة مرور الآن
             <span style={{ width: 44, height: 24, borderRadius: 999, background: p.on ? GOLD : 'var(--line)', position: 'relative', transition: 'background .2s', flexShrink: 0 }}>
@@ -383,7 +383,7 @@ function PasswordOptionCard({ s }: { s: PortalState }) {
           <div>
             <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexWrap: 'wrap', gap: '6px 20px' }}>
               {rules.map((r) => (
-                <li key={r.t} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: r.ok ? 'var(--al-ok-fg)' : 'var(--muted)' }}>
+                <li key={r.t} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '14px', color: r.ok ? 'var(--al-ok-fg)' : 'var(--muted)' }}>
                   <Icon d={r.ok ? ICON.check : ICON.info} size={15} sw={2} />
                   {r.t}
                 </li>

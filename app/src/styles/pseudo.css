@@ -48,3 +48,12 @@
 .dga-footlink:hover{color:#FFFFFF !important;text-decoration:underline !important}
 .zp-014:hover:not(:focus),.zp-017:hover:not(:focus){border-color:var(--field-bd-h) !important}
 .zp-014:focus,.zp-017:focus{box-shadow:inset 0 0 0 1px var(--field-bd-f) !important;outline:none}
+.dga-btn-neutral:hover{background:var(--line) !important}
+.dga-chip:hover{background:var(--line) !important}
+.dga-acc:hover{background:var(--card-2) !important}
+.dga-crumb:hover{color:var(--gold-2) !important;text-decoration:underline}
+.dga-card-link{transition:box-shadow .15s,border-color .15s}
+.dga-card-link:hover{border-color:var(--field-bd) !important;box-shadow:var(--shadow-md)}
+.dga-tab:hover{background:var(--card-2) !important}
+.dga-file::file-selector-button{height:40px;padding:0 16px;margin-inline-end:16px;border-radius:var(--r-sm);border:1px solid var(--field-bd);background:var(--card);color:var(--ink);font:500 16px/24px var(--font);cursor:pointer}
+.dga-file::file-selector-button:hover{background:var(--card-2);border-color:var(--field-bd-h)}

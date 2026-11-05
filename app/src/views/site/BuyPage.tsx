@@ -25,7 +25,7 @@ export function BuyPage({ v }: { v: V }) {
             >
               للأفراد
             </span>
-            <p style={{ margin: '0', fontSize: '19px', lineHeight: '1.8', color: 'var(--ink-2)' }}>
+            <p style={{ margin: '0', fontSize: '18px', lineHeight: '28px', color: 'var(--ink-2)' }}>
               يمكنك الحصول على ماء زمزم المبارك عبر القنوات الرسمية المعتمدة داخل المملكة.
             </p>
           </div>
@@ -45,7 +45,7 @@ export function BuyPage({ v }: { v: V }) {
                 <img src="assets/partner-1.png" alt="" style={{ height: '64px', maxWidth: '180px', objectFit: 'contain', filter: 'var(--logo-filter)' }} />
               </span>
               <span style={{ fontSize: '20px', fontWeight: '700', color: 'var(--ink)' }}>مطار الملك عبدالعزيز الدولي</span>
-              <span style={{ fontSize: '16px', lineHeight: '1.6', color: 'var(--ink-2)' }}>صالات المغادرة</span>
+              <span style={{ fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)' }}>صالات المغادرة</span>
             </div>
             <div
               style={{
@@ -62,7 +62,7 @@ export function BuyPage({ v }: { v: V }) {
                 <img src="assets/partner-2.png" alt="" style={{ height: '64px', maxWidth: '180px', objectFit: 'contain', filter: 'var(--logo-filter)' }} />
               </span>
               <span style={{ fontSize: '20px', fontWeight: '700', color: 'var(--ink)' }}>كارفور</span>
-              <span style={{ fontSize: '16px', lineHeight: '1.6', color: 'var(--ink-2)' }}>نقاط بيع مختارة</span>
+              <span style={{ fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)' }}>نقاط بيع مختارة</span>
             </div>
             <div
               style={{
@@ -83,7 +83,7 @@ export function BuyPage({ v }: { v: V }) {
                 />
               </span>
               <span style={{ fontSize: '20px', fontWeight: '700', color: 'var(--ink)' }}>لولو هايبرماركت</span>
-              <span style={{ fontSize: '16px', lineHeight: '1.6', color: 'var(--ink-2)' }}>نقاط بيع مختارة</span>
+              <span style={{ fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)' }}>نقاط بيع مختارة</span>
             </div>
             <div
               style={{
@@ -96,9 +96,9 @@ export function BuyPage({ v }: { v: V }) {
                 gap: '14px',
               }}
             >
-              <span style={{ height: '76px', display: 'flex', alignItems: 'center', fontSize: '26px', fontWeight: '700', color: 'var(--gold-2)' }}>نسك</span>
+              <span style={{ height: '76px', display: 'flex', alignItems: 'center', fontSize: '24px', fontWeight: '700', color: 'var(--gold-2)' }}>نسك</span>
               <span style={{ fontSize: '20px', fontWeight: '700', color: 'var(--ink)' }}>تطبيق نسك</span>
-              <span style={{ fontSize: '16px', lineHeight: '1.6', color: 'var(--ink-2)' }}>اطلب عبر التطبيق واستلم من القنوات المعتمدة</span>
+              <span style={{ fontSize: '16px', lineHeight: '24px', color: 'var(--ink-2)' }}>اطلب عبر التطبيق واستلم من القنوات المعتمدة</span>
             </div>
           </div>
           <button
@@ -154,8 +154,7 @@ export function BuyPage({ v }: { v: V }) {
             </div>
             <div style={{ flex: '1 1 440px', padding: '40px', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '16px' }}>
               <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>اقتن عبوة زمزم</h2>
-              <span style={{ fontSize: '24px', lineHeight: '1.3', color: 'var(--ink)' }}>كرتون ماء زمزم (24 عبوة * 330 مل)</span>
-              <div style={{ width: '64px', height: '4px', borderRadius: '2px', background: 'var(--gold-soft)' }} />
+              <span style={{ fontSize: '24px', lineHeight: '32px', color: 'var(--ink)' }}>كرتون ماء زمزم (24 عبوة * 330 مل)</span>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '24px', alignItems: 'flex-start', marginTop: '12px' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
                   <div
@@ -193,7 +192,7 @@ export function BuyPage({ v }: { v: V }) {
                         <path d="M12 5v14M5 12h14" />
                       </svg>
                     </button>
-                    <span style={css(`flex:1;text-align:center;font-size:22px;color:${v.qtyColor ?? ''}`)}>{v.qty}</span>
+                    <span style={css(`flex:1;text-align:center;font-size:20px;color:${v.qtyColor ?? ''}`)}>{v.qty}</span>
                     <button
                       onClick={v.qtyDec}
                       aria-label="إنقاص"
@@ -292,7 +291,7 @@ export function BuyPage({ v }: { v: V }) {
               >
                 للجهات
               </span>
-              <p style={{ margin: '0', fontSize: '21px', lineHeight: '1.7' }}>تستقبل منصة زمزم الإلكترونية طلبات الجهات الحكومية والخاصة وغير الربحية.</p>
+              <p style={{ margin: '0', fontSize: '20px', lineHeight: '30px' }}>تستقبل منصة زمزم الإلكترونية طلبات الجهات الحكومية والخاصة وغير الربحية.</p>
             </div>
             <button
               onClick={v.platform}
@@ -317,7 +316,7 @@ export function BuyPage({ v }: { v: V }) {
         <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '0 clamp(16px,5.6vw,80px)', display: 'flex', flexDirection: 'column', gap: '24px' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', maxWidth: '720px' }}>
             <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>أقرب نقطة بيع إليك</h2>
-            <p style={{ margin: '0', fontSize: '18px', lineHeight: '1.75', color: 'var(--ink-2)' }}>
+            <p style={{ margin: '0', fontSize: '18px', lineHeight: '28px', color: 'var(--ink-2)' }}>
               حدّد موقعك أو ابحث بالمدينة لعرض أقرب نقاط بيع ماء زمزم المعتمدة.
             </p>
           </div>
@@ -387,8 +386,7 @@ export function BuyPage({ v }: { v: V }) {
                 <Fragment key={$index}>
                   <button
                     onClick={p?.onClick}
-                    style={css(
-                      `text-align:right;border:0;border-radius:var(--r-lg);background:var(--card);box-shadow:var(--card-shadow),inset 0 0 0 1.5px ${p?.bd ?? ''};padding:18px 20px;display:flex;align-items:center;gap:14px;cursor:pointer;color:var(--ink)`,
+                    style={css(`text-align:right;border:0;border-radius:var(--r-lg);background:var(--card);box-shadow:var(--card-shadow),inset 0 0 0 1.5px ${p?.bd ?? ''};padding:18px 20px;display:flex;align-items:center;gap:14px;cursor:pointer;color:var(--ink)`,
                     )}
                   >
                     <span
@@ -419,7 +417,7 @@ export function BuyPage({ v }: { v: V }) {
                       </svg>
                     </span>
                     <span style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                      <span style={{ fontSize: '17px', fontWeight: '600' }}>{p?.name}</span>
+                      <span style={{ fontSize: '16px', fontWeight: '600' }}>{p?.name}</span>
                       <span style={{ fontSize: '14px', color: 'var(--muted)' }}>
                         {p?.sub} · {p?.city}
                       </span>
@@ -468,8 +466,7 @@ export function BuyPage({ v }: { v: V }) {
                   <button
                     onClick={p?.onClick}
                     aria-label={p?.name}
-                    style={css(
-                      `position:absolute;left:${p?.left ?? ''};top:${p?.top ?? ''};width:${p?.size ?? ''};height:${p?.size ?? ''};transform:translate(-50%,-50%);border-radius:50%;border:2px solid var(--card);background:${p?.pin ?? ''};padding:0;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.25);transition:all .2s`,
+                    style={css(`position:absolute;left:${p?.left ?? ''};top:${p?.top ?? ''};width:${p?.size ?? ''};height:${p?.size ?? ''};transform:translate(-50%,-50%);border-radius:50%;border:2px solid var(--card);background:${p?.pin ?? ''};padding:0;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.25);transition:all .2s`,
                     )}
                   />
                 </Fragment>
@@ -492,7 +489,7 @@ export function BuyPage({ v }: { v: V }) {
                 }}
               >
                 <span style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                  <span style={{ fontSize: '17px', fontWeight: '600', color: 'var(--ink)' }}>{v.selected?.name}</span>
+                  <span style={{ fontSize: '16px', fontWeight: '600', color: 'var(--ink)' }}>{v.selected?.name}</span>
                   <span style={{ fontSize: '14px', color: 'var(--muted)' }}>
                     {v.selected?.sub} · {v.selected?.city}
                   </span>
@@ -550,7 +547,7 @@ export function BuyPage({ v }: { v: V }) {
               الشحن والنقل
             </span>
             <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', lineHeight: '38px' }}>نقل ماء زمزم معك</h2>
-            <p style={{ margin: '0', fontSize: '18px', lineHeight: '1.75', color: 'rgba(255,255,255,.8)' }}>
+            <p style={{ margin: '0', fontSize: '18px', lineHeight: '28px', color: 'rgba(255,255,255,.8)' }}>
               إذا كنت تنوي حمل ماء زمزم معك في سفرك، تسري عليه ضوابط النقل الجوي المعتمدة.
             </p>
           </div>
