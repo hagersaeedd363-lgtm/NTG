@@ -7,7 +7,7 @@
 <title>رمز التحقق – سقيا زمزم / Verification code – Zamzam</title>
 <!--
   OTP verification email — the existing message, word for word, in the Zamzam design (style F):
-  Zamzam pattern banner on sand, light sand code panel, pattern band in the footer.
+  Zamzam pattern banner on sand, light sand code panel, plain brown footer.
   Zamzam palette + DGA Platforms Code (type scale, spacing, r16 card, r8 boxes).
   Subject line (set by the sender):  رمز التحقق – سقيا زمزم / Verification code – Zamzam
   Inbox preview line: the hidden preheader right after <body> (code + validity), padded so no body text leaks into the preview.
@@ -16,14 +16,16 @@
     {{OTP}}              the code (e.g. 676397)
     {{MINUTES}}          validity in minutes (e.g. 10)
     {{BANNER_URL}}       absolute https URL of images/banner-f-sand.png (pattern + logo)
-    {{FOOTER_BAND_URL}}  absolute https URL of images/banner-h-band.png (pattern band)
+    {{GLOBE_ICON_URL}}   absolute https URL of images/icon-globe.png
+    {{NTG_LOGO_URL}}     absolute https URL of images/ntg-logo-white.png
+    {{ZAMZAM_URL}}       the Zamzam website address
   Images must be hosted at public https URLs — email clients block relative paths, SVG and data: images.
   Table layout + inline styles so it renders the same in Outlook, Gmail and Apple Mail.
 -->
 <style>
   @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap');
   body{margin:0;padding:0;background:#F8F4F0}
-  @media (max-width:620px){ .px{padding-left:16px!important;padding-right:16px!important} .code{font-size:32px!important;letter-spacing:8px!important} }
+  @media (max-width:620px){ .px{padding-left:16px!important;padding-right:16px!important} .code{font-size:32px!important;letter-spacing:8px!important} .stack{display:block!important;width:100%!important;text-align:center!important} }
 </style>
 </head>
 <body style="margin:0;padding:0;background:#F8F4F0;">
@@ -61,13 +63,21 @@
       <p style="margin:0;font-size:16px;line-height:24px;color:#1C1915;">Thank You,<br>NTG Clarity Team</p>
     </td></tr>
 
-    <!-- footer: pattern band on deep brown -->
-    <tr><td style="padding:0;background:#3A3022;font-size:0;line-height:0;">
-      <img src="{{FOOTER_BAND_URL}}" width="600" alt="" style="display:block;width:100%;max-width:600px;height:auto;border:0;">
-    </td></tr>
-    <tr><td align="center" style="padding:0 40px 24px;background:#3A3022;" class="px">
-      <div style="font-size:14px;line-height:20px;color:#FFFFFF;">Copyright © NTG Clarity Networks Inc</div>
-      <div style="margin-top:12px;font-size:14px;line-height:20px;color:#FFFFFF;">Website: <a href="https://www.NTGClarity.com" style="color:#D9BF94;text-decoration:underline;">www.NTGClarity.com</a></div>
+    <!-- footer (compact, no pattern): Zamzam site (globe icon) + NTG logo and site, copyright -->
+    <tr><td style="padding:20px 40px;background:#3A3022;" class="px">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="stack" align="left" valign="middle" style="padding:4px 0;">
+            <a href="{{ZAMZAM_URL}}" style="text-decoration:none;color:#D9BF94;font-size:14px;line-height:20px;font-weight:500;">
+              <img src="{{GLOBE_ICON_URL}}" width="20" height="20" alt="" style="display:inline-block;vertical-align:middle;border:0;margin-right:6px;"><span style="vertical-align:middle;text-decoration:underline;">Zamzam website</span>
+            </a>
+          </td>
+          <td class="stack" align="right" valign="middle" style="padding:4px 0;">
+            <img src="{{NTG_LOGO_URL}}" height="24" alt="NTG Clarity Networks" style="display:inline-block;vertical-align:middle;height:24px;width:auto;border:0;margin-right:8px;opacity:.9;"><span style="vertical-align:middle;font-size:14px;line-height:20px;color:#FFFFFF;">Website: <a href="https://www.NTGClarity.com" style="color:#D9BF94;text-decoration:underline;">www.NTGClarity.com</a></span>
+          </td>
+        </tr>
+      </table>
+      <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.15);text-align:center;font-size:12px;line-height:18px;color:rgba(255,255,255,.8);">Copyright © NTG Clarity Networks Inc</div>
     </td></tr>
 
   </table>
