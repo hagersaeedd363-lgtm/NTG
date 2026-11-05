@@ -10,6 +10,9 @@ import {
   Mosque01Icon,
   PackageIcon,
   PlayIcon,
+  BookOpen01Icon,
+  Factory01Icon,
+  Globe02Icon,
   SecurityCheckIcon,
   ShoppingCart01Icon,
   TestTube01Icon,
@@ -132,9 +135,9 @@ export function HomePage({ v }: { v: V }) {
   ] as const;
 
   const FILMS = [
-    { onClick: v.film?.hagar, bg: 'var(--kaaba-img) center/cover no-repeat', title: 'السيدة هاجر ونشأة البئر', text: 'فيلم درامي يروي قصة السيدة هاجر وتفجّر بئر زمزم في وادٍ غير ذي زرع.', tags: ['فيلم درامي', '٣:٣٧'] },
-    { onClick: v.openVideo, bg: "#000 url('assets/bottle.png') center 55%/auto 125% no-repeat", title: 'فيلم عن مراحل التصنيع', text: 'جولة مصوّرة في مراحل سحب ماء زمزم ومعالجته وتعبئته وفق أعلى معايير الجودة.', tags: ['برومو دعائي'] },
-    { onClick: v.film?.global, bg: 'var(--hero-img) 30% 12%/cover no-repeat', title: 'عالمية زمزم', text: 'كيف يصل ماء زمزم المبارك إلى ضيوف الرحمن القادمين من شتى أنحاء العالم.', tags: ['أفلام دعائية'] },
+    { onClick: v.film?.hagar, bg: 'var(--kaaba-img) center/cover no-repeat', icon: BookOpen01Icon, title: 'السيدة هاجر ونشأة البئر', text: 'فيلم درامي يروي قصة السيدة هاجر وتفجّر بئر زمزم في وادٍ غير ذي زرع.', tags: ['فيلم درامي', '٣:٣٧'] },
+    { onClick: v.openVideo, bg: "#000 url('assets/bottle.png') center 55%/auto 125% no-repeat", icon: Factory01Icon, title: 'فيلم عن مراحل التصنيع', text: 'جولة مصوّرة في مراحل سحب ماء زمزم ومعالجته وتعبئته وفق أعلى معايير الجودة.', tags: ['برومو دعائي'] },
+    { onClick: v.film?.global, bg: 'var(--hero-img) 30% 12%/cover no-repeat', icon: Globe02Icon, title: 'عالمية زمزم', text: 'كيف يصل ماء زمزم المبارك إلى ضيوف الرحمن القادمين من شتى أنحاء العالم.', tags: ['أفلام دعائية'] },
   ];
 
   return (
@@ -221,7 +224,7 @@ export function HomePage({ v }: { v: V }) {
       <Section label="أفلام زمزم">
         <SectionHeader title="أفلام زمزم" action={<DsButton onClick={v.go?.gallery}>عرض الكل</DsButton>} desc={P('أفلام قصيرة تروي قصة زمزم ورحلة مائه المبارك من البئر إلى العالم.')} />
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-          <Tabs label="أفلام زمزم" items={FILMS.map((f, k) => ({ label: f.title, selected: k === film, onClick: () => setFilm(k) }))} />
+          <Tabs label="أفلام زمزم" items={FILMS.map((f, k) => ({ label: (<><Hi icon={f.icon} size={20} />{f.title}</>), selected: k === film, onClick: () => setFilm(k) }))} />
           <button
             key={film}
             type="button"
@@ -237,22 +240,6 @@ export function HomePage({ v }: { v: V }) {
               </span>
             </span>
           </button>
-          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 24 }}>
-            <span style={{ flex: '1 1 480px', display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <span style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                {FILMS[film].tags.map((t, k) => (
-                  <DsTag key={t} tone={k === 0 ? 'brand' : undefined}>
-                    {t}
-                  </DsTag>
-                ))}
-              </span>
-              <span style={{ fontSize: 24, lineHeight: '32px', fontWeight: 700, color: 'var(--ink)' }}>{FILMS[film].title}</span>
-              <span style={{ fontSize: 16, lineHeight: '24px', color: 'var(--ink)' }}>{FILMS[film].text}</span>
-            </span>
-            <DsButton primary icon={PLAY} onClick={FILMS[film].onClick}>
-              شاهد الفيلم
-            </DsButton>
-          </div>
         </div>
       </Section>
 
