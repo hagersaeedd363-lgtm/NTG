@@ -4,6 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light only">
+<meta name="supported-color-schemes" content="light">
+<!--[if mso]>
+<style>body,table,td,p,a,h1,div,span,strong{font-family:Tahoma,Arial,sans-serif !important;}  /* Dark mode: keep the code panel and the code readable when mail apps recolour the email */
+  :root{color-scheme:light only;supported-color-schemes:light}
+  @media (prefers-color-scheme:dark){ .code-panel{background:#FBF8F3!important;border-color:#E0D2BF!important} .code{color:#7E6646!important} }
+  [data-ogsb] .code-panel{background:#3A3022!important;border-color:#7E6646!important}
+  [data-ogsc] .code{color:#D9BF94!important}
+</style>
+<![endif]-->
 <title>رمز التحقق – سقيا زمزم / Verification code – Zamzam</title>
 <!--
   OTP verification email — the existing message, word for word, in the Zamzam design (style F):
@@ -36,8 +45,8 @@
   <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" dir="ltr" style="width:100%;max-width:600px;background:#FFFFFF;border:1px solid #E0D2BF;border-radius:16px;overflow:hidden;font-family:'IBM Plex Sans Arabic',Tahoma,Arial,sans-serif;color:#1C1915;">
 
     <!-- pattern banner with the logo -->
-    <tr><td style="padding:0;font-size:0;line-height:0;">
-      <img src="{{BANNER_URL}}" width="600" alt="Zamzam" style="display:block;width:100%;max-width:600px;height:auto;border:0;">
+    <tr><td align="center" style="padding:0;background:#3A3022;">
+      <img src="{{BANNER_URL}}" width="600" height="200" alt="Zamzam" style="display:block;width:100%;max-width:600px;height:auto;border:0;background:#3A3022;color:#D9BF94;font-family:'IBM Plex Sans Arabic',Tahoma,Arial,sans-serif;font-size:28px;line-height:200px;font-weight:700;text-align:center;">
     </td></tr>
 
     <tr><td style="padding:40px 40px 0;text-align:left;" class="px">
@@ -48,7 +57,7 @@
 
     <!-- code: light sand panel -->
     <tr><td style="padding:24px 40px;" class="px">
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#FBF8F3;border:1px solid #E0D2BF;border-radius:8px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="code-panel" style="background:#FBF8F3;border:1px solid #E0D2BF;border-radius:8px;">
         <tr><td align="center" class="code" style="padding:28px 16px 12px;font-size:44px;line-height:56px;font-weight:700;letter-spacing:14px;color:#7E6646;">{{OTP}}</td></tr>
         <tr><td align="center" style="padding:0 0 28px;"><table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td style="width:48px;height:4px;background:#926D39;border-radius:9999px;font-size:0;line-height:0;">&nbsp;</td></tr></table></td></tr>
       </table>
