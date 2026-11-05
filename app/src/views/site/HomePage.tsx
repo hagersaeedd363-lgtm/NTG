@@ -126,7 +126,7 @@ export function HomePage({ v }: { v: V }) {
   const SERVICE_EXTRA = [
     { hi: Mosque01Icon, tags: ['المسجد الحرام', 'المسجد النبوي'] },
     { hi: ShoppingCart01Icon, tags: ['للأفراد', 'تطبيق نسك'] },
-    { hi: Building03Icon, tags: ['حكومية', 'خاصة', 'غير ربحية'] },
+    { hi: Building03Icon, tags: ['حكومية', 'خاصة وغير ربحية'] },
     { hi: Book02Icon, tags: ['تاريخ', 'معرفة'] },
   ] as const;
 
@@ -152,9 +152,9 @@ export function HomePage({ v }: { v: V }) {
             </>
           }
         />
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: 24 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(min(100%,200px),1fr))', gap: 16 }}>
           {list(v.homeStats).map((s: any, i: number) => (
-            <Metric key={i} hi={STAT_ICONS[i % STAT_ICONS.length]} value={s?.v} label={s?.l} />
+            <Metric key={i} bordered hi={STAT_ICONS[i % STAT_ICONS.length]} value={s?.v} label={s?.l} />
           ))}
         </div>
       </Section>
@@ -168,7 +168,10 @@ export function HomePage({ v }: { v: V }) {
             return (
               <div key={i} style={dsCard}>
                 <FeaturedIcon hi={x.hi} />
-                <CardText title={s?.t} text={s?.d} />
+                <span style={{ display: 'flex', flexDirection: 'column', gap: 8, color: 'var(--ink)' }}>
+                  <span style={{ fontSize: 18, lineHeight: '28px', fontWeight: 700, ...clamp(1) }}>{s?.t}</span>
+                  <span style={{ fontSize: 16, lineHeight: '24px', height: 48, ...clamp(2) }}>{s?.d}</span>
+                </span>
                 <span style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
                   {x.tags.map((t, k) => (
                     <DsTag key={t} tone={k === 0 ? 'brand' : k === 1 ? 'info' : undefined}>
@@ -213,31 +216,47 @@ export function HomePage({ v }: { v: V }) {
         </div>
       </Section>
 
-      {/* Films: DS image cards (image 250, title, text, tags, primary action) */}
+      {/* Films: media wall — one featured film and two smaller tiles; photo with dark gradient, on-colour tags, title, play badge */}
       <Section label="أفلام زمزم">
         <SectionHeader title="أفلام زمزم" action={<DsButton onClick={v.go?.gallery}>عرض الكل</DsButton>} desc={P('أفلام قصيرة تروي قصة زمزم ورحلة مائه المبارك من البئر إلى العالم.')} />
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(300px,1fr))', gap: 16 }}>
-          {FILMS.map((f) => (
-            <div key={f.title} style={dsCard}>
-              <button type="button" onClick={f.onClick} aria-label={'تشغيل ' + f.title} style={{ position: 'relative', display: 'block', height: 250, padding: 0, border: 0, borderRadius: 'var(--r-md)', overflow: 'hidden', background: f.bg, cursor: 'pointer' }}>
-                <span style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <PlayBadge size={56} />
-                </span>
-              </button>
-              <CardText title={f.title} text={f.text} />
-              <span style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                {f.tags.map((t, k) => (
-                  <DsTag key={t} tone={k === 0 ? 'brand' : undefined}>
-                    {t}
-                  </DsTag>
-                ))}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(min(100%,360px),1fr))', gridAutoRows: 252, gap: 16 }}>
+          {FILMS.map((f, k) => (
+            <button
+              key={f.title}
+              type="button"
+              onClick={f.onClick}
+              aria-label={'تشغيل فيلم ' + f.title}
+              className="zz-film"
+              style={{
+                position: 'relative',
+                gridRow: k === 0 ? 'span 2' : undefined,
+                gridColumn: k === 0 ? 'span 2' : undefined,
+                padding: 0,
+                border: 0,
+                borderRadius: 'var(--r-lg)',
+                overflow: 'hidden',
+                background: f.bg,
+                cursor: 'pointer',
+                textAlign: 'right',
+                fontFamily: 'inherit',
+              }}
+            >
+              <span aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(28,25,21,.88) 0%, rgba(28,25,21,.35) 45%, rgba(28,25,21,0) 70%)' }} />
+              <span style={{ position: 'absolute', top: k === 0 ? 24 : 16, insetInlineEnd: k === 0 ? 24 : 16 }}>
+                <PlayBadge size={k === 0 ? 64 : 48} />
               </span>
-              <div style={{ display: 'flex', marginTop: 'auto' }}>
-                <DsButton primary onClick={f.onClick}>
-                  شاهد الفيلم
-                </DsButton>
-              </div>
-            </div>
+              <span style={{ position: 'absolute', insetInline: k === 0 ? 32 : 20, bottom: k === 0 ? 32 : 20, display: 'flex', flexDirection: 'column', gap: k === 0 ? 12 : 8, color: '#FFFFFF' }}>
+                <span style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                  {f.tags.map((t) => (
+                    <DsTag key={t} onColor>
+                      {t}
+                    </DsTag>
+                  ))}
+                </span>
+                <span style={{ fontSize: k === 0 ? 30 : 18, lineHeight: k === 0 ? '38px' : '28px', fontWeight: 700 }}>{f.title}</span>
+                {k === 0 ? <span style={{ maxWidth: 560, fontSize: 16, lineHeight: '24px', opacity: 0.9 }}>{f.text}</span> : null}
+              </span>
+            </button>
           ))}
         </div>
       </Section>
@@ -300,8 +319,8 @@ export function HomePage({ v }: { v: V }) {
               <div key={k} style={dsCard}>
                 <span role="img" aria-label="" style={css(`display:block;width:100%;height:250px;border-radius:var(--r-md);background:${n?.img ?? ''}`)} />
                 <span style={{ display: 'flex', flexDirection: 'column', gap: 8, color: 'var(--ink)' }}>
-                  <span style={{ fontSize: 18, lineHeight: '28px', fontWeight: 700, ...clamp(2) }}>{n?.title}</span>
-                  <span style={{ fontSize: 16, lineHeight: '24px', ...clamp(4) }}>{n?.body?.[0]}</span>
+                  <span style={{ fontSize: 18, lineHeight: '28px', fontWeight: 700, height: 56, ...clamp(2) }}>{n?.title}</span>
+                  <span style={{ fontSize: 16, lineHeight: '24px', height: 72, ...clamp(3) }}>{n?.body?.[0]}</span>
                 </span>
                 <div style={{ display: 'flex', marginTop: 'auto' }}>
                   <DsButton primary onClick={n?.onClick}>

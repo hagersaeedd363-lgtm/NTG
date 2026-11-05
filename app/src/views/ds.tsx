@@ -172,16 +172,62 @@ export function CardText({ title, text }: { title: ReactNode; text?: ReactNode }
   );
 }
 
-/** Metric card: featured icon 56, value Display lg regular in brand colour, label 16/24. */
-export function Metric({ icon, hi, value, label }: { icon?: string; hi?: IconSvgElement; value: ReactNode; label: ReactNode }) {
+/** Metric card: featured icon 56, value Display lg in brand colour (counts up when it scrolls into view), label 16/24 on two lines. */
+export function Metric({ icon, hi, value, label, bordered }: { icon?: string; hi?: IconSvgElement; value: ReactNode; label: ReactNode; bordered?: boolean }) {
   return (
-    <div style={{ ...dsCard, border: 0, alignItems: 'center', textAlign: 'center' }}>
+    <div style={{ ...dsCard, border: bordered ? '1px solid var(--line)' : 0, alignItems: 'center', textAlign: 'center', padding: bordered ? 24 : 16 }}>
       <FeaturedIcon d={icon} hi={hi} size={56} />
       <span style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center' }}>
-        <span style={{ fontSize: 48, lineHeight: '60px', fontWeight: 400, color: 'var(--gold)', whiteSpace: 'nowrap' }}>{value}</span>
-        <span style={{ fontSize: 16, lineHeight: '24px', color: 'var(--ink)' }}>{label}</span>
+        <span style={{ fontSize: 48, lineHeight: '60px', fontWeight: 400, color: 'var(--gold)', whiteSpace: 'nowrap' }}>{typeof value === 'string' ? <CountUp value={value} /> : value}</span>
+        <span style={{ fontSize: 16, lineHeight: '24px', minHeight: 48, color: 'var(--ink)', textWrap: 'balance' }}>{label}</span>
       </span>
     </div>
+  );
+}
+
+/** Animates the number inside an Arabic figure (e.g. «+٣٠٬٠٠٠», «٩٩٫٧٧٪», «٢٤ ساعة») from 0 the first time it is seen. */
+const AR_DIGITS = '٠١٢٣٤٥٦٧٨٩';
+export function CountUp({ value, ms = 1400 }: { value: string; ms?: number }) {
+  const m = value.match(/[٠-٩][٠-٩٬٫]*/);
+  const ref = useRef<HTMLSpanElement>(null);
+  const [shown, setShown] = useState(value);
+  useEffect(() => {
+    if (!m || typeof IntersectionObserver === 'undefined') return;
+    if (typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const raw = m[0];
+    const dec = raw.includes('٫') ? raw.split('٫')[1].length : 0;
+    const target = Number(raw.replace(/٬/g, '').replace('٫', '.').replace(/[٠-٩]/g, (d) => String(AR_DIGITS.indexOf(d))));
+    const fmt = (n: number) => n.toLocaleString('ar-EG', { minimumFractionDigits: dec, maximumFractionDigits: dec, useGrouping: raw.includes('٬') });
+    const el = ref.current;
+    if (!el) return;
+    setShown(value.replace(raw, fmt(0)));
+    let raf = 0;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (!e.isIntersecting) return;
+        io.disconnect();
+        const t0 = performance.now();
+        const tick = (t: number) => {
+          const p = Math.min(1, (t - t0) / ms);
+          const eased = 1 - Math.pow(1 - p, 3);
+          setShown(value.replace(raw, fmt(target * eased)));
+          if (p < 1) raf = requestAnimationFrame(tick);
+        };
+        raf = requestAnimationFrame(tick);
+      },
+      { threshold: 0.4 },
+    );
+    io.observe(el);
+    return () => {
+      io.disconnect();
+      cancelAnimationFrame(raf);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
+  return (
+    <span ref={ref} aria-label={value}>
+      <span aria-hidden="true">{shown}</span>
+    </span>
   );
 }
 

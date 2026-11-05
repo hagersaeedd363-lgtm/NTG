@@ -80,3 +80,5 @@ svg[stroke="currentColor"]{stroke-width:1.5;stroke-linecap:round;stroke-linejoin
 .dga-tool:hover:not(:disabled){background:var(--line) !important}
 .dga-tool-on:hover:not(:disabled){background:rgba(255,255,255,.16) !important}
 @media (max-width:1439px){.zz-hact-label{display:none}.dga-hact{padding:0 12px !important}.dga-menu{padding:8px 12px !important}}
+.zz-film{transition:transform .25s,box-shadow .25s}.zz-film:hover{box-shadow:var(--shadow-lg)}.zz-film:hover span[aria-hidden]{background:linear-gradient(to top,rgba(28,25,21,.92) 0%,rgba(28,25,21,.45) 50%,rgba(28,25,21,.05) 75%) !important}
+@media(max-width:900px){.zz-film{grid-column:auto !important;grid-row:auto !important}}
