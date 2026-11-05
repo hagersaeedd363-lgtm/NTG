@@ -1,74 +1,60 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light only">
-<title>رمز التحقق — سقيا زمزم</title>
+<title>OTP Verification</title>
 <!--
-  OTP verification email — style F: Zamzam pattern on sand, light sand code panel, pattern band in the footer.
-  Zamzam palette + DGA Platforms Code (type scale, spacing, r16 card, r8 boxes, inline alert with a 4px start edge).
+  OTP verification email — the existing message, word for word, in the Zamzam design (style F):
+  Zamzam pattern banner on sand, light sand code panel, pattern band in the footer.
+  Zamzam palette + DGA Platforms Code (type scale, spacing, r16 card, r8 boxes).
   Placeholders to fill on send:
-    {{OTP}}              the code (e.g. 564248)
+    {{NAME}}             recipient name (the current email leaves it empty: "Dear ,")
+    {{OTP}}              the code (e.g. 676397)
     {{MINUTES}}          validity in minutes (e.g. 10)
-    {{YEAR}}             e.g. 2026
     {{BANNER_URL}}       absolute https URL of images/banner-f-sand.png (pattern + logo)
     {{FOOTER_BAND_URL}}  absolute https URL of images/banner-h-band.png (pattern band)
-    {{WEBSITE_URL}} {{CONTACT_URL}} {{FAQ_URL}}  footer links (site home, contact page, FAQ page)
   Images must be hosted at public https URLs — email clients block relative paths, SVG and data: images.
   Table layout + inline styles so it renders the same in Outlook, Gmail and Apple Mail.
 -->
 <style>
   @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap');
   body{margin:0;padding:0;background:#F8F4F0}
-  @media (max-width:620px){ .px{padding-left:16px!important;padding-right:16px!important} .code{font-size:30px!important;letter-spacing:8px!important} }
+  @media (max-width:620px){ .px{padding-left:16px!important;padding-right:16px!important} .code{font-size:32px!important;letter-spacing:8px!important} }
 </style>
 </head>
 <body style="margin:0;padding:0;background:#F8F4F0;">
-<div style="display:none;max-height:0;overflow:hidden;opacity:0;">رمز التحقق الخاص بك: {{OTP}} — صالح لمدة {{MINUTES}} دقائق.</div>
 
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#F8F4F0;">
 <tr><td align="center" style="padding:32px 16px;">
 
-  <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" dir="rtl" style="width:100%;max-width:600px;background:#FFFFFF;border:1px solid #E0D2BF;border-radius:16px;overflow:hidden;font-family:'IBM Plex Sans Arabic',Tahoma,Arial,sans-serif;color:#1C1915;">
+  <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" dir="ltr" style="width:100%;max-width:600px;background:#FFFFFF;border:1px solid #E0D2BF;border-radius:16px;overflow:hidden;font-family:'IBM Plex Sans Arabic',Tahoma,Arial,sans-serif;color:#1C1915;">
 
     <!-- pattern banner with the logo -->
     <tr><td style="padding:0;font-size:0;line-height:0;">
-      <img src="{{BANNER_URL}}" width="600" alt="زمزم" style="display:block;width:100%;max-width:600px;height:auto;border:0;">
+      <img src="{{BANNER_URL}}" width="600" alt="Zamzam" style="display:block;width:100%;max-width:600px;height:auto;border:0;">
     </td></tr>
 
-    <tr><td style="padding:40px 40px 0;text-align:right;" class="px">
-      <p style="margin:0 0 8px;font-size:16px;line-height:24px;color:#1C1915;">مرحباً،</p>
-      <p style="margin:0;font-size:16px;line-height:24px;color:#3A3022;">طلبت التحقق من بريدك الإلكتروني. استخدم رمز التحقق التالي لإكمال العملية:</p>
+    <tr><td style="padding:40px 40px 0;text-align:left;" class="px">
+      <h1 style="margin:0 0 24px;font-size:24px;line-height:32px;font-weight:700;color:#1C1915;">OTP Verification</h1>
+      <p style="margin:0 0 16px;font-size:16px;line-height:24px;color:#1C1915;">Dear {{NAME}},</p>
+      <p style="margin:0;font-size:16px;line-height:24px;color:#3A3022;">You have requested to verify your email address. Please use the One-Time Password (OTP) below to complete your verification.</p>
     </td></tr>
 
-    <!-- code box: light sand panel (same fill and border as the validity note), bilingual label, large code, short gold rule -->
+    <!-- code: light sand panel -->
     <tr><td style="padding:24px 40px;" class="px">
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#FBF8F3;border:1px solid #E0D2BF;border-radius:8px;">
-            <tr><td align="center" style="padding:24px 16px 8px;font-size:16px;line-height:24px;font-weight:500;color:#3A3022;">رمز التحقق <span style="color:#B49164;padding:0 4px;">·</span> <span dir="ltr">Verification code</span></td></tr>
-            <tr><td align="center" dir="ltr" class="code" style="padding:0 16px 12px;font-size:44px;line-height:56px;font-weight:700;letter-spacing:14px;color:#7E6646;">{{OTP}}</td></tr>
-            <tr><td align="center" style="padding:0 0 24px;"><table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td style="width:48px;height:4px;background:#926D39;border-radius:9999px;font-size:0;line-height:0;">&nbsp;</td></tr></table></td></tr>
-          </table>
-    </td></tr>
-
-    <tr><td style="padding:0 40px 32px;text-align:right;" class="px">
-      <!-- validity: DS inline alert, 4px edge on the start side -->
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#FBF8F3;border:1px solid #E0D2BF;border-right:4px solid #926D39;border-radius:8px;">
-        <tr><td style="padding:12px 16px;font-size:14px;line-height:20px;color:#3A3022;text-align:right;">الرمز صالح لمدة <strong style="color:#1C1915;">{{MINUTES}} دقائق</strong> فقط.</td></tr>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#FBF8F3;border:1px solid #E0D2BF;border-radius:8px;">
+        <tr><td align="center" class="code" style="padding:28px 16px 12px;font-size:44px;line-height:56px;font-weight:700;letter-spacing:14px;color:#7E6646;">{{OTP}}</td></tr>
+        <tr><td align="center" style="padding:0 0 28px;"><table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td style="width:48px;height:4px;background:#926D39;border-radius:9999px;font-size:0;line-height:0;">&nbsp;</td></tr></table></td></tr>
       </table>
-      <p style="margin:24px 0 16px;font-size:16px;line-height:24px;color:#3A3022;">لا تشارك هذا الرمز مع أي شخص. لن نطلب منك مشاركة رمز التحقق أبداً.</p>
-      <p style="margin:0 0 24px;font-size:16px;line-height:24px;color:#3A3022;">إذا لم تطلب هذا الرمز، يمكنك تجاهل هذه الرسالة.</p>
-      <p style="margin:0;font-size:16px;line-height:24px;color:#1C1915;">مع خالص التحية،<br><strong>فريق سقيا زمزم</strong></p>
     </td></tr>
 
-    <!-- English -->
-    <tr><td dir="ltr" align="left" style="padding:32px 40px;border-top:1px solid #E0D2BF;text-align:left;" class="px">
-      <p style="margin:0 0 16px;font-size:16px;line-height:24px;color:#3A3022;">Hello,</p>
-      <p style="margin:0 0 16px;font-size:16px;line-height:24px;color:#3A3022;">You have requested to verify your email address. Please use the One-Time Password (OTP) <strong style="color:#926D39;letter-spacing:2px;">{{OTP}}</strong> to complete your verification.</p>
+    <tr><td style="padding:0 40px 40px;text-align:left;" class="px">
       <p style="margin:0 0 16px;font-size:16px;line-height:24px;color:#3A3022;">This OTP is valid for <strong style="color:#1C1915;">{{MINUTES}} minutes</strong>.</p>
-      <p style="margin:0 0 16px;font-size:16px;line-height:24px;color:#3A3022;">Please do not share this code with anyone. We will never ask you to share your OTP.</p>
+      <p style="margin:0 0 16px;font-size:16px;line-height:24px;color:#3A3022;">Please do not share this code with anyone. NTG Clarity will never ask you to share your OTP.</p>
       <p style="margin:0 0 24px;font-size:16px;line-height:24px;color:#3A3022;">If you did not request this verification code, please ignore this email.</p>
-      <p style="margin:0;font-size:16px;line-height:24px;color:#1C1915;">Thank you,<br><strong>Zamzam Team</strong></p>
+      <p style="margin:0;font-size:16px;line-height:24px;color:#1C1915;">Thank You,<br>NTG Clarity Team</p>
     </td></tr>
 
     <!-- footer: pattern band on deep brown -->
@@ -76,12 +62,8 @@
       <img src="{{FOOTER_BAND_URL}}" width="600" alt="" style="display:block;width:100%;max-width:600px;height:auto;border:0;">
     </td></tr>
     <tr><td align="center" style="padding:0 40px 24px;background:#3A3022;" class="px">
-      <div style="font-size:14px;line-height:20px;font-weight:500;">
-        <a href="{{WEBSITE_URL}}" style="color:#D9BF94;text-decoration:underline;">الموقع الإلكتروني</a><span style="color:rgba(255,255,255,.4);padding:0 8px;">·</span><a href="{{CONTACT_URL}}" style="color:#D9BF94;text-decoration:underline;">تواصل معنا</a><span style="color:rgba(255,255,255,.4);padding:0 8px;">·</span><a href="{{FAQ_URL}}" style="color:#D9BF94;text-decoration:underline;">الأسئلة الشائعة</a>
-      </div>
-      <div style="margin-top:16px;font-size:12px;line-height:18px;color:#FFFFFF;">هذه رسالة آلية، يُرجى عدم الرد عليها.</div>
-      <div dir="ltr" style="font-size:12px;line-height:18px;color:#FFFFFF;">This is an automated message, please do not reply.</div>
-      <div style="margin-top:8px;font-size:12px;line-height:18px;color:#FFFFFF;">© {{YEAR}} زمزم. جميع الحقوق محفوظة.</div>
+      <div style="font-size:14px;line-height:20px;color:#FFFFFF;">Copyright © NTG Clarity Networks Inc</div>
+      <div style="margin-top:12px;font-size:14px;line-height:20px;color:#FFFFFF;">Website: <a href="https://www.NTGClarity.com" style="color:#D9BF94;text-decoration:underline;">www.NTGClarity.com</a></div>
     </td></tr>
 
   </table>
