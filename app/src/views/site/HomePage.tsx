@@ -57,15 +57,15 @@ function HeroCarousel({ v, extra }: { v: V; extra?: ReactNode }) {
     },
     {
       bg: 'var(--kaaba-img) center 40%/cover no-repeat',
-      title: 'عالمية زمزم',
-      text: 'فيلمٌ يروي كيف يصل ماء زمزم المبارك إلى ضيوف الرحمن القادمين من شتى أنحاء العالم.',
+      title: 'عالمية زمزم .. من مكة المكرمة إلى العالم',
+      text: 'من البئر المباركة في قلب المسجد الحرام، يصل ماء زمزم إلى ضيوف الرحمن القادمين من شتى أنحاء العالم. فيلمٌ يروي رحلة السقيا التي تخدمهم على مدار العام، بعنايةٍ تليق بمكانته.',
       cta: 'شاهد الفيلم',
       onClick: v.film?.global,
     },
     {
       bg: 'var(--inner-img) center/cover no-repeat',
-      title: 'تأكّد أنك تشرب ماء زمزم الأصلي',
-      text: 'ماء زمزم لا يُعبَّأ إلا في منشآت المشروع، ولا يُوزَّع إلا عبر قنوات معتمدة.',
+      title: 'زمزم الأصلي .. من المصدر المعتمد إلى يدك',
+      text: 'ماء زمزم لا يُعبَّأ إلا في منشآت المشروع، ولا يُوزَّع إلا عبر قنوات معتمدة. تعرّف على علامات العبوة الأصلية وطرق التحقق منها، وبلّغ عن أي منتج مشتبه به حمايةً لك ولغيرك.',
       cta: 'كيف تتحقق',
       onClick: v.go?.verify,
     },
@@ -121,12 +121,12 @@ export function HomePage({ v }: { v: V }) {
   const stations = list(v.stationCards);
   const st: any = stations[station] || {};
 
-  // Services: the site's four services + tags and a second action (DS card: icon, title, text, tags, primary + secondary).
+  // Services: the site's four services + tags (DS card: icon, title, text, tags, one primary action — the same «استكشف» on every card).
   const SERVICE_EXTRA = [
-    { hi: Mosque01Icon, tags: ['المسجد الحرام', 'المسجد النبوي'], second: ['الأرقام والإحصائيات', v.go?.stats] },
-    { hi: ShoppingCart01Icon, tags: ['للأفراد', 'تطبيق نسك'], second: ['أقرب نقطة بيع', v.go?.buyMap] },
-    { hi: Building03Icon, tags: ['حكومية', 'خاصة', 'غير ربحية'], second: ['الأسئلة الشائعة', v.go?.faq] },
-    { hi: Book02Icon, tags: ['تاريخ', 'معرفة'], second: ['المركز الإعلامي', v.go?.media] },
+    { hi: Mosque01Icon, tags: ['المسجد الحرام', 'المسجد النبوي'] },
+    { hi: ShoppingCart01Icon, tags: ['للأفراد', 'تطبيق نسك'] },
+    { hi: Building03Icon, tags: ['حكومية', 'خاصة', 'غير ربحية'] },
+    { hi: Book02Icon, tags: ['تاريخ', 'معرفة'] },
   ] as const;
 
   const FILMS = [
@@ -175,11 +175,10 @@ export function HomePage({ v }: { v: V }) {
                     </DsTag>
                   ))}
                 </span>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginTop: 'auto' }}>
-                  <DsButton primary onClick={s?.onClick}>
-                    {s?.cta}
+                <div style={{ display: 'flex', marginTop: 'auto' }}>
+                  <DsButton primary onClick={s?.onClick} ariaLabel={'استكشف ' + s?.t}>
+                    استكشف
                   </DsButton>
-                  <DsButton onClick={x.second[1] as any}>{x.second[0]}</DsButton>
                 </div>
               </div>
             );
