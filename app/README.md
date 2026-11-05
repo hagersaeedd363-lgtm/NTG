@@ -1,3 +1,8 @@
+> **Branch `zamzam-portal-email-v2`** — a working copy of the email-only version for further
+> enhancements. Build it with `VITE_AUTH=email` (output: `zamzam-portal-email-v2.html` / `.zip`).
+> The Nafath and email versions as approved on 5 Nov 2026 are frozen on branch
+> `zamzam-portal-frozen-2026-11-05` (and on `zamzam-portal`, which is not changed from here).
+
 # اقتن زمزم — portal
 
 React + Vite + TypeScript implementation of the اقتن زمزم site: the public pages and the B2B
