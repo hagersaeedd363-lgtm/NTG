@@ -62,3 +62,4 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1}
 main,.zz-zoom{zoom:var(--zz-zoom,1)}
 html[data-contrast]{--muted:var(--ink);--ink-2:var(--ink);--line:var(--field-bd);--field-bd:var(--ink);--gold-2:var(--gold-h)}
 html[data-contrast] a{text-decoration:underline}
+.zz-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}

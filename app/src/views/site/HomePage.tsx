@@ -9,6 +9,7 @@ import {
   FilterIcon,
   Mosque01Icon,
   PackageIcon,
+  PlayIcon,
   SecurityCheckIcon,
   ShoppingCart01Icon,
   TestTube01Icon,
@@ -33,11 +34,12 @@ import {
   FeaturedIcon,
   LogoCard,
   Metric,
-  PlayBadge,
+  Hi,
+  PLAY,
   Quote,
+  Tabs,
   Section,
   SectionHeader,
-  VerticalTabs,
   wrap,
 } from '../ds';
 
@@ -56,14 +58,14 @@ function HeroCarousel({ v, extra }: { v: V; extra?: ReactNode }) {
       onClick: v.go?.buy,
     },
     {
-      bg: 'var(--kaaba-img) center 40%/cover no-repeat',
+      bg: "url('assets/news-clock-tower.jpg') center 35%/cover no-repeat",
       title: 'عالمية زمزم .. من مكة المكرمة إلى العالم',
       text: 'من البئر المباركة في قلب المسجد الحرام، يصل ماء زمزم إلى ضيوف الرحمن القادمين من شتى أنحاء العالم. فيلمٌ يروي رحلة السقيا التي تخدمهم على مدار العام، بعنايةٍ تليق بمكانته.',
       cta: 'شاهد الفيلم',
       onClick: v.film?.global,
     },
     {
-      bg: 'var(--inner-img) center/cover no-repeat',
+      bg: 'var(--kaaba-img) center 40%/cover no-repeat',
       title: 'زمزم الأصلي .. من المصدر المعتمد إلى يدك',
       text: 'ماء زمزم لا يُعبَّأ إلا في منشآت المشروع، ولا يُوزَّع إلا عبر قنوات معتمدة. تعرّف على علامات العبوة الأصلية وطرق التحقق منها، وبلّغ عن أي منتج مشتبه به حمايةً لك ولغيرك.',
       cta: 'كيف تتحقق',
@@ -95,9 +97,9 @@ function HeroCarousel({ v, extra }: { v: V; extra?: ReactNode }) {
         <div key={i} aria-roledescription="slide" aria-label={`${i + 1} من ${slides.length}`} style={{ maxWidth: 624, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 32, animation: 'zzfade .35s ease both' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 24, color: '#FFFFFF' }}>
             {i === 0 ? (
-              <h1 style={{ margin: 0, fontSize: 'clamp(36px,4.2vw,60px)', lineHeight: 1.2, fontWeight: 600, letterSpacing: '-0.02em' }}>{s.title}</h1>
+              <h1 style={{ margin: 0, fontSize: 'clamp(36px,4.2vw,60px)', lineHeight: 1.2, fontWeight: 600, letterSpacing: '-1.2px' }}>{s.title}</h1>
             ) : (
-              <h2 style={{ margin: 0, fontSize: 'clamp(36px,4.2vw,60px)', lineHeight: 1.2, fontWeight: 600, letterSpacing: '-0.02em' }}>{s.title}</h2>
+              <h2 style={{ margin: 0, fontSize: 'clamp(36px,4.2vw,60px)', lineHeight: 1.2, fontWeight: 600, letterSpacing: '-1.2px' }}>{s.title}</h2>
             )}
             <p style={{ margin: 0, fontSize: 20, lineHeight: '30px' }}>{s.text}</p>
           </div>
@@ -118,9 +120,8 @@ export function HomePage({ v }: { v: V }) {
   const hasActive = activeOrders(usePortal()).length > 0;
   const scrollPartners = (dir: number) => document.getElementById('partners-row')?.scrollBy({ left: dir * 236, behavior: 'smooth' });
   const P = (t: ReactNode) => <p style={{ margin: 0 }}>{t}</p>;
-  const [station, setStation] = useState(0);
+  const [film, setFilm] = useState(0);
   const stations = list(v.stationCards);
-  const st: any = stations[station] || {};
 
   // Services: the site's four services + tags (DS card: icon, title, text, tags, one primary action — the same «استكشف» on every card).
   const SERVICE_EXTRA = [
@@ -154,7 +155,7 @@ export function HomePage({ v }: { v: V }) {
         />
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(min(100%,200px),1fr))', gap: 16 }}>
           {list(v.homeStats).map((s: any, i: number) => (
-            <Metric key={i} bordered hi={STAT_ICONS[i % STAT_ICONS.length]} value={s?.v} label={s?.l} />
+            <Metric key={i} hi={STAT_ICONS[i % STAT_ICONS.length]} value={s?.v} label={s?.l} />
           ))}
         </div>
       </Section>
@@ -216,97 +217,71 @@ export function HomePage({ v }: { v: V }) {
         </div>
       </Section>
 
-      {/* Films: media wall — one featured film and two smaller tiles; photo with dark gradient, on-colour tags, title, play badge */}
+      {/* Films — DGA Service Page "video" pattern: horizontal tab list (one tab per film) above a video frame with a play icon */}
       <Section label="أفلام زمزم">
         <SectionHeader title="أفلام زمزم" action={<DsButton onClick={v.go?.gallery}>عرض الكل</DsButton>} desc={P('أفلام قصيرة تروي قصة زمزم ورحلة مائه المبارك من البئر إلى العالم.')} />
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(min(100%,360px),1fr))', gridAutoRows: 252, gap: 16 }}>
-          {FILMS.map((f, k) => (
-            <button
-              key={f.title}
-              type="button"
-              onClick={f.onClick}
-              aria-label={'تشغيل فيلم ' + f.title}
-              className="zz-film"
-              style={{
-                position: 'relative',
-                gridRow: k === 0 ? 'span 2' : undefined,
-                gridColumn: k === 0 ? 'span 2' : undefined,
-                padding: 0,
-                border: 0,
-                borderRadius: 'var(--r-lg)',
-                overflow: 'hidden',
-                background: f.bg,
-                cursor: 'pointer',
-                textAlign: 'right',
-                fontFamily: 'inherit',
-              }}
-            >
-              <span aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(28,25,21,.88) 0%, rgba(28,25,21,.35) 45%, rgba(28,25,21,0) 70%)' }} />
-              <span style={{ position: 'absolute', top: k === 0 ? 24 : 16, insetInlineEnd: k === 0 ? 24 : 16 }}>
-                <PlayBadge size={k === 0 ? 64 : 48} />
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+          <Tabs label="أفلام زمزم" items={FILMS.map((f, k) => ({ label: f.title, selected: k === film, onClick: () => setFilm(k) }))} />
+          <button
+            key={film}
+            type="button"
+            onClick={FILMS[film].onClick}
+            aria-label={'تشغيل فيلم ' + FILMS[film].title}
+            className="zz-film"
+            style={{ position: 'relative', display: 'block', width: '100%', height: 'clamp(240px,32vw,440px)', padding: 0, border: 0, borderRadius: 'var(--r-lg)', overflow: 'hidden', background: FILMS[film].bg, cursor: 'pointer', animation: 'zzfade .3s ease both' }}
+          >
+            <span aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'rgba(28,25,21,.25)' }} />
+            <span style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <span style={{ width: 72, height: 72, borderRadius: 9999, background: 'var(--card)', color: 'var(--gold)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 'var(--shadow-lg)' }}>
+                <Hi icon={PlayIcon} size={32} />
               </span>
-              <span style={{ position: 'absolute', insetInline: k === 0 ? 32 : 20, bottom: k === 0 ? 32 : 20, display: 'flex', flexDirection: 'column', gap: k === 0 ? 12 : 8, color: '#FFFFFF' }}>
-                <span style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                  {f.tags.map((t) => (
-                    <DsTag key={t} onColor>
-                      {t}
-                    </DsTag>
-                  ))}
-                </span>
-                <span style={{ fontSize: k === 0 ? 30 : 18, lineHeight: k === 0 ? '38px' : '28px', fontWeight: 700 }}>{f.title}</span>
-                {k === 0 ? <span style={{ maxWidth: 560, fontSize: 16, lineHeight: '24px', opacity: 0.9 }}>{f.text}</span> : null}
+            </span>
+          </button>
+          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 24 }}>
+            <span style={{ flex: '1 1 480px', display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <span style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                {FILMS[film].tags.map((t, k) => (
+                  <DsTag key={t} tone={k === 0 ? 'brand' : undefined}>
+                    {t}
+                  </DsTag>
+                ))}
               </span>
-            </button>
-          ))}
+              <span style={{ fontSize: 24, lineHeight: '32px', fontWeight: 700, color: 'var(--ink)' }}>{FILMS[film].title}</span>
+              <span style={{ fontSize: 16, lineHeight: '24px', color: 'var(--ink)' }}>{FILMS[film].text}</span>
+            </span>
+            <DsButton primary icon={PLAY} onClick={FILMS[film].onClick}>
+              شاهد الفيلم
+            </DsButton>
+          </div>
         </div>
       </Section>
 
-      {/* Journey storytelling: DS Vertical Tab List (six stations) + the selected station in a DS card */}
+      {/* Journey — six numbered DS cards (icon, step number, title, text), read in order like a timeline */}
       <Section band label="رحلة ماء زمزم - تمهيد">
         <SectionHeader
           title="من البئر إلى يديك"
           action={<DsButton onClick={v.go?.journey}>الرحلة كاملة</DsButton>}
           desc={P('لا يصل ماء زمزم إلى ضيف الرحمن صدفةً. بين البئر واليد ستّ محطات، تمرّ فيها كل قطرة تحت رقابةٍ متصلة لا تتوقف على مدار الساعة')}
         />
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 32, alignItems: 'stretch' }}>
-          <div style={{ flex: '0 1 280px', minWidth: 220 }}>
-            <VerticalTabs
-              label="محطات رحلة ماء زمزم"
-              value={station}
-              onChange={setStation}
-              items={stations.map((s: any) => (
-                <>
-                  <span style={{ color: 'var(--gold-2)', fontWeight: 600, minWidth: 20 }}>{s?.n}</span>
+        <ol style={{ margin: 0, padding: 0, listStyle: 'none', display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(min(100%,360px),1fr))', gap: 16 }}>
+          {stations.map((s: any, k: number) => (
+            <li key={k} style={dsCard}>
+              <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <FeaturedIcon hi={STATION_ICONS[k % STATION_ICONS.length]} />
+                <span aria-hidden="true" style={{ fontSize: 36, lineHeight: '44px', fontWeight: 700, color: 'var(--gold-3)' }}>
+                  {(k + 1).toLocaleString('ar-EG', { minimumIntegerDigits: 2 })}
+                </span>
+              </span>
+              <span style={{ display: 'flex', flexDirection: 'column', gap: 8, color: 'var(--ink)' }}>
+                <span style={{ fontSize: 18, lineHeight: '28px', fontWeight: 700 }}>
+                  <span className="zz-sr">المحطة {s?.n}: </span>
                   {s?.title}
-                </>
-              ))}
-            />
-          </div>
-          <div role="tabpanel" aria-label={st?.title} key={station} style={{ ...dsCard, flex: '1 1 480px', padding: 24, animation: 'zzfade .25s ease both' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-              <FeaturedIcon hi={STATION_ICONS[station % STATION_ICONS.length]} size={56} />
-              <DsTag tone="brand">
-                المحطة {st?.n} من {(stations.length || 6).toLocaleString('ar-EG')}
-              </DsTag>
-            </div>
-            <span style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <span style={{ fontSize: 24, lineHeight: '32px', fontWeight: 700, color: 'var(--ink)' }}>{st?.h || st?.title}</span>
-              <span style={{ fontSize: 16, lineHeight: '24px', color: 'var(--ink)' }}>{st?.short}</span>
-            </span>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginTop: 'auto' }}>
-              {station < stations.length - 1 ? (
-                <DsButton primary onClick={() => setStation(station + 1)}>
-                  المحطة التالية
-                </DsButton>
-              ) : (
-                <DsButton primary onClick={v.go?.journey}>
-                  الرحلة كاملة
-                </DsButton>
-              )}
-              {station > 0 ? <DsButton onClick={() => setStation(station - 1)}>المحطة السابقة</DsButton> : null}
-            </div>
-          </div>
-        </div>
+                </span>
+                <span style={{ fontSize: 16, lineHeight: '24px', height: 72, ...clamp(3) }}>{s?.short}</span>
+              </span>
+            </li>
+          ))}
+        </ol>
       </Section>
 
       {/* DS Articles and News Section: three cards (image 250, title, text, primary «قراءة المزيد») */}

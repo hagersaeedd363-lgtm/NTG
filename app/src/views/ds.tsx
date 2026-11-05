@@ -337,7 +337,7 @@ export function CarouselDots({ count, index, onPick, onColor, compact }: { count
             aria-selected={i === index}
             aria-label={'الشريحة ' + (i + 1)}
             onClick={() => onPick(i)}
-            style={{ width: 12, height: 12, padding: 0, border: 0, borderRadius: 'var(--r-full)', cursor: 'pointer', background: i === index ? (onColor ? '#FFFFFF' : 'var(--gold)') : onColor ? 'rgba(255,255,255,.5)' : 'var(--line)' }}
+            style={{ width: 12, height: 12, padding: 0, border: 0, borderRadius: 'var(--r-full)', cursor: 'pointer', background: i === index ? 'var(--gold)' : onColor ? '#FFFFFF' : 'var(--line)' }}
           />
         ))}
       </div>
