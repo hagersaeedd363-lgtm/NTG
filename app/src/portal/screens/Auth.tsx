@@ -805,10 +805,10 @@ export function AuthScreen({ s }: { s: PortalState }) {
           aria-label="سقيا زمزم"
           style={{
             display: "block",
-            width: 170,
-            height: 42,
+            width: 60,
+            height: 56,
             background:
-              "url('assets/logo-sm-gold.svg') right center/contain no-repeat",
+              "url('assets/zamzam-logo.png') right center/contain no-repeat",
           }}
         />
         <h2

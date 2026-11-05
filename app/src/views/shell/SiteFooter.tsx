@@ -18,7 +18,7 @@ export function SiteFooter({ v }: { v: V }) {
       <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '0 clamp(16px,5.6vw,80px)', display: 'flex', flexDirection: 'column', gap: '40px' }}>
         <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-start', justifyContent: 'space-between', gap: '32px' }}>
           <button onClick={v.go?.home} aria-label="الرئيسية" style={{ background: 'none', border: '0', padding: '0', cursor: 'pointer' }}>
-            <span style={{ display: 'block', width: '200px', height: '48px', background: "url('assets/logo-sm-gold.svg') right center/contain no-repeat" }} />
+            <span style={{ display: 'block', width: '80px', height: '76px', background: "url('assets/zamzam-logo.png') right center/contain no-repeat" }} />
           </button>
         </div>
         <nav aria-label="روابط الموقع" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: '24px 32px', borderTop: '1px solid rgba(255,255,255,.3)', paddingTop: '24px' }}>

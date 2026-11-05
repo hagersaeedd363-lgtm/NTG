@@ -17,7 +17,7 @@ export function MobileNav({ v }: { v: V }) {
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 24px' }}>
-          <span style={{ display: 'block', width: '150px', height: '36px', background: "url('assets/logo-sm-gold.svg') right center/contain no-repeat" }} />
+          <span style={{ display: 'block', width: '150px', height: '36px', background: "url('assets/zamzam-logo.png') right center/contain no-repeat" }} />
           <button
             onClick={v.closeMobileNav}
             aria-label="إغلاق"

@@ -3,7 +3,7 @@
  * (Section, Section header, Button, Card, Featured icon, Metric, Chip, Accordion, Breadcrumb,
  * Page header). Colours come from the Zamzam palette tokens; everything else follows the DS.
  */
-import type { CSSProperties, ReactNode } from 'react';
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { Icon } from '../portal/ui';
 
 export const PLAY = 'M8 5.5v13l11-6.5z';
@@ -11,11 +11,18 @@ export const CHEV_DOWN = 'M6 9l6 6 6-6';
 export const CHEV_LEFT = 'M15 6l-6 6 6 6';
 export const CHEV_RIGHT = 'M9 6l6 6-6 6';
 
+/**
+ * One page container for every band (digital stamp, header, sections, page headers, footer):
+ * 1280px content, 80px gutters at 1440 (shrinking on smaller screens), centred — so both
+ * edges line up on every row of the page.
+ */
+export const wrap: CSSProperties = { width: '100%', maxWidth: 1440, margin: '0 auto', padding: '0 clamp(16px,5.6vw,80px)', boxSizing: 'border-box' };
+
 /** Section: 40px vertical padding, 80px gutters, 1280px content. `band` = neutral band background. */
 export function Section({ children, band, label, id, gap = 32 }: { children: ReactNode; band?: boolean; label?: string; id?: string; gap?: number }) {
   return (
     <section id={id} data-screen-label={label} style={{ background: band ? 'var(--bg-alt)' : 'var(--bg)', padding: '40px 0' }}>
-      <div style={{ maxWidth: 1440, margin: '0 auto', padding: '0 clamp(16px,5.6vw,80px)', display: 'flex', flexDirection: 'column', gap }}>{children}</div>
+      <div style={{ ...wrap, display: 'flex', flexDirection: 'column', gap }}>{children}</div>
     </section>
   );
 }
@@ -62,17 +69,40 @@ const btnBase: CSSProperties = {
   flexShrink: 0,
 };
 
-/** DS button: primary (brand fill) or secondary (outline). */
-export function DsButton({ children, onClick, primary, icon, ariaLabel }: { children: ReactNode; onClick?: () => void; primary?: boolean; icon?: string; ariaLabel?: string }) {
+export const btnStyle = btnBase;
+
+/**
+ * DS button (Large, 40px, r4, Text md medium, 16px padding, 4px gap, 24px icon):
+ * primary = brand fill + white text; secondary = card fill + neutral border (border-neutral-primary);
+ * onColor = white fill + default text (on photos / dark bands); onColorSecondary = outline in white.
+ */
+export function DsButton({
+  children,
+  onClick,
+  primary,
+  onColor,
+  icon,
+  ariaLabel,
+}: {
+  children: ReactNode;
+  onClick?: () => void;
+  primary?: boolean;
+  onColor?: 'primary' | 'secondary';
+  icon?: string;
+  ariaLabel?: string;
+}) {
+  const look: CSSProperties =
+    onColor === 'primary'
+      ? { border: 0, background: '#FFFFFF', color: '#1C1915' }
+      : onColor === 'secondary'
+        ? { border: '1px solid #FFFFFF', background: 'transparent', color: '#FFFFFF' }
+        : primary
+          ? { border: 0, background: 'var(--gold)', color: '#FFFFFF' }
+          : { border: '1px solid var(--line)', background: 'var(--card)', color: 'var(--ink)' };
+  const cls = onColor ? 'dga-btn dga-btn-oncolor' : 'dga-btn ' + (primary ? 'dga-btn-primary' : 'dga-btn-secondary');
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-label={ariaLabel}
-      className={'dga-btn ' + (primary ? 'dga-btn-primary' : 'dga-btn-secondary')}
-      style={{ ...btnBase, border: primary ? 0 : '1px solid var(--field-bd)', background: primary ? 'var(--gold)' : 'var(--card)', color: primary ? '#fff' : 'var(--ink)' }}
-    >
-      {icon ? <Icon d={icon} size={20} /> : null}
+    <button type="button" onClick={onClick} aria-label={ariaLabel} className={cls} style={{ ...btnBase, ...look }}>
+      {icon ? <Icon d={icon} size={24} /> : null}
       {children}
     </button>
   );
@@ -82,16 +112,15 @@ export function DsButton({ children, onClick, primary, icon, ariaLabel }: { chil
 export function DsIconButton({ d, onClick, label }: { d: string; onClick?: () => void; label: string }) {
   return (
     <button type="button" onClick={onClick} aria-label={label} className="dga-btn dga-btn-neutral" style={{ ...btnBase, width: 40, padding: 0, border: 0, background: 'var(--card-2)', color: 'var(--ink)' }}>
-      <Icon d={d} size={24} sw={1.6} />
+      <Icon d={d} size={24} />
     </button>
   );
 }
 
 /** Section header: Display sm bold title with the action at the end, then the description (16/24). */
-export function SectionHeader({ title, desc, tag, action }: { title: ReactNode; desc?: ReactNode; tag?: ReactNode; action?: ReactNode }) {
+export function SectionHeader({ title, desc, action }: { title: ReactNode; desc?: ReactNode; action?: ReactNode }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-      {tag ? <DsTag>{tag}</DsTag> : null}
       <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 32 }}>
         <h2 style={{ flex: '1 1 320px', margin: 0, fontSize: 30, lineHeight: '38px', fontWeight: 700, color: 'var(--ink)' }}>{title}</h2>
         {action}
@@ -119,7 +148,7 @@ export const dsCard: CSSProperties = {
 export function FeaturedIcon({ d, size = 48 }: { d: string; size?: 40 | 48 | 56 }) {
   return (
     <span style={{ width: size, height: size, flexShrink: 0, borderRadius: 'var(--r-full)', background: 'var(--gold-soft)', color: 'var(--gold-on-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <Icon d={d} size={size === 56 ? 28 : size === 48 ? 24 : 20} sw={1.6} />
+      <Icon d={d} size={size === 40 ? 20 : 24} />
     </span>
   );
 }
@@ -236,5 +265,139 @@ export function PlayBadge({ size = 56 }: { size?: number }) {
         <path d={PLAY} />
       </svg>
     </span>
+  );
+}
+
+/** DS carousel controls: 12px dots, 8px apart, 12px padding; the current dot is the brand colour. */
+export function CarouselDots({ count, index, onPick, onColor }: { count: number; index: number; onPick: (i: number) => void; onColor?: boolean }) {
+  if (count < 2) return null;
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <div role="tablist" aria-label="التنقل بين الشرائح" style={{ display: 'flex', gap: 8, padding: 12 }}>
+        {Array.from({ length: count }, (_, i) => (
+          <button
+            key={i}
+            type="button"
+            role="tab"
+            aria-selected={i === index}
+            aria-label={'الشريحة ' + (i + 1)}
+            onClick={() => onPick(i)}
+            style={{ width: 12, height: 12, padding: 0, border: 0, borderRadius: 'var(--r-full)', cursor: 'pointer', background: i === index ? (onColor ? '#FFFFFF' : 'var(--gold)') : onColor ? 'rgba(255,255,255,.5)' : 'var(--line)' }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/** DS carousel: a row of fixed-width cards (16px apart) that scrolls by page, with the dots underneath. */
+export function Carousel({ children, label }: { children: ReactNode; label: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [pages, setPages] = useState(1);
+  const [page, setPage] = useState(0);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const measure = () => {
+      setPages(Math.max(1, Math.ceil((el.scrollWidth - 1) / el.clientWidth)));
+      setPage(Math.round(Math.abs(el.scrollLeft) / el.clientWidth));
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    el.addEventListener('scroll', measure, { passive: true });
+    return () => {
+      ro.disconnect();
+      el.removeEventListener('scroll', measure);
+    };
+  }, []);
+  const pick = (i: number) => {
+    const el = ref.current;
+    if (!el) return;
+    // RTL: scrollLeft runs from 0 towards negative values.
+    el.scrollTo({ left: -i * el.clientWidth, behavior: 'smooth' });
+  };
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      <div ref={ref} role="region" aria-label={label} style={{ display: 'flex', gap: 16, overflowX: 'auto', scrollSnapType: 'x mandatory', scrollbarWidth: 'none' }}>
+        {children}
+      </div>
+      <CarouselDots count={pages} index={page} onPick={pick} />
+    </div>
+  );
+}
+
+/** DS logo card (Partners): white card, 1px border, r16, 16px padding, image only. */
+export function LogoCard({ children, onClick, label }: { children: ReactNode; onClick?: () => void; label: string }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={label}
+      title={label}
+      className="dga-card-link"
+      style={{ flex: '0 0 auto', minWidth: 98, height: 100, padding: 16, boxSizing: 'border-box', background: 'var(--card)', border: '1px solid var(--line)', borderRadius: 'var(--r-lg)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: onClick ? 'pointer' : 'default' }}
+    >
+      {children}
+    </button>
+  );
+}
+
+/** DS search box: 40px field, r4, search icon at the start, Text md placeholder. */
+export function SearchBox({ value, onInput, placeholder, label, width = 320 }: { value: string; onInput?: (e: any) => void; placeholder: string; label: string; width?: number | string }) {
+  return (
+    <div style={{ position: 'relative', width, maxWidth: '100%' }}>
+      <input
+        value={value}
+        onInput={onInput}
+        placeholder={placeholder}
+        aria-label={label}
+        type="search"
+        className="dga-field"
+        style={{ width: '100%', height: 40, boxSizing: 'border-box', paddingInlineStart: 44, paddingInlineEnd: 8, borderRadius: 'var(--r-sm)', border: '1px solid var(--field-bd)', background: 'var(--card)', color: 'var(--ink)', fontSize: 16, lineHeight: '24px', outline: 'none', fontFamily: 'inherit' }}
+      />
+      <span style={{ position: 'absolute', insetInlineStart: 16, top: 10, color: 'var(--ink)', display: 'flex', pointerEvents: 'none' }}>
+        <Icon d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM20 20l-3.5-3.5" size={20} />
+      </span>
+    </div>
+  );
+}
+
+/** DS horizontal tab list: 1px divider under the row; tab 12/16 padding, Text sm; selected = bold + 2px brand underline. */
+export function Tabs({ items, label }: { items: Array<{ label: ReactNode; selected?: boolean; onClick?: () => void; count?: ReactNode }>; label: string }) {
+  return (
+    <div role="tablist" aria-label={label} style={{ display: 'flex', overflowX: 'auto', borderBottom: '1px solid var(--line)', scrollbarWidth: 'none' }}>
+      {items.map((t, i) => (
+        <button
+          key={i}
+          type="button"
+          role="tab"
+          aria-selected={!!t.selected}
+          onClick={t.onClick}
+          className="dga-tab"
+          style={{
+            background: 'none',
+            border: 0,
+            borderRadius: 'var(--r-sm) var(--r-sm) 0 0',
+            borderBottom: '2px solid ' + (t.selected ? 'var(--gold)' : 'transparent'),
+            marginBottom: -1,
+            padding: '16px 16px 14px',
+            fontSize: 14,
+            lineHeight: '20px',
+            fontWeight: t.selected ? 700 : 500,
+            color: t.selected ? 'var(--ink)' : 'var(--ink-2)',
+            cursor: 'pointer',
+            whiteSpace: 'nowrap',
+            fontFamily: 'inherit',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 4,
+          }}
+        >
+          {t.label}
+          {t.count != null ? <span style={{ fontSize: 12, lineHeight: '18px', color: 'var(--muted)', fontWeight: 500 }}>({t.count})</span> : null}
+        </button>
+      ))}
+    </div>
   );
 }

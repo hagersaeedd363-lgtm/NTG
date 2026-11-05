@@ -21,10 +21,10 @@ export function BuyBanner() {
   );
   return (
     <div id="buy-pack">
-      <Section band label="اقتن عبوة زمزم">
+      <Section label="اقتن عبوة زمزم">
         <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'stretch', gap: 32 }}>
           <div style={{ flex: '1 1 460px', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 32 }}>
-            <SectionHeader tag="اطلب من هنا" title="اقتن ماء زمزم" desc={<p style={{ margin: 0 }}>زمزم... معجزة جعلها الله لأمة محمد ﷺ ، الآن على بعد نقرة زر.</p>} />
+            <SectionHeader title="اقتن ماء زمزم" desc={<p style={{ margin: 0 }}>زمزم... معجزة جعلها الله لأمة محمد ﷺ ، الآن على بعد نقرة زر.</p>} />
             <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 16 }}>
               {point(ICON.box, AR(ITEMS.length) + ' أحجام من ٣٣٠ مل إلى ٥ لتر · تبدأ من ' + AR(FROM) + ' ر.س للكرتون')}
               {point(TRUCK, 'توصيل إلى عنوانك أو استلام من أقرب مستودع')}
@@ -40,7 +40,7 @@ export function BuyBanner() {
             style={{
               flex: '1 1 400px',
               minHeight: 340,
-              background: 'var(--card)',
+              background: 'var(--bg-alt)',
               border: '1px solid var(--line)',
               borderRadius: 'var(--r-lg)',
               padding: 16,

@@ -1,89 +1,132 @@
-import { Fragment } from 'react';
+import { Fragment, useState, type CSSProperties, type ReactNode } from 'react';
 import type { V } from '../../types';
 import { css, list } from '../../lib/dc';
+import { Icon } from '../../portal/ui';
+import { wrap } from '../ds';
+
+const LINK_I = 'M13.5 10.5l-3 3M9.6 7.8l1.2-1.2a4 4 0 0 1 5.6 5.6l-1.2 1.2M14.4 16.2l-1.2 1.2a4 4 0 0 1-5.6-5.6l1.2-1.2';
+const LOCK_I = 'M6 10h12v10H6zM8.5 10V7.5a3.5 3.5 0 0 1 7 0V10M12 14v2';
+
+/** DS Digital Stamp: neutral 32px bar, flag + statement + «كيف تتحقق؟» toggle; expands to the two checks. */
+function DigitalStamp() {
+  const [open, setOpen] = useState(false);
+  const item = (d: string, title: ReactNode, text: string) => (
+    <div style={{ flex: '1 1 420px', display: 'flex', alignItems: 'flex-start', gap: 16 }}>
+      <span style={{ width: 40, height: 40, flexShrink: 0, borderRadius: 'var(--r-full)', border: '1px solid var(--dga-stamp-link)', color: 'var(--dga-stamp-link)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <Icon d={d} size={20} />
+      </span>
+      <span style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        <span style={{ fontSize: 16, lineHeight: '24px', fontWeight: 600, color: 'var(--ink)' }}>{title}</span>
+        <span style={{ fontSize: 14, lineHeight: '20px', color: 'var(--ink-2)' }}>{text}</span>
+      </span>
+    </div>
+  );
+  return (
+    <div style={{ background: 'var(--card-2)' }}>
+      <div style={{ ...wrap, minHeight: 32, display: 'flex', alignItems: 'center', gap: 8 }}>
+        <span aria-hidden="true" style={{ width: 20, height: 14, borderRadius: 2, background: '#006923', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+          <span style={{ width: 11, height: 2, borderRadius: 1, background: '#fff', marginTop: 4 }} />
+        </span>
+        <span style={{ fontSize: 12, lineHeight: '18px', fontWeight: 500, color: 'var(--ink)' }}>موقع حكومي مسجل لدى هيئة الحكومة الرقمية</span>
+        <button
+          type="button"
+          onClick={() => setOpen((o) => !o)}
+          aria-expanded={open}
+          aria-controls="dga-stamp-panel"
+          className="dga-stamp-link"
+          style={{ display: 'inline-flex', alignItems: 'center', gap: 4, padding: 0, border: 0, background: 'none', fontSize: 12, lineHeight: '18px', fontWeight: 500, color: 'var(--dga-stamp-link)', cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap' }}
+        >
+          كيف تتحقق؟
+          <Icon d="M6 9l6 6 6-6" size={16} style={{ transition: 'transform .2s', transform: open ? 'rotate(180deg)' : 'none' }} />
+        </button>
+      </div>
+      {open ? (
+        <div id="dga-stamp-panel" style={{ ...wrap, paddingTop: 16, paddingBottom: 24, display: 'flex', flexWrap: 'wrap', gap: 24, animation: 'zzfade .18s ease both' }}>
+          {item(
+            LINK_I,
+            <>
+              روابط المواقع الإلكترونية الرسمية الحكومية تنتهي بـ <span style={{ color: 'var(--dga-stamp-link)' }}>gov.sa</span>
+            </>,
+            'جميع روابط المواقع الرسمية التابعة للجهات الحكومية في المملكة العربية السعودية تنتهي بـ gov.sa.',
+          )}
+          {item(
+            LOCK_I,
+            <>
+              المواقع الإلكترونية الحكومية الموثوقة تستخدم بروتوكول <span style={{ color: 'var(--dga-stamp-link)' }}>HTTPS</span>
+            </>,
+            'تحقق من أن الموقع يستخدم بروتوكول HTTPS.',
+          )}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+const hAct: CSSProperties = {
+  height: 72,
+  padding: '0 16px',
+  border: 0,
+  borderRadius: 'var(--r-sm)',
+  background: 'transparent',
+  color: 'var(--ink)',
+  display: 'flex',
+  alignItems: 'center',
+  gap: 4,
+  fontSize: 16,
+  lineHeight: '24px',
+  fontWeight: 500,
+  cursor: 'pointer',
+  whiteSpace: 'nowrap',
+  fontFamily: 'inherit',
+};
 
 export function SiteHeader({ v }: { v: V }) {
   return (
     <>
       <header style={{ position: 'sticky', top: 0, zIndex: 60, background: 'var(--card)' }}>
-        {/* DGA Digital Stamp */}
-        <div style={{ height: 32, padding: '0 32px', background: 'var(--card-2)', display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <span aria-hidden="true" style={{ width: 20, height: 14, borderRadius: 2, background: '#006923', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <span style={{ width: 11, height: 2, borderRadius: 1, background: '#fff', marginTop: 4 }} />
-            </span>
-            <span style={{ fontSize: '14px', lineHeight: '20px', fontWeight: 500, color: 'var(--ink)', whiteSpace: 'nowrap' }}>موقع حكومي مسجل لدى هيئة الحكومة الرقمية</span>
-            <a
-              href="https://raqmi.dga.gov.sa/platforms/platforms"
-              target="_blank"
-              rel="noreferrer"
-              style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: '14px', lineHeight: '20px', color: 'var(--dga-stamp-link)', whiteSpace: 'nowrap' }}
-            >
-              كيف تتحقق؟
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M6 9l6 6 6-6" />
-              </svg>
-            </a>
-          </div>
-        </div>
-        {/* DGA Nav Header */}
-        <div
-          style={{
-            height: 72,
-            padding: '0 32px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: 16,
-            borderBottom: '1px solid var(--line)',
-          }}
-        >
+        <DigitalStamp />
+        {/* DGA Nav Header: logo + menu items at the start, header actions at the end, 1px divider */}
+        <div style={{ borderBottom: '1px solid var(--line)' }}>
+        <div style={{ ...wrap, height: 72, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 16, minWidth: 0 }}>
-            <button
-              onClick={v.go?.home}
-              aria-label="الرئيسية"
-              style={{ background: 'none', border: '0', padding: '4px', cursor: 'pointer', display: 'flex', flexShrink: '0' }}
-            >
-              <span style={{ display: 'block', width: '160px', height: '48px', background: "url('assets/logo-sm-gold.svg') right center/contain no-repeat" }} />
+            <button onClick={v.go?.home} aria-label="الرئيسية" style={{ background: 'none', border: '0', padding: 0, cursor: 'pointer', display: 'flex', flexShrink: 0 }}>
+              <img src="assets/zamzam-logo.png" alt="" style={{ display: 'block', height: 58, width: 'auto' }} />
             </button>
             {v.desktop ? (
-              <nav style={{ display: 'flex', alignItems: 'center' }} className="zz-header-nav">
+              <nav aria-label="القائمة الرئيسية" style={{ display: 'flex', alignItems: 'center' }} className="zz-header-nav">
                 {list(v.navItems).map((item: any, $index: number) => (
                   <Fragment key={$index}>
                     <div onMouseEnter={item?.onEnter} onMouseLeave={item?.onLeave} style={{ position: 'relative' }}>
                       <button
                         onClick={item?.onClick}
                         aria-current={item?.active ? 'page' : undefined}
+                        aria-haspopup={item?.hasMenu ? 'menu' : undefined}
+                        aria-expanded={item?.hasMenu ? !!item?.open : undefined}
                         style={{
                           height: 72,
                           padding: '8px 16px',
-                          background: 'none',
+                          background: item?.active ? 'var(--gold)' : 'transparent',
                           border: 0,
                           borderRadius: 'var(--r-sm)',
                           cursor: 'pointer',
                           display: 'flex',
                           alignItems: 'center',
                           gap: 4,
-                          fontSize: '16px',
+                          fontSize: 16,
                           lineHeight: '24px',
-                          fontWeight: 500,
-                          color: item?.active ? 'var(--gold-2)' : 'var(--ink)',
+                          fontWeight: item?.active ? 600 : 500,
+                          color: item?.active ? '#FFFFFF' : 'var(--ink)',
                           whiteSpace: 'nowrap',
-                          position: 'relative',
                           fontFamily: 'inherit',
                         }}
-                        className="dga-navlink"
+                        className="dga-menu"
                       >
                         <span>{item?.label}</span>
-                        {item?.hasMenu ? (
-                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                            <path d="M6 9l6 6 6-6" />
-                          </svg>
-                        ) : null}
-                        {item?.active ? <span aria-hidden="true" style={{ position: 'absolute', left: 16, right: 16, bottom: 0, height: 3, borderRadius: '3px 3px 0 0', background: 'var(--gold)' }} /> : null}
+                        {item?.hasMenu ? <Icon d="M6 9l6 6 6-6" size={20} /> : null}
                       </button>
                       {item?.open ? (
                         <div
+                          role="menu"
                           style={{
                             position: 'absolute',
                             top: '100%',
@@ -102,18 +145,21 @@ export function SiteHeader({ v }: { v: V }) {
                           {list(item?.children).map((c: any, $index: number) => (
                             <Fragment key={$index}>
                               <button
+                                role="menuitem"
                                 onClick={c?.onClick}
+                                aria-current={c?.active ? 'page' : undefined}
                                 style={{
-                                  background: c?.active ? 'var(--card-2)' : 'transparent',
+                                  background: c?.active ? 'var(--gold-soft)' : 'transparent',
                                   border: 0,
                                   borderRadius: 'var(--r-sm)',
-                                  padding: '10px 12px',
+                                  padding: '8px 16px',
+                                  minHeight: 40,
                                   textAlign: 'right',
                                   cursor: 'pointer',
-                                  fontSize: '16px',
+                                  fontSize: 16,
                                   lineHeight: '24px',
-                                  fontWeight: 500,
-                                  color: c?.active ? 'var(--gold-2)' : 'var(--ink)',
+                                  fontWeight: c?.active ? 600 : 500,
+                                  color: c?.active ? 'var(--gold-on-soft)' : 'var(--ink)',
                                   whiteSpace: 'nowrap',
                                   fontFamily: 'inherit',
                                 }}
@@ -131,7 +177,7 @@ export function SiteHeader({ v }: { v: V }) {
               </nav>
             ) : null}
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexShrink: '0' }} className="zz-header-actions">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 0, flexShrink: '0' }} className="zz-header-actions">
             {v.desktop ? (
               <>
                 <button
@@ -152,16 +198,17 @@ export function SiteHeader({ v }: { v: V }) {
                     gap: '4px',
                     whiteSpace: 'nowrap',
                     fontFamily: 'inherit',
+                    marginInlineEnd: 8,
                   }}
                   className="zz-header-buy dga-btn dga-btn-primary"
                 >
                   <svg
-                    width="18"
-                    height="18"
+                    width="24"
+                    height="24"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
-                    strokeWidth="1.7"
+                    strokeWidth="1.5"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   >
@@ -179,24 +226,8 @@ export function SiteHeader({ v }: { v: V }) {
                 aria-haspopup="menu"
                 aria-expanded={v.ox?.acctOpen}
                 aria-label={v.ox?.authLabel}
-                style={{
-                  height: '40px',
-                  padding: '0 16px',
-                  borderRadius: 'var(--r-sm)',
-                  background: 'var(--card)',
-                  border: '1px solid var(--field-bd)',
-                  color: 'var(--ink)',
-                  fontSize: '16px',
-                  fontWeight: 500,
-                  lineHeight: '24px',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  whiteSpace: 'nowrap',
-                  fontFamily: 'inherit',
-                }}
-                className="zz-header-account dga-btn dga-btn-secondary"
+                style={hAct}
+                className="zz-header-account dga-hact"
               >
                 {v.ox?.signedIn ? (
                   <>
@@ -209,20 +240,18 @@ export function SiteHeader({ v }: { v: V }) {
                     </span>
                     {v.desktop ? <span style={{ maxWidth: '120px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{v.ox?.firstName}</span> : null}
                     {v.desktop ? (
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                        <path d="M6 9l6 6 6-6" />
-                      </svg>
+                      <Icon d="M6 9l6 6 6-6" size={20} />
                     ) : null}
                   </>
                 ) : (
                   <>
                     <svg
-                      width="18"
-                      height="18"
+                      width="24"
+                      height="24"
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
-                      strokeWidth="1.7"
+                      strokeWidth="1.5"
                       strokeLinecap="round"
                       strokeLinejoin="round"
                     >
@@ -244,7 +273,7 @@ export function SiteHeader({ v }: { v: V }) {
                     role="menu"
                     style={{
                       position: 'absolute',
-                      top: '48px',
+                      top: '72px',
                       left: '0',
                       zIndex: '71',
                       minWidth: '260px',
@@ -373,25 +402,15 @@ export function SiteHeader({ v }: { v: V }) {
             <button
               onClick={v.toggleTheme}
               aria-label="تبديل الوضع"
-              style={{
-                width: '40px',
-                height: '40px',
-                borderRadius: 'var(--r-sm)',
-                background: 'var(--card)',
-                border: '1px solid var(--field-bd)',
-                color: 'var(--ink)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer',
-              }}
-              className="dga-btn dga-btn-secondary"
+              title="تبديل الوضع"
+              style={{ ...hAct, width: 56, padding: 0, justifyContent: 'center' }}
+              className="dga-hact"
             >
               {v.isLight ? (
                 <>
                   <svg
-                    width="22"
-                    height="22"
+                    width="24"
+                    height="24"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -405,7 +424,7 @@ export function SiteHeader({ v }: { v: V }) {
               ) : null}
               {v.isDark ? (
                 <>
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
                     <circle cx="12" cy="12" r="4.2" />
                     <path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4" />
                   </svg>
@@ -438,6 +457,7 @@ export function SiteHeader({ v }: { v: V }) {
               </>
             ) : null}
           </div>
+        </div>
         </div>
       </header>
     </>

@@ -772,7 +772,7 @@ export function MediaPage({ v }: { v: V }) {
                         boxShadow: 'var(--card-shadow)',
                       }}
                     >
-                      <span style={{ width: '70%', aspectRatio: '212/51', background: "url('assets/logo-sm-gold.svg') center/contain no-repeat" }} />
+                      <span style={{ width: '70%', aspectRatio: '210/198', maxHeight: '60%', background: "url('assets/zamzam-logo.png') center/contain no-repeat" }} />
                     </div>
                     <div
                       style={{
@@ -784,7 +784,7 @@ export function MediaPage({ v }: { v: V }) {
                         justifyContent: 'center',
                       }}
                     >
-                      <span style={{ width: '70%', aspectRatio: '212/51', background: "url('assets/logo-sm-gold.svg') center/contain no-repeat" }} />
+                      <span style={{ width: '70%', aspectRatio: '210/198', maxHeight: '60%', background: "url('assets/zamzam-logo.png') center/contain no-repeat" }} />
                     </div>
                   </div>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>

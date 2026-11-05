@@ -116,7 +116,10 @@ export const formGrid: CSSProperties = {
 const inputBase: CSSProperties = {
   width: '100%',
   height: 40,
-  padding: '0 16px',
+  paddingTop: 0,
+  paddingBottom: 0,
+  paddingInlineStart: 16,
+  paddingInlineEnd: 8,
   borderRadius: 'var(--r-sm)',
   lineHeight: '24px',
   color: 'var(--ink)',
@@ -128,7 +131,7 @@ const inputBase: CSSProperties = {
 
 function Label({ htmlFor, children, required, lock }: { htmlFor: string; children: ReactNode; required?: boolean; lock?: boolean }) {
   return (
-    <label htmlFor={htmlFor} style={{ display: 'flex', alignItems: 'center', gap: 4, minHeight: 20, fontSize: '14px', lineHeight: '20px', fontWeight: 500, color: 'var(--ink)' }}>
+    <label htmlFor={htmlFor} style={{ display: 'flex', alignItems: 'center', gap: 4, minHeight: 20, fontSize: '14px', lineHeight: '20px', fontWeight: 600, color: 'var(--ink)' }}>
       {children}
       {required ? (
         <span aria-hidden="true" style={{ color: 'var(--danger)' }}>
@@ -146,15 +149,21 @@ function Label({ htmlFor, children, required, lock }: { htmlFor: string; childre
 
 function FieldError({ id, msg }: { id: string; msg?: string }) {
   return msg ? (
-    <span id={id} role="alert" style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: '14px', lineHeight: '20px', color: 'var(--danger)' }}>
+    <span id={id} role="alert" style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '4px 0', fontSize: '14px', lineHeight: '20px', color: 'var(--danger)' }}>
       <Icon d={ICON.alert} size={16} />
       {msg}
     </span>
   ) : null;
 }
 
+/** DS helper text: Text sm, 4px vertical padding, help-circle icon (16) at the start. */
 export function Hint({ children }: { children: ReactNode }) {
-  return <span style={{ fontSize: '14px', lineHeight: '20px', color: 'var(--muted)' }}>{children}</span>;
+  return (
+    <span style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '4px 0', fontSize: '14px', lineHeight: '20px', color: 'var(--ink-2)' }}>
+      <Icon d="M2 12a10 10 0 1 0 20 0 10 10 0 0 0-20 0zM9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6M12 17h.01" size={16} style={{ flexShrink: 0 }} />
+      <span>{children}</span>
+    </span>
+  );
 }
 
 interface FieldProps {
@@ -481,7 +490,7 @@ export function SecondaryButton({ children, onClick, disabled, icon, full, style
         height: 40,
         padding: '0 16px',
         borderRadius: 'var(--r-sm)',
-        border: '1px solid ' + (disabled ? 'var(--line)' : 'var(--field-bd)'),
+        border: '1px solid var(--line)',
         background: 'var(--card)',
         color: disabled ? 'var(--disabled-fg)' : 'var(--ink)',
         fontSize: '16px',
