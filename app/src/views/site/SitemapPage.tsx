@@ -13,6 +13,7 @@ export function SitemapPage({ v }: { v: V }) {
       ['gallery', 'المكتبة المرئية'],
     ]],
     ['faq', 'الدعم والمساعدة', SUPPORT_MENU as Array<[string, string]>],
+    ['buy', 'اقتن زمزم'],
     ['search', 'البحث'],
   ];
   const link = (id: string, label: string, top?: boolean) => (

@@ -190,44 +190,6 @@ export function SiteHeader({ v }: { v: V }) {
                   <Icon d="M3 5h8M7 3v2M9 5c0 4-2.5 7-6 8M5 9c1.2 2 3 3.4 5 4M13 21l4-9 4 9M14.4 18h5.2" size={24} />
                   <span className="zz-hact-label">English</span>
                 </button>
-                <button
-                  onClick={v.scrollToBuyPack}
-                  style={{
-                    height: '40px',
-                    padding: '0 16px',
-                    borderRadius: 'var(--r-sm)',
-                    background: 'var(--gold)',
-                    border: '0',
-                    color: '#fff',
-                    fontSize: '16px',
-                    fontWeight: '500',
-                    lineHeight: '24px',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '4px',
-                    whiteSpace: 'nowrap',
-                    fontFamily: 'inherit',
-                    marginInlineEnd: 8,
-                  }}
-                  className="zz-header-buy dga-btn dga-btn-primary"
-                >
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M3 4h2l2.2 10.2a1.5 1.5 0 0 0 1.5 1.2h8.6a1.5 1.5 0 0 0 1.5-1.1L20.5 8H6.2" />
-                    <circle cx="9.5" cy="19.5" r="1.3" />
-                    <circle cx="17" cy="19.5" r="1.3" />
-                  </svg>
-                  اقتن زمزم
-                </button>
               </>
             ) : null}
             <div style={{ position: 'relative', display: 'flex' }}>

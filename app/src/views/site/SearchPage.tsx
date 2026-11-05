@@ -22,7 +22,7 @@ export function SearchPage({ v }: { v: V }) {
   const [page, setPage] = useState(0);
 
   const index = useMemo<Hit[]>(() => {
-    const pages: Hit[] = [...ABOUT_MENU, ...SUPPORT_MENU, ['story', 'قصة زمزم'], ['media', 'المركز الإعلامي']].map(([id, label]) => ({
+    const pages: Hit[] = [...ABOUT_MENU, ...SUPPORT_MENU, ['buy', 'اقتنِ ماء زمزم'], ['story', 'قصة زمزم'], ['media', 'المركز الإعلامي']].map(([id, label]) => ({
       kind: 'صفحة',
       title: (META as any)[id]?.title || label,
       text: (META as any)[id]?.lead || '',

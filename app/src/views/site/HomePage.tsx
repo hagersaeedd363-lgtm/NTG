@@ -40,9 +40,6 @@ export function HomePage({ v }: { v: V }) {
             <DsButton onColor="primary" onClick={v.go?.buy}>
               اقتنِ ماء زمزم
             </DsButton>
-            <DsButton onColor="secondary" onClick={v.film?.global} icon={PLAY} ariaLabel="تشغيل فيلم عالمية زمزم">
-              عالمية زمزم — فيلم دعائي
-            </DsButton>
           </div>
           {hasActive ? (
             <div style={{ width: '100%', maxWidth: 624 }}>

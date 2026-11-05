@@ -29,8 +29,8 @@ export function siteVals(self) {
         onClick:children?()=>self.setState({menu:S.menu===id?null:id}):()=>self.go(id),
         onEnter:children?()=>self.setState({menu:id}):()=>{},onLeave:children?()=>self.setState({menu:null}):()=>{}};
     };
-    const navItems=[menuItem('home','الرئيسية'),menuItem('story','قصة زمزم'),menuItem('aboutm','عن المشروع',ABOUT_MENU),menuItem('media','المركز الإعلامي'),menuItem('support','الدعم والمساعدة',SUPPORT_MENU)];
-    const mobileGroups=[{title:'الرئيسية',items:mk([['home','الرئيسية'],['story','قصة زمزم'],['media','المركز الإعلامي']])},{title:'عن المشروع',items:mk(ABOUT_MENU)},{title:'الدعم والمساعدة',items:mk(SUPPORT_MENU)}];
+    const navItems=[menuItem('home','الرئيسية'),menuItem('story','قصة زمزم'),menuItem('aboutm','عن المشروع',ABOUT_MENU),menuItem('media','المركز الإعلامي'),menuItem('support','الدعم والمساعدة',SUPPORT_MENU),menuItem('buy','اقتن زمزم')];
+    const mobileGroups=[{title:'الرئيسية',items:mk([['home','الرئيسية'],['story','قصة زمزم'],['media','المركز الإعلامي'],['buy','اقتن زمزم']])},{title:'عن المشروع',items:mk(ABOUT_MENU)},{title:'الدعم والمساعدة',items:mk(SUPPORT_MENU)}];
     const showSolid=S.scrolled||S.menu;
     const meta=META[P]||{title:'',tag:'',lead:''};
     const crumbs=[];
