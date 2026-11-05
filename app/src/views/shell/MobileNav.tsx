@@ -24,7 +24,7 @@ export function MobileNav({ v }: { v: V }) {
             style={{
               width: '44px',
               height: '44px',
-              borderRadius: '10px',
+              borderRadius: 'var(--r-sm)',
               border: '0',
               background: 'rgba(255,255,255,.08)',
               color: '#fff',
@@ -43,7 +43,7 @@ export function MobileNav({ v }: { v: V }) {
           {list(v.mobileGroups).map((g: any, $index: number) => (
             <Fragment key={$index}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                <span style={{ fontSize: '14px', color: '#D4A843', paddingBottom: '6px' }}>{g?.title}</span>
+                <span style={{ fontSize: '14px', color: 'var(--gold-3)', paddingBottom: '6px' }}>{g?.title}</span>
                 {list(g?.items).map((c: any, $index: number) => (
                   <Fragment key={$index}>
                     <button
@@ -62,13 +62,13 @@ export function MobileNav({ v }: { v: V }) {
           <button
             onClick={v.scrollToBuyPack}
             style={{
-              height: '52px',
-              borderRadius: '9px',
-              background: '#996C2E',
+              height: '40px',
+              borderRadius: 'var(--r-sm)',
+              background: 'var(--gold)',
               border: '0',
               color: '#fff',
-              fontSize: '18px',
-              fontWeight: '700',
+              fontSize: '16px',
+              fontWeight: '500',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
@@ -88,7 +88,7 @@ export function MobileNav({ v }: { v: V }) {
             onClick={v.ox?.openLogin}
             style={{
               height: '52px',
-              borderRadius: '9px',
+              borderRadius: 'var(--r-sm)',
               background: 'rgba(255,255,255,.12)',
               border: '1px solid rgba(255,255,255,.25)',
               color: '#fff',

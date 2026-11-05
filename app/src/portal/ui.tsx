@@ -1,10 +1,11 @@
 /**
- * Portal UI kit. Measurements, colours and states follow the design system the generated
- * screens use (cards r24, fields 46px r12, gold #996C2E actions, 56px single-line alerts).
+ * Portal UI kit — DGA Platforms Code components with the Zamzam palette:
+ * cards r16 + 1px border, fields/buttons 40px r4, IBM Plex Sans Arabic type scale,
+ * inline alerts r8 with a 4px status edge, tags 24px r4.
  */
 import { useRef, useState, type CSSProperties, type ReactNode } from 'react';
 
-export const GOLD = '#996C2E';
+export const GOLD = 'var(--gold)';
 
 export const ICON = {
   user: 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c0-4.4 3.6-7 8-7s8 2.6 8 7',
@@ -37,12 +38,12 @@ export function Icon({ d, size = 20, sw = 1.7, style }: { d: string; size?: numb
 
 export const cardStyle: CSSProperties = {
   background: 'var(--card)',
-  borderRadius: '24px',
+  borderRadius: 'var(--r-lg)',
   boxShadow: 'var(--card-shadow)',
-  padding: '20px clamp(18px,2.5vw,28px)',
+  padding: '24px',
   display: 'flex',
   flexDirection: 'column',
-  gap: '20px',
+  gap: '24px',
 };
 
 export function Card({ children, style, id }: { children: ReactNode; style?: CSSProperties; id?: string }) {
@@ -60,16 +61,15 @@ export function IconTile({ d, size = 40 }: { d: string; size?: number }) {
         width: size,
         height: size,
         flexShrink: 0,
-        borderRadius: size > 48 ? 16 : 12,
-        background: 'var(--card-2)',
-        boxShadow: 'inset 0 0 0 1px var(--line)',
-        color: 'var(--gold-2)',
+        borderRadius: 'var(--r-full)',
+        background: 'var(--gold-soft)',
+        color: 'var(--gold-on-soft)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
       }}
     >
-      <Icon d={d} size={size > 48 ? 26 : 20} />
+      <Icon d={d} size={size > 48 ? 28 : 24} sw={1.6} />
     </span>
   );
 }
@@ -80,26 +80,26 @@ export function CardHeader({ icon, title, desc, aside, divider = true }: { icon:
     <>
       <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 12, minHeight: 40 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, flex: '1 1 280px', minWidth: 0 }}>
-          <IconTile d={icon} />
-          <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
-            <h2 style={{ margin: 0, fontSize: 18, fontWeight: 600, lineHeight: '24px', color: 'var(--ink)', textWrap: 'balance' }}>{title}</h2>
-            {desc ? <p style={{ margin: 0, fontSize: 14, lineHeight: '22px', color: 'var(--muted)' }}>{desc}</p> : null}
+          <IconTile d={icon} size={48} />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 2, minWidth: 0 }}>
+            <h2 style={{ margin: 0, fontSize: 18, fontWeight: 700, lineHeight: '28px', color: 'var(--ink)', textWrap: 'balance' }}>{title}</h2>
+            {desc ? <p style={{ margin: 0, fontSize: 14, lineHeight: '20px', color: 'var(--muted)' }}>{desc}</p> : null}
           </div>
         </div>
         {aside}
       </div>
-      {divider ? <div style={{ height: 1, background: 'var(--line)', margin: '0 calc(-1*clamp(18px,2.5vw,28px))' }} /> : null}
+      {divider ? <div style={{ height: 1, background: 'var(--line)', margin: '0 -24px' }} /> : null}
     </>
   );
 }
 
 export function PageTitle({ icon, eyebrow, title, desc, aside }: { icon: string; eyebrow?: string; title: string; desc?: string; aside?: ReactNode }) {
   return (
-    <Card style={{ padding: 'clamp(20px,2.5vw,28px)', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 16 }}>
+    <Card style={{ padding: 24, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 16 }}>
       <IconTile d={icon} size={56} />
       <div style={{ display: 'flex', flexDirection: 'column', gap: 4, minWidth: 0, flex: '1 1 300px' }}>
         {eyebrow ? <span style={{ fontSize: 14, lineHeight: '20px', color: 'var(--gold-2)', fontWeight: 600 }}>{eyebrow}</span> : null}
-        <h1 style={{ margin: 0, fontSize: 24, fontWeight: 600, lineHeight: '32px', color: 'var(--ink)', textWrap: 'balance' }}>{title}</h1>
+        <h1 style={{ margin: 0, fontSize: 24, fontWeight: 700, lineHeight: '32px', color: 'var(--ink)', textWrap: 'balance' }}>{title}</h1>
         {desc ? <p style={{ margin: 0, fontSize: 16, lineHeight: '24px', color: 'var(--ink-2)' }}>{desc}</p> : null}
       </div>
       {aside}
@@ -115,9 +115,10 @@ export const formGrid: CSSProperties = {
 
 const inputBase: CSSProperties = {
   width: '100%',
-  height: 46,
+  height: 40,
   padding: '0 16px',
-  borderRadius: 12,
+  borderRadius: 'var(--r-sm)',
+  lineHeight: '24px',
   color: 'var(--ink)',
   fontSize: 16,
   outline: 'none',
@@ -127,7 +128,7 @@ const inputBase: CSSProperties = {
 
 function Label({ htmlFor, children, required, lock }: { htmlFor: string; children: ReactNode; required?: boolean; lock?: boolean }) {
   return (
-    <label htmlFor={htmlFor} style={{ display: 'flex', alignItems: 'center', gap: 6, minHeight: 20, fontSize: 15, fontWeight: 500, color: 'var(--ink)' }}>
+    <label htmlFor={htmlFor} style={{ display: 'flex', alignItems: 'center', gap: 4, minHeight: 20, fontSize: 14, lineHeight: '20px', fontWeight: 500, color: 'var(--ink)' }}>
       {children}
       {required ? (
         <span aria-hidden="true" style={{ color: 'var(--danger)' }}>
@@ -145,14 +146,15 @@ function Label({ htmlFor, children, required, lock }: { htmlFor: string; childre
 
 function FieldError({ id, msg }: { id: string; msg?: string }) {
   return msg ? (
-    <span id={id} role="alert" style={{ fontSize: 14, lineHeight: '22px', color: 'var(--danger)' }}>
+    <span id={id} role="alert" style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 14, lineHeight: '20px', color: 'var(--danger)' }}>
+      <Icon d={ICON.alert} size={16} />
       {msg}
     </span>
   ) : null;
 }
 
 export function Hint({ children }: { children: ReactNode }) {
-  return <span style={{ fontSize: 13, lineHeight: '20px', color: 'var(--muted)' }}>{children}</span>;
+  return <span style={{ fontSize: 14, lineHeight: '20px', color: 'var(--muted)' }}>{children}</span>;
 }
 
 interface FieldProps {
@@ -186,7 +188,7 @@ export function EyeToggle({ shown, onToggle }: { shown: boolean; onToggle: () =>
       aria-label={shown ? 'إخفاء كلمة المرور' : 'إظهار كلمة المرور'}
       aria-pressed={shown}
       title={shown ? 'إخفاء كلمة المرور' : 'إظهار كلمة المرور'}
-      style={{ width: 40, height: 40, padding: 0, border: 0, borderRadius: 10, background: 'transparent', color: 'var(--muted)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+      style={{ width: 40, height: 40, padding: 0, border: 0, borderRadius: 'var(--r-sm)', background: 'transparent', color: 'var(--ink-2)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
     >
       <Icon d={shown ? 'M3 3l18 18M10.6 5.1A10.8 10.8 0 0 1 12 5c6.4 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.2M6.6 6.6C3.9 8.4 2 12 2 12s3.6 7 10 7a9.7 9.7 0 0 0 5.4-1.6M9.9 9.9a3 3 0 0 0 4.2 4.2' : 'M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z'} size={18} sw={1.8} />
     </button>
@@ -215,14 +217,14 @@ export function Field({ id, label, value, onChange, error, required, placeholder
           aria-describedby={error ? id + '-err' : undefined}
           style={{
             ...inputBase,
-            border: '1px solid ' + (error ? 'var(--danger)' : 'var(--line)'),
-            background: value ? 'var(--card-2)' : 'var(--card)',
+            border: '1px solid ' + (error ? 'var(--danger)' : 'var(--field-bd)'),
+            background: 'var(--card)',
             textAlign: ltr ? 'right' : undefined,
-            ...(trailing ? (ltr ? { paddingLeft: 48 } : { paddingInlineEnd: 48 }) : {}),
+            ...(trailing ? (ltr ? { paddingLeft: 44 } : { paddingInlineEnd: 44 }) : {}),
           }}
-          className="zp-020"
+          className="dga-field"
         />
-        {trailing ? <span style={{ position: 'absolute', top: 3, left: 4 }}>{trailing}</span> : null}
+        {trailing ? <span style={{ position: 'absolute', top: 0, left: 2 }}>{trailing}</span> : null}
       </span>
       {hint && !error ? <Hint>{hint}</Hint> : null}
       <FieldError id={id + '-err'} msg={error} />
@@ -244,7 +246,7 @@ export function ReadOnlyField({ id, label, value, ltr, source }: { id: string; l
         aria-readonly="true"
         dir={ltr ? 'ltr' : undefined}
         title={source}
-        style={{ ...inputBase, border: '1px solid var(--line)', background: 'var(--card-2)', color: value ? 'var(--ink)' : 'var(--muted)', textAlign: ltr ? 'right' : undefined, cursor: 'default' }}
+        style={{ ...inputBase, border: '1px solid var(--field-bd)', background: 'var(--card-2)', color: value ? 'var(--ink)' : 'var(--muted)', textAlign: ltr ? 'right' : undefined, cursor: 'default', outline: 'none' }}
       />
     </div>
   );
@@ -289,12 +291,12 @@ export function SelectField({
             ...inputBase,
             appearance: 'none',
             paddingLeft: 40,
-            border: '1px solid ' + (error ? 'var(--danger)' : 'var(--line)'),
-            background: value ? 'var(--card-2)' : 'var(--card)',
+            border: '1px solid ' + (error ? 'var(--danger)' : disabled ? 'var(--line)' : 'var(--field-bd)'),
+            background: disabled ? 'var(--card-2)' : 'var(--card)',
+            color: disabled ? 'var(--disabled-fg)' : value ? 'var(--ink)' : 'var(--muted)',
             cursor: disabled ? 'not-allowed' : 'pointer',
-            opacity: disabled ? 0.6 : 1,
           }}
-          className="zp-020"
+          className="dga-field"
         >
           <option value="">{placeholder}</option>
           {options.map((o) => (
@@ -303,7 +305,7 @@ export function SelectField({
             </option>
           ))}
         </select>
-        <span style={{ position: 'absolute', left: 14, top: 13, pointerEvents: 'none', color: 'var(--muted)', display: 'flex' }}>
+        <span style={{ position: 'absolute', left: 12, top: 10, pointerEvents: 'none', color: 'var(--ink-2)', display: 'flex' }}>
           <Icon d={ICON.chevron} size={18} />
         </span>
       </div>
@@ -321,23 +323,39 @@ const ALERT: Record<AlertTone, [string, string, string]> = {
   ok: ['var(--al-ok-bg)', 'var(--al-ok-bd)', 'var(--al-ok-fg)'],
 };
 
-/** Status banner. One colour and weight for the text, per the design's alert style. */
-/** Notice row. `compact` is a single slim line for short notes. */
+/**
+ * DGA inline alert: radius 8, 1px light border with a 4px status edge on the start side,
+ * featured icon, semibold title in the status colour and the body in the paragraph colour.
+ * `compact` is a single slim line for short notes.
+ */
 export function Alert({ tone, title, children, icon, action, compact }: { tone: AlertTone; title?: string; children?: ReactNode; icon?: string; action?: ReactNode; compact?: boolean }) {
   const [bg, bd, fg] = ALERT[tone];
+  const glyph = icon || (tone === 'ok' ? ICON.check : tone === 'info' ? ICON.info : tone === 'warn' ? ICON.clock : ICON.alert);
   return (
     <div
       role={tone === 'bad' ? 'alert' : 'status'}
-      style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: compact ? 10 : 16, padding: compact ? '8px 14px' : 16, minHeight: compact ? 40 : 56, boxSizing: 'border-box', borderRadius: 12, border: '1px solid ' + bd, background: bg }}
+      style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        alignItems: compact ? 'center' : 'flex-start',
+        gap: compact ? 8 : 16,
+        padding: compact ? '8px 16px' : 16,
+        minHeight: compact ? 40 : 56,
+        boxSizing: 'border-box',
+        borderRadius: 'var(--r-md)',
+        border: '1px solid ' + bd,
+        borderInlineStart: '4px solid ' + fg,
+        background: bg,
+      }}
     >
-      <span style={{ color: fg, display: 'flex', flexShrink: 0 }}>
-        <Icon d={icon || (tone === 'ok' ? ICON.check : tone === 'info' ? ICON.info : tone === 'warn' ? ICON.clock : ICON.alert)} size={compact ? 18 : 24} sw={2} />
+      <span style={{ width: compact ? 20 : 32, height: compact ? 20 : 32, borderRadius: 'var(--r-full)', background: compact ? 'transparent' : 'var(--card)', color: fg, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+        <Icon d={glyph} size={20} sw={1.8} />
       </span>
-      <span style={{ flex: '1 1 260px', minWidth: 0, fontSize: 14, fontWeight: 600, lineHeight: '24px', color: fg }}>
-        {title ? <>{title} </> : null}
-        {children ? <span style={{ fontWeight: 500 }}>{children}</span> : null}
+      <span style={{ flex: '1 1 260px', minWidth: 0, display: 'flex', flexDirection: compact ? 'row' : 'column', flexWrap: 'wrap', gap: compact ? 6 : 4, alignSelf: 'center' }}>
+        {title ? <span style={{ fontSize: compact ? 14 : 16, fontWeight: 600, lineHeight: compact ? '20px' : '24px', color: fg }}>{title}</span> : null}
+        {children ? <span style={{ fontSize: 14, fontWeight: 400, lineHeight: '20px', color: 'var(--ink-2)' }}>{children}</span> : null}
       </span>
-      {action}
+      {action ? <span style={{ alignSelf: 'center' }}>{action}</span> : null}
     </div>
   );
 }
@@ -364,16 +382,16 @@ export function Tag({ tone, children, dot, lead }: { tone: TagTone; children: Re
       style={{
         display: 'inline-flex',
         alignItems: 'center',
-        gap: 6,
+        gap: 4,
         height: 24,
-        padding: '0 12px',
-        borderRadius: 8,
+        padding: '0 8px',
+        borderRadius: 'var(--r-sm)',
         background: bg,
         color: fg,
         boxShadow: 'inset 0 0 0 1px ' + bd,
         fontSize: 12,
         fontWeight: 500,
-        lineHeight: '24px',
+        lineHeight: '18px',
         whiteSpace: 'nowrap',
         boxSizing: 'border-box',
         flexShrink: 0,
@@ -423,26 +441,27 @@ export function PrimaryButton({ children, onClick, disabled, busy, icon, full, s
       aria-busy={busy || undefined}
       aria-label={ariaLabel}
       style={{
-        height: 48,
-        padding: '0 24px',
-        borderRadius: 12,
-        border: '1px solid rgba(255,255,255,.2)',
-        background: GOLD,
-        color: '#fff',
+        height: 40,
+        padding: '0 16px',
+        borderRadius: 'var(--r-sm)',
+        border: 0,
+        background: disabled ? 'var(--disabled-bg)' : GOLD,
+        color: disabled ? 'var(--disabled-fg)' : '#fff',
         fontSize: 16,
-        fontWeight: 600,
+        lineHeight: '24px',
+        fontWeight: 500,
         cursor: disabled || busy ? 'not-allowed' : 'pointer',
-        opacity: disabled ? 0.55 : 1,
         display: 'inline-flex',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: 10,
-        minWidth: 130,
+        gap: 4,
+        minWidth: 96,
         width: full ? '100%' : undefined,
         fontFamily: 'inherit',
+        whiteSpace: 'nowrap',
         ...style,
       }}
-      className={disabled || busy ? undefined : 'zp-002'}
+      className="dga-btn dga-btn-primary"
     >
       {busy ? <Spinner light /> : null}
       {children}
@@ -459,26 +478,26 @@ export function SecondaryButton({ children, onClick, disabled, icon, full, style
       disabled={disabled}
       aria-label={ariaLabel}
       style={{
-        height: 48,
-        padding: '0 20px',
-        borderRadius: 12,
-        border: '1px solid var(--gold-3)',
+        height: 40,
+        padding: '0 16px',
+        borderRadius: 'var(--r-sm)',
+        border: '1px solid ' + (disabled ? 'var(--line)' : 'var(--field-bd)'),
         background: 'var(--card)',
-        color: 'var(--gold-on-soft)',
-        fontSize: 15,
-        fontWeight: 600,
+        color: disabled ? 'var(--disabled-fg)' : 'var(--ink)',
+        fontSize: 16,
+        lineHeight: '24px',
+        fontWeight: 500,
         cursor: disabled ? 'not-allowed' : 'pointer',
-        opacity: disabled ? 0.55 : 1,
         display: 'inline-flex',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: 8,
+        gap: 4,
         width: full ? '100%' : undefined,
         fontFamily: 'inherit',
         whiteSpace: 'nowrap',
         ...style,
       }}
-      className={disabled ? undefined : 'zp-019'}
+      className="dga-btn dga-btn-secondary"
     >
       {icon ? <Icon d={icon} size={18} /> : null}
       {children}
@@ -491,7 +510,8 @@ export function TextButton({ children, onClick }: { children: ReactNode; onClick
     <button
       type="button"
       onClick={onClick}
-      style={{ background: 'none', border: 0, padding: 0, fontSize: 15, lineHeight: '24px', fontWeight: 700, color: 'var(--gold-2)', cursor: 'pointer', textDecoration: 'underline', textUnderlineOffset: 5, fontFamily: 'inherit' }}
+      className="dga-btn dga-btn-text"
+      style={{ background: 'none', border: 0, padding: 0, fontSize: 16, lineHeight: '24px', fontWeight: 500, color: 'var(--gold-2)', cursor: 'pointer', textDecoration: 'underline', textUnderlineOffset: 4, fontFamily: 'inherit' }}
     >
       {children}
     </button>
@@ -518,15 +538,15 @@ export function Spinner({ light, size = 18 }: { light?: boolean; size?: number }
 /** Footer bar of a step: back button on the right, status text and main action on the left. */
 export function ActionBar({ onBack, children, note }: { onBack?: () => void; children: ReactNode; note?: ReactNode }) {
   return (
-    <div style={{ ...cardStyle, padding: '14px 18px', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 14 }}>
+    <div style={{ ...cardStyle, padding: '16px 24px', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
       {onBack ? (
         <button
           type="button"
           onClick={onBack}
           aria-label="رجوع"
           title="رجوع"
-          style={{ width: 44, height: 44, padding: 0, borderRadius: 12, border: 0, background: 'var(--card-2)', boxShadow: 'inset 0 0 0 1px var(--line)', color: 'var(--ink)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}
-          className="zp-023"
+          style={{ width: 40, height: 40, padding: 0, borderRadius: 'var(--r-sm)', border: '1px solid var(--field-bd)', background: 'var(--card)', color: 'var(--ink)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}
+          className="dga-btn dga-btn-secondary"
         >
           <Icon d={ICON.arrowBack} sw={1.8} />
         </button>
@@ -570,12 +590,14 @@ export function Pills({ options, value, onChange, icons, label }: { options: str
             style={{
               height: 40,
               padding: '0 16px',
-              borderRadius: 12,
-              border: '1px solid ' + (sel ? GOLD : 'var(--line)'),
-              background: sel ? 'var(--gold-soft)' : 'var(--card-2)',
+              borderRadius: 'var(--r-sm)',
+              border: '1px solid ' + (sel ? GOLD : 'var(--field-bd)'),
+              boxShadow: sel ? 'inset 0 0 0 1px ' + GOLD : 'none',
+              background: sel ? 'var(--gold-soft)' : 'var(--card)',
               color: 'var(--ink)',
-              fontSize: 15,
-              fontWeight: sel ? 600 : 500,
+              fontSize: 16,
+              lineHeight: '24px',
+              fontWeight: 500,
               cursor: 'pointer',
               display: 'inline-flex',
               alignItems: 'center',
@@ -609,33 +631,33 @@ export function ChoiceCards({ options, value, onChange, label }: { options: Arra
             role="radio"
             aria-checked={sel}
             onClick={() => onChange(o.id)}
+            className="dga-choice"
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: 14,
+              gap: 16,
               padding: 16,
-              borderRadius: 16,
-              border: '1px solid ' + (sel ? GOLD : 'var(--line)'),
-              background: sel ? 'var(--gold-soft)' : 'var(--card-2)',
+              borderRadius: 'var(--r-md)',
+              border: '1px solid ' + (sel ? GOLD : 'var(--field-bd)'),
+              boxShadow: sel ? 'inset 0 0 0 1px ' + GOLD : 'none',
+              background: sel ? 'var(--gold-soft)' : 'var(--card)',
               cursor: 'pointer',
               textAlign: 'right',
               fontFamily: 'inherit',
               color: 'var(--ink)',
             }}
           >
-            <span style={{ width: 44, height: 44, borderRadius: 12, background: 'var(--card)', color: 'var(--gold-2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-              <Icon d={o.icon} size={22} />
+            <span style={{ width: 48, height: 48, borderRadius: 'var(--r-full)', background: sel ? 'var(--card)' : 'var(--gold-soft)', color: 'var(--gold-on-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <Icon d={o.icon} size={24} sw={1.6} />
             </span>
             <span style={{ display: 'flex', flexDirection: 'column', flex: 1, minWidth: 0 }}>
-              <span style={{ fontSize: 16, fontWeight: 700, lineHeight: '24px' }}>{o.t}</span>
-              <span style={{ fontSize: 13, lineHeight: '20px', color: 'var(--muted)' }}>{o.d}</span>
+              <span style={{ fontSize: 16, fontWeight: 600, lineHeight: '24px' }}>{o.t}</span>
+              <span style={{ fontSize: 14, lineHeight: '20px', color: 'var(--muted)' }}>{o.d}</span>
             </span>
             <span
               aria-hidden="true"
-              style={{ width: 20, height: 20, borderRadius: '50%', background: sel ? GOLD : 'transparent', boxShadow: sel ? 'none' : 'inset 0 0 0 1.5px var(--line)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}
-            >
-              {sel ? <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#fff' }} /> : null}
-            </span>
+              style={{ width: 20, height: 20, borderRadius: '50%', background: 'var(--card)', boxShadow: sel ? 'inset 0 0 0 6px ' + GOLD : 'inset 0 0 0 1px var(--field-bd)', flexShrink: 0 }}
+            />
           </button>
         );
       })}
@@ -643,15 +665,15 @@ export function ChoiceCards({ options, value, onChange, label }: { options: Arra
   );
 }
 
-/** Horizontal stepper, same drawing as the design's order steps. */
+/** DGA progress indicator (horizontal stepper): 24px markers, 2px lines, label under each step. */
 export function Stepper({ steps }: { steps: Array<{ label: string; done: boolean; cur: boolean; onClick?: () => void }> }) {
   return (
-    <nav aria-label="خطوات الطلب" style={{ ...cardStyle, padding: '20px clamp(6px,2vw,28px)', flexDirection: 'row', alignItems: 'flex-start', gap: 0, overflowX: 'auto' }}>
+    <nav aria-label="خطوات الطلب" style={{ ...cardStyle, padding: '24px', flexDirection: 'row', alignItems: 'flex-start', gap: 0, overflowX: 'auto' }}>
       {steps.map((s, i) => {
         const line = s.done || s.cur ? GOLD : 'var(--line)';
         return (
-          <div key={s.label} style={{ flex: '1 1 0', minWidth: 'clamp(68px,20vw,92px)', position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
-            {i > 0 ? <span style={{ position: 'absolute', top: 17, left: 'calc(50% + 24px)', right: 'calc(-50% + 24px)', height: 2, borderRadius: 2, background: line }} /> : null}
+          <div key={s.label} style={{ flex: '1 1 0', minWidth: 'clamp(68px,20vw,92px)', position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+            {i > 0 ? <span style={{ position: 'absolute', top: 11, left: 'calc(50% + 20px)', right: 'calc(-50% + 20px)', height: 2, background: line }} /> : null}
             <button
               type="button"
               onClick={s.onClick}
@@ -659,16 +681,17 @@ export function Stepper({ steps }: { steps: Array<{ label: string; done: boolean
               aria-current={s.cur ? 'step' : undefined}
               aria-label={s.label}
               style={{
-                width: 36,
-                height: 36,
+                width: 24,
+                height: 24,
                 borderRadius: '50%',
                 border: 0,
                 padding: 0,
                 background: s.done ? GOLD : 'var(--card)',
-                boxShadow: s.cur ? 'inset 0 0 0 1.5px ' + GOLD + ',0 0 0 5px var(--gold-soft)' : s.done ? 'none' : 'inset 0 0 0 1px var(--line)',
-                color: s.done ? '#fff' : s.cur ? 'var(--gold-2)' : 'var(--muted)',
-                fontSize: 14,
-                fontWeight: 700,
+                boxShadow: s.done ? 'none' : s.cur ? 'inset 0 0 0 1.5px ' + GOLD : 'inset 0 0 0 1.5px var(--line)',
+                color: s.done ? '#fff' : s.cur ? 'var(--gold)' : 'var(--muted)',
+                fontSize: 12,
+                lineHeight: '18px',
+                fontWeight: 600,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -676,9 +699,9 @@ export function Stepper({ steps }: { steps: Array<{ label: string; done: boolean
                 fontFamily: 'inherit',
               }}
             >
-              {s.done ? <Icon d={ICON.check} size={16} /> : '١٢٣٤٥'[i]}
+              {s.done ? <Icon d={ICON.check} size={14} sw={2.2} /> : '١٢٣٤٥'[i]}
             </button>
-            <span style={{ fontSize: 'clamp(12px,3.3vw,14px)', lineHeight: 1.4, color: s.cur ? 'var(--gold-2)' : s.done ? 'var(--ink)' : 'var(--muted)', fontWeight: s.cur ? 700 : 400, whiteSpace: 'nowrap' }}>
+            <span style={{ fontSize: s.cur ? 16 : 14, lineHeight: s.cur ? '24px' : '20px', color: s.cur || s.done ? 'var(--ink)' : 'var(--muted)', fontWeight: s.cur ? 500 : 400, whiteSpace: 'nowrap' }}>
               {s.label}
             </span>
           </div>
@@ -699,7 +722,7 @@ export function DataRows({ rows, title, aside }: { rows: Row[]; title?: string; 
     <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
       {title ? (
         <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 8, paddingBottom: 8 }}>
-          <h3 style={{ margin: 0, fontSize: 15, fontWeight: 600, lineHeight: '24px', color: 'var(--ink)' }}>{title}</h3>
+          <h3 style={{ margin: 0, fontSize: 16, fontWeight: 600, lineHeight: '24px', color: 'var(--ink)' }}>{title}</h3>
           {aside}
         </div>
       ) : null}
@@ -707,7 +730,7 @@ export function DataRows({ rows, title, aside }: { rows: Row[]; title?: string; 
       <dl style={{ margin: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(max(min(100%,200px),calc(33.333% - 1px)),1fr))', overflow: 'hidden', borderTop: title ? '1px solid var(--line)' : undefined }}>
         {rows.map((r) => (
           <div key={r.k} style={{ display: 'flex', flexDirection: 'column', padding: '10px 0 10px 24px', minWidth: 0, borderBottom: '1px solid var(--line)', marginBottom: -1 }}>
-            <dt style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, lineHeight: '22px', color: 'var(--muted)' }}>
+            <dt style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 14, lineHeight: '20px', color: 'var(--muted)' }}>
               {r.k}
               {r.lock ? (
                 <span style={{ display: 'flex', opacity: 0.8 }}>
@@ -715,7 +738,7 @@ export function DataRows({ rows, title, aside }: { rows: Row[]; title?: string; 
                 </span>
               ) : null}
             </dt>
-            <dd dir={r.ltr ? 'ltr' : undefined} style={{ margin: 0, fontSize: 14, fontWeight: 600, lineHeight: '24px', color: r.v ? 'var(--ink)' : 'var(--muted)', textAlign: 'right', overflowWrap: 'anywhere' }}>
+            <dd dir={r.ltr ? 'ltr' : undefined} style={{ margin: 0, fontSize: 16, fontWeight: 500, lineHeight: '24px', color: r.v ? 'var(--ink)' : 'var(--muted)', textAlign: 'right', overflowWrap: 'anywhere' }}>
               {r.v || '—'}
             </dd>
           </div>
@@ -731,18 +754,18 @@ export function DataRows({ rows, title, aside }: { rows: Row[]; title?: string; 
  */
 export function DataGroup({ icon, title, aside, rows }: { icon: string; title: string; aside?: ReactNode; rows: Row[] }) {
   return (
-    <section style={{ borderRadius: 16, background: 'var(--card-2)', boxShadow: 'inset 0 0 0 1px var(--line)', overflow: 'hidden', minWidth: 0 }}>
+    <section style={{ borderRadius: 'var(--r-lg)', background: 'var(--card-2)', boxShadow: 'inset 0 0 0 1px var(--line)', overflow: 'hidden', minWidth: 0 }}>
       <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 10, padding: '12px 16px', borderBottom: '1px solid var(--line)' }}>
-        <span style={{ width: 32, height: 32, flexShrink: 0, borderRadius: 10, background: 'var(--card)', boxShadow: 'inset 0 0 0 1px var(--line)', color: 'var(--gold-2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <Icon d={icon} size={17} />
+        <span style={{ width: 32, height: 32, flexShrink: 0, borderRadius: 'var(--r-full)', background: 'var(--gold-soft)', color: 'var(--gold-on-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Icon d={icon} size={18} />
         </span>
-        <h3 style={{ margin: 0, fontSize: 15, fontWeight: 600, lineHeight: '24px', color: 'var(--ink)' }}>{title}</h3>
+        <h3 style={{ margin: 0, fontSize: 16, fontWeight: 600, lineHeight: '24px', color: 'var(--ink)' }}>{title}</h3>
         {aside ? <span style={{ marginInlineStart: 'auto' }}>{aside}</span> : null}
       </div>
       <dl style={{ margin: 0, padding: '14px 16px', display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(max(min(100%,200px),calc(25% - 15px)),1fr))', gap: '14px 20px' }}>
         {rows.map((r) => (
           <div key={r.k} style={{ display: 'flex', flexDirection: 'column', gap: 2, minWidth: 0 }}>
-            <dt style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, lineHeight: '20px', color: 'var(--muted)' }}>
+            <dt style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 14, lineHeight: '20px', color: 'var(--muted)' }}>
               {r.k}
               {r.lock ? (
                 <span style={{ display: 'flex', opacity: 0.7 }}>
@@ -750,7 +773,7 @@ export function DataGroup({ icon, title, aside, rows }: { icon: string; title: s
                 </span>
               ) : null}
             </dt>
-            <dd dir={r.ltr ? 'ltr' : undefined} style={{ margin: 0, fontSize: 15, fontWeight: 600, lineHeight: '24px', color: r.v ? 'var(--ink)' : 'var(--muted)', textAlign: 'right', overflowWrap: 'anywhere' }}>
+            <dd dir={r.ltr ? 'ltr' : undefined} style={{ margin: 0, fontSize: 16, fontWeight: 500, lineHeight: '24px', color: r.v ? 'var(--ink)' : 'var(--muted)', textAlign: 'right', overflowWrap: 'anywhere' }}>
               {r.v || '—'}
             </dd>
           </div>
@@ -766,16 +789,16 @@ export function DataGroup({ icon, title, aside, rows }: { icon: string; title: s
  */
 export function DataCard({ icon, title, aside, rows }: { icon: string; title: string; aside?: ReactNode; rows: Row[] }) {
   return (
-    <section style={{ background: 'var(--card)', borderRadius: 24, boxShadow: 'var(--card-shadow)', overflow: 'hidden' }}>
+    <section style={{ background: 'var(--card)', borderRadius: 'var(--r-lg)', boxShadow: 'var(--card-shadow)', overflow: 'hidden' }}>
       <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 12, padding: '16px 24px', borderBottom: '1px solid var(--line)' }}>
         <IconTile d={icon} />
-        <h2 style={{ margin: 0, fontSize: 16, fontWeight: 600, lineHeight: '24px', color: 'var(--ink)' }}>{title}</h2>
+        <h2 style={{ margin: 0, fontSize: 18, fontWeight: 700, lineHeight: '28px', color: 'var(--ink)' }}>{title}</h2>
         {aside ? <span style={{ marginInlineStart: 'auto' }}>{aside}</span> : null}
       </div>
       <dl style={{ margin: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(max(min(100%,240px),calc(50% - 1px)),1fr))' }}>
         {rows.map((r) => (
           <div key={r.k} style={{ display: 'flex', flexDirection: 'column', padding: '16px 24px', minWidth: 0, borderBottom: '1px solid var(--line)', marginBottom: -1 }}>
-            <dt style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, lineHeight: '24px', color: 'var(--muted)' }}>
+            <dt style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 14, lineHeight: '20px', color: 'var(--muted)' }}>
               {r.k}
               {r.lock ? (
                 <span style={{ display: 'flex', opacity: 0.8 }}>
@@ -783,7 +806,7 @@ export function DataCard({ icon, title, aside, rows }: { icon: string; title: st
                 </span>
               ) : null}
             </dt>
-            <dd dir={r.ltr ? 'ltr' : undefined} style={{ margin: 0, fontSize: 14, fontWeight: 600, lineHeight: '24px', color: r.v ? 'var(--ink)' : 'var(--muted)', textAlign: 'right', overflowWrap: 'anywhere' }}>
+            <dd dir={r.ltr ? 'ltr' : undefined} style={{ margin: 0, fontSize: 16, fontWeight: 500, lineHeight: '24px', color: r.v ? 'var(--ink)' : 'var(--muted)', textAlign: 'right', overflowWrap: 'anywhere' }}>
               {r.v || '—'}
             </dd>
           </div>
@@ -800,9 +823,9 @@ export function Modal({ children, label, onClose }: { children: ReactNode; label
       aria-modal="true"
       aria-label={label}
       onClick={onClose}
-      style={{ position: 'fixed', inset: 0, zIndex: 120, background: 'rgba(12,13,14,.55)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }}
+      style={{ position: 'fixed', inset: 0, zIndex: 120, background: 'rgba(28,25,21,.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }}
     >
-      <div onClick={(e) => e.stopPropagation()} style={{ ...cardStyle, width: 'min(480px,100%)', padding: 32, gap: 20, animation: 'zzfade .25s ease both', maxHeight: '90vh', overflowY: 'auto' }}>
+      <div onClick={(e) => e.stopPropagation()} style={{ ...cardStyle, width: 'min(480px,100%)', padding: 24, gap: 24, boxShadow: 'var(--shadow-lg)', animation: 'zzfade .25s ease both', maxHeight: '90vh', overflowY: 'auto' }}>
         {children}
       </div>
     </div>
@@ -847,21 +870,21 @@ export function OtpInput({
               style={{
                 flex: '1 1 0',
                 minWidth: 0,
-                height: 64,
-                borderRadius: 14,
-                border: '1.5px solid ' + (error ? 'var(--danger)' : active ? 'var(--gold-2)' : ch ? 'var(--gold-3)' : 'var(--line)'),
-                background: ch ? 'var(--card-2)' : 'var(--card)',
-                boxShadow: active ? '0 0 0 4px var(--gold-soft)' : 'none',
+                height: 56,
+                borderRadius: 'var(--r-sm)',
+                border: '1px solid ' + (error ? 'var(--danger)' : active ? 'var(--field-bd-f)' : 'var(--field-bd)'),
+                background: 'var(--card)',
+                boxShadow: active ? 'inset 0 0 0 1px var(--field-bd-f)' : error ? 'inset 0 0 0 1px var(--danger)' : 'none',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: 28,
-                fontWeight: 700,
+                fontSize: 24,
+                fontWeight: 600,
                 color: 'var(--ink)',
                 transition: 'border-color .15s, box-shadow .15s',
               }}
             >
-              {ch || (active ? <span style={{ width: 2, height: 28, background: 'var(--gold-2)', animation: 'zzblink 1s step-end infinite' }} /> : '')}
+              {ch || (active ? <span style={{ width: 2, height: 24, background: 'var(--ink)', animation: 'zzblink 1s step-end infinite' }} /> : '')}
             </span>
           );
         })}

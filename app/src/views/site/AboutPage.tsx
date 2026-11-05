@@ -5,12 +5,12 @@ import { css, list } from '../../lib/dc';
 export function AboutPage({ v }: { v: V }) {
   return (
     <>
-      <section data-screen-label="02 عن المشروع" style={{ background: 'var(--bg)', padding: '96px 0' }}>
+      <section data-screen-label="02 عن المشروع" style={{ background: 'var(--bg)', padding: '40px 0' }}>
         <div
           style={{
-            maxWidth: '1520px',
+            maxWidth: '1440px',
             margin: '0 auto',
-            padding: '0 clamp(16px,2.5vw,32px)',
+            padding: '0 clamp(16px,5.6vw,80px)',
             display: 'flex',
             flexWrap: 'wrap',
             gap: '56px',
@@ -21,19 +21,21 @@ export function AboutPage({ v }: { v: V }) {
             <span
               style={{
                 display: 'inline-flex',
-                padding: '6px 14px',
-                borderRadius: '36px',
-                background: 'rgba(130,130,130,.15)',
-                boxShadow: 'inset 0 0 0 1px var(--ink)',
-                fontSize: '14px',
-                fontWeight: '700',
-                lineHeight: '1.08',
+                padding: '0 8px',
+                height: '24px',
+                alignItems: 'center',
+                borderRadius: 'var(--r-sm)',
+                background: 'var(--card-2)',
+                boxShadow: 'inset 0 0 0 1px var(--line)',
+                fontSize: '12px',
+                fontWeight: '500',
+                lineHeight: '18px',
                 color: 'var(--ink)',
               }}
             >
               ١٫١ نبذة
             </span>
-            <h2 style={{ margin: '0', fontSize: 'clamp(32px,3.6vw,46px)', fontWeight: '700', lineHeight: '1.2', color: 'var(--ink)' }}>
+            <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>
               المنظومة الوطنية المعنيّة بماء زمزم
             </h2>
             <div
@@ -64,12 +66,12 @@ export function AboutPage({ v }: { v: V }) {
           />
         </div>
       </section>
-      <section style={{ background: 'var(--bg-alt)', padding: '88px 0' }}>
+      <section style={{ background: 'var(--bg-alt)', padding: '40px 0' }}>
         <div
           style={{
-            maxWidth: '1520px',
+            maxWidth: '1440px',
             margin: '0 auto',
-            padding: '0 clamp(16px,2.5vw,32px)',
+            padding: '0 clamp(16px,5.6vw,80px)',
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))',
             gap: '24px',
@@ -78,7 +80,7 @@ export function AboutPage({ v }: { v: V }) {
           <div
             style={{
               background: 'var(--card)',
-              borderRadius: '24px',
+              borderRadius: 'var(--r-lg)',
               boxShadow: 'var(--card-shadow)',
               padding: '30px',
               display: 'flex',
@@ -95,7 +97,7 @@ export function AboutPage({ v }: { v: V }) {
           <div
             style={{
               background: 'var(--card)',
-              borderRadius: '24px',
+              borderRadius: 'var(--r-lg)',
               boxShadow: 'var(--card-shadow)',
               padding: '30px',
               display: 'flex',
@@ -111,25 +113,27 @@ export function AboutPage({ v }: { v: V }) {
           </div>
         </div>
       </section>
-      <section id="stake" style={{ background: 'var(--bg)', padding: '96px 0' }}>
-        <div style={{ maxWidth: '1520px', margin: '0 auto', padding: '0 clamp(16px,2.5vw,32px)', display: 'flex', flexDirection: 'column', gap: '40px' }}>
+      <section id="stake" style={{ background: 'var(--bg)', padding: '40px 0' }}>
+        <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '0 clamp(16px,5.6vw,80px)', display: 'flex', flexDirection: 'column', gap: '40px' }}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '16px', maxWidth: '720px' }}>
             <span
               style={{
                 display: 'inline-flex',
-                padding: '6px 14px',
-                borderRadius: '36px',
-                background: 'rgba(130,130,130,.15)',
-                boxShadow: 'inset 0 0 0 1px var(--ink)',
-                fontSize: '14px',
-                fontWeight: '700',
-                lineHeight: '1.08',
+                padding: '0 8px',
+                height: '24px',
+                alignItems: 'center',
+                borderRadius: 'var(--r-sm)',
+                background: 'var(--card-2)',
+                boxShadow: 'inset 0 0 0 1px var(--line)',
+                fontSize: '12px',
+                fontWeight: '500',
+                lineHeight: '18px',
                 color: 'var(--ink)',
               }}
             >
               ١٫٢
             </span>
-            <h2 style={{ margin: '0', fontSize: 'clamp(32px,3.6vw,46px)', fontWeight: '700', lineHeight: '1.2', color: 'var(--ink)' }}>الجهات ذات العلاقة</h2>
+            <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>الجهات ذات العلاقة</h2>
             <p style={{ margin: '0', fontSize: '18px', lineHeight: '1.75', color: 'var(--ink-2)' }}>
               لا تعمل منظومة زمزم منفردة. تتكامل جهودنا مع عدد من الجهات الوطنية، لكلٍّ منها دور محدد في خدمة ماء زمزم وقاصديه.
             </p>
@@ -140,7 +144,7 @@ export function AboutPage({ v }: { v: V }) {
                 <div
                   style={{
                     background: 'var(--card)',
-                    borderRadius: '24px',
+                    borderRadius: 'var(--r-lg)',
                     boxShadow: 'var(--card-shadow)',
                     padding: '22px',
                     display: 'flex',
@@ -169,12 +173,12 @@ export function AboutPage({ v }: { v: V }) {
           </div>
         </div>
       </section>
-      <section style={{ background: 'var(--bg-deep)', padding: '80px 0' }}>
+      <section style={{ background: 'var(--bg-deep)', padding: '40px 0' }}>
         <div
           style={{
-            maxWidth: '1520px',
+            maxWidth: '1440px',
             margin: '0 auto',
-            padding: '0 clamp(16px,2.5vw,32px)',
+            padding: '0 clamp(16px,5.6vw,80px)',
             display: 'flex',
             flexWrap: 'wrap',
             gap: '40px',
@@ -183,14 +187,14 @@ export function AboutPage({ v }: { v: V }) {
           }}
         >
           <div style={{ flex: '1 1 320px', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '16px' }}>
-            <h2 style={{ margin: '0', fontSize: 'clamp(28px,3vw,40px)', fontWeight: '700', lineHeight: '1.25' }}>فيلم عن مراحل التصنيع</h2>
+            <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', lineHeight: '38px' }}>فيلم عن مراحل التصنيع</h2>
             <p style={{ margin: '0', fontSize: '18px', lineHeight: '1.7', color: 'rgba(255,255,255,.78)' }}>من فوهة البئر إلى خطوط التعبئة، في دقائق.</p>
             <button
               onClick={v.go?.journey}
               style={{
                 height: '40px',
                 padding: '7px 28px',
-                borderRadius: '9px',
+                borderRadius: 'var(--r-sm)',
                 background: 'rgba(255,255,255,.08)',
                 border: '1px solid rgba(255,255,255,.2)',
                 color: '#fff',
@@ -212,7 +216,7 @@ export function AboutPage({ v }: { v: V }) {
               border: '0',
               padding: '0',
               background: '#000',
-              borderRadius: '16px',
+              borderRadius: 'var(--r-lg)',
               overflow: 'hidden',
               cursor: 'pointer',
             }}

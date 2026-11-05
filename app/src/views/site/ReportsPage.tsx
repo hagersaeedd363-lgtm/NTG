@@ -5,15 +5,15 @@ import { css, list } from '../../lib/dc';
 export function ReportsPage({ v }: { v: V }) {
   return (
     <>
-      <section data-screen-label="10 التقارير والإصدارات" style={{ background: 'var(--bg)', padding: '48px 0 96px' }}>
-        <div style={{ maxWidth: '1520px', margin: '0 auto', padding: '0 clamp(16px,2.5vw,32px)', display: 'flex', flexDirection: 'column', gap: '28px' }}>
+      <section data-screen-label="10 التقارير والإصدارات" style={{ background: 'var(--bg)', padding: '40px 0 40px' }}>
+        <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '0 clamp(16px,5.6vw,80px)', display: 'flex', flexDirection: 'column', gap: '28px' }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
             {list(v.reportChips).map((c: any, $index: number) => (
               <Fragment key={$index}>
                 <button
                   onClick={c?.onClick}
                   style={css(
-                    `height:40px;padding:0 18px;border-radius:36px;border:1px solid ${c?.bd ?? ''};background:${c?.bg ?? ''};color:${c?.fg ?? ''};font-size:15px;cursor:pointer`,
+                    `height:40px;padding:0 18px;border-radius:var(--r-sm);border:1px solid ${c?.bd ?? ''};background:${c?.bg ?? ''};color:${c?.fg ?? ''};font-size:15px;cursor:pointer`,
                   )}
                 >
                   {c?.label}
@@ -27,7 +27,7 @@ export function ReportsPage({ v }: { v: V }) {
                 <div
                   style={{
                     background: 'var(--card)',
-                    borderRadius: '24px',
+                    borderRadius: 'var(--r-lg)',
                     boxShadow: 'var(--card-shadow)',
                     padding: '20px',
                     display: 'flex',
@@ -40,7 +40,7 @@ export function ReportsPage({ v }: { v: V }) {
                       width: '56px',
                       height: '56px',
                       flexShrink: '0',
-                      borderRadius: '14px',
+                      borderRadius: 'var(--r-md)',
                       background: 'var(--gold-soft)',
                       color: 'var(--gold-2)',
                       display: 'flex',
@@ -76,7 +76,7 @@ export function ReportsPage({ v }: { v: V }) {
                         alignSelf: 'flex-start',
                         height: '38px',
                         padding: '0 16px',
-                        borderRadius: '9px',
+                        borderRadius: 'var(--r-sm)',
                         border: '1px solid var(--line)',
                         background: 'transparent',
                         color: 'var(--ink)',

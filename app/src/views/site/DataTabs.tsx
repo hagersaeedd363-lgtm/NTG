@@ -6,7 +6,7 @@ export function DataTabs({ v }: { v: V }) {
   return (
     <>
       <section style={{ background: 'var(--bg)', padding: '40px 0 0' }}>
-        <div style={{ maxWidth: '1520px', margin: '0 auto', padding: '0 clamp(16px,2.5vw,32px)' }}>
+        <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '0 clamp(16px,5.6vw,80px)' }}>
           <div
             role="tablist"
             style={{ overflowY: 'hidden', scrollbarWidth: 'none', display: 'flex', gap: '28px', overflowX: 'auto', borderBottom: '1px solid var(--line)' }}

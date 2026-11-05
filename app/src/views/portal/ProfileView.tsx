@@ -28,7 +28,7 @@ export function ProfileView({ v }: { v: V }) {
                 padding: '16px 24px',
                 minHeight: '72px',
                 boxSizing: 'border-box',
-                borderRadius: '12px',
+                borderRadius: 'var(--r-md)',
                 border: '1px solid #F3B3AE',
                 backgroundColor: '#FFF1F2',
               }}
@@ -67,12 +67,12 @@ export function ProfileView({ v }: { v: V }) {
                 padding: '16px',
                 minHeight: '56px',
                 boxSizing: 'border-box',
-                borderRadius: '12px',
+                borderRadius: 'var(--r-md)',
                 border: '1px solid #F0D78C',
                 background: '#FFF6DB',
               }}
             >
-              <span style={{ color: '#8A5A00', display: 'flex', flexShrink: '0' }}>
+              <span style={{ color: 'var(--gold-2)', display: 'flex', flexShrink: '0' }}>
                 <svg
                   width="24"
                   height="24"
@@ -88,7 +88,7 @@ export function ProfileView({ v }: { v: V }) {
                   <circle cx="12" cy="12" r="10" />
                 </svg>
               </span>
-              <span style={{ flex: '1', minWidth: '0', fontSize: '14px', fontWeight: '600', lineHeight: '24px', color: '#8A5A00' }}>
+              <span style={{ flex: '1', minWidth: '0', fontSize: '14px', fontWeight: '600', lineHeight: '24px', color: 'var(--gold-2)' }}>
                 حسابك قيد المراجعة استلمنا بياناتك وهي قيد المراجعة من الجهة المختصة، ولم يكتمل توثيق الحساب بعد. يمكنك إنشاء أول طلب أثناء انتظار الموافقة.
               </span>
             </div>
@@ -105,7 +105,7 @@ export function ProfileView({ v }: { v: V }) {
                 padding: '16px',
                 minHeight: '56px',
                 boxSizing: 'border-box',
-                borderRadius: '12px',
+                borderRadius: 'var(--r-md)',
                 border: '1px solid #F3B3AE',
                 background: '#FFEBEC',
               }}
@@ -138,7 +138,7 @@ export function ProfileView({ v }: { v: V }) {
               flex: '1 1 360px',
               minWidth: '0',
               background: 'var(--card)',
-              borderRadius: '24px',
+              borderRadius: 'var(--r-lg)',
               boxShadow: 'var(--card-shadow)',
               padding: '24px',
               display: 'flex',
@@ -196,11 +196,11 @@ export function ProfileView({ v }: { v: V }) {
                     bottom: '-4px',
                     insetInlineStart: '-4px',
                     width: '32px',
-                    height: '32px',
-                    padding: '0',
-                    borderRadius: '50%',
+                    height: '40px',
+                    padding: '0 16px',
+                    borderRadius: 'var(--r-sm)',
                     border: '2px solid var(--card)',
-                    background: '#996C2E',
+                    background: 'var(--gold)',
                     color: '#fff',
                     cursor: 'pointer',
                     display: 'flex',
@@ -271,7 +271,7 @@ export function ProfileView({ v }: { v: V }) {
             <button
               onClick={v.ox?.editProfile}
               style={css(
-                `width:100%;height:48px;border-radius:12px;border:1px solid ${v.ox?.editBd ?? ''};background:${v.ox?.editBg ?? ''};color:${v.ox?.editFg ?? ''};font-size:16px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px`,
+                `width:100%;height:48px;border-radius:var(--r-md);border:1px solid ${v.ox?.editBd ?? ''};background:${v.ox?.editBg ?? ''};color:${v.ox?.editFg ?? ''};font-size:16px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px`,
               )}
               className="zp-028"
             >
@@ -296,7 +296,7 @@ export function ProfileView({ v }: { v: V }) {
               style={{
                 width: '100%',
                 height: '48px',
-                borderRadius: '12px',
+                borderRadius: 'var(--r-md)',
                 border: '1px solid var(--line)',
                 background: 'transparent',
                 color: 'var(--ink)',
@@ -330,14 +330,14 @@ export function ProfileView({ v }: { v: V }) {
           <div style={{ flex: '3 1 560px', minWidth: '0', display: 'flex', flexDirection: 'column', gap: '24px' }}>
             {list(v.ox?.profSecs).map((sec: any, $index: number) => (
               <Fragment key={$index}>
-                <section style={{ background: 'var(--card)', borderRadius: '24px', boxShadow: 'var(--card-shadow)', overflow: 'hidden' }}>
+                <section style={{ background: 'var(--card)', borderRadius: 'var(--r-lg)', boxShadow: 'var(--card-shadow)', overflow: 'hidden' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '16px 24px', borderBottom: '1px solid var(--line)' }}>
                     <span
                       style={{
                         width: '40px',
                         height: '40px',
                         flexShrink: '0',
-                        borderRadius: '12px',
+                        borderRadius: 'var(--r-md)',
                         background: 'var(--card-2)',
                         boxShadow: 'inset 0 0 0 1px var(--line)',
                         color: 'var(--gold-2)',
@@ -360,7 +360,7 @@ export function ProfileView({ v }: { v: V }) {
                         <path d={sec?.icon} />
                       </svg>
                     </span>
-                    <h2 style={{ margin: '0', fontSize: '16px', fontWeight: '600', lineHeight: '24px', color: 'var(--ink)' }}>{sec?.title}</h2>
+                    <h2 style={{ margin: '0', fontSize: '16px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>{sec?.title}</h2>
                     {sec?.note ? (
                       <span style={{ marginInlineStart: 'auto' }}>
                         <LockTag>{sec?.note}</LockTag>

@@ -9,7 +9,7 @@ export function ProductsStep({ v }: { v: V }) {
         <div
           style={{
             background: 'var(--card)',
-            borderRadius: '24px',
+            borderRadius: 'var(--r-lg)',
             boxShadow: 'var(--card-shadow)',
             padding: '20px clamp(18px,2.5vw,28px)',
             display: 'flex',
@@ -24,7 +24,7 @@ export function ProductsStep({ v }: { v: V }) {
                   width: '40px',
                   height: '40px',
                   flexShrink: '0',
-                  borderRadius: '12px',
+                  borderRadius: 'var(--r-md)',
                   background: 'var(--card-2)',
                   boxShadow: 'inset 0 0 0 1px var(--line)',
                   color: 'var(--gold-2)',
@@ -49,7 +49,7 @@ export function ProductsStep({ v }: { v: V }) {
               </span>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0', minWidth: '0', maxWidth: '540px', width: '100%' }}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <h2 style={{ margin: '0', fontSize: '16px', fontWeight: '600', lineHeight: '24px', color: 'var(--ink)' }}>اختر المنتجات والكميات</h2>
+                  <h2 style={{ margin: '0', fontSize: '16px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>اختر المنتجات والكميات</h2>
                 </div>
                 <p
                   style={{
@@ -74,14 +74,14 @@ export function ProductsStep({ v }: { v: V }) {
               <Fragment key={$index}>
                 <div
                   style={css(
-                    `display:flex;flex-direction:column;gap:10px;padding:14px;border-radius:16px;border:${p?.bw ?? ''} solid ${p?.bd ?? ''};box-shadow:${p?.shadow ?? ''},${p?.ring ?? ''};background:${p?.cardBg ?? ''};transition:border-color .2s,box-shadow .2s,background .2s`,
+                    `display:flex;flex-direction:column;gap:10px;padding:14px;border-radius:var(--r-lg);border:${p?.bw ?? ''} solid ${p?.bd ?? ''};box-shadow:${p?.shadow ?? ''},${p?.ring ?? ''};background:${p?.cardBg ?? ''};transition:border-color .2s,box-shadow .2s,background .2s`,
                   )}
                 >
                   <div
                     style={{
                       position: 'relative',
                       height: '150px',
-                      borderRadius: '12px',
+                      borderRadius: 'var(--r-md)',
                       background: 'radial-gradient(closest-side at 50% 55%,var(--card),var(--card-2))',
                       display: 'flex',
                       alignItems: 'center',
@@ -102,8 +102,8 @@ export function ProductsStep({ v }: { v: V }) {
                             height: '30px',
                             padding: '0 9px',
                             boxSizing: 'border-box',
-                            borderRadius: '15px',
-                            background: '#996C2E',
+                            borderRadius: 'var(--r-lg)',
+                            background: 'var(--gold)',
                             color: '#fff',
                             fontSize: '14px',
                             fontWeight: '700',
@@ -147,7 +147,7 @@ export function ProductsStep({ v }: { v: V }) {
                   <div
                     style={{
                       height: '38px',
-                      borderRadius: '10px',
+                      borderRadius: 'var(--r-sm)',
                       background: 'var(--card-2)',
                       boxShadow: 'inset 0 0 0 1px var(--line)',
                       display: 'flex',
@@ -162,10 +162,10 @@ export function ProductsStep({ v }: { v: V }) {
                       aria-label="زيادة"
                       style={{
                         width: '32px',
-                        height: '32px',
-                        borderRadius: '7px',
+                        height: '40px',
+                        borderRadius: 'var(--r-sm)',
                         border: '0',
-                        background: '#996C2E',
+                        background: 'var(--gold)',
                         boxShadow: 'none',
                         color: '#fff',
                         cursor: 'pointer',
@@ -232,7 +232,7 @@ export function ProductsStep({ v }: { v: V }) {
             bottom: '16px',
             zIndex: '5',
             background: 'var(--card)',
-            borderRadius: '24px',
+            borderRadius: 'var(--r-lg)',
             boxShadow: 'var(--card-shadow),0 12px 32px rgba(0,0,0,.12)',
             padding: '14px 18px',
             display: 'flex',
@@ -251,7 +251,7 @@ export function ProductsStep({ v }: { v: V }) {
                 width: '44px',
                 height: '44px',
                 padding: '0',
-                borderRadius: '12px',
+                borderRadius: 'var(--r-md)',
                 border: '0',
                 background: 'var(--card-2)',
                 boxShadow: 'inset 0 0 0 1px var(--line)',
@@ -298,13 +298,13 @@ export function ProductsStep({ v }: { v: V }) {
             <button
               onClick={v.ox?.nextProducts}
               style={{
-                height: '44px',
-                padding: '0 22px',
-                borderRadius: '9px',
-                border: '1px solid rgba(255,255,255,.2)',
-                background: '#996C2E',
+                height: '40px',
+                padding: '0 16px',
+                borderRadius: 'var(--r-sm)',
+                border: '0',
+                background: 'var(--gold)',
                 color: '#fff',
-                fontSize: '17px',
+                fontSize: '16px',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',

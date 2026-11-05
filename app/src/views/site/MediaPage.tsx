@@ -5,8 +5,8 @@ import { css, list } from '../../lib/dc';
 export function MediaPage({ v }: { v: V }) {
   return (
     <>
-      <section data-screen-label="12 المركز الإعلامي" style={{ background: 'var(--bg)', padding: '40px 0 96px' }}>
-        <div style={{ maxWidth: '1520px', margin: '0 auto', padding: '0 clamp(16px,2.5vw,32px)', display: 'flex', flexDirection: 'column', gap: '40px' }}>
+      <section data-screen-label="12 المركز الإعلامي" style={{ background: 'var(--bg)', padding: '40px 0 40px' }}>
+        <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '0 clamp(16px,5.6vw,80px)', display: 'flex', flexDirection: 'column', gap: '40px' }}>
           <div
             role="tablist"
             style={{ overflowY: 'hidden', scrollbarWidth: 'none', display: 'flex', gap: '28px', overflowX: 'auto', borderBottom: '1px solid var(--line)' }}
@@ -35,7 +35,7 @@ export function MediaPage({ v }: { v: V }) {
                       textAlign: 'right',
                       background: 'var(--card)',
                       border: '0',
-                      borderRadius: '24px',
+                      borderRadius: 'var(--r-lg)',
                       boxShadow: 'var(--card-shadow)',
                       padding: '22px',
                       display: 'flex',
@@ -57,7 +57,7 @@ export function MediaPage({ v }: { v: V }) {
                       textAlign: 'right',
                       background: 'var(--card)',
                       border: '0',
-                      borderRadius: '24px',
+                      borderRadius: 'var(--r-lg)',
                       boxShadow: 'var(--card-shadow)',
                       padding: '22px',
                       display: 'flex',
@@ -79,7 +79,7 @@ export function MediaPage({ v }: { v: V }) {
                       textAlign: 'right',
                       background: 'var(--card)',
                       border: '0',
-                      borderRadius: '24px',
+                      borderRadius: 'var(--r-lg)',
                       boxShadow: 'var(--card-shadow)',
                       padding: '22px',
                       display: 'flex',
@@ -101,7 +101,7 @@ export function MediaPage({ v }: { v: V }) {
                       textAlign: 'right',
                       background: 'var(--card)',
                       border: '0',
-                      borderRadius: '24px',
+                      borderRadius: 'var(--r-lg)',
                       boxShadow: 'var(--card-shadow)',
                       padding: '22px',
                       display: 'flex',
@@ -120,7 +120,7 @@ export function MediaPage({ v }: { v: V }) {
                 </div>
                 <div
                   style={{
-                    borderRadius: '24px',
+                    borderRadius: 'var(--r-lg)',
                     background: 'var(--card)',
                     boxShadow: 'var(--card-shadow)',
                     padding: 'clamp(20px,3vw,36px)',
@@ -137,7 +137,7 @@ export function MediaPage({ v }: { v: V }) {
                         width: '56px',
                         height: '56px',
                         flexShrink: '0',
-                        borderRadius: '14px',
+                        borderRadius: 'var(--r-md)',
                         background: 'var(--gold-soft)',
                         color: 'var(--gold-2)',
                         display: 'flex',
@@ -160,7 +160,7 @@ export function MediaPage({ v }: { v: V }) {
                       </svg>
                     </span>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                      <h2 style={{ margin: '0', fontSize: 'clamp(22px,2.2vw,28px)', fontWeight: '700', lineHeight: '1.35', color: 'var(--ink)' }}>
+                      <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>
                         التواصل الإعلامي
                       </h2>
                       <p style={{ margin: '0', fontSize: '17px', lineHeight: '1.75', color: 'var(--ink-2)' }}>
@@ -176,7 +176,7 @@ export function MediaPage({ v }: { v: V }) {
                       alignItems: 'center',
                       gap: '12px',
                       padding: '10px',
-                      borderRadius: '16px',
+                      borderRadius: 'var(--r-lg)',
                       background: 'var(--card-2)',
                       boxShadow: 'inset 0 0 0 1px var(--line)',
                     }}
@@ -194,7 +194,7 @@ export function MediaPage({ v }: { v: V }) {
                       style={{
                         width: '44px',
                         height: '44px',
-                        borderRadius: '10px',
+                        borderRadius: 'var(--r-sm)',
                         border: '1px solid var(--line)',
                         background: 'var(--card)',
                         color: 'var(--ink)',
@@ -224,8 +224,8 @@ export function MediaPage({ v }: { v: V }) {
                       style={{
                         height: '44px',
                         padding: '0 20px',
-                        borderRadius: '10px',
-                        background: '#996C2E',
+                        borderRadius: 'var(--r-sm)',
+                        background: 'var(--gold)',
                         color: '#fff',
                         fontSize: '16px',
                         display: 'flex',
@@ -245,7 +245,7 @@ export function MediaPage({ v }: { v: V }) {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', animation: 'zzfade .3s ease both' }}>
                 <div
                   style={{
-                    borderRadius: '20px',
+                    borderRadius: 'var(--r-lg)',
                     background: 'var(--card)',
                     boxShadow: 'var(--card-shadow)',
                     padding: '16px',
@@ -263,10 +263,10 @@ export function MediaPage({ v }: { v: V }) {
                       aria-label="ابحث في الأخبار"
                       style={{
                         width: '100%',
-                        height: '46px',
+                        height: '40px',
                         padding: '0 46px 0 16px',
-                        borderRadius: '12px',
-                        border: '1px solid var(--line)',
+                        borderRadius: 'var(--r-md)',
+                        border: '1px solid var(--field-bd)',
                         background: 'var(--card)',
                         color: 'var(--ink)',
                         fontSize: '16px',
@@ -298,7 +298,7 @@ export function MediaPage({ v }: { v: V }) {
                             <button
                               onClick={c?.onClick}
                               style={css(
-                                `height:36px;padding:0 14px;border-radius:36px;border:1px solid ${c?.bd ?? ''};background:${c?.bg ?? ''};color:${c?.fg ?? ''};font-size:14px;cursor:pointer`,
+                                `height:36px;padding:0 14px;border-radius:var(--r-sm);border:1px solid ${c?.bd ?? ''};background:${c?.bg ?? ''};color:${c?.fg ?? ''};font-size:14px;cursor:pointer`,
                               )}
                             >
                               {c?.label}
@@ -313,7 +313,7 @@ export function MediaPage({ v }: { v: V }) {
                             <button
                               onClick={c?.onClick}
                               style={css(
-                                `height:36px;padding:0 14px;border-radius:36px;border:1px solid ${c?.bd ?? ''};background:${c?.bg ?? ''};color:${c?.fg ?? ''};font-size:14px;cursor:pointer`,
+                                `height:36px;padding:0 14px;border-radius:var(--r-sm);border:1px solid ${c?.bd ?? ''};background:${c?.bg ?? ''};color:${c?.fg ?? ''};font-size:14px;cursor:pointer`,
                               )}
                             >
                               {c?.label}
@@ -334,7 +334,7 @@ export function MediaPage({ v }: { v: V }) {
                           textAlign: 'right',
                           background: 'var(--card)',
                           border: '0',
-                          borderRadius: '24px',
+                          borderRadius: 'var(--r-lg)',
                           boxShadow: 'var(--card-shadow)',
                           padding: '0',
                           overflow: 'hidden',
@@ -353,7 +353,7 @@ export function MediaPage({ v }: { v: V }) {
                               top: '14px',
                               right: '14px',
                               padding: '5px 12px',
-                              borderRadius: '36px',
+                              borderRadius: 'var(--r-sm)',
                               background: 'rgba(12,13,14,.62)',
                               backdropFilter: 'blur(6px)',
                               color: '#fff',
@@ -402,7 +402,7 @@ export function MediaPage({ v }: { v: V }) {
                       style={{
                         padding: '48px',
                         textAlign: 'center',
-                        borderRadius: '24px',
+                        borderRadius: 'var(--r-lg)',
                         boxShadow: 'inset 0 0 0 1px var(--line)',
                         fontSize: '18px',
                         color: 'var(--muted)',
@@ -451,7 +451,7 @@ export function MediaPage({ v }: { v: V }) {
                 <div
                   role="img"
                   aria-label={v.newsItem?.title}
-                  style={css(`width:100%;aspect-ratio:16/7;border-radius:24px;background:${v.newsItem?.img ?? ''}`)}
+                  style={css(`width:100%;aspect-ratio:16/7;border-radius:var(--r-lg);background:${v.newsItem?.img ?? ''}`)}
                 />
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px 18px', fontSize: '15px', color: 'var(--muted)' }}>
                   <span style={{ color: 'var(--gold-2)' }}>{v.newsItem?.cat}</span>
@@ -472,7 +472,7 @@ export function MediaPage({ v }: { v: V }) {
                     style={{
                       width: '44px',
                       height: '44px',
-                      borderRadius: '10px',
+                      borderRadius: 'var(--r-sm)',
                       border: '1px solid var(--line)',
                       background: 'var(--card)',
                       color: 'var(--ink)',
@@ -495,7 +495,7 @@ export function MediaPage({ v }: { v: V }) {
                     style={{
                       width: '44px',
                       height: '44px',
-                      borderRadius: '10px',
+                      borderRadius: 'var(--r-sm)',
                       border: '1px solid var(--line)',
                       background: 'var(--card)',
                       color: 'var(--ink)',
@@ -528,7 +528,7 @@ export function MediaPage({ v }: { v: V }) {
                     style={{
                       width: '44px',
                       height: '44px',
-                      borderRadius: '10px',
+                      borderRadius: 'var(--r-sm)',
                       border: '1px solid var(--line)',
                       background: 'var(--card)',
                       color: 'var(--ink)',
@@ -565,7 +565,7 @@ export function MediaPage({ v }: { v: V }) {
                           textAlign: 'right',
                           background: 'var(--card)',
                           border: '0',
-                          borderRadius: '18px',
+                          borderRadius: 'var(--r-lg)',
                           boxShadow: 'var(--card-shadow)',
                           padding: '20px',
                           display: 'flex',
@@ -595,7 +595,7 @@ export function MediaPage({ v }: { v: V }) {
                   style={{
                     display: 'flex',
                     flexDirection: 'column',
-                    borderRadius: '24px',
+                    borderRadius: 'var(--r-lg)',
                     background: 'var(--card)',
                     boxShadow: 'var(--card-shadow)',
                     overflow: 'hidden',
@@ -625,7 +625,7 @@ export function MediaPage({ v }: { v: V }) {
                           style={{
                             height: '40px',
                             padding: '0 18px',
-                            borderRadius: '9px',
+                            borderRadius: 'var(--r-sm)',
                             border: '1px solid var(--line)',
                             background: 'transparent',
                             color: 'var(--ink)',
@@ -670,7 +670,7 @@ export function MediaPage({ v }: { v: V }) {
                       <button
                         onClick={c?.onClick}
                         style={css(
-                          `height:40px;padding:0 18px;border-radius:36px;border:1px solid ${c?.bd ?? ''};background:${c?.bg ?? ''};color:${c?.fg ?? ''};font-size:15px;cursor:pointer`,
+                          `height:40px;padding:0 18px;border-radius:var(--r-sm);border:1px solid ${c?.bd ?? ''};background:${c?.bg ?? ''};color:${c?.fg ?? ''};font-size:15px;cursor:pointer`,
                         )}
                       >
                         {c?.label}
@@ -684,7 +684,7 @@ export function MediaPage({ v }: { v: V }) {
                       <button
                         onClick={g?.onClick}
                         style={css(
-                          `position:relative;aspect-ratio:4/3;border:0;padding:0;border-radius:18px;overflow:hidden;background:${g?.bg ?? ''};box-shadow:var(--card-shadow);cursor:pointer;text-align:right`,
+                          `position:relative;aspect-ratio:4/3;border:0;padding:0;border-radius:var(--r-lg);overflow:hidden;background:${g?.bg ?? ''};box-shadow:var(--card-shadow);cursor:pointer;text-align:right`,
                         )}
                       >
                         {g?.noImg ? (
@@ -747,7 +747,7 @@ export function MediaPage({ v }: { v: V }) {
                     </Fragment>
                   ))}
                 </div>
-                <div style={{ borderRadius: '18px', background: 'var(--bg-alt)', padding: '24px 28px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <div style={{ borderRadius: 'var(--r-lg)', background: 'var(--bg-alt)', padding: '24px 28px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   <span style={{ fontSize: '18px', fontWeight: '700', color: 'var(--ink)' }}>شروط الاستخدام</span>
                   <p style={{ margin: '0', fontSize: '16px', lineHeight: '1.8', color: 'var(--ink-2)' }}>
                     تُستخدم المواد لأغراض إعلامية وتعليمية وغير تجارية، مع الإشارة إلى المصدر. لا يجوز تعديل المواد بما يغيّر مضمونها، ولا استخدامها في سياق
@@ -768,7 +768,7 @@ export function MediaPage({ v }: { v: V }) {
                     <div
                       style={{
                         aspectRatio: '16/9',
-                        borderRadius: '18px',
+                        borderRadius: 'var(--r-lg)',
                         background: '#F4F1EB',
                         display: 'flex',
                         alignItems: 'center',
@@ -781,7 +781,7 @@ export function MediaPage({ v }: { v: V }) {
                     <div
                       style={{
                         aspectRatio: '16/9',
-                        borderRadius: '18px',
+                        borderRadius: 'var(--r-lg)',
                         background: '#0C0D0E',
                         display: 'flex',
                         alignItems: 'center',
@@ -798,13 +798,13 @@ export function MediaPage({ v }: { v: V }) {
                         alignItems: 'center',
                         gap: '10px',
                         padding: '8px 14px 8px 8px',
-                        borderRadius: '12px',
+                        borderRadius: 'var(--r-md)',
                         boxShadow: 'inset 0 0 0 1px var(--line)',
                       }}
                     >
-                      <span style={{ width: '32px', height: '32px', borderRadius: '8px', background: '#D4A843' }} />
+                      <span style={{ width: '32px', height: '32px', borderRadius: 'var(--r-sm)', background: 'var(--gold-3)' }} />
                       <span dir="ltr" style={{ fontFamily: 'ui-monospace,monospace', fontSize: '13px', color: 'var(--ink-2)' }}>
-                        #D4A843
+                        var(--gold-3)
                       </span>
                     </div>
                     <div
@@ -813,13 +813,13 @@ export function MediaPage({ v }: { v: V }) {
                         alignItems: 'center',
                         gap: '10px',
                         padding: '8px 14px 8px 8px',
-                        borderRadius: '12px',
+                        borderRadius: 'var(--r-md)',
                         boxShadow: 'inset 0 0 0 1px var(--line)',
                       }}
                     >
-                      <span style={{ width: '32px', height: '32px', borderRadius: '8px', background: '#996C2E' }} />
+                      <span style={{ width: '32px', height: '32px', borderRadius: 'var(--r-sm)', background: 'var(--gold)' }} />
                       <span dir="ltr" style={{ fontFamily: 'ui-monospace,monospace', fontSize: '13px', color: 'var(--ink-2)' }}>
-                        #996C2E
+                        var(--gold)
                       </span>
                     </div>
                     <div
@@ -828,11 +828,11 @@ export function MediaPage({ v }: { v: V }) {
                         alignItems: 'center',
                         gap: '10px',
                         padding: '8px 14px 8px 8px',
-                        borderRadius: '12px',
+                        borderRadius: 'var(--r-md)',
                         boxShadow: 'inset 0 0 0 1px var(--line)',
                       }}
                     >
-                      <span style={{ width: '32px', height: '32px', borderRadius: '8px', background: '#0C0D0E', boxShadow: 'inset 0 0 0 1px var(--line)' }} />
+                      <span style={{ width: '32px', height: '32px', borderRadius: 'var(--r-sm)', background: '#0C0D0E', boxShadow: 'inset 0 0 0 1px var(--line)' }} />
                       <span dir="ltr" style={{ fontFamily: 'ui-monospace,monospace', fontSize: '13px', color: 'var(--ink-2)' }}>
                         #0C0D0E
                       </span>
@@ -843,11 +843,11 @@ export function MediaPage({ v }: { v: V }) {
                         alignItems: 'center',
                         gap: '10px',
                         padding: '8px 14px 8px 8px',
-                        borderRadius: '12px',
+                        borderRadius: 'var(--r-md)',
                         boxShadow: 'inset 0 0 0 1px var(--line)',
                       }}
                     >
-                      <span style={{ width: '32px', height: '32px', borderRadius: '8px', background: '#EFEDEA', boxShadow: 'inset 0 0 0 1px var(--line)' }} />
+                      <span style={{ width: '32px', height: '32px', borderRadius: 'var(--r-sm)', background: '#EFEDEA', boxShadow: 'inset 0 0 0 1px var(--line)' }} />
                       <span dir="ltr" style={{ fontFamily: 'ui-monospace,monospace', fontSize: '13px', color: 'var(--ink-2)' }}>
                         #EFEDEA
                       </span>
@@ -857,13 +857,13 @@ export function MediaPage({ v }: { v: V }) {
                     <button
                       onClick={v.downloadLogo}
                       style={{
-                        height: '48px',
-                        padding: '0 28px',
-                        borderRadius: '9px',
-                        border: '1px solid rgba(255,255,255,.2)',
-                        background: '#996C2E',
+                        height: '40px',
+                        padding: '0 16px',
+                        borderRadius: 'var(--r-sm)',
+                        border: '0',
+                        background: 'var(--gold)',
                         color: '#fff',
-                        fontSize: '17px',
+                        fontSize: '16px',
                         cursor: 'pointer',
                       }}
                       className="zp-002"
@@ -875,7 +875,7 @@ export function MediaPage({ v }: { v: V }) {
                       style={{
                         height: '48px',
                         padding: '0 22px',
-                        borderRadius: '9px',
+                        borderRadius: 'var(--r-sm)',
                         border: '1px solid var(--line)',
                         background: 'transparent',
                         color: 'var(--ink)',
@@ -891,7 +891,7 @@ export function MediaPage({ v }: { v: V }) {
                   style={{
                     flex: '1 1 340px',
                     background: 'var(--card)',
-                    borderRadius: '24px',
+                    borderRadius: 'var(--r-lg)',
                     boxShadow: 'var(--card-shadow)',
                     padding: '22px',
                     display: 'flex',

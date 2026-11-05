@@ -2,92 +2,69 @@ import { Fragment } from 'react';
 import type { V } from '../../types';
 import { list } from '../../lib/dc';
 
+/**
+ * DGA footer (dark variant) on the brand's Deep brown: link columns with hairline dividers,
+ * a group for the app links, then the legal row. Content is unchanged from the site.
+ */
+const link = { background: 'none', border: '0', padding: '0', color: '#FFFFFF', fontSize: '14px', lineHeight: '20px', cursor: 'pointer', textAlign: 'right', fontFamily: 'inherit' } as const;
+const groupTitle = { margin: 0, paddingBottom: '8px', borderBottom: '1px solid rgba(255,255,255,.3)', fontSize: '16px', lineHeight: '24px', fontWeight: 600, color: '#FFFFFF' } as const;
+
 export function SiteFooter({ v }: { v: V }) {
+  const links = list(v.footerLinks);
+  const per = Math.ceil(links.length / 3);
+  const cols = [links.slice(0, per), links.slice(per, per * 2), links.slice(per * 2)];
   return (
-    <>
-      <footer style={{ background: '#000', color: '#fff', padding: '83px 0 48px' }}>
-        <div
-          style={{
-            maxWidth: '1520px',
-            margin: '0 auto',
-            padding: '0 clamp(16px,2.5vw,32px)',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '40px',
-          }}
-        >
+    <footer style={{ background: 'var(--footer-bg)', color: '#fff', padding: '40px 0' }}>
+      <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '0 clamp(16px,5.6vw,80px)', display: 'flex', flexDirection: 'column', gap: '40px' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-start', justifyContent: 'space-between', gap: '32px' }}>
           <button onClick={v.go?.home} aria-label="الرئيسية" style={{ background: 'none', border: '0', padding: '0', cursor: 'pointer' }}>
-            <span style={{ display: 'block', width: '212px', height: '51px', background: "url('assets/logo-sm-gold.svg') center/contain no-repeat" }} />
+            <span style={{ display: 'block', width: '200px', height: '48px', background: "url('assets/logo-sm-gold.svg') right center/contain no-repeat" }} />
           </button>
-          <nav style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '14px 32px' }}>
-            {list(v.footerLinks).map((l: any, $index: number) => (
-              <Fragment key={$index}>
-                <button
-                  onClick={l?.onClick}
-                  style={{ background: 'none', border: '0', padding: '0', color: 'rgba(255,255,255,.72)', fontSize: '16px', cursor: 'pointer' }}
-                  className="zp-000"
-                >
-                  {l?.label}
-                </button>
-              </Fragment>
-            ))}
-          </nav>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '14px' }}>
-            <span style={{ fontSize: '14px', color: 'rgba(255,255,255,.8)' }}>حمل تطبيق نسك لطلب ماء زمزم</span>
-            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '12px' }}>
+        </div>
+        <nav aria-label="روابط الموقع" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: '24px 32px', borderTop: '1px solid rgba(255,255,255,.3)', paddingTop: '24px' }}>
+          {cols.map((c, ci) => (
+            <ul key={ci} style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {c.map((l: any, $index: number) => (
+                <Fragment key={$index}>
+                  <li>
+                    <button onClick={l?.onClick} style={link} className="dga-footlink">
+                      {l?.label}
+                    </button>
+                  </li>
+                </Fragment>
+              ))}
+            </ul>
+          ))}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <h2 style={groupTitle}>حمل تطبيق نسك لطلب ماء زمزم</h2>
+            <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '20px' }}>
               <button onClick={v.storeToast} aria-label="App Store" style={{ background: 'none', border: '0', padding: '0', cursor: 'pointer' }}>
-                <img src="assets/app-store.svg" alt="App Store" style={{ height: '40px', display: 'block' }} />
+                <img src="assets/app-store.svg" alt="App Store" style={{ height: '18px', display: 'block', filter: 'brightness(0) invert(1)' }} />
               </button>
               <button onClick={v.storeToast} aria-label="Google Play" style={{ background: 'none', border: '0', padding: '0', cursor: 'pointer' }}>
-                <img src="assets/google-play.svg" alt="Google Play" style={{ height: '40px', display: 'block' }} />
+                <img src="assets/google-play.svg" alt="Google Play" style={{ height: '18px', display: 'block', filter: 'brightness(0) invert(1)' }} />
               </button>
               <button onClick={v.storeToast} aria-label="AppGallery" style={{ background: 'none', border: '0', padding: '0', cursor: 'pointer' }}>
-                <img src="assets/app-gallery.svg" alt="AppGallery" style={{ height: '40px', display: 'block' }} />
+                <img src="assets/app-gallery.svg" alt="AppGallery" style={{ height: '18px', display: 'block', filter: 'brightness(0) invert(1)' }} />
               </button>
             </div>
           </div>
-          <div style={{ width: '100%', height: '1px', background: 'rgba(255,255,255,.18)' }} />
-          <div
-            style={{
-              width: '100%',
-              display: 'flex',
-              flexWrap: 'wrap',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              gap: '16px',
-              fontSize: '14px',
-              color: 'rgba(255,255,255,.7)',
-            }}
-          >
+        </nav>
+        <div style={{ height: '1px', background: 'rgba(255,255,255,.3)' }} />
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-end', gap: '16px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '24px' }}>
-              <button
-                onClick={v.policyToast}
-                style={{ background: 'none', border: '0', padding: '0', color: 'rgba(255,255,255,.7)', fontSize: '14px', cursor: 'pointer' }}
-                className="zp-000"
-              >
-                حرية المعلومات
-              </button>
-              <button
-                onClick={v.policyToast}
-                style={{ background: 'none', border: '0', padding: '0', color: 'rgba(255,255,255,.7)', fontSize: '14px', cursor: 'pointer' }}
-                className="zp-000"
-              >
-                سياسة الخصوصية
-              </button>
-              <button
-                onClick={v.policyToast}
-                style={{ background: 'none', border: '0', padding: '0', color: 'rgba(255,255,255,.7)', fontSize: '14px', cursor: 'pointer' }}
-                className="zp-000"
-              >
-                الشروط
-              </button>
+              {['حرية المعلومات', 'سياسة الخصوصية', 'الشروط'].map((t) => (
+                <button key={t} onClick={v.policyToast} style={{ ...link, textDecoration: 'underline', textUnderlineOffset: '4px' }} className="dga-footlink">
+                  {t}
+                </button>
+              ))}
             </div>
-            <span>جميع الحقوق محفوظة © 2026</span>
-            <span>بتجربة رقمية ممكنة من شركة علم</span>
+            <span style={{ fontSize: '14px', lineHeight: '20px', fontWeight: 600 }}>جميع الحقوق محفوظة © 2026</span>
           </div>
+          <span style={{ fontSize: '14px', lineHeight: '20px', color: 'rgba(255,255,255,.8)' }}>بتجربة رقمية ممكنة من شركة علم</span>
         </div>
-      </footer>
-    </>
+      </div>
+    </footer>
   );
 }

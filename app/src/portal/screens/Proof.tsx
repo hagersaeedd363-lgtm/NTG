@@ -23,7 +23,7 @@ function Thumb({ src, pdf, size = 64 }: { src: string; pdf: boolean; size?: numb
         width: size,
         height: size,
         flexShrink: 0,
-        borderRadius: 12,
+        borderRadius: 'var(--r-md)',
         overflow: 'hidden',
         background: pdf ? 'var(--al-bad-bg)' : 'var(--card-2)',
         boxShadow: 'inset 0 0 0 1px var(--line)',
@@ -87,7 +87,7 @@ function ProofUploadCard({ o, s }: { o: Order; s: PortalState }) {
           }}
         />
         {P.file ? (
-          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 16, padding: 16, borderRadius: 16, background: 'var(--card-2)', boxShadow: 'inset 0 0 0 1px var(--line)' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 16, padding: 16, borderRadius: 'var(--r-lg)', background: 'var(--card-2)', boxShadow: 'inset 0 0 0 1px var(--line)' }}>
             <Thumb src={P.preview} pdf={pdf} />
             <span style={{ flex: '1 1 160px', minWidth: 0, display: 'flex', flexDirection: 'column' }}>
               <span dir="ltr" style={{ fontSize: 15, fontWeight: 600, color: 'var(--ink)', textAlign: 'right', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
@@ -120,7 +120,7 @@ function ProofUploadCard({ o, s }: { o: Order; s: PortalState }) {
               alignItems: 'center',
               gap: 10,
               padding: '28px 16px',
-              borderRadius: 16,
+              borderRadius: 'var(--r-lg)',
               border: '1.5px dashed ' + (P.fileErr ? 'var(--danger)' : drag ? 'var(--gold-2)' : 'var(--gold-3)'),
               background: drag ? 'var(--gold-soft)' : 'var(--card-2)',
               cursor: 'pointer',
@@ -180,9 +180,9 @@ function ProofCard({ o }: { o: Order }) {
           <h2 style={{ margin: 0, fontSize: 18, fontWeight: 600, color: 'var(--ink)' }}>إيصال الدفع</h2>
           {src ? (
             pdf ? (
-              <iframe title="إيصال الدفع" src={src} style={{ width: '100%', height: '60vh', border: 0, borderRadius: 12 }} />
+              <iframe title="إيصال الدفع" src={src} style={{ width: '100%', height: '60vh', border: 0, borderRadius: 'var(--r-md)' }} />
             ) : (
-              <img src={src} alt="إيصال الدفع" style={{ width: '100%', maxHeight: '60vh', objectFit: 'contain', borderRadius: 12, background: 'var(--card-2)' }} />
+              <img src={src} alt="إيصال الدفع" style={{ width: '100%', maxHeight: '60vh', objectFit: 'contain', borderRadius: 'var(--r-md)', background: 'var(--card-2)' }} />
             )
           ) : (
             <Alert tone="info">

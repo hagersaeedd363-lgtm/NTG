@@ -3,9 +3,9 @@ import type { V } from '../../types';
 export function VerifyPage({ v }: { v: V }) {
   return (
     <>
-      <section data-screen-label="08 التحقق من المنتج الأصلي" style={{ background: 'var(--bg)', padding: '96px 0 72px' }}>
+      <section data-screen-label="08 التحقق من المنتج الأصلي" style={{ background: 'var(--bg)', padding: '40px 0 40px' }}>
         <div style={{ maxWidth: '880px', margin: '0 auto', padding: '0 24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          <h2 style={{ margin: '0', fontSize: 'clamp(30px,3.4vw,44px)', fontWeight: '700', lineHeight: '1.2', color: 'var(--ink)' }}>لماذا هذه الصفحة</h2>
+          <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>لماذا هذه الصفحة</h2>
           <p style={{ margin: '0', fontSize: '19px', lineHeight: '1.85', color: 'var(--ink-2)' }}>
             تظهر في السوق عبوات تحمل اسم زمزم أو ما يشبهه، لم تُعبَّأ في منشآت المشروع ولا تخضع لرقابته. نحن لا نضمن مصدر هذه العبوات ولا محتواها، ولا نتحمل
             مسؤولية ما ينتج عنها.
@@ -13,13 +13,13 @@ export function VerifyPage({ v }: { v: V }) {
         </div>
       </section>
       <section style={{ background: 'var(--bg)', padding: '0 0 96px' }}>
-        <div style={{ maxWidth: '1520px', margin: '0 auto', padding: '0 clamp(16px,2.5vw,32px)', display: 'flex', flexDirection: 'column', gap: '28px' }}>
-          <h2 style={{ margin: '0', fontSize: 'clamp(28px,3vw,40px)', fontWeight: '700', color: 'var(--ink)' }}>كيف تتحقق</h2>
+        <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '0 clamp(16px,5.6vw,80px)', display: 'flex', flexDirection: 'column', gap: '28px' }}>
+          <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', color: 'var(--ink)' }}>كيف تتحقق</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(210px,1fr))', gap: '20px' }}>
             <div
               style={{
                 background: 'var(--card)',
-                borderRadius: '24px',
+                borderRadius: 'var(--r-lg)',
                 boxShadow: 'var(--card-shadow)',
                 padding: '22px',
                 display: 'flex',
@@ -54,7 +54,7 @@ export function VerifyPage({ v }: { v: V }) {
             <div
               style={{
                 background: 'var(--card)',
-                borderRadius: '24px',
+                borderRadius: 'var(--r-lg)',
                 boxShadow: 'var(--card-shadow)',
                 padding: '22px',
                 display: 'flex',
@@ -83,7 +83,7 @@ export function VerifyPage({ v }: { v: V }) {
             <div
               style={{
                 background: 'var(--card)',
-                borderRadius: '24px',
+                borderRadius: 'var(--r-lg)',
                 boxShadow: 'var(--card-shadow)',
                 padding: '22px',
                 display: 'flex',
@@ -114,7 +114,7 @@ export function VerifyPage({ v }: { v: V }) {
             <div
               style={{
                 background: 'var(--card)',
-                borderRadius: '24px',
+                borderRadius: 'var(--r-lg)',
                 boxShadow: 'var(--card-shadow)',
                 padding: '22px',
                 display: 'flex',
@@ -143,25 +143,27 @@ export function VerifyPage({ v }: { v: V }) {
           </div>
         </div>
       </section>
-      <section id="report" style={{ background: 'var(--bg-alt)', padding: '96px 0' }}>
-        <div style={{ maxWidth: '1520px', margin: '0 auto', padding: '0 clamp(16px,2.5vw,32px)', display: 'flex', flexWrap: 'wrap', gap: '48px' }}>
+      <section id="report" style={{ background: 'var(--bg-alt)', padding: '40px 0' }}>
+        <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '0 clamp(16px,5.6vw,80px)', display: 'flex', flexWrap: 'wrap', gap: '48px' }}>
           <div style={{ flex: '1 1 320px', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '16px' }}>
             <span
               style={{
                 display: 'inline-flex',
-                padding: '6px 14px',
-                borderRadius: '36px',
-                background: 'rgba(130,130,130,.15)',
-                boxShadow: 'inset 0 0 0 1px var(--ink)',
-                fontSize: '14px',
-                fontWeight: '700',
-                lineHeight: '1.08',
+                padding: '0 8px',
+                height: '24px',
+                alignItems: 'center',
+                borderRadius: 'var(--r-sm)',
+                background: 'var(--card-2)',
+                boxShadow: 'inset 0 0 0 1px var(--line)',
+                fontSize: '12px',
+                fontWeight: '500',
+                lineHeight: '18px',
                 color: 'var(--ink)',
               }}
             >
               بلاغ
             </span>
-            <h2 style={{ margin: '0', fontSize: 'clamp(30px,3.4vw,44px)', fontWeight: '700', lineHeight: '1.2', color: 'var(--ink)' }}>
+            <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>
               بلّغ عن منتج مشتبه به
             </h2>
             <p style={{ margin: '0', fontSize: '19px', lineHeight: '1.8', color: 'var(--ink-2)' }}>
@@ -169,7 +171,7 @@ export function VerifyPage({ v }: { v: V }) {
             </p>
           </div>
           <div
-            style={{ flex: '1.5 1 480px', background: 'var(--card)', borderRadius: '24px', boxShadow: 'var(--card-shadow)', padding: 'clamp(24px,3vw,40px)' }}
+            style={{ flex: '1.5 1 480px', background: 'var(--card)', borderRadius: 'var(--r-lg)', boxShadow: 'var(--card-shadow)', padding: 'clamp(24px,3vw,40px)' }}
           >
             {v.notSent?.report ? (
               <>
@@ -187,10 +189,10 @@ export function VerifyPage({ v }: { v: V }) {
                       name="name"
                       style={{
                         width: '100%',
-                        height: '46px',
+                        height: '40px',
                         padding: '0 16px',
-                        borderRadius: '12px',
-                        border: '1px solid var(--line)',
+                        borderRadius: 'var(--r-md)',
+                        border: '1px solid var(--field-bd)',
                         background: 'var(--card)',
                         color: 'var(--ink)',
                         fontSize: '16px',
@@ -212,10 +214,10 @@ export function VerifyPage({ v }: { v: V }) {
                       placeholder="05XXXXXXXX"
                       style={{
                         width: '100%',
-                        height: '46px',
+                        height: '40px',
                         padding: '0 16px',
-                        borderRadius: '12px',
-                        border: '1px solid var(--line)',
+                        borderRadius: 'var(--r-md)',
+                        border: '1px solid var(--field-bd)',
                         background: 'var(--card)',
                         color: 'var(--ink)',
                         fontSize: '16px',
@@ -235,10 +237,10 @@ export function VerifyPage({ v }: { v: V }) {
                       name="city"
                       style={{
                         width: '100%',
-                        height: '46px',
+                        height: '40px',
                         padding: '0 16px',
-                        borderRadius: '12px',
-                        border: '1px solid var(--line)',
+                        borderRadius: 'var(--r-md)',
+                        border: '1px solid var(--field-bd)',
                         background: 'var(--card)',
                         color: 'var(--ink)',
                         fontSize: '16px',
@@ -258,10 +260,10 @@ export function VerifyPage({ v }: { v: V }) {
                       placeholder="اسم المتجر أو الموقع"
                       style={{
                         width: '100%',
-                        height: '46px',
+                        height: '40px',
                         padding: '0 16px',
-                        borderRadius: '12px',
-                        border: '1px solid var(--line)',
+                        borderRadius: 'var(--r-md)',
+                        border: '1px solid var(--field-bd)',
                         background: 'var(--card)',
                         color: 'var(--ink)',
                         fontSize: '16px',
@@ -292,8 +294,8 @@ export function VerifyPage({ v }: { v: V }) {
                       style={{
                         width: '100%',
                         padding: '14px 16px',
-                        borderRadius: '12px',
-                        border: '1px solid var(--line)',
+                        borderRadius: 'var(--r-md)',
+                        border: '1px solid var(--field-bd)',
                         background: 'var(--card)',
                         color: 'var(--ink)',
                         fontSize: '16px',
@@ -324,7 +326,7 @@ export function VerifyPage({ v }: { v: V }) {
                       style={{
                         width: '100%',
                         padding: '12px 16px',
-                        borderRadius: '12px',
+                        borderRadius: 'var(--r-md)',
                         border: '1px dashed var(--line)',
                         background: 'var(--card-2)',
                         color: 'var(--muted)',
@@ -336,12 +338,12 @@ export function VerifyPage({ v }: { v: V }) {
                     type="submit"
                     style={{
                       gridColumn: '1/-1',
-                      height: '52px',
-                      borderRadius: '9px',
+                      height: '40px',
+                      borderRadius: 'var(--r-sm)',
                       border: '0',
-                      background: '#996C2E',
+                      background: 'var(--gold)',
                       color: '#fff',
-                      fontSize: '17px',
+                      fontSize: '16px',
                       cursor: 'pointer',
                     }}
                     className="zp-002"
@@ -387,7 +389,7 @@ export function VerifyPage({ v }: { v: V }) {
                     style={{
                       height: '44px',
                       padding: '0 24px',
-                      borderRadius: '9px',
+                      borderRadius: 'var(--r-sm)',
                       border: '1px solid var(--line)',
                       background: 'transparent',
                       color: 'var(--ink)',

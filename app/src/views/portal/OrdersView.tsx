@@ -27,7 +27,7 @@ export function OrdersView({ v }: { v: V }) {
                 width: '48px',
                 height: '48px',
                 padding: '0',
-                borderRadius: '12px',
+                borderRadius: 'var(--r-md)',
                 border: '0',
                 background: 'var(--card-2)',
                 boxShadow: 'inset 0 0 0 1px var(--line)',
@@ -57,7 +57,7 @@ export function OrdersView({ v }: { v: V }) {
             {v.ox?.odOff ? (
               <>
                 <div style={{ display: 'flex', flexDirection: 'column', minWidth: '0' }}>
-                  <h1 style={{ margin: '0', fontSize: '24px', fontWeight: '600', lineHeight: '32px', color: 'var(--ink)' }}>طلباتي</h1>
+                  <h1 style={{ margin: '0', fontSize: '24px', fontWeight: '700', lineHeight: '32px', color: 'var(--ink)' }}>طلباتي</h1>
                   <p style={{ margin: '0', fontSize: '14px', lineHeight: '24px', color: 'var(--muted)' }}>تابع جميع طلبات مياه زمزم من مكان واحد.</p>
                 </div>
               </>
@@ -66,12 +66,12 @@ export function OrdersView({ v }: { v: V }) {
               <>
                 <div style={{ display: 'flex', flexDirection: 'column', minWidth: '0' }}>
                   <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '12px' }}>
-                    <h1 dir="ltr" style={{ margin: '0', fontSize: '24px', fontWeight: '600', lineHeight: '32px', color: 'var(--ink)' }}>
+                    <h1 dir="ltr" style={{ margin: '0', fontSize: '24px', fontWeight: '700', lineHeight: '32px', color: 'var(--ink)' }}>
                       {v.ox?.od?.id}
                     </h1>
                     <span
                       style={css(
-                        `display:inline-flex;align-items:center;gap:8px;height:24px;padding:0 12px;border-radius:8px;background:${v.ox?.od?.chipBg ?? ''};color:${v.ox?.od?.chipFg ?? ''};box-shadow:inset 0 0 0 1px ${v.ox?.od?.chipBd ?? ''};font-size:12px;font-weight:500;white-space:nowrap`,
+                        `display:inline-flex;align-items:center;gap:8px;height:24px;padding:0 12px;border-radius:var(--r-sm);background:${v.ox?.od?.chipBg ?? ''};color:${v.ox?.od?.chipFg ?? ''};box-shadow:inset 0 0 0 1px ${v.ox?.od?.chipBd ?? ''};font-size:12px;font-weight:500;white-space:nowrap`,
                       )}
                     >
                       {v.ox?.od?.statusLabel}
@@ -90,13 +90,13 @@ export function OrdersView({ v }: { v: V }) {
               <button
                 onClick={v.ox?.newOrder}
                 style={{
-                  height: '48px',
-                  padding: '0 24px',
-                  borderRadius: '12px',
-                  border: '1px solid rgba(255,255,255,.2)',
-                  background: '#996C2E',
+                  height: '40px',
+                  padding: '0 16px',
+                  borderRadius: 'var(--r-sm)',
+                  border: '0',
+                  background: 'var(--gold)',
                   color: '#fff',
-                  fontWeight: '600',
+                  fontWeight: '500',
                   cursor: 'pointer',
                   fontSize: '16px',
                   whiteSpace: 'nowrap',
@@ -137,7 +137,7 @@ export function OrdersView({ v }: { v: V }) {
             <section
               style={{
                 background: 'var(--card)',
-                borderRadius: '24px',
+                borderRadius: 'var(--r-lg)',
                 boxShadow: 'var(--card-shadow)',
                 overflow: 'hidden',
                 display: 'flex',
@@ -163,7 +163,7 @@ export function OrdersView({ v }: { v: V }) {
                       {t?.label}
                       <span
                         style={css(
-                          `display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;padding:0 8px;box-sizing:border-box;border-radius:8px;background:${t?.countBg ?? ''};color:${t?.countFg ?? ''};font-size:12px;font-weight:500`,
+                          `display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;padding:0 8px;box-sizing:border-box;border-radius:var(--r-sm);background:${t?.countBg ?? ''};color:${t?.countFg ?? ''};font-size:12px;font-weight:500`,
                         )}
                       >
                         {t?.count}
@@ -186,8 +186,8 @@ export function OrdersView({ v }: { v: V }) {
                       width: '100%',
                       height: '40px',
                       padding: '0 48px',
-                      borderRadius: '12px',
-                      border: '1px solid var(--line)',
+                      borderRadius: 'var(--r-md)',
+                      border: '1px solid var(--field-bd)',
                       background: 'var(--card)',
                       color: 'var(--ink-2)',
                       fontSize: '14px',
@@ -223,7 +223,7 @@ export function OrdersView({ v }: { v: V }) {
                           top: '4px',
                           width: '32px',
                           height: '32px',
-                          borderRadius: '10px',
+                          borderRadius: 'var(--r-sm)',
                           border: '0',
                           background: 'transparent',
                           color: 'var(--muted)',
@@ -259,8 +259,8 @@ export function OrdersView({ v }: { v: V }) {
                       width: '100%',
                       height: '40px',
                       padding: '0 16px 0 40px',
-                      borderRadius: '12px',
-                      border: '1px solid var(--line)',
+                      borderRadius: 'var(--r-md)',
+                      border: '1px solid var(--field-bd)',
                       background: 'var(--card)',
                       color: 'var(--ink-2)',
                       fontSize: '14px',
@@ -375,7 +375,7 @@ export function OrdersView({ v }: { v: V }) {
                                 width: '40px',
                                 height: '40px',
                                 flexShrink: '0',
-                                borderRadius: '8px',
+                                borderRadius: 'var(--r-sm)',
                                 background: 'var(--card-2)',
                                 boxShadow: 'inset 0 0 0 1px var(--line)',
                                 display: 'flex',
@@ -413,7 +413,7 @@ export function OrdersView({ v }: { v: V }) {
                                         alignItems: 'center',
                                         height: '24px',
                                         padding: '0 10px',
-                                        borderRadius: '8px',
+                                        borderRadius: 'var(--r-sm)',
                                         background: 'var(--gold-soft)',
                                         color: 'var(--gold-on-soft)',
                                         boxShadow: 'inset 0 0 0 1px var(--gold-3)',
@@ -445,7 +445,7 @@ export function OrdersView({ v }: { v: V }) {
                           </span>
                           <span
                             style={css(
-                              `display:inline-flex;align-items:center;gap:8px;height:24px;padding:0 12px;border-radius:8px;justify-self:start;background:${or?.chipBg ?? ''};color:${or?.chipFg ?? ''};box-shadow:inset 0 0 0 1px ${or?.chipBd ?? ''};font-size:12px;font-weight:500;white-space:nowrap`,
+                              `display:inline-flex;align-items:center;gap:8px;height:24px;padding:0 12px;border-radius:var(--r-sm);justify-self:start;background:${or?.chipBg ?? ''};color:${or?.chipFg ?? ''};box-shadow:inset 0 0 0 1px ${or?.chipBd ?? ''};font-size:12px;font-weight:500;white-space:nowrap`,
                             )}
                           >
                             {or?.statusLabel}
@@ -456,7 +456,7 @@ export function OrdersView({ v }: { v: V }) {
                             style={{
                               width: '32px',
                               height: '32px',
-                              borderRadius: '8px',
+                              borderRadius: 'var(--r-sm)',
                               background: 'var(--card-2)',
                               boxShadow: 'inset 0 0 0 1px var(--line)',
                               color: 'var(--gold-on-soft)',
@@ -524,13 +524,13 @@ export function OrdersView({ v }: { v: V }) {
                       onClick={v.ox?.newOrder}
                       style={{
                         marginTop: '16px',
-                        height: '48px',
-                        padding: '0 24px',
-                        borderRadius: '12px',
-                        border: '1px solid rgba(255,255,255,.2)',
-                        background: '#996C2E',
+                        height: '40px',
+                        padding: '0 16px',
+                        borderRadius: 'var(--r-sm)',
+                        border: '0',
+                        background: 'var(--gold)',
                         color: '#fff',
-                        fontWeight: '600',
+                        fontWeight: '500',
                         cursor: 'pointer',
                         fontSize: '16px',
                       }}
@@ -551,7 +551,7 @@ export function OrdersView({ v }: { v: V }) {
               <div
                 role="status"
                 style={css(
-                  `display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 8px 16px; min-height: 44px; box-sizing: border-box; border-radius: 12px; background: ${v.ox?.od?.alBg ?? ''}; border: 1px solid ${v.ox?.od?.alBd ?? ''}`,
+                  `display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 8px 16px; min-height: 44px; box-sizing: border-box; border-radius:var(--r-md); background: ${v.ox?.od?.alBg ?? ''}; border: 1px solid ${v.ox?.od?.alBd ?? ''}`,
                 )}
               >
                 <span
@@ -580,7 +580,7 @@ export function OrdersView({ v }: { v: V }) {
                     <>
                       <span
                         style={css(
-                          `display:inline-flex;align-items:center;gap:8px;height:24px;padding:0 12px;border-radius:8px;background:${v.ox?.od?.alFg ?? ''};color:#fff;font-size:12px;font-weight:500;line-height:24px;white-space:nowrap`,
+                          `display:inline-flex;align-items:center;gap:8px;height:24px;padding:0 12px;border-radius:var(--r-sm);background:${v.ox?.od?.alFg ?? ''};color:#fff;font-size:12px;font-weight:500;line-height:24px;white-space:nowrap`,
                         )}
                       >
                         خصم {v.ox?.od?.discPct} · وفّرت {v.ox?.od?.savedLabel}
@@ -592,7 +592,7 @@ export function OrdersView({ v }: { v: V }) {
               <div
                 style={{
                   background: 'var(--card)',
-                  borderRadius: '24px',
+                  borderRadius: 'var(--r-lg)',
                   boxShadow: 'var(--card-shadow)',
                   padding: '20px clamp(18px,2.5vw,28px)',
                   display: 'flex',
@@ -649,7 +649,7 @@ export function OrdersView({ v }: { v: V }) {
                       <div
                         style={{
                           background: 'var(--card)',
-                          borderRadius: '24px',
+                          borderRadius: 'var(--r-lg)',
                           boxShadow: 'var(--card-shadow)',
                           padding: '20px clamp(18px,2.5vw,28px)',
                           display: 'flex',
@@ -663,7 +663,7 @@ export function OrdersView({ v }: { v: V }) {
                               width: '40px',
                               height: '40px',
                               flexShrink: '0',
-                              borderRadius: '12px',
+                              borderRadius: 'var(--r-md)',
                               background: 'var(--card-2)',
                               boxShadow: 'inset 0 0 0 1px var(--line)',
                               color: 'var(--gold-2)',
@@ -687,7 +687,7 @@ export function OrdersView({ v }: { v: V }) {
                             </svg>
                           </span>
                           <div style={{ display: 'flex', flexDirection: 'column', gap: '0', minWidth: '0' }}>
-                            <h2 style={{ margin: '0', fontSize: '16px', fontWeight: '600', lineHeight: '24px', color: 'var(--ink)' }}>فاتورة سداد</h2>
+                            <h2 style={{ margin: '0', fontSize: '16px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>فاتورة سداد</h2>
                             <p style={{ margin: '0', fontSize: '13px', lineHeight: '20px', color: 'var(--muted)' }}>تفاصيل المبلغ المستحق ومرجع الدفع</p>
                           </div>
                         </div>
@@ -698,9 +698,9 @@ export function OrdersView({ v }: { v: V }) {
                             flexDirection: 'column',
                             gap: '20px',
                             padding: '24px',
-                            borderRadius: '16px',
+                            borderRadius: 'var(--r-lg)',
                             background:
-                              'radial-gradient(120% 140% at 0% 0%,rgba(212,168,67,.38),rgba(212,168,67,0) 55%),linear-gradient(135deg,#99702A 0%,#7A5522 52%,#4A3213 100%)',
+                              'radial-gradient(120% 140% at 0% 0%,rgba(180,145,100,.38),rgba(180,145,100,0) 55%),linear-gradient(135deg,#99702A 0%,#7A5522 52%,#4A3213 100%)',
                             color: '#fff',
                             boxShadow: '0 8px 24px rgba(74,50,19,.28)',
                           }}
@@ -723,9 +723,9 @@ export function OrdersView({ v }: { v: V }) {
                                 alignItems: 'center',
                                 height: '24px',
                                 padding: '0 12px',
-                                borderRadius: '8px',
+                                borderRadius: 'var(--r-sm)',
                                 background: '#FFF6DB',
-                                color: '#8A5A00',
+                                color: 'var(--gold-2)',
                                 fontSize: '12px',
                                 fontWeight: '500',
                                 whiteSpace: 'nowrap',
@@ -756,7 +756,7 @@ export function OrdersView({ v }: { v: V }) {
                   <div
                     style={{
                       background: 'var(--card)',
-                      borderRadius: '24px',
+                      borderRadius: 'var(--r-lg)',
                       boxShadow: 'var(--card-shadow)',
                       padding: '20px clamp(18px,2.5vw,28px)',
                       display: 'flex',
@@ -770,7 +770,7 @@ export function OrdersView({ v }: { v: V }) {
                           width: '40px',
                           height: '40px',
                           flexShrink: '0',
-                          borderRadius: '12px',
+                          borderRadius: 'var(--r-md)',
                           background: 'var(--card-2)',
                           boxShadow: 'inset 0 0 0 1px var(--line)',
                           color: 'var(--gold-2)',
@@ -794,7 +794,7 @@ export function OrdersView({ v }: { v: V }) {
                         </svg>
                       </span>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '0', minWidth: '0' }}>
-                        <h2 style={{ margin: '0', fontSize: '16px', fontWeight: '600', lineHeight: '24px', color: 'var(--ink)' }}>معلومات الطلب</h2>
+                        <h2 style={{ margin: '0', fontSize: '16px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>معلومات الطلب</h2>
                         <p style={{ margin: '0', fontSize: '13px', lineHeight: '20px', color: 'var(--muted)' }}>تفاصيل الطلب المقدَّم</p>
                       </div>
                     </div>
@@ -833,7 +833,7 @@ export function OrdersView({ v }: { v: V }) {
                               alignItems: 'center',
                               height: '24px',
                               padding: '0 10px',
-                              borderRadius: '8px',
+                              borderRadius: 'var(--r-sm)',
                               background: 'var(--gold-soft)',
                               color: 'var(--gold-on-soft)',
                               boxShadow: 'inset 0 0 0 1px var(--gold-3)',
@@ -920,7 +920,7 @@ export function OrdersView({ v }: { v: V }) {
                   <div
                     style={{
                       background: 'var(--card)',
-                      borderRadius: '24px',
+                      borderRadius: 'var(--r-lg)',
                       boxShadow: 'var(--card-shadow)',
                       padding: '20px clamp(18px,2.5vw,28px)',
                       display: 'flex',
@@ -934,7 +934,7 @@ export function OrdersView({ v }: { v: V }) {
                           width: '40px',
                           height: '40px',
                           flexShrink: '0',
-                          borderRadius: '12px',
+                          borderRadius: 'var(--r-md)',
                           background: 'var(--card-2)',
                           boxShadow: 'inset 0 0 0 1px var(--line)',
                           color: 'var(--gold-2)',
@@ -958,7 +958,7 @@ export function OrdersView({ v }: { v: V }) {
                         </svg>
                       </span>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '0', minWidth: '0' }}>
-                        <h2 style={{ margin: '0', fontSize: '16px', fontWeight: '600', lineHeight: '24px', color: 'var(--ink)' }}>معلومات التوصيل</h2>
+                        <h2 style={{ margin: '0', fontSize: '16px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>معلومات التوصيل</h2>
                         <p style={{ margin: '0', fontSize: '13px', lineHeight: '20px', color: 'var(--muted)' }}>العنوان وجهة الاتصال</p>
                       </div>
                     </div>
@@ -1083,7 +1083,7 @@ export function OrdersView({ v }: { v: V }) {
                   <div
                     style={{
                       background: 'var(--card)',
-                      borderRadius: '24px',
+                      borderRadius: 'var(--r-lg)',
                       boxShadow: 'var(--card-shadow)',
                       padding: '20px clamp(18px,2.5vw,28px)',
                       display: 'flex',
@@ -1097,7 +1097,7 @@ export function OrdersView({ v }: { v: V }) {
                           width: '40px',
                           height: '40px',
                           flexShrink: '0',
-                          borderRadius: '12px',
+                          borderRadius: 'var(--r-md)',
                           background: 'var(--card-2)',
                           boxShadow: 'inset 0 0 0 1px var(--line)',
                           color: 'var(--gold-2)',
@@ -1121,7 +1121,7 @@ export function OrdersView({ v }: { v: V }) {
                         </svg>
                       </span>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '0', minWidth: '0' }}>
-                        <h2 style={{ margin: '0', fontSize: '16px', fontWeight: '600', lineHeight: '24px', color: 'var(--ink)' }}>ملخص الطلب</h2>
+                        <h2 style={{ margin: '0', fontSize: '16px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>ملخص الطلب</h2>
                         <p style={{ margin: '0', fontSize: '13px', lineHeight: '20px', color: 'var(--muted)' }}>المنتجات والكميات</p>
                       </div>
                     </div>
@@ -1135,7 +1135,7 @@ export function OrdersView({ v }: { v: V }) {
                                 width: '48px',
                                 height: '48px',
                                 flexShrink: '0',
-                                borderRadius: '10px',
+                                borderRadius: 'var(--r-sm)',
                                 background: 'var(--card-2)',
                                 display: 'flex',
                                 alignItems: 'center',
@@ -1220,8 +1220,8 @@ export function OrdersView({ v }: { v: V }) {
                         justifyContent: 'space-between',
                         gap: '16px',
                         padding: '18px 20px',
-                        borderRadius: '16px',
-                        background: '#996C2E',
+                        borderRadius: 'var(--r-lg)',
+                        background: 'var(--gold)',
                         color: '#fff',
                       }}
                     >
@@ -1237,7 +1237,7 @@ export function OrdersView({ v }: { v: V }) {
                   <div
                     style={{
                       background: 'var(--card)',
-                      borderRadius: '24px',
+                      borderRadius: 'var(--r-lg)',
                       boxShadow: 'var(--card-shadow)',
                       padding: '20px clamp(18px,2.5vw,28px)',
                       display: 'flex',
@@ -1251,7 +1251,7 @@ export function OrdersView({ v }: { v: V }) {
                           width: '40px',
                           height: '40px',
                           flexShrink: '0',
-                          borderRadius: '12px',
+                          borderRadius: 'var(--r-md)',
                           background: 'var(--card-2)',
                           boxShadow: 'inset 0 0 0 1px var(--line)',
                           color: 'var(--gold-2)',
@@ -1275,7 +1275,7 @@ export function OrdersView({ v }: { v: V }) {
                         </svg>
                       </span>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '0', minWidth: '0' }}>
-                        <h2 style={{ margin: '0', fontSize: '16px', fontWeight: '600', lineHeight: '24px', color: 'var(--ink)' }}>تحتاج مساعدة؟</h2>
+                        <h2 style={{ margin: '0', fontSize: '16px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>تحتاج مساعدة؟</h2>
                         <p dir="ltr" style={{ margin: '0', fontSize: '13px', lineHeight: '20px', color: 'var(--muted)', textAlign: 'right' }}>
                           support@zamzam.gov.sa
                         </p>
@@ -1286,7 +1286,7 @@ export function OrdersView({ v }: { v: V }) {
                       style={{
                         height: '46px',
                         padding: '0 20px',
-                        borderRadius: '12px',
+                        borderRadius: 'var(--r-md)',
                         border: '1px solid var(--line)',
                         background: 'var(--card)',
                         color: 'var(--ink)',

@@ -4,12 +4,12 @@ import { css } from '../../lib/dc';
 export function ContactPage({ v }: { v: V }) {
   return (
     <>
-      <section data-screen-label="14 تواصل معنا" style={{ background: 'var(--bg)', padding: '80px 0 96px' }}>
+      <section data-screen-label="14 تواصل معنا" style={{ background: 'var(--bg)', padding: '40px 0 40px' }}>
         <div
           style={{
-            maxWidth: '1520px',
+            maxWidth: '1440px',
             margin: '0 auto',
-            padding: '0 clamp(16px,2.5vw,32px)',
+            padding: '0 clamp(16px,5.6vw,80px)',
             display: 'flex',
             flexWrap: 'wrap',
             gap: '40px',
@@ -21,7 +21,7 @@ export function ContactPage({ v }: { v: V }) {
             <div
               style={{
                 background: 'var(--card)',
-                borderRadius: '20px',
+                borderRadius: 'var(--r-lg)',
                 boxShadow: 'var(--card-shadow)',
                 padding: '22px',
                 display: 'flex',
@@ -35,7 +35,7 @@ export function ContactPage({ v }: { v: V }) {
             <div
               style={{
                 background: 'var(--card)',
-                borderRadius: '20px',
+                borderRadius: 'var(--r-lg)',
                 boxShadow: 'var(--card-shadow)',
                 padding: '22px',
                 display: 'flex',
@@ -51,7 +51,7 @@ export function ContactPage({ v }: { v: V }) {
             <div
               style={{
                 background: 'var(--card)',
-                borderRadius: '20px',
+                borderRadius: 'var(--r-lg)',
                 boxShadow: 'var(--card-shadow)',
                 padding: '22px',
                 display: 'flex',
@@ -79,7 +79,7 @@ export function ContactPage({ v }: { v: V }) {
               flex: '2 1 520px',
               minWidth: '0',
               background: 'var(--card)',
-              borderRadius: '24px',
+              borderRadius: 'var(--r-lg)',
               boxShadow: 'var(--card-shadow)',
               padding: 'clamp(20px,3vw,36px)',
             }}
@@ -111,10 +111,10 @@ export function ContactPage({ v }: { v: V }) {
                       autoComplete="name"
                       style={{
                         width: '100%',
-                        height: '46px',
+                        height: '40px',
                         padding: '0 16px',
-                        borderRadius: '12px',
-                        border: '1px solid var(--line)',
+                        borderRadius: 'var(--r-md)',
+                        border: '1px solid var(--field-bd)',
                         background: 'var(--card)',
                         color: 'var(--ink)',
                         fontSize: '16px',
@@ -148,10 +148,10 @@ export function ContactPage({ v }: { v: V }) {
                       placeholder="name@example.com"
                       style={{
                         width: '100%',
-                        height: '46px',
+                        height: '40px',
                         padding: '0 16px',
-                        borderRadius: '12px',
-                        border: '1px solid var(--line)',
+                        borderRadius: 'var(--r-md)',
+                        border: '1px solid var(--field-bd)',
                         background: 'var(--card)',
                         color: 'var(--ink)',
                         fontSize: '16px',
@@ -185,10 +185,10 @@ export function ContactPage({ v }: { v: V }) {
                       placeholder="05XXXXXXXX"
                       style={{
                         width: '100%',
-                        height: '46px',
+                        height: '40px',
                         padding: '0 16px',
-                        borderRadius: '12px',
-                        border: '1px solid var(--line)',
+                        borderRadius: 'var(--r-md)',
+                        border: '1px solid var(--field-bd)',
                         background: 'var(--card)',
                         color: 'var(--ink)',
                         fontSize: '16px',
@@ -220,10 +220,10 @@ export function ContactPage({ v }: { v: V }) {
                         name="type"
                         style={{
                           width: '100%',
-                          height: '46px',
+                          height: '40px',
                           padding: '0 16px',
-                          borderRadius: '12px',
-                          border: '1px solid var(--line)',
+                          borderRadius: 'var(--r-md)',
+                          border: '1px solid var(--field-bd)',
                           background: 'var(--card)',
                           color: 'var(--ink)',
                           fontSize: '16px',
@@ -276,10 +276,10 @@ export function ContactPage({ v }: { v: V }) {
                       name="subject"
                       style={{
                         width: '100%',
-                        height: '46px',
+                        height: '40px',
                         padding: '0 16px',
-                        borderRadius: '12px',
-                        border: '1px solid var(--line)',
+                        borderRadius: 'var(--r-md)',
+                        border: '1px solid var(--field-bd)',
                         background: 'var(--card)',
                         color: 'var(--ink)',
                         fontSize: '16px',
@@ -312,8 +312,8 @@ export function ContactPage({ v }: { v: V }) {
                       style={{
                         width: '100%',
                         padding: '14px 16px',
-                        borderRadius: '12px',
-                        border: '1px solid var(--line)',
+                        borderRadius: 'var(--r-md)',
+                        border: '1px solid var(--field-bd)',
                         background: 'var(--card)',
                         color: 'var(--ink)',
                         fontSize: '16px',
@@ -332,12 +332,12 @@ export function ContactPage({ v }: { v: V }) {
                     style={{
                       gridColumn: '1/-1',
                       marginTop: '8px',
-                      height: '52px',
-                      borderRadius: '9px',
+                      height: '40px',
+                      borderRadius: 'var(--r-sm)',
                       border: '0',
-                      background: '#996C2E',
+                      background: 'var(--gold)',
                       color: '#fff',
-                      fontSize: '17px',
+                      fontSize: '16px',
                       cursor: 'pointer',
                     }}
                     className="zp-002"
@@ -382,7 +382,7 @@ export function ContactPage({ v }: { v: V }) {
                     style={{
                       height: '44px',
                       padding: '0 24px',
-                      borderRadius: '9px',
+                      borderRadius: 'var(--r-sm)',
                       border: '1px solid var(--line)',
                       background: 'transparent',
                       color: 'var(--ink)',

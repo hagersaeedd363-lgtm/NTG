@@ -6,7 +6,7 @@ export function MuseumPage({ v }: { v: V }) {
   return (
     <>
       <section data-screen-label="04 متحف زمزم" style={{ background: 'var(--bg)', padding: '56px 0 0' }}>
-        <div style={{ maxWidth: '1520px', margin: '0 auto', padding: '0 clamp(16px,2.5vw,32px)' }}>
+        <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '0 clamp(16px,5.6vw,80px)' }}>
           <div
             role="tablist"
             style={{ overflowY: 'hidden', scrollbarWidth: 'none', display: 'flex', gap: '28px', overflowX: 'auto', borderBottom: '1px solid var(--line)' }}
@@ -27,8 +27,8 @@ export function MuseumPage({ v }: { v: V }) {
           </div>
         </div>
       </section>
-      <section style={{ background: 'var(--bg)', padding: '48px 0 96px' }}>
-        <div style={{ maxWidth: '1520px', margin: '0 auto', padding: '0 clamp(16px,2.5vw,32px)' }}>
+      <section style={{ background: 'var(--bg)', padding: '40px 0 40px' }}>
+        <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '0 clamp(16px,5.6vw,80px)' }}>
           {v.mt?.t0 ? (
             <>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '56px', animation: 'zzfade .3s ease both' }}>
@@ -44,7 +44,7 @@ export function MuseumPage({ v }: { v: V }) {
                       color: 'var(--ink-2)',
                     }}
                   >
-                    <h2 style={{ margin: '0 0 6px', fontSize: 'clamp(30px,3.4vw,44px)', fontWeight: '700', lineHeight: '1.2', color: 'var(--ink)' }}>
+                    <h2 style={{ margin: '0 0 6px', fontSize: '30px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>
                       عن المتحف
                     </h2>
                     <p style={{ margin: '0' }}>
@@ -60,10 +60,10 @@ export function MuseumPage({ v }: { v: V }) {
                         onClick={v.go?.museumAxes}
                         style={{
                           height: '40px',
-                          padding: '7px 28px',
-                          borderRadius: '9px',
-                          background: '#996C2E',
-                          border: '1px solid rgba(255,255,255,.2)',
+                          padding: '0 16px',
+                          borderRadius: 'var(--r-sm)',
+                          background: 'var(--gold)',
+                          border: '0',
                           color: '#fff',
                           fontSize: '16px',
                           cursor: 'pointer',
@@ -76,10 +76,10 @@ export function MuseumPage({ v }: { v: V }) {
                         onClick={v.go?.museumVisit}
                         style={{
                           height: '40px',
-                          padding: '7px 24px',
-                          borderRadius: '9px',
+                          padding: '0 16px',
+                          borderRadius: 'var(--r-sm)',
                           background: 'transparent',
-                          border: '1px solid var(--line)',
+                          border: '1px solid var(--field-bd)',
                           color: 'var(--ink)',
                           fontSize: '16px',
                           cursor: 'pointer',
@@ -111,7 +111,7 @@ export function MuseumPage({ v }: { v: V }) {
                 </div>
                 <div
                   style={{
-                    borderRadius: '24px',
+                    borderRadius: 'var(--r-lg)',
                     background: '#5E5951',
                     color: '#fff',
                     overflow: 'hidden',
@@ -159,7 +159,7 @@ export function MuseumPage({ v }: { v: V }) {
                           <path d="M6 3h12M6 21h12M7 3v3.5a5 5 0 0 0 2.2 4.1L12 12l2.8-1.4A5 5 0 0 0 17 6.5V3M7 21v-3.5a5 5 0 0 1 2.2-4.1L12 12l2.8 1.4a5 5 0 0 1 2.2 4.1V21" />
                         </svg>
                       </span>
-                      <span style={{ padding: '6px 16px', borderRadius: '36px', background: 'rgba(0,0,0,.35)', fontSize: '15px' }}>قيد الإعداد</span>
+                      <span style={{ padding: '6px 16px', borderRadius: 'var(--r-sm)', background: 'rgba(0,0,0,.35)', fontSize: '15px' }}>قيد الإعداد</span>
                     </span>
                   </div>
                   <div
@@ -175,13 +175,15 @@ export function MuseumPage({ v }: { v: V }) {
                     <span
                       style={{
                         display: 'inline-flex',
-                        padding: '6px 14px',
-                        borderRadius: '36px',
-                        background: 'rgba(130,130,130,.15)',
-                        boxShadow: 'inset 0 0 0 1px #fff',
-                        fontSize: '14px',
-                        fontWeight: '700',
-                        lineHeight: '1.08',
+                        padding: '0 8px',
+                        height: '24px',
+                        alignItems: 'center',
+                        borderRadius: 'var(--r-sm)',
+                        background: 'rgba(255,255,255,.12)',
+                        boxShadow: 'inset 0 0 0 1px rgba(255,255,255,.4)',
+                        fontSize: '12px',
+                        fontWeight: '500',
+                        lineHeight: '18px',
                       }}
                     >
                       قبل الافتتاح
@@ -205,9 +207,9 @@ export function MuseumPage({ v }: { v: V }) {
                               style={{
                                 flex: '1 1 220px',
                                 minWidth: '0',
-                                height: '46px',
+                                height: '40px',
                                 padding: '0 16px',
-                                borderRadius: '9px',
+                                borderRadius: 'var(--r-sm)',
                                 border: '1px solid rgba(255,255,255,.3)',
                                 background: 'rgba(255,255,255,.1)',
                                 color: '#fff',
@@ -222,7 +224,7 @@ export function MuseumPage({ v }: { v: V }) {
                               style={{
                                 height: '52px',
                                 padding: '0 20px',
-                                borderRadius: '9px',
+                                borderRadius: 'var(--r-sm)',
                                 border: '0',
                                 background: '#fff',
                                 color: '#070F25',
@@ -276,7 +278,7 @@ export function MuseumPage({ v }: { v: V }) {
                       style={{
                         height: '48px',
                         padding: '0 20px',
-                        borderRadius: '9px',
+                        borderRadius: 'var(--r-sm)',
                         border: '1px solid rgba(255,255,255,.4)',
                         background: 'transparent',
                         color: '#fff',
@@ -311,14 +313,14 @@ export function MuseumPage({ v }: { v: V }) {
           {v.mt?.t1 ? (
             <>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '28px', animation: 'zzfade .3s ease both' }}>
-                <h2 style={{ margin: '0', fontSize: 'clamp(30px,3.4vw,44px)', fontWeight: '700', lineHeight: '1.2', color: 'var(--ink)' }}>ماذا ستجد</h2>
+                <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>ماذا ستجد</h2>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(220px,1fr))', gap: '20px' }}>
                   {list(v.museumAxes).map((a: any, $index: number) => (
                     <Fragment key={$index}>
                       <div
                         style={{
                           background: 'var(--card)',
-                          borderRadius: '24px',
+                          borderRadius: 'var(--r-lg)',
                           boxShadow: 'var(--card-shadow)',
                           padding: '26px',
                           display: 'flex',
@@ -362,8 +364,8 @@ export function MuseumPage({ v }: { v: V }) {
             <>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '32px', animation: 'zzfade .3s ease both' }}>
                 <div style={{ flex: '1.3 1 460px', display: 'flex', flexDirection: 'column', gap: '18px' }}>
-                  <h2 style={{ margin: '0', fontSize: 'clamp(30px,3.4vw,44px)', fontWeight: '700', lineHeight: '1.2', color: 'var(--ink)' }}>خطط لزيارتك</h2>
-                  <div style={{ borderRadius: '16px', overflow: 'hidden', boxShadow: 'var(--card-shadow)', background: 'var(--card)' }}>
+                  <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>خطط لزيارتك</h2>
+                  <div style={{ borderRadius: 'var(--r-lg)', overflow: 'hidden', boxShadow: 'var(--card-shadow)', background: 'var(--card)' }}>
                     {list(v.museumInfo).map((r: any, $index: number) => (
                       <Fragment key={$index}>
                         <div
@@ -384,13 +386,13 @@ export function MuseumPage({ v }: { v: V }) {
                     onClick={v.bookVisit}
                     style={{
                       alignSelf: 'flex-start',
-                      height: '48px',
-                      padding: '0 32px',
-                      borderRadius: '9px',
-                      background: '#996C2E',
-                      border: '1px solid rgba(255,255,255,.2)',
+                      height: '40px',
+                      padding: '0 16px',
+                      borderRadius: 'var(--r-sm)',
+                      background: 'var(--gold)',
+                      border: '0',
                       color: '#fff',
-                      fontSize: '17px',
+                      fontSize: '16px',
                       cursor: 'pointer',
                     }}
                     className="zp-002"
@@ -402,7 +404,7 @@ export function MuseumPage({ v }: { v: V }) {
                   <div
                     style={{
                       background: 'var(--card)',
-                      borderRadius: '24px',
+                      borderRadius: 'var(--r-lg)',
                       boxShadow: 'var(--card-shadow)',
                       padding: '22px',
                       display: 'flex',
@@ -423,7 +425,7 @@ export function MuseumPage({ v }: { v: V }) {
                   <div
                     style={{
                       background: 'var(--card)',
-                      borderRadius: '24px',
+                      borderRadius: 'var(--r-lg)',
                       boxShadow: 'var(--card-shadow)',
                       padding: '22px',
                       display: 'flex',
@@ -442,7 +444,7 @@ export function MuseumPage({ v }: { v: V }) {
             <>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '40px', alignItems: 'flex-start', animation: 'zzfade .3s ease both' }}>
                 <div style={{ flex: '1 1 320px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                  <h2 style={{ margin: '0', fontSize: 'clamp(30px,3.4vw,44px)', fontWeight: '700', lineHeight: '1.2', color: 'var(--ink)' }}>
+                  <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>
                     الزيارات المدرسية والجماعية
                   </h2>
                   <p style={{ margin: '0', fontSize: '19px', lineHeight: '1.8', color: 'var(--ink-2)' }}>
@@ -454,7 +456,7 @@ export function MuseumPage({ v }: { v: V }) {
                     flex: '1.4 1 460px',
                     minWidth: '0',
                     background: 'var(--card)',
-                    borderRadius: '24px',
+                    borderRadius: 'var(--r-lg)',
                     boxShadow: 'var(--card-shadow)',
                     padding: 'clamp(20px,3vw,36px)',
                   }}
@@ -498,10 +500,10 @@ export function MuseumPage({ v }: { v: V }) {
                             name="org"
                             style={{
                               width: '100%',
-                              height: '46px',
+                              height: '40px',
                               padding: '0 16px',
-                              borderRadius: '12px',
-                              border: '1px solid var(--line)',
+                              borderRadius: 'var(--r-md)',
+                              border: '1px solid var(--field-bd)',
                               background: 'var(--card)',
                               color: 'var(--ink)',
                               fontSize: '16px',
@@ -532,10 +534,10 @@ export function MuseumPage({ v }: { v: V }) {
                               name="kind"
                               style={{
                                 width: '100%',
-                                height: '46px',
+                                height: '40px',
                                 padding: '0 16px',
-                                borderRadius: '12px',
-                                border: '1px solid var(--line)',
+                                borderRadius: 'var(--r-md)',
+                                border: '1px solid var(--field-bd)',
                                 background: 'var(--card)',
                                 color: 'var(--ink)',
                                 fontSize: '16px',
@@ -588,10 +590,10 @@ export function MuseumPage({ v }: { v: V }) {
                             name="person"
                             style={{
                               width: '100%',
-                              height: '46px',
+                              height: '40px',
                               padding: '0 16px',
-                              borderRadius: '12px',
-                              border: '1px solid var(--line)',
+                              borderRadius: 'var(--r-md)',
+                              border: '1px solid var(--field-bd)',
                               background: 'var(--card)',
                               color: 'var(--ink)',
                               fontSize: '16px',
@@ -624,10 +626,10 @@ export function MuseumPage({ v }: { v: V }) {
                             placeholder="05XXXXXXXX"
                             style={{
                               width: '100%',
-                              height: '46px',
+                              height: '40px',
                               padding: '0 16px',
-                              borderRadius: '12px',
-                              border: '1px solid var(--line)',
+                              borderRadius: 'var(--r-md)',
+                              border: '1px solid var(--field-bd)',
                               background: 'var(--card)',
                               color: 'var(--ink)',
                               fontSize: '16px',
@@ -661,10 +663,10 @@ export function MuseumPage({ v }: { v: V }) {
                             placeholder="name@example.com"
                             style={{
                               width: '100%',
-                              height: '46px',
+                              height: '40px',
                               padding: '0 16px',
-                              borderRadius: '12px',
-                              border: '1px solid var(--line)',
+                              borderRadius: 'var(--r-md)',
+                              border: '1px solid var(--field-bd)',
                               background: 'var(--card)',
                               color: 'var(--ink)',
                               fontSize: '16px',
@@ -698,10 +700,10 @@ export function MuseumPage({ v }: { v: V }) {
                             placeholder="0"
                             style={{
                               width: '100%',
-                              height: '46px',
+                              height: '40px',
                               padding: '0 16px',
-                              borderRadius: '12px',
-                              border: '1px solid var(--line)',
+                              borderRadius: 'var(--r-md)',
+                              border: '1px solid var(--field-bd)',
                               background: 'var(--card)',
                               color: 'var(--ink)',
                               fontSize: '16px',
@@ -732,10 +734,10 @@ export function MuseumPage({ v }: { v: V }) {
                             type="date"
                             style={{
                               width: '100%',
-                              height: '46px',
+                              height: '40px',
                               padding: '0 16px',
-                              borderRadius: '12px',
-                              border: '1px solid var(--line)',
+                              borderRadius: 'var(--r-md)',
+                              border: '1px solid var(--field-bd)',
                               background: 'var(--card)',
                               color: 'var(--ink)',
                               fontSize: '16px',
@@ -764,7 +766,7 @@ export function MuseumPage({ v }: { v: V }) {
                             style={{
                               height: '52px',
                               padding: '0 16px',
-                              borderRadius: '12px',
+                              borderRadius: 'var(--r-md)',
                               border: '1px solid var(--line)',
                               background: 'var(--card-2)',
                               display: 'flex',
@@ -777,7 +779,7 @@ export function MuseumPage({ v }: { v: V }) {
                               boxSizing: 'border-box',
                             }}
                           >
-                            <input name="guide" type="checkbox" style={{ width: '20px', height: '20px', margin: '0', accentColor: '#996C2E' }} />
+                            <input name="guide" type="checkbox" style={{ width: '20px', height: '20px', margin: '0', accentColor: 'var(--gold)' }} />
                             جولة مصحوبة بمرشد
                           </label>
                           <span style={{ minHeight: '16px' }} />
@@ -787,12 +789,12 @@ export function MuseumPage({ v }: { v: V }) {
                           style={{
                             gridColumn: '1/-1',
                             marginTop: '8px',
-                            height: '52px',
-                            borderRadius: '9px',
+                            height: '40px',
+                            borderRadius: 'var(--r-sm)',
                             border: '0',
-                            background: '#996C2E',
+                            background: 'var(--gold)',
                             color: '#fff',
-                            fontSize: '17px',
+                            fontSize: '16px',
                             cursor: 'pointer',
                           }}
                           className="zp-002"
@@ -837,7 +839,7 @@ export function MuseumPage({ v }: { v: V }) {
                           style={{
                             height: '44px',
                             padding: '0 24px',
-                            borderRadius: '9px',
+                            borderRadius: 'var(--r-sm)',
                             border: '1px solid var(--line)',
                             background: 'transparent',
                             color: 'var(--ink)',

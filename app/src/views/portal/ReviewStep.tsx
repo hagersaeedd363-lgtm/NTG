@@ -244,7 +244,7 @@ export function ReviewStep({ v }: { v: V }) {
                       aria-checked={d?.sel}
                       onClick={d?.onClick}
                       style={css(
-                        `display:flex;align-items:center;gap:12px;padding:10px 16px;border-radius:12px;border:1px solid ${d?.bd2 ?? ""};background:${d?.bg ?? ""};color:var(--ink);cursor:pointer;text-align:right;width:100%`,
+                        `display:flex;align-items:center;gap:12px;padding:10px 16px;border-radius:var(--r-md);border:1px solid ${d?.bd2 ?? ""};background:${d?.bg ?? ""};color:var(--ink);cursor:pointer;text-align:right;width:100%`,
                       )}
                     >
                       <span
@@ -353,7 +353,7 @@ export function ReviewStep({ v }: { v: V }) {
                           onChange={v.f?.region?.on}
                           aria-required="true"
                           style={css(
-                            `width:100%;height:46px;padding:0 16px;border-radius:12px;border:1px solid ${v.f?.region?.bd ?? ""};background:${v.f?.region?.bg ?? ""};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box;appearance:none;-webkit-appearance:none;padding-left:44px;cursor:pointer`,
+                            `width:100%;height:46px;padding:0 16px;border-radius:var(--r-md);border:1px solid ${v.f?.region?.bd ?? ""};background:${v.f?.region?.bg ?? ""};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box;appearance:none;-webkit-appearance:none;padding-left:44px;cursor:pointer`,
                           )}
                           className="zp-020"
                         >
@@ -430,7 +430,7 @@ export function ReviewStep({ v }: { v: V }) {
                           onChange={v.f?.city?.on}
                           aria-required="true"
                           style={css(
-                            `width:100%;height:46px;padding:0 16px;border-radius:12px;border:1px solid ${v.f?.city?.bd ?? ""};background:${v.f?.city?.bg ?? ""};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box;appearance:none;-webkit-appearance:none;padding-left:44px;cursor:pointer`,
+                            `width:100%;height:46px;padding:0 16px;border-radius:var(--r-md);border:1px solid ${v.f?.city?.bd ?? ""};background:${v.f?.city?.bg ?? ""};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box;appearance:none;-webkit-appearance:none;padding-left:44px;cursor:pointer`,
                           )}
                           className="zp-020"
                         >
@@ -510,7 +510,7 @@ export function ReviewStep({ v }: { v: V }) {
                               onChange={v.f?.warehouse?.on}
                               aria-required="true"
                               style={css(
-                                `width:100%;height:46px;padding:0 16px;border-radius:12px;border:1px solid ${v.f?.warehouse?.bd ?? ""};background:${v.f?.warehouse?.bg ?? ""};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box;appearance:none;-webkit-appearance:none;padding-left:44px;cursor:pointer`,
+                                `width:100%;height:46px;padding:0 16px;border-radius:var(--r-md);border:1px solid ${v.f?.warehouse?.bd ?? ""};background:${v.f?.warehouse?.bg ?? ""};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box;appearance:none;-webkit-appearance:none;padding-left:44px;cursor:pointer`,
                               )}
                               className="zp-020"
                             >
@@ -585,7 +585,7 @@ export function ReviewStep({ v }: { v: V }) {
                                   borderRadius: "12px",
                                   border: "1px solid #F0D78C",
                                   background: "#FFF6DB",
-                                  color: "#8A5A00",
+                                  color: "var(--gold-2)",
                                   fontSize: "14px",
                                   fontWeight: "600",
                                   lineHeight: "24px",
@@ -666,7 +666,7 @@ export function ReviewStep({ v }: { v: V }) {
                               dir="ltr"
                               aria-required="true"
                               style={css(
-                                `width:100%;height:46px;padding:0 16px 0 56px;border-radius:12px;border:1px solid ${v.f?.nationalAddress?.bd ?? ""};background:${v.f?.nationalAddress?.bg ?? ""};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box;text-align:right`,
+                                `width:100%;height:46px;padding:0 16px 0 56px;border-radius:var(--r-md);border:1px solid ${v.f?.nationalAddress?.bd ?? ""};background:${v.f?.nationalAddress?.bg ?? ""};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box;text-align:right`,
                               )}
                               className="zp-020"
                             />
@@ -677,7 +677,7 @@ export function ReviewStep({ v }: { v: V }) {
                               aria-label="تحديد موقعي تلقائياً"
                               title="تحديد موقعي تلقائياً"
                               style={css(
-                                `position:absolute;left:6px;top:6px;width:34px;height:34px;padding:0;border-radius:9px;border:1px solid var(--gold-3);background:var(--gold-soft);color:var(--gold-on-soft);cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:${v.ox?.locOpacity ?? ""}`,
+                                `position:absolute;left:6px;top:6px;width:34px;height:34px;padding:0;border-radius:var(--r-sm);border:1px solid var(--gold-3);background:var(--gold-soft);color:var(--gold-on-soft);cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:${v.ox?.locOpacity ?? ""}`,
                               )}
                               className="zp-025"
                             >
@@ -755,7 +755,7 @@ export function ReviewStep({ v }: { v: V }) {
                     rows={2}
                     placeholder="أي تعليمات خاصة بالتوصيل أو التغليف..."
                     style={css(
-                      `width:100%;min-height:72px;padding:12px 16px;border-radius:12px;border:1px solid ${v.ox?.notesBd ?? ""};background:${v.ox?.notesBg ?? ""};color:var(--ink);font-size:16px;font-weight:400;line-height:24px;outline:none;box-sizing:border-box;resize:vertical;font-family:inherit`,
+                      `width:100%;min-height:72px;padding:12px 16px;border-radius:var(--r-md);border:1px solid ${v.ox?.notesBd ?? ""};background:${v.ox?.notesBg ?? ""};color:var(--ink);font-size:16px;font-weight:400;line-height:24px;outline:none;box-sizing:border-box;resize:vertical;font-family:inherit`,
                     )}
                   />
                   <div
@@ -829,7 +829,7 @@ export function ReviewStep({ v }: { v: V }) {
                     placeholder="الاسم الكامل للمستلم"
                     autoComplete="off"
                     style={css(
-                      `width:100%;height:46px;padding:0 16px;border-radius:12px;border:1px solid ${v.f?.recvName?.bd ?? ""};background:${v.f?.recvName?.bg ?? ""};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box;text-align:right`,
+                      `width:100%;height:46px;padding:0 16px;border-radius:var(--r-md);border:1px solid ${v.f?.recvName?.bd ?? ""};background:${v.f?.recvName?.bg ?? ""};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box;text-align:right`,
                     )}
                     className="zp-020"
                   />
@@ -875,7 +875,7 @@ export function ReviewStep({ v }: { v: V }) {
                     inputMode="tel"
                     dir="ltr"
                     style={css(
-                      `width:100%;height:46px;padding:0 16px;border-radius:12px;border:1px solid ${v.f?.recvPhone?.bd ?? ""};background:${v.f?.recvPhone?.bg ?? ""};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box;text-align:right`,
+                      `width:100%;height:46px;padding:0 16px;border-radius:var(--r-md);border:1px solid ${v.f?.recvPhone?.bd ?? ""};background:${v.f?.recvPhone?.bg ?? ""};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box;text-align:right`,
                     )}
                     className="zp-020"
                   />
@@ -924,7 +924,7 @@ export function ReviewStep({ v }: { v: V }) {
                     dir="ltr"
                     autoComplete="off"
                     style={css(
-                      `width:100%;height:46px;padding:0 16px;border-radius:12px;border:1px solid ${v.f?.recvEmail?.bd ?? ""};background:${v.f?.recvEmail?.bg ?? ""};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box;text-align:right`,
+                      `width:100%;height:46px;padding:0 16px;border-radius:var(--r-md);border:1px solid ${v.f?.recvEmail?.bd ?? ""};background:${v.f?.recvEmail?.bg ?? ""};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box;text-align:right`,
                     )}
                     className="zp-020"
                   />
@@ -1292,7 +1292,7 @@ export function ReviewStep({ v }: { v: V }) {
                   gap: "16px",
                   padding: "18px 20px",
                   borderRadius: "16px",
-                  background: "#996C2E",
+                  background: "var(--gold)",
                   color: "#fff",
                 }}
               >
@@ -1428,7 +1428,7 @@ export function ReviewStep({ v }: { v: V }) {
                 padding: "0 22px",
                 borderRadius: "9px",
                 border: "1px solid rgba(255,255,255,.2)",
-                background: "#996C2E",
+                background: "var(--gold)",
                 color: "#fff",
                 fontSize: "16px",
                 cursor: "pointer",

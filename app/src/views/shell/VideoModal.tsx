@@ -31,7 +31,7 @@ export function VideoModal({ v }: { v: V }) {
               width: '100%',
               aspectRatio: '16/9',
               background: '#000',
-              borderRadius: '12px',
+              borderRadius: 'var(--r-md)',
               overflow: 'hidden',
               display: 'flex',
               alignItems: 'center',

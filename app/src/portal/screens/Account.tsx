@@ -133,9 +133,9 @@ export function CompanyCards({ s, withPurpose }: { s: PortalState; withPurpose?:
                 flex: '1 1 280px',
                 height: 46,
                 padding: '0 16px',
-                borderRadius: 12,
+                borderRadius: 'var(--r-md)',
                 border: '1px solid ' + (errors.crQuery ? 'var(--danger)' : 'var(--line)'),
-                background: reg.crQuery ? 'var(--card-2)' : 'var(--card)',
+                background: 'var(--card)',
                 color: 'var(--ink)',
                 fontSize: 16,
                 outline: 'none',
@@ -284,8 +284,8 @@ function ExistingSummary({ s, a }: { s: PortalState; a: Account }) {
           desc={company ? 'اختر الغرض الأقرب لهذا الطلب.' : 'نكمل طلبك ببيانات حسابك المعتمدة.'}
           aside={
             <span title="الطلب باسم" style={{ display: 'inline-flex', flexWrap: 'wrap', alignItems: 'center' }}>
-              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '6px 12px 6px 6px', borderRadius: 12, background: 'var(--card-2)', boxShadow: 'inset 0 0 0 1px var(--line)', minWidth: 0 }}>
-                <span style={{ width: 26, height: 26, flexShrink: 0, borderRadius: 8, background: 'var(--gold-soft)', color: 'var(--gold-2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '6px 12px 6px 6px', borderRadius: 'var(--r-md)', background: 'var(--card-2)', boxShadow: 'inset 0 0 0 1px var(--line)', minWidth: 0 }}>
+                <span style={{ width: 26, height: 26, flexShrink: 0, borderRadius: 'var(--r-sm)', background: 'var(--gold-soft)', color: 'var(--gold-2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <Icon d={company ? ICON.bld : ICON.user} size={14} />
                 </span>
                 <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink)', overflowWrap: 'anywhere' }}>{company ? company.name : a.identity.fullName}</span>

@@ -73,7 +73,7 @@ function Tabs({ tab }: { tab: Tab }) {
         display: "flex",
         gap: 8,
         padding: 8,
-        borderRadius: 16,
+        borderRadius: 'var(--r-lg)',
         background: "var(--card-2)",
         boxShadow: "inset 0 0 0 1px var(--line)",
       }}
@@ -93,7 +93,7 @@ function Tabs({ tab }: { tab: Tab }) {
               flex: 1,
               height: 48,
               border: 0,
-              borderRadius: 12,
+              borderRadius: 'var(--r-md)',
               background: sel ? "var(--card)" : "transparent",
               color: sel ? "var(--ink)" : "var(--muted)",
               fontSize: 16,
@@ -152,7 +152,7 @@ function Chip({ label, onClick }: { label: string; onClick: () => void }) {
       style={{
         height: 32,
         padding: "0 14px",
-        borderRadius: 36,
+        borderRadius: 'var(--r-sm)',
         border: "1px solid var(--line)",
         background: "var(--card-2)",
         color: "var(--ink-2)",
@@ -363,7 +363,7 @@ function EmailCodePanel({ s }: { s: PortalState }) {
               type="checkbox"
               checked={su.remember}
               onChange={(e) => portal.setSignup({ remember: e.target.checked })}
-              style={{ width: 18, height: 18, accentColor: "#996C2E", margin: 0 }}
+              style={{ width: 18, height: 18, accentColor: "var(--gold)", margin: 0 }}
             />
             تذكرني على هذا الجهاز لمدة ٣٠ يوماً
           </label>
@@ -401,7 +401,7 @@ function EmailCodePanel({ s }: { s: PortalState }) {
         }}
         style={{ display: "flex", flexDirection: "column", gap: 20 }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 16px", borderRadius: 12, background: "var(--card-2)", boxShadow: "inset 0 0 0 1px var(--line)" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 16px", borderRadius: 'var(--r-md)', background: "var(--card-2)", boxShadow: "inset 0 0 0 1px var(--line)" }}>
           <Icon d={ICON.mail} size={18} />
           <span dir="ltr" style={{ flex: 1, minWidth: 0, textAlign: "right", fontSize: 15, fontWeight: 600, color: "var(--ink)", overflow: "hidden", textOverflow: "ellipsis" }}>
             {auth.email.trim()}
@@ -788,7 +788,7 @@ export function AuthScreen({ s }: { s: PortalState }) {
           minWidth: 0,
           position: "relative",
           overflow: "hidden",
-          borderRadius: 24,
+          borderRadius: 'var(--r-lg)',
           background: "var(--card-2)",
           boxShadow: "var(--card-shadow)",
           minHeight: 320,
@@ -929,7 +929,7 @@ export function NafathDialog({ n }: { n: NonNullable<PortalState["nafath"]> }) {
           width: 440,
           maxWidth: "100%",
           background: "var(--card)",
-          borderRadius: 24,
+          borderRadius: 'var(--r-lg)',
           boxShadow: "var(--card-shadow),0 30px 60px rgba(0,0,0,.25)",
           padding: 32,
           display: "flex",
@@ -1011,7 +1011,7 @@ export function NafathDialog({ n }: { n: NonNullable<PortalState["nafath"]> }) {
               style={{
                 width: "100%",
                 height: 120,
-                borderRadius: 14,
+                borderRadius: 'var(--r-md)',
                 background: "linear-gradient(135deg,#0C0D0E 0%,#3A2C10 100%)",
                 display: "flex",
                 alignItems: "center",
@@ -1073,7 +1073,7 @@ export function NafathDialog({ n }: { n: NonNullable<PortalState["nafath"]> }) {
                 style={{
                   height: "100%",
                   width: (n.left / 60) * 100 + "%",
-                  background: "#996C2E",
+                  background: "var(--gold)",
                   transition: "width 1s linear",
                 }}
               />

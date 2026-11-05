@@ -1,33 +1,50 @@
-/* Hover/focus states from the design (style-hover / style-focus). */
+/* Hover/focus states — DGA states mapped to the brand palette. */
 .zp-000:hover{color:#fff !important}
 .zp-001:hover{background:rgba(255,255,255,.07) !important;color:#fff !important}
-.zp-002:hover{background:#84592A !important}
+.zp-002:hover{background:var(--gold-h) !important}
 .zp-003:hover{background:rgba(255,255,255,.26) !important}
 .zp-004:hover{background:var(--card-2) !important}
 .zp-005:hover{background:rgba(255,255,255,.2) !important}
 .zp-006:hover{background:rgba(0,0,0,.5) !important}
 .zp-007:hover{background:#fff !important}
-.zp-008:hover{border-color:var(--ink) !important}
+.zp-008:hover{border-color:var(--field-bd-h) !important;background:var(--card-2) !important}
 .zp-009:hover{background:rgba(255,255,255,.16) !important}
-.zp-010:hover{transform:translateY(-3px) !important}
-.zp-011:hover{background:#8C6915 !important}
-.zp-012:hover{transform:translateY(-3px) !important;box-shadow:inset 0 0 0 1px var(--gold-3) !important}
+.zp-010:hover{box-shadow:var(--shadow-md) !important}
+.zp-011:hover{background:var(--gold-h) !important}
+.zp-011:active{background:var(--gold-p) !important}
+.zp-012:hover{box-shadow:inset 0 0 0 1px var(--gold-3),var(--shadow-md) !important}
 .zp-013:hover{color:var(--ink) !important}
-.zp-014:focus{border-color:#D4A843 !important}
+.zp-014:focus{border-color:var(--field-bd-f) !important}
 .zp-015:hover{background:rgba(255,255,255,.08) !important}
 .zp-016:hover{color:var(--gold) !important}
-.zp-017:focus{border-color:var(--gold-3) !important}
+.zp-017:focus{border-color:var(--field-bd-f) !important}
 .zp-018:hover{box-shadow:inset 0 0 0 1px var(--gold-3) !important}
 .zp-019:hover{border-color:var(--gold-3) !important;background:var(--gold-soft) !important;color:var(--gold-on-soft) !important}
-.zp-020:focus{border-color:var(--gold-3) !important;box-shadow:0 0 0 3px var(--gold-soft) !important}
+.zp-020:hover{border-color:var(--field-bd-h) !important}
+.zp-020:focus{border-color:var(--field-bd-f) !important;box-shadow:inset 0 0 0 1px var(--field-bd-f) !important}
 .zp-021:hover{background:var(--gold-soft) !important}
 .zp-022:hover{border-color:var(--gold-3) !important;color:var(--gold-2) !important}
 .zp-023:hover{background:var(--gold-soft) !important;box-shadow:inset 0 0 0 1px var(--gold-3) !important;color:var(--gold-on-soft) !important}
 .zp-024:hover{box-shadow:inset 0 0 0 1px var(--gold-3) !important;color:var(--gold-on-soft) !important;background:var(--gold-soft) !important}
-.zp-025:hover{background:var(--card) !important;border-color:#996C2E !important}
+.zp-025:hover{background:var(--card) !important;border-color:var(--gold) !important}
 .zp-026:hover{border-color:var(--gold-3) !important;background:var(--gold-soft) !important}
 .zp-027:hover{background:var(--gold-soft) !important;color:var(--gold-on-soft) !important}
 .zp-028:hover{opacity:.88 !important}
 .zp-029:hover{background:var(--card-2) !important;color:var(--ink) !important}
 .zp-030:hover{border-color:var(--gold-3) !important}
-.zp-031:hover{border-color:#996C2E !important;color:var(--gold-on-soft) !important;background:var(--gold-soft) !important}
+.zp-031:hover{border-color:var(--gold) !important;color:var(--gold-on-soft) !important;background:var(--gold-soft) !important}
+/* DGA interaction states for shared controls */
+.dga-btn{transition:background .15s,border-color .15s,color .15s}
+.dga-btn-primary:hover:not(:disabled){background:var(--gold-h) !important}
+.dga-btn-primary:active:not(:disabled){background:var(--gold-p) !important}
+.dga-btn-secondary:hover:not(:disabled){background:var(--card-2) !important;border-color:var(--field-bd-h) !important}
+.dga-btn-secondary:active:not(:disabled){background:var(--line) !important}
+.dga-btn-text:hover:not(:disabled){color:var(--gold-h) !important;text-decoration:underline}
+.dga-field{transition:border-color .15s,box-shadow .15s}
+.dga-field:hover:not(:focus):not([aria-invalid=true]):not(:disabled):not([readonly]){border-color:var(--field-bd-h) !important}
+.dga-field:focus{border-color:var(--field-bd-f) !important;box-shadow:inset 0 0 0 1px var(--field-bd-f) !important;outline:none}
+.dga-choice:hover{border-color:var(--field-bd-h) !important}
+.dga-navlink:hover{background:var(--card-2) !important}
+.dga-footlink:hover{color:#FFFFFF !important;text-decoration:underline !important}
+.zp-014:hover:not(:focus),.zp-017:hover:not(:focus){border-color:var(--field-bd-h) !important}
+.zp-014:focus,.zp-017:focus{box-shadow:inset 0 0 0 1px var(--field-bd-f) !important;outline:none}

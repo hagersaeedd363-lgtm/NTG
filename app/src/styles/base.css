@@ -1,17 +1,46 @@
 /* Design tokens and base styles from the Claude Design prototype. */
 input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus,select:-webkit-autofill{-webkit-box-shadow:0 0 0 100px var(--card-2) inset!important;-webkit-text-fill-color:var(--ink)!important;caret-color:var(--ink)}
-:root{--font:"IBM Plex Sans Arabic",system-ui,sans-serif;--font-display:"Noto Kufi Arabic","IBM Plex Sans Arabic",sans-serif;--font-quote:"Amiri",serif;--bg:#EFEDEA;--bg-alt:#D8D2CA;--bg-deep:#000000;--card:#FFFFFF;--card-2:#F9F7F2;--ink:#0C0D0E;--ink-2:#3B3833;--muted:#6B655A;--line:rgba(10,13,18,.14);--gold:#996C2E;--gold-h:#84592A;--gold-2:#A47C1C;--gold-3:#D4A843;--gold-soft:rgba(212,168,67,.36);--gold-on-soft:#84592A;--danger:#B4372A;--info:#2E6F95;--info-soft:rgba(46,111,149,.12);--card-shadow:inset 0 0 0 1px rgba(10,13,18,.18),inset 0 -2px 0 0 rgba(10,13,18,.05),0 1px 2px 0 rgba(10,13,18,.05);--hero-img:url("assets/hero-light.jpg");--inner-img:url("assets/da38.jpg");--kaaba-img:url("assets/kaaba-light.jpg");--logo-filter:none;--callig-img:url("assets/callig-dark.svg");--ph-a:rgba(10,13,18,.05);--show-l:block;--show-d:none;--ph-b:rgba(10,13,18,.02)}
-:root[data-theme="dark"]{--bg:#11161B;--bg-alt:#171D24;--bg-deep:#0C0E12;--card:#171D24;--card-2:#1E252D;--ink:#FFFFFF;--ink-2:rgba(255,255,255,.78);--muted:#A3AAB1;--line:rgba(255,255,255,.1);--gold-2:#D4A843;--gold-on-soft:#E8C56B;--danger:#FF8A7A;--info:#8DC8EC;--info-soft:rgba(141,200,236,.14);--card-shadow:inset 0 0 0 1px rgba(255,255,255,.08);--hero-img:url("assets/hero-dark.jpg");--inner-img:url("assets/hero-dark.jpg");--kaaba-img:url("assets/kaaba-dark.jpg");--logo-filter:grayscale(1) brightness(1.5);--callig-img:url("assets/callig-light.svg");--ph-a:rgba(255,255,255,.05);--show-l:none;--show-d:block;--ph-b:rgba(255,255,255,.015)}
+:root{
+/* v2 — DGA Platforms Code design system with the Zamzam brand palette (light theme). */
+--font:"IBM Plex Sans Arabic",system-ui,sans-serif;--font-display:"IBM Plex Sans Arabic",system-ui,sans-serif;--font-quote:"Amiri",serif;
+/* surfaces */
+--bg:#FFFFFF;--bg-alt:#F8F4F0;--bg-deep:#3A3022;--card:#FFFFFF;--card-2:#F8F4F0;
+/* text */
+--ink:#1C1915;--ink-2:#3A3022;--muted:#7A7164;
+/* lines */
+--line:#E0D2BF;--field-bd:#8A8174;--field-bd-h:#3A3022;--field-bd-f:#1C1915;
+/* brand: deep gold (buttons, active), dark bronze (hover/pressed), bronze (links), light gold (icons) */
+--gold:#926D39;--gold-h:#6B5639;--gold-p:#3A3022;--gold-2:#7E6646;--gold-3:#B49164;--gold-soft:rgba(180,145,100,.18);--gold-on-soft:#6B5639;
+/* status (DGA) */
+--danger:#B42318;--danger-bg:#FEF3F2;--ok:#14573A;--ok-bg:#ECF6F0;--warn:#B54708;--warn-bg:#FFFAEB;--info:#175CD3;--info-soft:#EFF8FF;
+--disabled-bg:#E0D2BF;--disabled-fg:#7A7164;
+/* DGA radius / spacing / effects */
+--r-sm:4px;--r-md:8px;--r-lg:16px;--r-xl:24px;--r-full:9999px;
+--card-shadow:inset 0 0 0 1px #E0D2BF;--shadow-md:0 4px 8px -2px rgba(16,24,40,.1),0 2px 4px -2px rgba(16,24,40,.06);--shadow-lg:0 12px 16px -4px rgba(16,24,40,.08),0 4px 6px -2px rgba(16,24,40,.03);
+--focus-ring:0 0 0 2px #FFFFFF,0 0 0 4px #1C1915;
+--hero-img:url("assets/hero-light.jpg");--inner-img:url("assets/da38.jpg");--kaaba-img:url("assets/kaaba-light.jpg");--logo-filter:none;--callig-img:url("assets/callig-dark.svg");--ph-a:rgba(28,25,21,.05);--show-l:block;--show-d:none;--ph-b:rgba(28,25,21,.02)}
+:root[data-theme="dark"]{
+--bg:#12100D;--bg-alt:#1A1713;--bg-deep:#0B0A08;--card:#211D18;--card-2:#2A251F;
+--ink:#F3F1EC;--ink-2:rgba(243,241,236,.82);--muted:rgba(243,241,236,.62);
+--line:rgba(243,241,236,.14);--field-bd:rgba(243,241,236,.38);--field-bd-h:rgba(243,241,236,.7);--field-bd-f:#F3F1EC;
+--gold:#926D39;--gold-h:#7E6646;--gold-p:#6B5639;--gold-2:#C4A47A;--gold-3:#B49164;--gold-soft:rgba(180,145,100,.2);--gold-on-soft:#C4A47A;
+--danger:#FF8A7A;--danger-bg:rgba(180,35,24,.16);--ok:#7BC59C;--ok-bg:rgba(20,87,58,.24);--warn:#F5A35B;--warn-bg:rgba(181,71,8,.18);--info:#8AB4F8;--info-soft:rgba(23,92,211,.18);
+--disabled-bg:rgba(243,241,236,.1);--disabled-fg:rgba(243,241,236,.45);
+--card-shadow:inset 0 0 0 1px rgba(243,241,236,.12);--shadow-md:0 4px 8px -2px rgba(0,0,0,.4);--shadow-lg:0 12px 16px -4px rgba(0,0,0,.45);
+--focus-ring:0 0 0 2px #12100D,0 0 0 4px #F3F1EC;
+--hero-img:url("assets/hero-dark.jpg");--inner-img:url("assets/hero-dark.jpg");--kaaba-img:url("assets/kaaba-dark.jpg");--logo-filter:grayscale(1) brightness(1.5);--callig-img:url("assets/callig-light.svg");--ph-a:rgba(255,255,255,.05);--show-l:none;--show-d:block;--ph-b:rgba(255,255,255,.015)}
 html,body{margin:0;padding:0;background:var(--bg);-webkit-font-smoothing:antialiased}
-body{font-family:var(--font)}
+body{font-family:var(--font);color:var(--ink);font-size:16px;line-height:24px}
 h1,h2,h3{font-family:var(--font-display);letter-spacing:0}
 blockquote{font-family:var(--font-quote)}
 *{box-sizing:border-box}
 a{color:var(--gold-2);text-decoration:none}
-a:hover{color:var(--gold);text-decoration:underline}
+a:hover{color:var(--gold-h);text-decoration:underline}
+:focus-visible{outline:2px solid var(--field-bd-f);outline-offset:2px}
+button:disabled{cursor:not-allowed}
 input,select,textarea,button{font-family:inherit}
-input::placeholder,textarea::placeholder{color:var(--muted);opacity:.8}
-::selection{background:rgba(212,168,67,.35)}
+input::placeholder,textarea::placeholder{color:var(--muted);opacity:1}
+::selection{background:rgba(180,145,100,.35)}
 @keyframes zzspin{to{transform:rotate(360deg)}}
 @keyframes zzfade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 @keyframes zzfadeout{to{opacity:0;visibility:hidden}}
@@ -23,3 +52,7 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:.8}
 @media(max-width:1100px){.zz-order{grid-template-columns:64px minmax(0,1fr) 48px auto!important;grid-template-areas:"th id go go" "sum sum sum sum" "tot tot st st"!important;gap:16px!important;padding:16px!important}.o-th{grid-area:th}.o-id{grid-area:id}.o-go{grid-area:go;justify-self:end}.o-sum{grid-area:sum}.o-tot{grid-area:tot}.o-st{grid-area:st;justify-self:end}}
 @media(max-width:960px){.zz-ord{grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto auto!important;gap:16px 24px!important}.zz-ord>:first-child{grid-column:1/-1}}@media(max-width:560px){.zz-ord{grid-template-columns:minmax(0,1fr) auto!important}}
 .zz-lb{display:none}input[type=search]::placeholder{color:var(--ink-2);opacity:1}.zz-tr{transition:background .15s}.zz-tr:hover{background:var(--card-2)}@media(max-width:900px){.zz-th{display:none!important}.zz-tr{grid-template-columns:1fr 1fr!important;gap:12px 16px!important}.zz-lb{display:block}.zz-tr>:last-child{display:none!important}}
+:root{--dga-stamp-link:#166A45;--dga-stamp-tick:#067647}
+:root[data-theme="dark"]{--dga-stamp-link:#7BC59C;--dga-stamp-tick:#7BC59C}
+:root{--footer-bg:#3A3022}
+:root[data-theme="dark"]{--footer-bg:#211D18}

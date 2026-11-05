@@ -5,101 +5,132 @@ import { css, list } from '../../lib/dc';
 export function SiteHeader({ v }: { v: V }) {
   return (
     <>
-      <header
-        style={css(
-          `position:fixed;top:0;left:0;right:0;z-index:60;background:${v.headerBg ?? ''};backdrop-filter:${v.headerBlur ?? ''};-webkit-backdrop-filter:${v.headerBlur ?? ''};transition:background .3s`,
-        )}
-      >
+      <header style={{ position: 'sticky', top: 0, zIndex: 60, background: 'var(--card)' }}>
+        {/* DGA Digital Stamp */}
+        <div style={{ height: 32, padding: '0 32px', background: 'var(--card-2)', display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <span aria-hidden="true" style={{ width: 20, height: 14, borderRadius: 2, background: '#006923', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <span style={{ width: 11, height: 2, borderRadius: 1, background: '#fff', marginTop: 4 }} />
+            </span>
+            <span style={{ fontSize: 14, lineHeight: '20px', fontWeight: 500, color: 'var(--ink)', whiteSpace: 'nowrap' }}>موقع حكومي مسجل لدى هيئة الحكومة الرقمية</span>
+            <a
+              href="https://raqmi.dga.gov.sa/platforms/platforms"
+              target="_blank"
+              rel="noreferrer"
+              style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 14, lineHeight: '20px', color: 'var(--dga-stamp-link)', whiteSpace: 'nowrap' }}
+            >
+              كيف تتحقق؟
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M6 9l6 6 6-6" />
+              </svg>
+            </a>
+          </div>
+        </div>
+        {/* DGA Nav Header */}
         <div
           style={{
-            maxWidth: '1520px',
-            margin: '0 auto',
-            padding: '16px clamp(16px,2.5vw,32px)',
+            height: 72,
+            padding: '0 32px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            gap: '24px',
+            gap: 16,
+            borderBottom: '1px solid var(--line)',
           }}
         >
-          <button
-            onClick={v.go?.home}
-            aria-label="الرئيسية"
-            style={{ background: 'none', border: '0', padding: '0', cursor: 'pointer', display: 'flex', flexShrink: '0' }}
-          >
-            <span style={{ display: 'block', width: '168px', height: '40px', background: "url('assets/logo-sm-gold.svg') right center/contain no-repeat" }} />
-          </button>
-          {v.desktop ? (
-            <>
-              <nav style={{ display: 'flex', alignItems: 'center', gap: '32px' }} className="zz-header-nav">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16, minWidth: 0 }}>
+            <button
+              onClick={v.go?.home}
+              aria-label="الرئيسية"
+              style={{ background: 'none', border: '0', padding: '4px', cursor: 'pointer', display: 'flex', flexShrink: '0' }}
+            >
+              <span style={{ display: 'block', width: '160px', height: '48px', background: "url('assets/logo-sm-gold.svg') right center/contain no-repeat" }} />
+            </button>
+            {v.desktop ? (
+              <nav style={{ display: 'flex', alignItems: 'center' }} className="zz-header-nav">
                 {list(v.navItems).map((item: any, $index: number) => (
                   <Fragment key={$index}>
-                    <div onMouseEnter={item?.onEnter} onMouseLeave={item?.onLeave} style={{ position: 'relative', padding: '10px 0' }}>
+                    <div onMouseEnter={item?.onEnter} onMouseLeave={item?.onLeave} style={{ position: 'relative' }}>
                       <button
                         onClick={item?.onClick}
-                        style={css(
-                          `background:none;border:0;padding:0;cursor:pointer;display:flex;align-items:center;gap:4px;font-size:20px;line-height:20px;color:${item?.color ?? ''};white-space:nowrap`,
-                        )}
-                        className="zp-000"
+                        aria-current={item?.active ? 'page' : undefined}
+                        style={{
+                          height: 72,
+                          padding: '8px 16px',
+                          background: 'none',
+                          border: 0,
+                          borderRadius: 'var(--r-sm)',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 4,
+                          fontSize: 16,
+                          lineHeight: '24px',
+                          fontWeight: 500,
+                          color: item?.active ? 'var(--gold-2)' : 'var(--ink)',
+                          whiteSpace: 'nowrap',
+                          position: 'relative',
+                          fontFamily: 'inherit',
+                        }}
+                        className="dga-navlink"
                       >
                         <span>{item?.label}</span>
                         {item?.hasMenu ? (
-                          <>
-                            <svg
-                              width="15"
-                              height="15"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="2"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            >
-                              <path d="M6 9l6 6 6-6" />
-                            </svg>
-                          </>
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                            <path d="M6 9l6 6 6-6" />
+                          </svg>
                         ) : null}
+                        {item?.active ? <span aria-hidden="true" style={{ position: 'absolute', left: 16, right: 16, bottom: 0, height: 3, borderRadius: '3px 3px 0 0', background: 'var(--gold)' }} /> : null}
                       </button>
                       {item?.open ? (
-                        <>
-                          <div
-                            style={{
-                              position: 'absolute',
-                              top: '100%',
-                              right: '-16px',
-                              minWidth: '250px',
-                              padding: '8px',
-                              borderRadius: '14px',
-                              background: 'rgba(17,22,27,.96)',
-                              backdropFilter: 'blur(14px)',
-                              boxShadow: '0 18px 40px rgba(0,0,0,.35),inset 0 0 0 1px rgba(255,255,255,.08)',
-                              display: 'flex',
-                              flexDirection: 'column',
-                              gap: '2px',
-                              animation: 'zzfade .18s ease both',
-                            }}
-                          >
-                            {list(item?.children).map((c: any, $index: number) => (
-                              <Fragment key={$index}>
-                                <button
-                                  onClick={c?.onClick}
-                                  style={css(
-                                    `background:${c?.bg ?? ''};border:0;border-radius:9px;padding:11px 14px;text-align:right;cursor:pointer;font-size:17px;color:${c?.color ?? ''};white-space:nowrap`,
-                                  )}
-                                  className="zp-001"
-                                >
-                                  {c?.label}
-                                </button>
-                              </Fragment>
-                            ))}
-                          </div>
-                        </>
+                        <div
+                          style={{
+                            position: 'absolute',
+                            top: '100%',
+                            right: 0,
+                            minWidth: '240px',
+                            padding: '8px',
+                            borderRadius: 'var(--r-md)',
+                            background: 'var(--card)',
+                            boxShadow: 'inset 0 0 0 1px var(--line),var(--shadow-lg)',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '2px',
+                            animation: 'zzfade .18s ease both',
+                          }}
+                        >
+                          {list(item?.children).map((c: any, $index: number) => (
+                            <Fragment key={$index}>
+                              <button
+                                onClick={c?.onClick}
+                                style={{
+                                  background: c?.active ? 'var(--card-2)' : 'transparent',
+                                  border: 0,
+                                  borderRadius: 'var(--r-sm)',
+                                  padding: '10px 12px',
+                                  textAlign: 'right',
+                                  cursor: 'pointer',
+                                  fontSize: 16,
+                                  lineHeight: '24px',
+                                  fontWeight: 500,
+                                  color: c?.active ? 'var(--gold-2)' : 'var(--ink)',
+                                  whiteSpace: 'nowrap',
+                                  fontFamily: 'inherit',
+                                }}
+                                className="dga-navlink"
+                              >
+                                {c?.label}
+                              </button>
+                            </Fragment>
+                          ))}
+                        </div>
                       ) : null}
                     </div>
                   </Fragment>
                 ))}
               </nav>
-            </>
-          ) : null}
+            ) : null}
+          </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexShrink: '0' }} className="zz-header-actions">
             {v.desktop ? (
               <>
@@ -107,21 +138,22 @@ export function SiteHeader({ v }: { v: V }) {
                   onClick={v.scrollToBuyPack}
                   style={{
                     height: '40px',
-                    padding: '0 18px',
-                    borderRadius: '8.89px',
-                    background: '#996C2E',
-                    border: '1px solid rgba(255,255,255,.2)',
+                    padding: '0 16px',
+                    borderRadius: 'var(--r-sm)',
+                    background: 'var(--gold)',
+                    border: '0',
                     color: '#fff',
                     fontSize: '16px',
-                    fontWeight: '700',
+                    fontWeight: '500',
                     lineHeight: '24px',
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '8px',
+                    gap: '4px',
                     whiteSpace: 'nowrap',
+                    fontFamily: 'inherit',
                   }}
-                  className="zz-header-buy zp-002"
+                  className="zz-header-buy dga-btn dga-btn-primary"
                 >
                   <svg
                     width="18"
@@ -149,20 +181,22 @@ export function SiteHeader({ v }: { v: V }) {
                 aria-label={v.ox?.authLabel}
                 style={{
                   height: '40px',
-                  padding: '0 14px',
-                  borderRadius: '8.89px',
-                  background: 'rgba(255,255,255,.17)',
-                  border: '0',
-                  boxShadow: 'inset 0 0 0 .556px #F9F9FB,0 0 0 .556px #F9F9FB',
-                  color: '#fff',
+                  padding: '0 16px',
+                  borderRadius: 'var(--r-sm)',
+                  background: 'var(--card)',
+                  border: '1px solid var(--field-bd)',
+                  color: 'var(--ink)',
                   fontSize: '16px',
+                  fontWeight: 500,
+                  lineHeight: '24px',
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '8px',
                   whiteSpace: 'nowrap',
+                  fontFamily: 'inherit',
                 }}
-                className="zz-header-account zp-003"
+                className="zz-header-account dga-btn dga-btn-secondary"
               >
                 {v.ox?.signedIn ? (
                   <>
@@ -216,7 +250,7 @@ export function SiteHeader({ v }: { v: V }) {
                       zIndex: '71',
                       minWidth: '260px',
                       padding: '8px',
-                      borderRadius: '12px',
+                      borderRadius: 'var(--r-md)',
                       background: 'var(--card)',
                       boxShadow: 'var(--card-shadow),0 0 0 1px var(--line)',
                       display: 'flex',
@@ -238,7 +272,7 @@ export function SiteHeader({ v }: { v: V }) {
                         <span style={{ fontSize: '13px', color: 'var(--muted)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{v.ox?.acctSub}</span>
                         <span
                           style={css(
-                            `align-self:flex-start;margin-top:4px;display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 10px;border-radius:8px;font-size:12px;font-weight:500;background:var(--tag-${v.ox?.statusTone}-bg);color:var(--tag-${v.ox?.statusTone}-fg);box-shadow:inset 0 0 0 1px var(--tag-${v.ox?.statusTone}-bd)`,
+                            `align-self:flex-start;margin-top:4px;display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 10px;border-radius:var(--r-sm);font-size:12px;font-weight:500;background:var(--tag-${v.ox?.statusTone}-bg);color:var(--tag-${v.ox?.statusTone}-fg);box-shadow:inset 0 0 0 1px var(--tag-${v.ox?.statusTone}-bd)`,
                           )}
                         >
                           <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'currentColor' }} />
@@ -254,7 +288,7 @@ export function SiteHeader({ v }: { v: V }) {
                         height: '48px',
                         padding: '0 16px',
                         border: '0',
-                        borderRadius: '8px',
+                        borderRadius: 'var(--r-sm)',
                         background: 'transparent',
                         color: 'var(--ink)',
                         fontSize: '15px',
@@ -276,7 +310,7 @@ export function SiteHeader({ v }: { v: V }) {
                         height: '48px',
                         padding: '0 16px',
                         border: '0',
-                        borderRadius: '8px',
+                        borderRadius: 'var(--r-sm)',
                         background: 'transparent',
                         color: 'var(--ink)',
                         fontSize: '15px',
@@ -298,7 +332,7 @@ export function SiteHeader({ v }: { v: V }) {
                         height: '48px',
                         padding: '0 16px',
                         border: '0',
-                        borderRadius: '8px',
+                        borderRadius: 'var(--r-sm)',
                         background: 'transparent',
                         color: 'var(--ink)',
                         fontSize: '15px',
@@ -321,7 +355,7 @@ export function SiteHeader({ v }: { v: V }) {
                         height: '48px',
                         padding: '0 16px',
                         border: '0',
-                        borderRadius: '8px',
+                        borderRadius: 'var(--r-sm)',
                         background: 'transparent',
                         color: 'var(--danger)',
                         fontSize: '15px',
@@ -345,17 +379,16 @@ export function SiteHeader({ v }: { v: V }) {
               style={{
                 width: '40px',
                 height: '40px',
-                borderRadius: '8.89px',
-                background: 'rgba(255,255,255,.1)',
-                border: '0',
-                boxShadow: 'inset 0 0 0 .556px #F9F9FB,0 0 0 .556px #F9F9FB',
-                color: '#fff',
+                borderRadius: 'var(--r-sm)',
+                background: 'var(--card)',
+                border: '1px solid var(--field-bd)',
+                color: 'var(--ink)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 cursor: 'pointer',
               }}
-              className="zp-005"
+              className="dga-btn dga-btn-secondary"
             >
               {v.isLight ? (
                 <>
@@ -387,14 +420,14 @@ export function SiteHeader({ v }: { v: V }) {
                 <button
                   onClick={v.openMobileNav}
                   aria-label="القائمة"
+                  className="dga-btn dga-btn-secondary"
                   style={{
                     width: '40px',
                     height: '40px',
-                    borderRadius: '8.89px',
-                    background: 'rgba(255,255,255,.1)',
-                    border: '0',
-                    boxShadow: 'inset 0 0 0 .556px #F9F9FB',
-                    color: '#fff',
+                    borderRadius: 'var(--r-sm)',
+                    background: 'var(--card)',
+                    border: '1px solid var(--field-bd)',
+                    color: 'var(--ink)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',

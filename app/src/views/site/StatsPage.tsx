@@ -5,13 +5,13 @@ import { list } from '../../lib/dc';
 export function StatsPage({ v }: { v: V }) {
   return (
     <>
-      <section data-screen-label="09 الأرقام والإحصائيات" style={{ background: 'var(--bg)', padding: '48px 0 88px' }}>
-        <div style={{ maxWidth: '1520px', margin: '0 auto', padding: '0 clamp(16px,2.5vw,32px)', display: 'flex', flexDirection: 'column', gap: '56px' }}>
+      <section data-screen-label="09 الأرقام والإحصائيات" style={{ background: 'var(--bg)', padding: '40px 0 40px' }}>
+        <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '0 clamp(16px,5.6vw,80px)', display: 'flex', flexDirection: 'column', gap: '56px' }}>
           {list(v.statGroups).map((g: any, $index: number) => (
             <Fragment key={$index}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                  <h2 style={{ margin: '0', fontSize: 'clamp(24px,2.6vw,32px)', fontWeight: '700', color: 'var(--ink)', whiteSpace: 'nowrap' }}>{g?.t}</h2>
+                  <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', color: 'var(--ink)', whiteSpace: 'nowrap' }}>{g?.t}</h2>
                   <span style={{ flex: '1', height: '1px', background: 'var(--line)' }} />
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(210px,1fr))', gap: '16px' }}>
@@ -20,7 +20,7 @@ export function StatsPage({ v }: { v: V }) {
                       <div
                         style={{
                           background: 'var(--card)',
-                          borderRadius: '20px',
+                          borderRadius: 'var(--r-lg)',
                           boxShadow: 'var(--card-shadow)',
                           padding: '24px',
                           display: 'flex',
@@ -43,7 +43,7 @@ export function StatsPage({ v }: { v: V }) {
                                 marginTop: 'auto',
                                 alignSelf: 'flex-start',
                                 padding: '5px 12px',
-                                borderRadius: '36px',
+                                borderRadius: 'var(--r-sm)',
                                 background: 'var(--card-2)',
                                 boxShadow: 'inset 0 0 0 1px var(--line)',
                                 fontSize: '14px',
@@ -64,7 +64,7 @@ export function StatsPage({ v }: { v: V }) {
           <div
             style={{
               padding: '18px 22px',
-              borderRadius: '14px',
+              borderRadius: 'var(--r-md)',
               boxShadow: 'inset 0 0 0 1px var(--line)',
               fontSize: '15px',
               color: 'var(--ink-2)',

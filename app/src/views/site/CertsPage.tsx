@@ -3,12 +3,12 @@ import type { V } from '../../types';
 export function CertsPage({ v }: { v: V }) {
   return (
     <>
-      <section data-screen-label="11 الاعتمادات والشهادات" style={{ background: 'var(--bg)', padding: '48px 0 96px' }}>
+      <section data-screen-label="11 الاعتمادات والشهادات" style={{ background: 'var(--bg)', padding: '40px 0 40px' }}>
         <div
           style={{
-            maxWidth: '1520px',
+            maxWidth: '1440px',
             margin: '0 auto',
-            padding: '0 clamp(16px,2.5vw,32px)',
+            padding: '0 clamp(16px,5.6vw,80px)',
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))',
             gap: '24px',
@@ -17,7 +17,7 @@ export function CertsPage({ v }: { v: V }) {
           <div
             style={{
               background: 'var(--card)',
-              borderRadius: '24px',
+              borderRadius: 'var(--r-lg)',
               boxShadow: 'var(--card-shadow)',
               padding: '26px',
               display: 'flex',
@@ -51,7 +51,7 @@ export function CertsPage({ v }: { v: V }) {
           <div
             style={{
               background: 'var(--card)',
-              borderRadius: '24px',
+              borderRadius: 'var(--r-lg)',
               boxShadow: 'var(--card-shadow)',
               padding: '26px',
               display: 'flex',
@@ -83,7 +83,7 @@ export function CertsPage({ v }: { v: V }) {
           <div
             style={{
               background: 'var(--card)',
-              borderRadius: '24px',
+              borderRadius: 'var(--r-lg)',
               boxShadow: 'var(--card-shadow)',
               padding: '26px',
               display: 'flex',

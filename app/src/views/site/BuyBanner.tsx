@@ -28,9 +28,9 @@ function BuyButton({ onClick, children, light }: { onClick: () => void; children
       style={{
         height: 52,
         padding: '0 24px',
-        borderRadius: 10,
+        borderRadius: 'var(--r-sm)',
         border: light ? 0 : '1px solid rgba(255,255,255,.2)',
-        background: light ? '#fff' : '#A47C1C',
+        background: light ? '#fff' : 'var(--gold)',
         color: light ? '#0C0D0E' : '#fff',
         fontSize: 17,
         fontWeight: 600,
@@ -53,11 +53,11 @@ const wrap = (children: ReactNode) => (
   <section
     id="buy-pack"
     data-screen-label="اقتن عبوة زمزم"
-    style={{ position: 'relative', overflow: 'hidden', background: 'linear-gradient(180deg,var(--bg-alt) 0%,var(--bg-alt) 35%,color-mix(in srgb,var(--bg-alt) 82%,#A47C1C) 100%)', padding: '0 0 80px' }}
+    style={{ position: 'relative', overflow: 'hidden', background: 'linear-gradient(180deg,var(--bg-alt) 0%,var(--bg-alt) 35%,color-mix(in srgb,var(--bg-alt) 82%,var(--gold)) 100%)', padding: '0 0 80px' }}
   >
     <span aria-hidden="true" style={{ position: 'absolute', right: '-4%', bottom: -40, width: '46%', height: '120%', background: 'var(--callig-img) right bottom/contain no-repeat', opacity: 0.07, pointerEvents: 'none' }} />
-    <span aria-hidden="true" style={{ position: 'absolute', left: '-6%', top: '18%', width: 520, height: 520, borderRadius: '50%', background: 'radial-gradient(circle,rgba(212,168,67,.22) 0%,rgba(212,168,67,0) 70%)', pointerEvents: 'none' }} />
-    <div style={{ position: 'relative', maxWidth: '1520px', margin: '0 auto', padding: '0 clamp(16px,2.5vw,32px)' }}>{children}</div>
+    <span aria-hidden="true" style={{ position: 'absolute', left: '-6%', top: '18%', width: 520, height: 520, borderRadius: '50%', background: 'radial-gradient(circle,rgba(180,145,100,.22) 0%,rgba(180,145,100,0) 70%)', pointerEvents: 'none' }} />
+    <div style={{ position: 'relative', maxWidth: '1440px', margin: '0 auto', padding: '0 clamp(16px,5.6vw,80px)' }}>{children}</div>
   </section>
 );
 
@@ -66,21 +66,21 @@ export function BuyBanner() {
   const lineup = [ITEMS.find((p) => p.id === 'p5000'), ITEMS.find((p) => p.id === 'p330'), ITEMS.find((p) => p.id === 'p500')].filter(Boolean) as Product[];
   const point = (d: string, t: string) => (
     <li style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 16, color: 'var(--ink-2)' }}>
-      <span style={{ width: 34, height: 34, flexShrink: 0, borderRadius: 10, background: 'var(--gold-soft)', color: 'var(--gold-on-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <span style={{ width: 34, height: 34, flexShrink: 0, borderRadius: 'var(--r-sm)', background: 'var(--gold-soft)', color: 'var(--gold-on-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Svg d={d} size={16} />
       </span>
       {t}
     </li>
   );
   return wrap(
-    <div style={{ borderRadius: 24, overflow: 'hidden', background: 'var(--card)', boxShadow: 'var(--card-shadow)', display: 'flex', flexWrap: 'wrap-reverse', alignItems: 'stretch' }}>
+    <div style={{ borderRadius: 'var(--r-lg)', overflow: 'hidden', background: 'var(--card)', boxShadow: 'var(--card-shadow)', display: 'flex', flexWrap: 'wrap-reverse', alignItems: 'stretch' }}>
       <div
         style={{
           flex: '1 1 380px',
           minHeight: 340,
           position: 'relative',
           overflow: 'hidden',
-          background: 'radial-gradient(ellipse 70% 55% at 50% 78%,rgba(212,168,67,.38) 0%,rgba(212,168,67,0) 70%),linear-gradient(165deg,var(--card-2) 0%,color-mix(in srgb,var(--card-2) 70%,#D4A843) 100%)',
+          background: 'radial-gradient(ellipse 70% 55% at 50% 78%,rgba(180,145,100,.38) 0%,rgba(180,145,100,0) 70%),linear-gradient(165deg,var(--card-2) 0%,color-mix(in srgb,var(--card-2) 70%,var(--gold-3)) 100%)',
           display: 'flex',
           alignItems: 'flex-end',
           justifyContent: 'center',
@@ -98,7 +98,7 @@ export function BuyBanner() {
             height: '76%',
             transform: 'translateX(-50%)',
             borderRadius: '999px 999px 0 0',
-            background: 'linear-gradient(180deg,rgba(212,168,67,.28) 0%,rgba(212,168,67,.08) 100%)',
+            background: 'linear-gradient(180deg,rgba(180,145,100,.28) 0%,rgba(180,145,100,.08) 100%)',
             boxShadow: 'inset 0 0 0 1px rgba(164,124,28,.28)',
           }}
         />
@@ -151,7 +151,7 @@ export function BuyBanner() {
       </div>
       <div style={{ flex: '1 1 460px', padding: 'clamp(28px,4vw,48px)', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center', gap: 18 }}>
         <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--gold-2)' }}>اطلب من هنا</span>
-        <h2 style={{ margin: 0, fontSize: 'clamp(34px,4.4vw,54px)', fontWeight: 700, lineHeight: 1.2, color: 'var(--ink)' }}>اقتن ماء زمزم</h2>
+        <h2 style={{ margin: 0, fontSize: '30px', fontWeight: '700', lineHeight: 1.2, color: 'var(--ink)' }}>اقتن ماء زمزم</h2>
         <p style={{ margin: 0, fontSize: 18, lineHeight: 1.7, color: 'var(--muted)' }}>
           زمزم... معجزة جعلها الله لأمة محمد ﷺ ، الآن على بعد <span style={{ color: 'var(--gold-2)' }}>نقرة زر.</span>
         </p>

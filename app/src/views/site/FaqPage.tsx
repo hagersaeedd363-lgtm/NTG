@@ -5,7 +5,7 @@ import { css, list } from '../../lib/dc';
 export function FaqPage({ v }: { v: V }) {
   return (
     <>
-      <section data-screen-label="13 الأسئلة الشائعة" style={{ background: 'var(--bg)', padding: '64px 0 96px' }}>
+      <section data-screen-label="13 الأسئلة الشائعة" style={{ background: 'var(--bg)', padding: '40px 0 40px' }}>
         <div style={{ maxWidth: '960px', margin: '0 auto', padding: '0 24px', display: 'flex', flexDirection: 'column', gap: '28px' }}>
           <div style={{ position: 'relative' }}>
             <input
@@ -16,10 +16,10 @@ export function FaqPage({ v }: { v: V }) {
               aria-label="ابحث عن سؤال"
               style={{
                 width: '100%',
-                height: '46px',
+                height: '40px',
                 padding: '0 48px 0 18px',
-                borderRadius: '14px',
-                border: '1px solid var(--line)',
+                borderRadius: 'var(--r-md)',
+                border: '1px solid var(--field-bd)',
                 background: 'var(--card)',
                 color: 'var(--ink)',
                 fontSize: '17px',
@@ -48,7 +48,7 @@ export function FaqPage({ v }: { v: V }) {
                 <button
                   onClick={c?.onClick}
                   style={css(
-                    `height:40px;padding:0 6px 0 16px;border-radius:36px;border:1px solid ${c?.bd ?? ''};background:${c?.bg ?? ''};color:${c?.fg ?? ''};font-size:15px;cursor:pointer;display:flex;align-items:center;gap:10px`,
+                    `height:40px;padding:0 6px 0 16px;border-radius:var(--r-sm);border:1px solid ${c?.bd ?? ''};background:${c?.bg ?? ''};color:${c?.fg ?? ''};font-size:15px;cursor:pointer;display:flex;align-items:center;gap:10px`,
                   )}
                 >
                   <span>{c?.label}</span>
@@ -56,7 +56,7 @@ export function FaqPage({ v }: { v: V }) {
                     style={{
                       height: '28px',
                       padding: '0 10px',
-                      borderRadius: '36px',
+                      borderRadius: 'var(--r-sm)',
                       background: 'rgba(127,127,127,.18)',
                       fontSize: '13px',
                       display: 'flex',
@@ -141,7 +141,7 @@ export function FaqPage({ v }: { v: V }) {
                 style={{
                   padding: '48px',
                   textAlign: 'center',
-                  borderRadius: '24px',
+                  borderRadius: 'var(--r-lg)',
                   boxShadow: 'inset 0 0 0 1px var(--line)',
                   fontSize: '18px',
                   color: 'var(--muted)',
@@ -157,7 +157,7 @@ export function FaqPage({ v }: { v: V }) {
           <div
             style={{
               marginTop: '24px',
-              borderRadius: '24px',
+              borderRadius: 'var(--r-lg)',
               background: 'var(--bg-alt)',
               padding: '32px',
               display: 'flex',
@@ -174,11 +174,11 @@ export function FaqPage({ v }: { v: V }) {
             <button
               onClick={v.go?.contact}
               style={{
-                height: '44px',
-                padding: '0 28px',
-                borderRadius: '9px',
-                border: '1px solid rgba(255,255,255,.2)',
-                background: '#996C2E',
+                height: '40px',
+                padding: '0 16px',
+                borderRadius: 'var(--r-sm)',
+                border: '0',
+                background: 'var(--gold)',
                 color: '#fff',
                 fontSize: '16px',
                 cursor: 'pointer',

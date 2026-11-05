@@ -70,7 +70,7 @@ export function PortalView({ v }: { v: V }) {
       {v.orderOpen ? <QuickOrderModal v={v} /> : null}
       {v.videoOpen ? <VideoModal v={v} /> : null}
       {v.hasToast ? <Toast v={v} /> : null}
-      <template id="__bundler_thumbnail" data-bg-color="#996C2E">
+      <template id="__bundler_thumbnail" data-bg-color="var(--gold)">
         <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
           <circle cx="600" cy="400" r="190" fill="none" stroke="#fff" strokeWidth="22" />
           <path d="M600 290c40 70 70 100 70 140a70 70 0 0 1-140 0c0-40 30-70 70-140z" fill="#fff" />

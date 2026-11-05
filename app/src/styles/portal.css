@@ -1,30 +1,30 @@
-/* Portal alert and status-tag colours, with dark-theme variants. */
+/* Portal alert and status-tag colours — DGA status palette, with dark-theme variants. */
 :root {
-  --al-bad-bg: #FFEBEC; --al-bad-bd: #F3B3AE; --al-bad-fg: #B42318;
-  --al-warn-bg: #FFF6DB; --al-warn-bd: #F0D78C; --al-warn-fg: #7A5400;
-  --al-info-bg: #E8F3FB; --al-info-bd: #B9D9EF; --al-info-fg: #14598A;
-  --al-ok-bg: #E8F5EC; --al-ok-bd: #A9D8B8; --al-ok-fg: #1E6B3A;
+  --al-bad-bg: #FEF3F2; --al-bad-bd: #FECDCA; --al-bad-fg: #B42318;
+  --al-warn-bg: #FFFAEB; --al-warn-bd: #FEDF89; --al-warn-fg: #B54708;
+  --al-info-bg: #EFF8FF; --al-info-bd: #B2DDFF; --al-info-fg: #175CD3;
+  --al-ok-bg: #ECF6F0; --al-ok-bd: #ABEFC6; --al-ok-fg: #14573A;
 }
 :root[data-theme="dark"] {
-  --al-bad-bg: rgba(255,138,122,.12); --al-bad-bd: rgba(255,138,122,.35); --al-bad-fg: #FF9C8F;
-  --al-warn-bg: rgba(232,197,107,.12); --al-warn-bd: rgba(232,197,107,.35); --al-warn-fg: #E8C56B;
-  --al-info-bg: rgba(141,200,236,.12); --al-info-bd: rgba(141,200,236,.35); --al-info-fg: #8DC8EC;
-  --al-ok-bg: rgba(126,201,150,.12); --al-ok-bd: rgba(126,201,150,.35); --al-ok-fg: #8FD3A5;
+  --al-bad-bg: rgba(180,35,24,.16); --al-bad-bd: rgba(255,138,122,.35); --al-bad-fg: #FF9C8F;
+  --al-warn-bg: rgba(181,71,8,.18); --al-warn-bd: rgba(245,163,91,.35); --al-warn-fg: #F5A35B;
+  --al-info-bg: rgba(23,92,211,.18); --al-info-bd: rgba(138,180,248,.35); --al-info-fg: #8AB4F8;
+  --al-ok-bg: rgba(20,87,58,.24); --al-ok-bd: rgba(123,197,156,.35); --al-ok-fg: #7BC59C;
 }
-/* Status tags (shared by portal tags and order-status chips). */
+/* Status tags (DGA Tag: 24px, radius 4, light fill + border). */
 :root {
-  --tag-info-bg: #DDEAF8; --tag-info-fg: #3A5F8F; --tag-info-bd: #B9D2EE;
-  --tag-gold-bg: #FCEFD9; --tag-gold-fg: #8A5A1E; --tag-gold-bd: #F3DDB5;
-  --tag-bad-bg: #F9DEDA; --tag-bad-fg: #9A2E22; --tag-bad-bd: #EDB8B1;
-  --tag-prog-bg: #D5ECEC; --tag-prog-fg: #2B6B6E; --tag-prog-bd: #A9D3D5;
-  --tag-ok-bg: #DAEDCF; --tag-ok-fg: #3F6B2A; --tag-ok-bd: #B4D8A3;
-  --tag-warn-bg: #FFE6CC; --tag-warn-fg: #A1470B; --tag-warn-bd: #F6C08A;
+  --tag-info-bg: #EFF8FF; --tag-info-fg: #175CD3; --tag-info-bd: #B2DDFF;
+  --tag-gold-bg: #F8F4F0; --tag-gold-fg: #7E6646; --tag-gold-bd: #E0D2BF;
+  --tag-bad-bg: #FEF3F2; --tag-bad-fg: #B42318; --tag-bad-bd: #FECDCA;
+  --tag-prog-bg: #F8F4F0; --tag-prog-fg: #3A3022; --tag-prog-bd: #B49164;
+  --tag-ok-bg: #ECF6F0; --tag-ok-fg: #14573A; --tag-ok-bd: #ABEFC6;
+  --tag-warn-bg: #FFFAEB; --tag-warn-fg: #B54708; --tag-warn-bd: #FEDF89;
 }
 :root[data-theme="dark"] {
-  --tag-info-bg: rgba(141,200,236,.14); --tag-info-fg: #9FCFEF; --tag-info-bd: rgba(141,200,236,.32);
-  --tag-gold-bg: rgba(232,197,107,.14); --tag-gold-fg: #E8C56B; --tag-gold-bd: rgba(232,197,107,.32);
-  --tag-bad-bg: rgba(255,138,122,.14); --tag-bad-fg: #FF9C8F; --tag-bad-bd: rgba(255,138,122,.32);
-  --tag-prog-bg: rgba(110,196,199,.14); --tag-prog-fg: #8FD3D5; --tag-prog-bd: rgba(110,196,199,.32);
-  --tag-ok-bg: rgba(126,201,150,.14); --tag-ok-fg: #8FD3A5; --tag-ok-bd: rgba(126,201,150,.32);
-  --tag-warn-bg: rgba(255,163,92,.15); --tag-warn-fg: #FFB27A; --tag-warn-bd: rgba(255,163,92,.35);
+  --tag-info-bg: rgba(23,92,211,.18); --tag-info-fg: #8AB4F8; --tag-info-bd: rgba(138,180,248,.35);
+  --tag-gold-bg: rgba(180,145,100,.16); --tag-gold-fg: #C4A47A; --tag-gold-bd: rgba(196,164,122,.35);
+  --tag-bad-bg: rgba(180,35,24,.16); --tag-bad-fg: #FF9C8F; --tag-bad-bd: rgba(255,138,122,.35);
+  --tag-prog-bg: rgba(243,241,236,.08); --tag-prog-fg: #F3F1EC; --tag-prog-bd: rgba(180,145,100,.5);
+  --tag-ok-bg: rgba(20,87,58,.24); --tag-ok-fg: #7BC59C; --tag-ok-bd: rgba(123,197,156,.35);
+  --tag-warn-bg: rgba(181,71,8,.18); --tag-warn-fg: #F5A35B; --tag-warn-bd: rgba(245,163,91,.35);
 }

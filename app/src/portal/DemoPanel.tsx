@@ -6,7 +6,7 @@ import { GOLD, ICON, Icon } from './ui';
 const btn = (on = false) => ({
   height: 32,
   padding: '0 12px',
-  borderRadius: 8,
+  borderRadius: 'var(--r-sm)',
   border: '1px solid ' + (on ? GOLD : 'var(--line)'),
   background: on ? 'var(--gold-soft)' : 'var(--card-2)',
   color: 'var(--ink)',
@@ -32,7 +32,7 @@ export function DemoPanel({ s }: { s: PortalState }) {
         <div
           role="region"
           aria-label="أدوات المعاينة"
-          style={{ width: 'min(360px, calc(100vw - 56px))', maxHeight: '80vh', overflowY: 'auto', background: 'var(--card)', borderRadius: 16, boxShadow: 'var(--card-shadow),0 20px 50px rgba(0,0,0,.25)', padding: 16, display: 'flex', flexDirection: 'column', gap: 14 }}
+          style={{ width: 'min(360px, calc(100vw - 56px))', maxHeight: '80vh', overflowY: 'auto', background: 'var(--card)', borderRadius: 'var(--r-lg)', boxShadow: 'var(--card-shadow),0 20px 50px rgba(0,0,0,.25)', padding: 16, display: 'flex', flexDirection: 'column', gap: 14 }}
         >
           <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             <strong style={{ fontSize: 15, color: 'var(--ink)' }}>أدوات المعاينة</strong>
@@ -79,7 +79,7 @@ export function DemoPanel({ s }: { s: PortalState }) {
             <section style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink-2)' }}>الطلبات</span>
               {orders.map((o) => (
-                <div key={o.id} style={{ display: 'flex', flexDirection: 'column', gap: 6, padding: 10, borderRadius: 10, background: 'var(--card-2)' }}>
+                <div key={o.id} style={{ display: 'flex', flexDirection: 'column', gap: 6, padding: 10, borderRadius: 'var(--r-sm)', background: 'var(--card-2)' }}>
                   <span style={{ fontSize: 12, color: 'var(--ink-2)' }}>
                     <span dir="ltr">{o.id}</span> · {orderStatusLabel(o, a)}
                   </span>

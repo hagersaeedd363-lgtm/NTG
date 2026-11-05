@@ -12,7 +12,7 @@ import { TAG } from './ui';
 
 const AR = (n: number | string) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[+d]);
 const SAR = (n: number) => portal.sar(n);
-const GOLD = '#996C2E';
+const GOLD = 'var(--gold)';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Obj = Record<string, any>;
@@ -30,11 +30,11 @@ const NEXT_ICON: Record<string, string> = {
 function field(value: string, error: string | undefined, on: (v: string) => void) {
   return {
     v: value,
-    bg: value ? 'var(--card-2)' : 'var(--card)',
+    bg: 'var(--card)',
     e: error || '',
     hasE: !!error,
     noE: !error,
-    bd: error ? 'var(--danger)' : 'var(--line)',
+    bd: error ? 'var(--danger)' : 'var(--field-bd)',
     on: (ev: { target: { value: string } }) => on(ev.target.value),
   };
 }
@@ -97,7 +97,7 @@ function receiveDateOf(o: Order) {
 function orderDetail(o: Order, s: PortalState): Obj {
   const a = portal.account(s);
   const pn = nextStep(o, a, SAR);
-  const AL = { gold: ['#FFF6DB', '#F0D78C', '#8A5A00'], info: ['#E8F3FB', '#B9D9EF', '#14598A'], bad: ['#FFEBEC', '#F3B3AE', '#B42318'], ok: ['#E8F5EC', '#A9D8B8', '#1E6B3A'] }[pn.tone];
+  const AL = { gold: ['#FFF6DB', '#F0D78C', 'var(--gold-2)'], info: ['#E8F3FB', '#B9D9EF', '#14598A'], bad: ['#FFEBEC', '#F3B3AE', '#B42318'], ok: ['#E8F5EC', '#A9D8B8', '#1E6B3A'] }[pn.tone];
   const units = o.lines.reduce((n, l) => n + l.qty, 0);
   const m = o.id.match(/(\d{4})(\d{2})(\d{2})/);
   const d0 = m ? new Date(+m[1], +m[2] - 1, +m[3]) : new Date();
@@ -198,7 +198,7 @@ function ordersVals(s: PortalState): Obj {
         label: t.label,
         count: AR(c),
         active,
-        ul: active ? '#D4A843' : 'transparent',
+        ul: active ? 'var(--gold-3)' : 'transparent',
         fw: 400,
         fg: active ? 'var(--ink)' : 'var(--muted)',
         countBg: active ? 'var(--gold-soft)' : 'var(--card-2)',
@@ -336,7 +336,7 @@ function flowVals(s: PortalState): Obj {
     hasMapAddress: !!(d.lat && d.lng),
     mapAddressLabel: d.mapAddress || 'تم تحديد الموقع',
     notesBd: s.errors.notes ? 'var(--danger)' : 'var(--line)',
-    notesBg: d.notes ? 'var(--card-2)' : 'var(--card)',
+    notesBg: 'var(--card)',
     notesCount: d.notes.length,
     orderNotes: d.notes,
     onNotes: (ev: { target: { value: string } }) => portal.setDraft({ notes: String(ev.target.value).slice(0, 500) }),
@@ -429,9 +429,9 @@ function passwordVals(s: PortalState): Obj {
     pwDoneTitle: hp ? 'تم تغيير كلمة المرور' : 'تم تعيين كلمة المرور',
     pwPhone: EMAIL_AUTH ? maskedEmail : phone ? phone.slice(0, 3) + '••••' + phone.slice(-3) : '',
     pwOtp: pw.otp,
-    bgOtp: pw.otp ? 'var(--card-2)' : 'var(--card)',
-    bgN1: pw.n1 ? 'var(--card-2)' : 'var(--card)',
-    bgN2: pw.n2 ? 'var(--card-2)' : 'var(--card)',
+    bgOtp: 'var(--card)',
+    bgN1: 'var(--card)',
+    bgN2: 'var(--card)',
     pwErr: pw.err,
     pwBd: pw.err ? 'var(--danger)' : 'var(--line)',
     pwN1: pw.n1,
@@ -439,7 +439,7 @@ function passwordVals(s: PortalState): Obj {
     pwType: pw.show ? 'text' : 'password',
     pwNeedsCurrent: hp,
     pwN0: pw.n0,
-    bgN0: pw.n0 ? 'var(--card-2)' : 'var(--card)',
+    bgN0: 'var(--card)',
     onN0: (ev: { target: { value: string } }) => up({ n0: ev.target.value, err: '' }),
     pwRules: rules.map((r) => ({ ...r, color: r.ok ? '#2E7D52' : 'var(--muted)', bg: r.ok ? '#2E7D52' : 'transparent', bd: r.ok ? '#2E7D52' : 'var(--line)' })),
     openPw: () => up({ step: 1 }),

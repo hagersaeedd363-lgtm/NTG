@@ -4,25 +4,27 @@ import { ImageSlot } from '../../components/ImageSlot';
 export function QualityPage({ v }: { v: V }) {
   return (
     <>
-      <section data-screen-label="06 الجودة والسلامة" style={{ background: 'var(--bg)', padding: '96px 0' }}>
-        <div style={{ maxWidth: '1520px', margin: '0 auto', padding: '0 clamp(16px,2.5vw,32px)', display: 'flex', flexWrap: 'wrap', gap: '48px' }}>
+      <section data-screen-label="06 الجودة والسلامة" style={{ background: 'var(--bg)', padding: '40px 0' }}>
+        <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '0 clamp(16px,5.6vw,80px)', display: 'flex', flexWrap: 'wrap', gap: '48px' }}>
           <div style={{ flex: '1 1 440px', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '18px' }}>
             <span
               style={{
                 display: 'inline-flex',
-                padding: '6px 14px',
-                borderRadius: '36px',
-                background: 'rgba(130,130,130,.15)',
-                boxShadow: 'inset 0 0 0 1px var(--ink)',
-                fontSize: '14px',
-                fontWeight: '700',
-                lineHeight: '1.08',
+                padding: '0 8px',
+                height: '24px',
+                alignItems: 'center',
+                borderRadius: 'var(--r-sm)',
+                background: 'var(--card-2)',
+                boxShadow: 'inset 0 0 0 1px var(--line)',
+                fontSize: '12px',
+                fontWeight: '500',
+                lineHeight: '18px',
                 color: 'var(--ink)',
               }}
             >
               دورنا
             </span>
-            <h2 style={{ margin: '0', fontSize: 'clamp(30px,3.4vw,44px)', fontWeight: '700', lineHeight: '1.2', color: 'var(--ink)' }}>قسم جودة المياه</h2>
+            <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>قسم جودة المياه</h2>
             <p style={{ margin: '0', fontSize: '18px', lineHeight: '1.85', color: 'var(--ink-2)' }}>
               قسم جودة المياه هو الجهة المعنيّة بضمان جودة وسلامة ماء زمزم المبارك في جميع مراحله. يرتكز عمله على منظومة علمية تشمل الرقابة والتحليل والتطوير
               المستمر، وتطبيق الممارسات والمعايير المعتمدة من الجهات الوطنية والدولية المختصة بجودة مياه الشرب.
@@ -32,7 +34,7 @@ export function QualityPage({ v }: { v: V }) {
             style={{
               flex: '1 1 440px',
               background: 'var(--card)',
-              borderRadius: '24px',
+              borderRadius: 'var(--r-lg)',
               boxShadow: 'var(--card-shadow)',
               padding: '24px',
               display: 'flex',
@@ -249,7 +251,7 @@ export function QualityPage({ v }: { v: V }) {
           </div>
         </div>
       </section>
-      <section style={{ position: 'relative', overflow: 'hidden', background: 'var(--bg-deep)', color: '#fff', padding: '96px 0' }}>
+      <section style={{ position: 'relative', overflow: 'hidden', background: 'var(--bg-deep)', color: '#fff', padding: '40px 0' }}>
         <div
           style={{
             position: 'absolute',
@@ -264,9 +266,9 @@ export function QualityPage({ v }: { v: V }) {
         <div
           style={{
             position: 'relative',
-            maxWidth: '1520px',
+            maxWidth: '1440px',
             margin: '0 auto',
-            padding: '0 clamp(16px,2.5vw,32px)',
+            padding: '0 clamp(16px,5.6vw,80px)',
             display: 'flex',
             flexDirection: 'column',
             gap: '40px',
@@ -277,18 +279,20 @@ export function QualityPage({ v }: { v: V }) {
               <span
                 style={{
                   display: 'inline-flex',
-                  padding: '6px 14px',
-                  borderRadius: '36px',
-                  background: 'rgba(130,130,130,.15)',
-                  boxShadow: 'inset 0 0 0 1px #fff',
-                  fontSize: '14px',
-                  fontWeight: '700',
-                  lineHeight: '1.08',
+                  padding: '0 8px',
+                  height: '24px',
+                  alignItems: 'center',
+                  borderRadius: 'var(--r-sm)',
+                  background: 'rgba(255,255,255,.12)',
+                  boxShadow: 'inset 0 0 0 1px rgba(255,255,255,.4)',
+                  fontSize: '12px',
+                  fontWeight: '500',
+                  lineHeight: '18px',
                 }}
               >
                 ٢٤ ساعة يومياً
               </span>
-              <h2 style={{ margin: '0', fontSize: 'clamp(30px,3.6vw,48px)', fontWeight: '700', lineHeight: '1.15' }}>المختبر المركزي</h2>
+              <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', lineHeight: '38px' }}>المختبر المركزي</h2>
               <p style={{ margin: '0', fontSize: '18px', lineHeight: '1.8', color: 'rgba(255,255,255,.82)' }}>
                 يعمل المختبر على مدار ٢٤ ساعة يومياً، ضمن إجراءات تشغيلية معتمدة تتماشى مع المعايير الصادرة عن الهيئة السعودية للمواصفات والمقاييس والجودة
                 (SASO).
@@ -302,10 +306,10 @@ export function QualityPage({ v }: { v: V }) {
               <div style={{ gridRow: '1/3', position: 'relative', borderRadius: '0 120px 0 0', overflow: 'hidden', background: 'rgba(255,255,255,.06)' }}>
                 <ImageSlot id="lab-main" shape="rect" placeholder="صورة المختبر المركزي" />
               </div>
-              <div style={{ position: 'relative', borderRadius: '16px', overflow: 'hidden', background: 'rgba(255,255,255,.06)' }}>
+              <div style={{ position: 'relative', borderRadius: 'var(--r-lg)', overflow: 'hidden', background: 'rgba(255,255,255,.06)' }}>
                 <ImageSlot id="lab-team" shape="rect" placeholder="الفريق الفني" />
               </div>
-              <div style={{ position: 'relative', borderRadius: '16px', overflow: 'hidden', background: 'rgba(255,255,255,.06)' }}>
+              <div style={{ position: 'relative', borderRadius: 'var(--r-lg)', overflow: 'hidden', background: 'rgba(255,255,255,.06)' }}>
                 <ImageSlot id="lab-devices" shape="rect" placeholder="أجهزة التحليل" />
               </div>
             </div>
@@ -335,14 +339,14 @@ export function QualityPage({ v }: { v: V }) {
           <span style={{ fontSize: '14px', color: 'rgba(255,255,255,.55)' }}>أرقام المختبر — محدَّث حتى سبتمبر ٢٠٢٥م</span>
         </div>
       </section>
-      <section style={{ background: 'var(--bg-alt)', padding: '96px 0' }}>
-        <div style={{ maxWidth: '1520px', margin: '0 auto', padding: '0 clamp(16px,2.5vw,32px)', display: 'flex', flexDirection: 'column', gap: '36px' }}>
-          <h2 style={{ margin: '0', fontSize: 'clamp(30px,3.4vw,44px)', fontWeight: '700', lineHeight: '1.2', color: 'var(--ink)' }}>أقسام المختبر</h2>
+      <section style={{ background: 'var(--bg-alt)', padding: '40px 0' }}>
+        <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '0 clamp(16px,5.6vw,80px)', display: 'flex', flexDirection: 'column', gap: '36px' }}>
+          <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>أقسام المختبر</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: '20px' }}>
             <div
               style={{
                 background: 'var(--card)',
-                borderRadius: '24px',
+                borderRadius: 'var(--r-lg)',
                 boxShadow: 'var(--card-shadow)',
                 overflow: 'hidden',
                 display: 'flex',
@@ -363,7 +367,7 @@ export function QualityPage({ v }: { v: V }) {
             <div
               style={{
                 background: 'var(--card)',
-                borderRadius: '24px',
+                borderRadius: 'var(--r-lg)',
                 boxShadow: 'var(--card-shadow)',
                 overflow: 'hidden',
                 display: 'flex',
@@ -384,7 +388,7 @@ export function QualityPage({ v }: { v: V }) {
             <div
               style={{
                 background: 'var(--card)',
-                borderRadius: '24px',
+                borderRadius: 'var(--r-lg)',
                 boxShadow: 'var(--card-shadow)',
                 overflow: 'hidden',
                 display: 'flex',
@@ -411,7 +415,7 @@ export function QualityPage({ v }: { v: V }) {
             <div
               style={{
                 background: 'var(--card)',
-                borderRadius: '24px',
+                borderRadius: 'var(--r-lg)',
                 boxShadow: 'var(--card-shadow)',
                 overflow: 'hidden',
                 display: 'flex',
@@ -432,12 +436,12 @@ export function QualityPage({ v }: { v: V }) {
           </div>
         </div>
       </section>
-      <section style={{ background: 'var(--bg)', padding: '80px 0' }}>
+      <section style={{ background: 'var(--bg)', padding: '40px 0' }}>
         <div
           style={{
-            maxWidth: '1520px',
+            maxWidth: '1440px',
             margin: '0 auto',
-            padding: '0 clamp(16px,2.5vw,32px)',
+            padding: '0 clamp(16px,5.6vw,80px)',
             display: 'flex',
             flexWrap: 'wrap',
             gap: '24px',
@@ -446,7 +450,7 @@ export function QualityPage({ v }: { v: V }) {
           }}
         >
           <div style={{ flex: '1 1 520px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            <h2 style={{ margin: '0', fontSize: 'clamp(26px,2.8vw,36px)', fontWeight: '700', color: 'var(--ink)' }}>التحقق الخارجي</h2>
+            <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', color: 'var(--ink)' }}>التحقق الخارجي</h2>
             <p style={{ margin: '0', fontSize: '18px', lineHeight: '1.8', color: 'var(--ink-2)' }}>
               يجري المختبر مقارنات وتحقّقاً خارجياً (اختبارات الكفاءة)، بالتعاون مع مختبرات معتمدة محلياً ودولياً، بما يعزز موثوقية النتائج ودقة الأداء.
             </p>
@@ -455,10 +459,10 @@ export function QualityPage({ v }: { v: V }) {
             onClick={v.go?.certs}
             style={{
               height: '40px',
-              padding: '7px 28px',
-              borderRadius: '9px',
-              background: '#996C2E',
-              border: '1px solid rgba(255,255,255,.2)',
+              padding: '0 16px',
+              borderRadius: 'var(--r-sm)',
+              background: 'var(--gold)',
+              border: '0',
               color: '#fff',
               fontSize: '16px',
               cursor: 'pointer',

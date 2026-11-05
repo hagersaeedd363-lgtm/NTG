@@ -1,5 +1,8 @@
 > **Branch `zamzam-portal-email-v2`** — a working copy of the email-only version for further
-> enhancements. Build it with `VITE_AUTH=email` (output: `zamzam-portal-email-v2.html` / `.zip`).
+> enhancements. Styled with the **DGA Platforms Code** design system (IBM Plex Sans Arabic type scale,
+> 4/8/16 radius, 40px controls, Digital Stamp + DGA nav header, inline alerts, stepper, dark footer)
+> using the Zamzam colour palette — tokens in `src/styles/base.css` / `portal.css`, components in
+> `src/portal/ui.tsx`, interaction states in `src/styles/pseudo.css`. Build it with `VITE_AUTH=email` (output: `zamzam-portal-email-v2.html` / `.zip`).
 > The Nafath and email versions as approved on 5 Nov 2026 are frozen on branch
 > `zamzam-portal-frozen-2026-11-05` (and on `zamzam-portal`, which is not changed from here).
 

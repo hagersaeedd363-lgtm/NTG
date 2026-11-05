@@ -7,7 +7,7 @@ export function StoryPage({ v }: { v: V }) {
     <>
       {v.isOverview ? (
         <>
-          <section data-screen-label="03 قصة زمزم" style={{ background: 'var(--bg)', padding: '96px 0 64px' }}>
+          <section data-screen-label="03 قصة زمزم" style={{ background: 'var(--bg)', padding: '40px 0 40px' }}>
             <div
               style={{
                 maxWidth: '880px',
@@ -34,9 +34,9 @@ export function StoryPage({ v }: { v: V }) {
           <section style={{ background: 'var(--bg)', padding: '0 0 96px' }}>
             <div
               style={{
-                maxWidth: '1520px',
+                maxWidth: '1440px',
                 margin: '0 auto',
-                padding: '0 clamp(16px,2.5vw,32px)',
+                padding: '0 clamp(16px,5.6vw,80px)',
                 display: 'grid',
                 gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))',
                 gap: '20px',
@@ -50,7 +50,7 @@ export function StoryPage({ v }: { v: V }) {
                       textAlign: 'right',
                       background: 'var(--card)',
                       border: '0',
-                      borderRadius: '24px',
+                      borderRadius: 'var(--r-lg)',
                       boxShadow: 'var(--card-shadow)',
                       padding: '24px 22px',
                       display: 'flex',
@@ -81,7 +81,7 @@ export function StoryPage({ v }: { v: V }) {
             <div
               style={{
                 flex: '1 1 420px',
-                padding: '72px max(clamp(16px,2.5vw,32px),calc(50% - 728px)) 72px clamp(24px,4vw,56px)',
+                padding: '72px max(clamp(16px,5.6vw,80px),calc(50% - 728px)) 72px clamp(24px,4vw,56px)',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'flex-start',
@@ -92,29 +92,31 @@ export function StoryPage({ v }: { v: V }) {
               <span
                 style={{
                   display: 'inline-flex',
-                  padding: '6px 14px',
-                  borderRadius: '36px',
-                  background: 'rgba(130,130,130,.15)',
-                  boxShadow: 'inset 0 0 0 1px var(--ink)',
-                  fontSize: '14px',
-                  fontWeight: '700',
-                  lineHeight: '1.08',
+                  padding: '0 8px',
+                  height: '24px',
+                  alignItems: 'center',
+                  borderRadius: 'var(--r-sm)',
+                  background: 'var(--card-2)',
+                  boxShadow: 'inset 0 0 0 1px var(--line)',
+                  fontSize: '12px',
+                  fontWeight: '500',
+                  lineHeight: '18px',
                   color: 'var(--ink)',
                 }}
               >
                 قصة الرحمة
               </span>
-              <h2 style={{ margin: '0', fontSize: 'clamp(30px,3.4vw,44px)', fontWeight: '700', lineHeight: '1.2', color: 'var(--ink)', maxWidth: '600px' }}>
+              <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)', maxWidth: '600px' }}>
                 تفجّرت حيث لا يُنتظر الماء، استجابةً لدعاءٍ صادق
               </h2>
               <button
                 onClick={v.film?.hagar}
                 style={{
                   height: '40px',
-                  padding: '7px 24px',
-                  borderRadius: '9px',
-                  background: '#996C2E',
-                  border: '1px solid rgba(255,255,255,.2)',
+                  padding: '0 16px',
+                  borderRadius: 'var(--r-sm)',
+                  background: 'var(--gold)',
+                  border: '0',
                   color: '#fff',
                   fontSize: '16px',
                   cursor: 'pointer',
@@ -136,12 +138,12 @@ export function StoryPage({ v }: { v: V }) {
       ) : null}
       {v.isChapter ? (
         <>
-          <section style={{ background: 'var(--bg)', padding: '64px 0 96px' }}>
+          <section style={{ background: 'var(--bg)', padding: '40px 0 40px' }}>
             <div
               style={{
-                maxWidth: '1520px',
+                maxWidth: '1440px',
                 margin: '0 auto',
-                padding: '0 clamp(16px,2.5vw,32px)',
+                padding: '0 clamp(16px,5.6vw,80px)',
                 display: 'flex',
                 flexWrap: 'wrap',
                 gap: '48px',
@@ -155,7 +157,7 @@ export function StoryPage({ v }: { v: V }) {
                     <button
                       onClick={c?.onClick}
                       style={css(
-                        `display:flex;gap:12px;align-items:center;text-align:right;border:0;border-radius:12px;padding:12px 14px;background:${c?.bg ?? ''};box-shadow:${c?.shadow ?? ''};color:${c?.color ?? ''};font-size:17px;cursor:pointer`,
+                        `display:flex;gap:12px;align-items:center;text-align:right;border:0;border-radius:var(--r-md);padding:12px 14px;background:${c?.bg ?? ''};box-shadow:${c?.shadow ?? ''};color:${c?.color ?? ''};font-size:17px;cursor:pointer`,
                       )}
                       className="zp-013"
                     >
@@ -172,7 +174,7 @@ export function StoryPage({ v }: { v: V }) {
                       onClick={v.chapter?.playFilm}
                       aria-label={v.chapter?.filmTitle}
                       style={css(
-                        `position:relative;aspect-ratio:16/7;border:0;padding:0;border-radius:20px;overflow:hidden;background:${v.chapter?.filmBg ?? ''};cursor:pointer`,
+                        `position:relative;aspect-ratio:16/7;border:0;padding:0;border-radius:var(--r-lg);overflow:hidden;background:${v.chapter?.filmBg ?? ''};cursor:pointer`,
                       )}
                     >
                       <span style={{ position: 'absolute', inset: '0', background: 'rgba(0,0,0,.35)' }} />
@@ -210,7 +212,7 @@ export function StoryPage({ v }: { v: V }) {
                           textAlign: 'right',
                         }}
                       >
-                        <span style={{ padding: '3px 10px', borderRadius: '36px', background: 'rgba(0,0,0,.4)', fontSize: '13px' }}>{v.chapter?.filmMeta}</span>
+                        <span style={{ padding: '3px 10px', borderRadius: 'var(--r-sm)', background: 'rgba(0,0,0,.4)', fontSize: '13px' }}>{v.chapter?.filmMeta}</span>
                         <span style={{ fontSize: '17px', fontWeight: '600' }}>{v.chapter?.filmTitle}</span>
                       </span>
                     </button>
@@ -247,7 +249,7 @@ export function StoryPage({ v }: { v: V }) {
                       ) : null}
                       {b?.hasRows ? (
                         <>
-                          <div style={{ borderRadius: '16px', overflow: 'hidden', boxShadow: 'var(--card-shadow)', background: 'var(--card)' }}>
+                          <div style={{ borderRadius: 'var(--r-lg)', overflow: 'hidden', boxShadow: 'var(--card-shadow)', background: 'var(--card)' }}>
                             <div
                               style={{
                                 display: 'grid',
@@ -290,7 +292,7 @@ export function StoryPage({ v }: { v: V }) {
                 <div
                   style={{
                     padding: '20px 24px',
-                    borderRadius: '14px',
+                    borderRadius: 'var(--r-md)',
                     boxShadow: 'inset 0 0 0 1px var(--line)',
                     display: 'flex',
                     flexDirection: 'column',
@@ -311,7 +313,7 @@ export function StoryPage({ v }: { v: V }) {
                           alignItems: 'flex-start',
                           gap: '4px',
                           padding: '14px 20px',
-                          borderRadius: '12px',
+                          borderRadius: 'var(--r-md)',
                           border: '1px solid var(--line)',
                           background: 'transparent',
                           color: 'var(--ink)',
@@ -336,9 +338,9 @@ export function StoryPage({ v }: { v: V }) {
                           alignItems: 'flex-end',
                           gap: '4px',
                           padding: '14px 20px',
-                          borderRadius: '12px',
+                          borderRadius: 'var(--r-md)',
                           border: '0',
-                          background: '#996C2E',
+                          background: 'var(--gold)',
                           color: '#fff',
                           cursor: 'pointer',
                         }}

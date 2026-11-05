@@ -14,7 +14,7 @@ export function HomePage({ v }: { v: V }) {
         data-screen-label="01 الرئيسية"
         style={{
           position: 'relative',
-          minHeight: 'max(680px,100vh)',
+          minHeight: 'max(560px,calc(100vh - 104px))',
           display: 'flex',
           alignItems: 'center',
           background: 'var(--hero-img) 30% 12%/cover no-repeat',
@@ -53,7 +53,7 @@ export function HomePage({ v }: { v: V }) {
             gap: '10px',
             height: '44px',
             padding: '0 8px 0 18px',
-            borderRadius: '36px',
+            borderRadius: 'var(--r-sm)',
             border: '0',
             background: 'rgba(0,0,0,.35)',
             backdropFilter: 'blur(8px)',
@@ -82,12 +82,12 @@ export function HomePage({ v }: { v: V }) {
           </span>
           عالمية زمزم — فيلم دعائي
         </button>
-        <div style={{ position: 'relative', width: '100%', maxWidth: '1520px', margin: '0 auto', padding: '120px clamp(16px,2.5vw,32px) 80px' }}>
+        <div style={{ position: 'relative', width: '100%', maxWidth: '1440px', margin: '0 auto', padding: '64px clamp(16px,5.6vw,80px) 64px' }}>
           <div
             style={{ maxWidth: '500px', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '18px', animation: 'zzfade .8s ease both' }}
           >
             <span style={{ fontSize: '24px', lineHeight: '1.08' }}>من مكة المكرمة</span>
-            <h1 style={{ margin: '0', fontSize: 'clamp(40px,4.6vw,58px)', fontWeight: '600', lineHeight: '1.35', textWrap: 'balance' }}>
+            <h1 style={{ margin: '0', fontSize: 'clamp(36px,4.2vw,60px)', fontWeight: '600', lineHeight: '1.2', textWrap: 'balance' }}>
               زمزم .. من قلب البئر الى قلب الانسان
             </h1>
             <p style={{ margin: '0', fontSize: 'clamp(18px,1.7vw,22px)', lineHeight: '1.55', color: 'rgba(255,255,255,.92)', textWrap: 'pretty' }}>
@@ -100,7 +100,7 @@ export function HomePage({ v }: { v: V }) {
                 style={{
                   height: '40px',
                   padding: '7px 28px',
-                  borderRadius: '9px',
+                  borderRadius: 'var(--r-sm)',
                   background: '#EFEDEA',
                   border: '1px solid rgba(255,255,255,.2)',
                   color: '#0C0D0E',
@@ -125,9 +125,9 @@ export function HomePage({ v }: { v: V }) {
         <div
           style={{
             position: 'relative',
-            maxWidth: '1520px',
+            maxWidth: '1440px',
             margin: '0 auto',
-            padding: '0 clamp(16px,2.5vw,32px)',
+            padding: '0 clamp(16px,5.6vw,80px)',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -138,13 +138,15 @@ export function HomePage({ v }: { v: V }) {
           <span
             style={{
               display: 'inline-flex',
-              padding: '6px 14px',
-              borderRadius: '36px',
-              background: 'rgba(130,130,130,.15)',
-              boxShadow: 'inset 0 0 0 1px var(--ink)',
-              fontSize: '14px',
-              fontWeight: '700',
-              lineHeight: '1.08',
+              padding: '0 8px',
+              height: '24px',
+              alignItems: 'center',
+              borderRadius: 'var(--r-sm)',
+              background: 'var(--card-2)',
+              boxShadow: 'inset 0 0 0 1px var(--line)',
+              fontSize: '12px',
+              fontWeight: '500',
+              lineHeight: '18px',
               color: 'var(--ink)',
             }}
           >
@@ -160,7 +162,7 @@ export function HomePage({ v }: { v: V }) {
               background: "url('assets/logo-lg-gold.svg') center/contain no-repeat",
             }}
           />
-          <h2 style={{ margin: '8px 0 0', fontSize: 'clamp(30px,3.6vw,44px)', fontWeight: '700', lineHeight: '1.2', color: 'var(--ink)' }}>
+          <h2 style={{ margin: '8px 0 0', fontSize: '30px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>
             الجهة الرسمية المعنيّة بماء زمزم
           </h2>
           <div
@@ -188,10 +190,10 @@ export function HomePage({ v }: { v: V }) {
             onClick={v.go?.about}
             style={{
               height: '40px',
-              padding: '7px 32px',
-              borderRadius: '9px',
-              background: '#996C2E',
-              border: '1px solid rgba(255,255,255,.2)',
+              padding: '0 16px',
+              borderRadius: 'var(--r-sm)',
+              background: 'var(--gold)',
+              border: '0',
               color: '#fff',
               fontSize: '16px',
               lineHeight: '24px',
@@ -260,7 +262,7 @@ export function HomePage({ v }: { v: V }) {
         <div
           style={{
             flex: '1 1 440px',
-            padding: '80px max(clamp(16px,2.5vw,32px),calc(50% - 728px)) 80px clamp(24px,4vw,56px)',
+            padding: '80px max(clamp(16px,5.6vw,80px),calc(50% - 728px)) 80px clamp(24px,4vw,56px)',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'flex-start',
@@ -271,19 +273,21 @@ export function HomePage({ v }: { v: V }) {
           <span
             style={{
               display: 'inline-flex',
-              padding: '6px 14px',
-              borderRadius: '36px',
-              background: 'rgba(130,130,130,.15)',
-              boxShadow: 'inset 0 0 0 1px var(--ink)',
-              fontSize: '14px',
-              fontWeight: '700',
-              lineHeight: '1.08',
+              padding: '0 8px',
+              height: '24px',
+              alignItems: 'center',
+              borderRadius: 'var(--r-sm)',
+              background: 'var(--card-2)',
+              boxShadow: 'inset 0 0 0 1px var(--line)',
+              fontSize: '12px',
+              fontWeight: '500',
+              lineHeight: '18px',
               color: 'var(--ink)',
             }}
           >
             قصة زمزم
           </span>
-          <h2 style={{ margin: '0', fontSize: 'clamp(34px,3.8vw,48px)', fontWeight: '700', lineHeight: '1.15', color: 'var(--ink)', maxWidth: '600px' }}>
+          <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)', maxWidth: '600px' }}>
             قصةٌ بدأت قبل أربعة آلاف عام
           </h2>
           <div
@@ -303,10 +307,10 @@ export function HomePage({ v }: { v: V }) {
               onClick={v.go?.story}
               style={{
                 height: '40px',
-                padding: '7px 32px',
-                borderRadius: '9px',
-                background: '#996C2E',
-                border: '1px solid rgba(255,255,255,.2)',
+                padding: '0 16px',
+                borderRadius: 'var(--r-sm)',
+                background: 'var(--gold)',
+                border: '0',
                 color: '#fff',
                 fontSize: '16px',
                 lineHeight: '24px',
@@ -320,10 +324,10 @@ export function HomePage({ v }: { v: V }) {
               onClick={v.film?.hagar}
               style={{
                 height: '40px',
-                padding: '7px 22px',
-                borderRadius: '9px',
+                padding: '0 16px',
+                borderRadius: 'var(--r-sm)',
                 background: 'transparent',
-                border: '1px solid var(--line)',
+                border: '1px solid var(--field-bd)',
                 color: 'var(--ink)',
                 fontSize: '16px',
                 lineHeight: '24px',
@@ -343,35 +347,37 @@ export function HomePage({ v }: { v: V }) {
         </div>
         <div style={{ flex: '1 1 420px', minHeight: '340px', background: 'var(--kaaba-img) center/cover no-repeat', borderRadius: '0 161px 0 0' }} />
       </section>
-      <section data-screen-label="أفلام زمزم" style={{ background: 'var(--bg)', padding: '96px 0' }}>
-        <div style={{ maxWidth: '1520px', margin: '0 auto', padding: '0 clamp(16px,2.5vw,32px)', display: 'flex', flexDirection: 'column', gap: '40px' }}>
+      <section data-screen-label="أفلام زمزم" style={{ background: 'var(--bg)', padding: '40px 0' }}>
+        <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '0 clamp(16px,5.6vw,80px)', display: 'flex', flexDirection: 'column', gap: '40px' }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-end', gap: '16px' }}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '16px' }}>
               <span
                 style={{
                   display: 'inline-flex',
-                  padding: '6px 14px',
-                  borderRadius: '36px',
-                  background: 'rgba(130,130,130,.15)',
-                  boxShadow: 'inset 0 0 0 1px var(--ink)',
-                  fontSize: '14px',
-                  fontWeight: '700',
-                  lineHeight: '1.08',
+                  padding: '0 8px',
+                  height: '24px',
+                  alignItems: 'center',
+                  borderRadius: 'var(--r-sm)',
+                  background: 'var(--card-2)',
+                  boxShadow: 'inset 0 0 0 1px var(--line)',
+                  fontSize: '12px',
+                  fontWeight: '500',
+                  lineHeight: '18px',
                   color: 'var(--ink)',
                 }}
               >
                 المكتبة المرئية
               </span>
-              <h2 style={{ margin: '0', fontSize: 'clamp(32px,3.6vw,46px)', fontWeight: '700', lineHeight: '1.3', color: 'var(--ink)' }}>أفلام زمزم</h2>
+              <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>أفلام زمزم</h2>
             </div>
             <button
               onClick={v.go?.gallery}
               style={{
                 height: '40px',
-                padding: '7px 24px',
-                borderRadius: '9px',
+                padding: '0 16px',
+                borderRadius: 'var(--r-sm)',
                 background: 'transparent',
-                border: '1px solid var(--line)',
+                border: '1px solid var(--field-bd)',
                 color: 'var(--ink)',
                 fontSize: '16px',
                 cursor: 'pointer',
@@ -392,7 +398,7 @@ export function HomePage({ v }: { v: V }) {
                 minHeight: '360px',
                 border: '0',
                 padding: '0',
-                borderRadius: '24px',
+                borderRadius: 'var(--r-lg)',
                 overflow: 'hidden',
                 background: 'var(--kaaba-img) center/cover no-repeat',
                 cursor: 'pointer',
@@ -424,8 +430,8 @@ export function HomePage({ v }: { v: V }) {
               </span>
               <span style={{ position: 'absolute', right: '28px', left: '28px', bottom: '26px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 <span style={{ display: 'flex', gap: '10px', fontSize: '14px' }}>
-                  <span style={{ padding: '4px 12px', borderRadius: '36px', boxShadow: 'inset 0 0 0 1px rgba(255,255,255,.7)' }}>فيلم درامي</span>
-                  <span style={{ padding: '4px 12px', borderRadius: '36px', background: 'rgba(0,0,0,.4)' }}>٣:٣٧</span>
+                  <span style={{ padding: '4px 12px', borderRadius: 'var(--r-sm)', boxShadow: 'inset 0 0 0 1px rgba(255,255,255,.7)' }}>فيلم درامي</span>
+                  <span style={{ padding: '4px 12px', borderRadius: 'var(--r-sm)', background: 'rgba(0,0,0,.4)' }}>٣:٣٧</span>
                 </span>
                 <span style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(22px,2.4vw,30px)', fontWeight: '700', lineHeight: '1.45' }}>
                   السيدة هاجر ونشأة البئر
@@ -442,7 +448,7 @@ export function HomePage({ v }: { v: V }) {
                   minHeight: '168px',
                   border: '0',
                   padding: '0',
-                  borderRadius: '24px',
+                  borderRadius: 'var(--r-lg)',
                   overflow: 'hidden',
                   background: '#000',
                   cursor: 'pointer',
@@ -492,7 +498,7 @@ export function HomePage({ v }: { v: V }) {
                   minHeight: '168px',
                   border: '0',
                   padding: '0',
-                  borderRadius: '24px',
+                  borderRadius: 'var(--r-lg)',
                   overflow: 'hidden',
                   background: 'var(--hero-img) 30% 12%/cover no-repeat',
                   cursor: 'pointer',
@@ -531,7 +537,7 @@ export function HomePage({ v }: { v: V }) {
       </section>
       <section
         data-screen-label="بالأرقام"
-        style={{ position: 'relative', overflow: 'hidden', background: 'var(--bg-deep)', color: '#fff', padding: '96px 0' }}
+        style={{ position: 'relative', overflow: 'hidden', background: 'var(--bg-deep)', color: '#fff', padding: '40px 0' }}
       >
         <div
           style={{
@@ -558,9 +564,9 @@ export function HomePage({ v }: { v: V }) {
         <div
           style={{
             position: 'relative',
-            maxWidth: '1520px',
+            maxWidth: '1440px',
             margin: '0 auto',
-            padding: '0 clamp(16px,2.5vw,32px)',
+            padding: '0 clamp(16px,5.6vw,80px)',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -571,18 +577,20 @@ export function HomePage({ v }: { v: V }) {
           <span
             style={{
               display: 'inline-flex',
-              padding: '6px 14px',
-              borderRadius: '36px',
-              background: 'rgba(130,130,130,.15)',
-              boxShadow: 'inset 0 0 0 1px #fff',
-              fontSize: '14px',
-              fontWeight: '700',
-              lineHeight: '1.08',
+              padding: '0 8px',
+              height: '24px',
+              alignItems: 'center',
+              borderRadius: 'var(--r-sm)',
+              background: 'rgba(255,255,255,.12)',
+              boxShadow: 'inset 0 0 0 1px rgba(255,255,255,.4)',
+              fontSize: '12px',
+              fontWeight: '500',
+              lineHeight: '18px',
             }}
           >
             بالأرقام
           </span>
-          <h2 style={{ margin: '0', fontSize: 'clamp(34px,4vw,55px)', fontWeight: '700', lineHeight: '1.08' }}>أثر يمتد بخدمة ماء زمزم</h2>
+          <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', lineHeight: '38px' }}>أثر يمتد بخدمة ماء زمزم</h2>
           <p style={{ margin: '0', maxWidth: '520px', fontSize: '17px', lineHeight: '1.6', color: 'rgba(255,255,255,.8)' }}>
             نعمل يوميًا على إيصال بركة ماء زمزم عبر منظومة متكاملة تضمن النقاء، وتحفظ الأصالة، وتُيسّر الوصول.
           </p>
@@ -602,7 +610,7 @@ export function HomePage({ v }: { v: V }) {
               marginTop: '48px',
               height: '40px',
               padding: '7px 28px',
-              borderRadius: '9px',
+              borderRadius: 'var(--r-sm)',
               background: 'rgba(255,255,255,.08)',
               border: '1px solid rgba(255,255,255,.2)',
               color: '#fff',
@@ -615,26 +623,28 @@ export function HomePage({ v }: { v: V }) {
           </button>
         </div>
       </section>
-      <section data-screen-label="رحلة ماء زمزم - تمهيد" style={{ background: 'var(--bg)', padding: '96px 0' }}>
-        <div style={{ maxWidth: '1520px', margin: '0 auto', padding: '0 clamp(16px,2.5vw,32px)', display: 'flex', flexDirection: 'column', gap: '48px' }}>
+      <section data-screen-label="رحلة ماء زمزم - تمهيد" style={{ background: 'var(--bg)', padding: '40px 0' }}>
+        <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '0 clamp(16px,5.6vw,80px)', display: 'flex', flexDirection: 'column', gap: '48px' }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-end', gap: '24px' }}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '16px', maxWidth: '620px' }}>
               <span
                 style={{
                   display: 'inline-flex',
-                  padding: '6px 14px',
-                  borderRadius: '36px',
-                  background: 'rgba(130,130,130,.15)',
-                  boxShadow: 'inset 0 0 0 1px var(--ink)',
-                  fontSize: '14px',
-                  fontWeight: '700',
-                  lineHeight: '1.08',
+                  padding: '0 8px',
+                  height: '24px',
+                  alignItems: 'center',
+                  borderRadius: 'var(--r-sm)',
+                  background: 'var(--card-2)',
+                  boxShadow: 'inset 0 0 0 1px var(--line)',
+                  fontSize: '12px',
+                  fontWeight: '500',
+                  lineHeight: '18px',
                   color: 'var(--ink)',
                 }}
               >
                 رحلة ماء زمزم
               </span>
-              <h2 style={{ margin: '0', fontSize: 'clamp(34px,3.8vw,48px)', fontWeight: '700', lineHeight: '1.15', color: 'var(--ink)' }}>من البئر إلى يديك</h2>
+              <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>من البئر إلى يديك</h2>
               <p style={{ margin: '0', fontSize: '18px', lineHeight: '1.7', color: 'var(--ink-2)' }}>
                 لا يصل ماء زمزم إلى ضيف الرحمن صدفةً. بين البئر واليد ستّ محطات، تمرّ فيها كل قطرة تحت رقابةٍ متصلة لا تتوقف على مدار الساعة
               </p>
@@ -643,10 +653,10 @@ export function HomePage({ v }: { v: V }) {
               onClick={v.go?.journey}
               style={{
                 height: '40px',
-                padding: '7px 32px',
-                borderRadius: '9px',
-                background: '#996C2E',
-                border: '1px solid rgba(255,255,255,.2)',
+                padding: '0 16px',
+                borderRadius: 'var(--r-sm)',
+                background: 'var(--gold)',
+                border: '0',
                 color: '#fff',
                 fontSize: '16px',
                 cursor: 'pointer',
@@ -665,7 +675,7 @@ export function HomePage({ v }: { v: V }) {
                     textAlign: 'right',
                     background: 'var(--card)',
                     border: '0',
-                    borderRadius: '24px',
+                    borderRadius: 'var(--r-lg)',
                     boxShadow: 'var(--card-shadow)',
                     padding: '22px',
                     display: 'flex',
@@ -689,25 +699,27 @@ export function HomePage({ v }: { v: V }) {
           </div>
         </div>
       </section>
-      <section data-screen-label="خدماتنا" style={{ background: 'var(--bg-alt)', padding: '96px 0' }}>
-        <div style={{ maxWidth: '1520px', margin: '0 auto', padding: '0 clamp(16px,2.5vw,32px)', display: 'flex', flexDirection: 'column', gap: '44px' }}>
+      <section data-screen-label="خدماتنا" style={{ background: 'var(--bg-alt)', padding: '40px 0' }}>
+        <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '0 clamp(16px,5.6vw,80px)', display: 'flex', flexDirection: 'column', gap: '44px' }}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px', textAlign: 'center' }}>
             <span
               style={{
                 display: 'inline-flex',
-                padding: '6px 14px',
-                borderRadius: '36px',
-                background: 'rgba(130,130,130,.15)',
-                boxShadow: 'inset 0 0 0 1px var(--ink)',
-                fontSize: '14px',
-                fontWeight: '700',
-                lineHeight: '1.08',
+                padding: '0 8px',
+                height: '24px',
+                alignItems: 'center',
+                borderRadius: 'var(--r-sm)',
+                background: 'var(--card-2)',
+                boxShadow: 'inset 0 0 0 1px var(--line)',
+                fontSize: '12px',
+                fontWeight: '500',
+                lineHeight: '18px',
                 color: 'var(--ink)',
               }}
             >
               خدماتنا
             </span>
-            <h2 style={{ margin: '0', fontSize: 'clamp(34px,3.8vw,48px)', fontWeight: '700', lineHeight: '1.15', color: 'var(--ink)' }}>خدمات سقيا زمزم</h2>
+            <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>خدمات سقيا زمزم</h2>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: '20px' }}>
             {list(v.services).map((s: any, $index: number) => (
@@ -718,7 +730,7 @@ export function HomePage({ v }: { v: V }) {
                     textAlign: 'right',
                     background: 'var(--card)',
                     border: '0',
-                    borderRadius: '24px',
+                    borderRadius: 'var(--r-lg)',
                     boxShadow: 'var(--card-shadow)',
                     padding: '22px',
                     display: 'flex',
@@ -747,12 +759,12 @@ export function HomePage({ v }: { v: V }) {
         </div>
       </section>
       <BuyBanner />
-      <section data-screen-label="قنوات توفر أخرى" style={{ background: 'var(--bg)', padding: '72px 0' }}>
+      <section data-screen-label="قنوات توفر أخرى" style={{ background: 'var(--bg)', padding: '40px 0' }}>
         <div
           style={{
-            maxWidth: '1520px',
+            maxWidth: '1440px',
             margin: '0 auto',
-            padding: '0 clamp(16px,2.5vw,32px)',
+            padding: '0 clamp(16px,5.6vw,80px)',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -760,7 +772,7 @@ export function HomePage({ v }: { v: V }) {
             textAlign: 'center',
           }}
         >
-          <h2 style={{ margin: '0', fontSize: '37px', fontWeight: '700', lineHeight: '1.08', color: 'var(--ink)' }}>قنوات توفر أخرى</h2>
+          <h2 style={{ margin: '0', fontSize: '37px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>قنوات توفر أخرى</h2>
           <p style={{ margin: '0', maxWidth: '910px', fontSize: '19px', lineHeight: '1.5', color: 'var(--muted)' }}>
             يتوفر ماء زمزم في صالات المغادرة في مطار الملك عبدالعزيز الدولي أو في نقاط بيع مختارة مثل كارفور ولولو هايبرماركت.
           </p>
@@ -782,10 +794,10 @@ export function HomePage({ v }: { v: V }) {
             style={{
               marginTop: '12px',
               height: '40px',
-              padding: '7px 28px',
-              borderRadius: '9px',
+              padding: '0 16px',
+              borderRadius: 'var(--r-sm)',
               background: 'transparent',
-              border: '1px solid var(--line)',
+              border: '1px solid var(--field-bd)',
               color: 'var(--ink)',
               fontSize: '16px',
               cursor: 'pointer',
@@ -796,12 +808,12 @@ export function HomePage({ v }: { v: V }) {
           </button>
         </div>
       </section>
-      <section data-screen-label="التحقق من المنتج الأصلي - تمهيد" style={{ background: 'var(--bg-alt)', padding: '80px 0' }}>
+      <section data-screen-label="التحقق من المنتج الأصلي - تمهيد" style={{ background: 'var(--bg-alt)', padding: '40px 0' }}>
         <div
           style={{
-            maxWidth: '1520px',
+            maxWidth: '1440px',
             margin: '0 auto',
-            padding: '0 clamp(16px,2.5vw,32px)',
+            padding: '0 clamp(16px,5.6vw,80px)',
             display: 'flex',
             flexWrap: 'wrap',
             gap: '32px',
@@ -813,19 +825,21 @@ export function HomePage({ v }: { v: V }) {
             <span
               style={{
                 display: 'inline-flex',
-                padding: '6px 14px',
-                borderRadius: '36px',
-                background: 'rgba(130,130,130,.15)',
-                boxShadow: 'inset 0 0 0 1px var(--ink)',
-                fontSize: '14px',
-                fontWeight: '700',
-                lineHeight: '1.08',
+                padding: '0 8px',
+                height: '24px',
+                alignItems: 'center',
+                borderRadius: 'var(--r-sm)',
+                background: 'var(--card-2)',
+                boxShadow: 'inset 0 0 0 1px var(--line)',
+                fontSize: '12px',
+                fontWeight: '500',
+                lineHeight: '18px',
                 color: 'var(--ink)',
               }}
             >
               التحقق من المنتج الأصلي
             </span>
-            <h2 style={{ margin: '0', fontSize: 'clamp(30px,3.4vw,44px)', fontWeight: '700', lineHeight: '1.2', color: 'var(--ink)' }}>
+            <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>
               تأكّد أنك تشرب ماء زمزم الأصلي
             </h2>
             <p style={{ margin: '0', maxWidth: '640px', fontSize: '18px', lineHeight: '1.7', color: 'var(--ink-2)' }}>
@@ -837,10 +851,10 @@ export function HomePage({ v }: { v: V }) {
               onClick={v.go?.verify}
               style={{
                 height: '40px',
-                padding: '7px 28px',
-                borderRadius: '9px',
-                background: '#996C2E',
-                border: '1px solid rgba(255,255,255,.2)',
+                padding: '0 16px',
+                borderRadius: 'var(--r-sm)',
+                background: 'var(--gold)',
+                border: '0',
                 color: '#fff',
                 fontSize: '16px',
                 cursor: 'pointer',
@@ -853,10 +867,10 @@ export function HomePage({ v }: { v: V }) {
               onClick={v.go?.verifyReport}
               style={{
                 height: '40px',
-                padding: '7px 24px',
-                borderRadius: '9px',
+                padding: '0 16px',
+                borderRadius: 'var(--r-sm)',
                 background: 'transparent',
-                border: '1px solid var(--line)',
+                border: '1px solid var(--field-bd)',
                 color: 'var(--ink)',
                 fontSize: '16px',
                 cursor: 'pointer',
@@ -868,35 +882,37 @@ export function HomePage({ v }: { v: V }) {
           </div>
         </div>
       </section>
-      <section data-screen-label="آخر الأخبار" style={{ background: 'var(--bg)', padding: '96px 0' }}>
-        <div style={{ maxWidth: '1520px', margin: '0 auto', padding: '0 clamp(16px,2.5vw,32px)', display: 'flex', flexDirection: 'column', gap: '40px' }}>
+      <section data-screen-label="آخر الأخبار" style={{ background: 'var(--bg)', padding: '40px 0' }}>
+        <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '0 clamp(16px,5.6vw,80px)', display: 'flex', flexDirection: 'column', gap: '40px' }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-end', gap: '16px' }}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '16px' }}>
               <span
                 style={{
                   display: 'inline-flex',
-                  padding: '6px 14px',
-                  borderRadius: '36px',
-                  background: 'rgba(130,130,130,.15)',
-                  boxShadow: 'inset 0 0 0 1px var(--ink)',
-                  fontSize: '14px',
-                  fontWeight: '700',
-                  lineHeight: '1.08',
+                  padding: '0 8px',
+                  height: '24px',
+                  alignItems: 'center',
+                  borderRadius: 'var(--r-sm)',
+                  background: 'var(--card-2)',
+                  boxShadow: 'inset 0 0 0 1px var(--line)',
+                  fontSize: '12px',
+                  fontWeight: '500',
+                  lineHeight: '18px',
                   color: 'var(--ink)',
                 }}
               >
                 المركز الإعلامي
               </span>
-              <h2 style={{ margin: '0', fontSize: 'clamp(34px,3.8vw,48px)', fontWeight: '700', lineHeight: '1.15', color: 'var(--ink)' }}>آخر الأخبار</h2>
+              <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>آخر الأخبار</h2>
             </div>
             <button
               onClick={v.go?.news}
               style={{
                 height: '40px',
-                padding: '7px 24px',
-                borderRadius: '9px',
+                padding: '0 16px',
+                borderRadius: 'var(--r-sm)',
                 background: 'transparent',
-                border: '1px solid var(--line)',
+                border: '1px solid var(--field-bd)',
                 color: 'var(--ink)',
                 fontSize: '16px',
                 cursor: 'pointer',
@@ -915,7 +931,7 @@ export function HomePage({ v }: { v: V }) {
                     textAlign: 'right',
                     background: 'var(--card)',
                     border: '0',
-                    borderRadius: '24px',
+                    borderRadius: 'var(--r-lg)',
                     boxShadow: 'var(--card-shadow)',
                     padding: '0',
                     overflow: 'hidden',
@@ -934,7 +950,7 @@ export function HomePage({ v }: { v: V }) {
                         top: '14px',
                         right: '14px',
                         padding: '5px 12px',
-                        borderRadius: '36px',
+                        borderRadius: 'var(--r-sm)',
                         background: 'rgba(12,13,14,.62)',
                         backdropFilter: 'blur(6px)',
                         color: '#fff',
@@ -979,25 +995,27 @@ export function HomePage({ v }: { v: V }) {
           </div>
         </div>
       </section>
-      <section data-screen-label="الشركاء والجهات ذات العلاقة" style={{ background: 'var(--bg-alt)', padding: '88px 0' }}>
-        <div style={{ maxWidth: '1520px', margin: '0 auto', padding: '0 clamp(16px,2.5vw,32px)', display: 'flex', flexDirection: 'column', gap: '40px' }}>
+      <section data-screen-label="الشركاء والجهات ذات العلاقة" style={{ background: 'var(--bg-alt)', padding: '40px 0' }}>
+        <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '0 clamp(16px,5.6vw,80px)', display: 'flex', flexDirection: 'column', gap: '40px' }}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px', textAlign: 'center' }}>
             <span
               style={{
                 display: 'inline-flex',
-                padding: '6px 14px',
-                borderRadius: '36px',
-                background: 'rgba(130,130,130,.15)',
-                boxShadow: 'inset 0 0 0 1px var(--ink)',
-                fontSize: '14px',
-                fontWeight: '700',
-                lineHeight: '1.08',
+                padding: '0 8px',
+                height: '24px',
+                alignItems: 'center',
+                borderRadius: 'var(--r-sm)',
+                background: 'var(--card-2)',
+                boxShadow: 'inset 0 0 0 1px var(--line)',
+                fontSize: '12px',
+                fontWeight: '500',
+                lineHeight: '18px',
                 color: 'var(--ink)',
               }}
             >
               منظومة وطنية
             </span>
-            <h2 style={{ margin: '0', fontSize: 'clamp(30px,3.4vw,44px)', fontWeight: '700', lineHeight: '1.2', color: 'var(--ink)' }}>
+            <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>
               الشركاء والجهات ذات العلاقة
             </h2>
           </div>
@@ -1009,7 +1027,7 @@ export function HomePage({ v }: { v: V }) {
                   aria-label={s?.name}
                   style={{
                     border: '0',
-                    borderRadius: '18px',
+                    borderRadius: 'var(--r-lg)',
                     background: 'var(--card)',
                     boxShadow: 'var(--card-shadow)',
                     padding: '20px 16px 16px',
@@ -1056,25 +1074,27 @@ export function HomePage({ v }: { v: V }) {
           </div>
         </div>
       </section>
-      <section data-screen-label="الأسئلة الشائعة - مختصر" style={{ background: 'var(--bg)', padding: '96px 0' }}>
+      <section data-screen-label="الأسئلة الشائعة - مختصر" style={{ background: 'var(--bg)', padding: '40px 0' }}>
         <div style={{ maxWidth: '880px', margin: '0 auto', padding: '0 24px', display: 'flex', flexDirection: 'column', gap: '36px' }}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px', textAlign: 'center' }}>
             <span
               style={{
                 display: 'inline-flex',
-                padding: '6px 14px',
-                borderRadius: '36px',
-                background: 'rgba(130,130,130,.15)',
-                boxShadow: 'inset 0 0 0 1px var(--ink)',
-                fontSize: '14px',
-                fontWeight: '700',
-                lineHeight: '1.08',
+                padding: '0 8px',
+                height: '24px',
+                alignItems: 'center',
+                borderRadius: 'var(--r-sm)',
+                background: 'var(--card-2)',
+                boxShadow: 'inset 0 0 0 1px var(--line)',
+                fontSize: '12px',
+                fontWeight: '500',
+                lineHeight: '18px',
                 color: 'var(--ink)',
               }}
             >
               الأسئلة الشائعة
             </span>
-            <h2 style={{ margin: '0', fontSize: 'clamp(34px,3.8vw,48px)', fontWeight: '700', lineHeight: '1.15', color: 'var(--ink)' }}>
+            <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>
               إجابات مباشرة لأكثر ما يُسأل عنه
             </h2>
           </div>
@@ -1140,10 +1160,10 @@ export function HomePage({ v }: { v: V }) {
             style={{
               alignSelf: 'center',
               height: '40px',
-              padding: '7px 28px',
-              borderRadius: '9px',
-              background: '#996C2E',
-              border: '1px solid rgba(255,255,255,.2)',
+              padding: '0 16px',
+              borderRadius: 'var(--r-sm)',
+              background: 'var(--gold)',
+              border: '0',
               color: '#fff',
               fontSize: '16px',
               cursor: 'pointer',

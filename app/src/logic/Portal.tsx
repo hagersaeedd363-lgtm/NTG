@@ -12,7 +12,7 @@ import { PortalView } from '../views/PortalView';
 export class Portal extends Component {
   state = {dataTab:0,page:'home',theme:'light',splash:true,scrolled:false,w:1280,menu:null,mobileNav:false,chapter:-1,museumTab:0,mediaTab:0,newsId:null,newsYear:'الكل',newsCat:'الكل',newsQ:'',faqGroup:-1,faqQ:'',open:{},reportsCat:-1,galleryCat:-1,mapQ:'',located:false,selPoint:0,qty:0,qtyErr:'',orderOpen:false,orderDone:false,stepsOpen:false,video:null,toast:'',errors:{},sent:{}};
 
-  componentDidMount(){const fb=(el)=>{if(el&&el.matches&&el.matches('[data-fillbg]'))el.style.background=String(el.value||'').trim()?'var(--card-2)':'var(--card)';};this._fb=(ev)=>fb(ev.target);document.addEventListener('input',this._fb,true);document.addEventListener('change',this._fb,true);
+  componentDidMount(){const fb=(el)=>{if(el&&el.matches&&el.matches('[data-fillbg]'))el.style.background='var(--card)';};this._fb=(ev)=>fb(ev.target);document.addEventListener('input',this._fb,true);document.addEventListener('change',this._fb,true);
     portal.toast=(msg)=>this.toast(msg);portal.navigate=(p)=>{if(this.state.page!==p)this.go(p);};
     this._unsub=portal.subscribe(()=>this.forceUpdate());
     // Every visit starts on the home page; the visitor chooses where to go from there.

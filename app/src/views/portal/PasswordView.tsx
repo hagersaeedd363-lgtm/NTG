@@ -24,7 +24,7 @@ export function PasswordView({ v }: { v: V }) {
               width: '52px',
               height: '52px',
               padding: '0',
-              borderRadius: '12px',
+              borderRadius: 'var(--r-md)',
               border: '0',
               background: 'var(--card-2)',
               boxShadow: 'inset 0 0 0 1px var(--line)',
@@ -55,18 +55,18 @@ export function PasswordView({ v }: { v: V }) {
             </svg>
           </button>
           <div style={{ display: 'flex', flexDirection: 'column', minWidth: '0' }}>
-            <h1 style={{ margin: '0', fontSize: '24px', fontWeight: '600', lineHeight: '32px', color: 'var(--ink)' }}>{v.ox?.pwTitle}</h1>
+            <h1 style={{ margin: '0', fontSize: '24px', fontWeight: '700', lineHeight: '32px', color: 'var(--ink)' }}>{v.ox?.pwTitle}</h1>
             <p style={{ margin: '0', fontSize: '14px', lineHeight: '24px', color: 'var(--muted)' }}>تحقق من هويتك ثم اختر كلمة مرور جديدة لحسابك.</p>
           </div>
         </div>
-        <section id="pw-card" style={{ background: 'var(--card)', borderRadius: '24px', boxShadow: 'var(--card-shadow)', overflow: 'hidden' }}>
+        <section id="pw-card" style={{ background: 'var(--card)', borderRadius: 'var(--r-lg)', boxShadow: 'var(--card-shadow)', overflow: 'hidden' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '16px 24px', borderBottom: '1px solid var(--line)' }}>
             <span
               style={{
                 width: '40px',
                 height: '40px',
                 flexShrink: '0',
-                borderRadius: '12px',
+                borderRadius: 'var(--r-md)',
                 background: 'var(--card-2)',
                 boxShadow: 'inset 0 0 0 1px var(--line)',
                 color: 'var(--gold-2)',
@@ -90,10 +90,10 @@ export function PasswordView({ v }: { v: V }) {
                 <path d="M8 11V8a4 4 0 0 1 8 0v3" />
               </svg>
             </span>
-            <h2 style={{ margin: '0', fontSize: '16px', fontWeight: '600', lineHeight: '24px', color: 'var(--ink)' }}>الأمان وكلمة المرور</h2>
+            <h2 style={{ margin: '0', fontSize: '16px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>الأمان وكلمة المرور</h2>
             <span
               style={css(
-                `margin-inline-start:auto;display:flex;align-items:center;height:24px;padding:0 10px;border-radius:8px;background:${v.ox?.pwChipBg ?? ''};box-shadow:inset 0 0 0 1px ${v.ox?.pwChipBd ?? ''};color:${v.ox?.pwChipFg ?? ''};font-size:14px;white-space:nowrap`,
+                `margin-inline-start:auto;display:flex;align-items:center;height:24px;padding:0 10px;border-radius:var(--r-sm);background:${v.ox?.pwChipBg ?? ''};box-shadow:inset 0 0 0 1px ${v.ox?.pwChipBd ?? ''};color:${v.ox?.pwChipFg ?? ''};font-size:14px;white-space:nowrap`,
               )}
             >
               {v.ox?.pwChip}
@@ -107,14 +107,14 @@ export function PasswordView({ v }: { v: V }) {
                   <button
                     onClick={v.ox?.openPw}
                     style={{
-                      height: '48px',
-                      padding: '0 24px',
-                      borderRadius: '12px',
-                      border: '1px solid rgba(255,255,255,.2)',
-                      background: '#996C2E',
+                      height: '40px',
+                      padding: '0 16px',
+                      borderRadius: 'var(--r-sm)',
+                      border: '0',
+                      background: 'var(--gold)',
                       color: '#fff',
                       fontSize: '16px',
-                      fontWeight: '600',
+                      fontWeight: '500',
                       cursor: 'pointer',
                       whiteSpace: 'nowrap',
                     }}
@@ -150,7 +150,7 @@ export function PasswordView({ v }: { v: V }) {
                           autoComplete="one-time-code"
                           placeholder="••••"
                           style={css(
-                            `width:100%;height:46px;padding:0 16px;border-radius:12px;border:1px solid var(--line);background:${v.ox?.bgOtp ?? ''};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box;letter-spacing:.5em;text-align:center;border-color:${v.ox?.pwBd ?? ''}`,
+                            `width:100%;height:46px;padding:0 16px;border-radius:var(--r-md);border:1px solid var(--line);background:${v.ox?.bgOtp ?? ''};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box;letter-spacing:.5em;text-align:center;border-color:${v.ox?.pwBd ?? ''}`,
                           )}
                         />
                         {v.ox?.pwErr ? (
@@ -165,15 +165,15 @@ export function PasswordView({ v }: { v: V }) {
                         <button
                           onClick={v.ox?.pwNext1}
                           style={{
-                            padding: '0 32px',
-                            height: '46px',
-                            borderRadius: '12px',
+                            padding: '0 16px',
+                            height: '40px',
+                            borderRadius: 'var(--r-sm)',
                             fontSize: '16px',
-                            fontWeight: '600',
+                            fontWeight: '500',
                             cursor: 'pointer',
                             whiteSpace: 'nowrap',
-                            border: '1px solid rgba(255,255,255,.2)',
-                            background: '#996C2E',
+                            border: '0',
+                            background: 'var(--gold)',
                             color: '#fff',
                           }}
                           className="zp-002"
@@ -185,7 +185,7 @@ export function PasswordView({ v }: { v: V }) {
                           style={{
                             padding: '0 20px',
                             height: '46px',
-                            borderRadius: '12px',
+                            borderRadius: 'var(--r-md)',
                             fontSize: '16px',
                             fontWeight: '600',
                             cursor: 'pointer',
@@ -219,7 +219,7 @@ export function PasswordView({ v }: { v: V }) {
                           autoComplete="current-password"
                           dir="ltr"
                           style={css(
-                            `width:100%;height:46px;padding:0 16px;border-radius:12px;border:1px solid var(--line);background:${v.ox?.bgN0 ?? ''};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box`,
+                            `width:100%;height:46px;padding:0 16px;border-radius:var(--r-md);border:1px solid var(--line);background:${v.ox?.bgN0 ?? ''};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box`,
                           )}
                         />
                       </div>
@@ -239,7 +239,7 @@ export function PasswordView({ v }: { v: V }) {
                             dir="ltr"
                             placeholder="٨ أحرف على الأقل"
                             style={css(
-                              `width:100%;height:46px;padding:0 16px;border-radius:12px;border:1px solid var(--line);background:${v.ox?.bgN1 ?? ''};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box;padding-inline-end:48px`,
+                              `width:100%;height:46px;padding:0 16px;border-radius:var(--r-md);border:1px solid var(--line);background:${v.ox?.bgN1 ?? ''};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box;padding-inline-end:48px`,
                             )}
                           />
                           <button
@@ -254,7 +254,7 @@ export function PasswordView({ v }: { v: V }) {
                               height: '40px',
                               padding: '0',
                               border: '0',
-                              borderRadius: '8px',
+                              borderRadius: 'var(--r-sm)',
                               background: 'transparent',
                               color: 'var(--muted)',
                               cursor: 'pointer',
@@ -293,7 +293,7 @@ export function PasswordView({ v }: { v: V }) {
                           dir="ltr"
                           placeholder="أعد كتابة كلمة المرور"
                           style={css(
-                            `width:100%;height:46px;padding:0 16px;border-radius:12px;border:1px solid var(--line);background:${v.ox?.bgN2 ?? ''};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box`,
+                            `width:100%;height:46px;padding:0 16px;border-radius:var(--r-md);border:1px solid var(--line);background:${v.ox?.bgN2 ?? ''};color:var(--ink);font-size:16px;outline:none;box-sizing:border-box`,
                           )}
                         />
                       </div>
@@ -343,7 +343,7 @@ export function PasswordView({ v }: { v: V }) {
                         style={{
                           padding: '0 24px',
                           height: '48px',
-                          borderRadius: '12px',
+                          borderRadius: 'var(--r-md)',
                           fontSize: '16px',
                           fontWeight: '600',
                           cursor: 'pointer',
@@ -359,15 +359,15 @@ export function PasswordView({ v }: { v: V }) {
                       <button
                         onClick={v.ox?.pwNext2}
                         style={{
-                          padding: '0 32px',
-                          height: '48px',
-                          borderRadius: '12px',
+                          padding: '0 16px',
+                          height: '40px',
+                          borderRadius: 'var(--r-sm)',
                           fontSize: '16px',
-                          fontWeight: '600',
+                          fontWeight: '500',
                           cursor: 'pointer',
                           whiteSpace: 'nowrap',
-                          border: '1px solid rgba(255,255,255,.2)',
-                          background: '#996C2E',
+                          border: '0',
+                          background: 'var(--gold)',
                           color: '#fff',
                         }}
                         className="zp-002"
@@ -419,13 +419,13 @@ export function PasswordView({ v }: { v: V }) {
                       onClick={v.ox?.pwClose}
                       style={{
                         width: '100%',
-                        height: '48px',
-                        borderRadius: '12px',
+                        height: '40px',
+                        borderRadius: 'var(--r-sm)',
                         fontSize: '16px',
-                        fontWeight: '600',
+                        fontWeight: '500',
                         cursor: 'pointer',
-                        border: '1px solid rgba(255,255,255,.2)',
-                        background: '#996C2E',
+                        border: '0',
+                        background: 'var(--gold)',
                         color: '#fff',
                       }}
                       className="zp-002"

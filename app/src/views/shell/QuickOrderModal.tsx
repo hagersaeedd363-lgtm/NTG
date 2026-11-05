@@ -25,7 +25,7 @@ export function QuickOrderModal({ v }: { v: V }) {
             position: 'relative',
             width: '520px',
             maxWidth: '100%',
-            borderRadius: '24px',
+            borderRadius: 'var(--r-lg)',
             background: 'var(--card)',
             boxShadow: 'var(--card-shadow),0 30px 60px rgba(0,0,0,.25)',
             padding: '40px',
@@ -39,7 +39,7 @@ export function QuickOrderModal({ v }: { v: V }) {
           {v.orderPending ? (
             <>
               <span style={{ fontSize: '30px', fontWeight: '700' }}>تأكيد الطلب</span>
-              <div style={{ display: 'flex', flexDirection: 'column', borderRadius: '14px', background: 'var(--card-2)', padding: '6px 18px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', borderRadius: 'var(--r-md)', background: 'var(--card-2)', padding: '6px 18px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', padding: '14px 0', borderBottom: '1px solid var(--line)', fontSize: '17px' }}>
                   <span style={{ color: 'var(--muted)' }}>المنتج</span>
                   <span>كرتون ماء زمزم (24 عبوة * 330 مل)</span>
@@ -59,12 +59,12 @@ export function QuickOrderModal({ v }: { v: V }) {
                   onClick={v.confirmOrder}
                   style={{
                     flex: '1',
-                    height: '52px',
-                    borderRadius: '9px',
+                    height: '40px',
+                    borderRadius: 'var(--r-sm)',
                     border: '0',
-                    background: '#A47C1C',
+                    background: 'var(--gold)',
                     color: '#fff',
-                    fontSize: '17px',
+                    fontSize: '16px',
                     cursor: 'pointer',
                   }}
                   className="zp-011"
@@ -76,7 +76,7 @@ export function QuickOrderModal({ v }: { v: V }) {
                   style={{
                     flex: '1',
                     height: '52px',
-                    borderRadius: '9px',
+                    borderRadius: 'var(--r-sm)',
                     border: '1px solid var(--line)',
                     background: 'transparent',
                     color: 'var(--ink)',
@@ -124,13 +124,13 @@ export function QuickOrderModal({ v }: { v: V }) {
                 <button
                   onClick={v.finishOrder}
                   style={{
-                    height: '48px',
-                    padding: '0 36px',
-                    borderRadius: '9px',
+                    height: '40px',
+                    padding: '0 16px',
+                    borderRadius: 'var(--r-sm)',
                     border: '0',
-                    background: '#996C2E',
+                    background: 'var(--gold)',
                     color: '#fff',
-                    fontSize: '17px',
+                    fontSize: '16px',
                     cursor: 'pointer',
                   }}
                 >

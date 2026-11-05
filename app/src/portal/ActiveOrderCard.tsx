@@ -76,7 +76,7 @@ export function ActiveOrderCard() {
         </span>
         <span style={{ minWidth: 0, fontSize: 15, fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{message(o, a)}</span>
         <span aria-hidden style={{ width: 1, height: 18, flexShrink: 0, background: 'rgba(255,255,255,.3)', margin: '0 4px' }} />
-        <span style={{ flexShrink: 0, display: 'flex', alignItems: 'center', gap: 4, fontSize: 14, fontWeight: 700, color: '#F0D29E' }}>
+        <span style={{ flexShrink: 0, display: 'flex', alignItems: 'center', gap: 4, fontSize: 14, fontWeight: 700, color: '#C4A47A' }}>
           عرض الطلب
           <Icon d={ICON.arrowNext} size={14} sw={2} />
         </span>

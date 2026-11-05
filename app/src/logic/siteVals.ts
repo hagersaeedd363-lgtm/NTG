@@ -21,11 +21,11 @@ export function siteVals(self) {
     go.museumAxes=()=>self.go('museum',{museumTab:1});
     go.museumGroups=()=>self.go('museum',{museumTab:3});
     const active=(id)=>id===P;
-    const mk=(arr)=>arr.map(([id,label])=>({label,onClick:()=>self.go(id),color:active(id)?'#fff':'rgba(255,255,255,.75)',bg:active(id)?'rgba(255,255,255,.08)':'transparent'}));
+    const mk=(arr)=>arr.map(([id,label])=>({label,onClick:()=>self.go(id),active:active(id),color:active(id)?'var(--gold-2)':'var(--ink)',bg:active(id)?'var(--card-2)':'transparent'}));
     const menuItem=(id,label,children)=>{
       const isActive=children?children.some(c=>c[0]===P):P===id;
       return {label,hasMenu:!!children,open:!!children&&S.menu===id,children:children?mk(children):[],
-        color:isActive?'#fff':'rgba(255,255,255,.6)',
+        active:isActive,color:isActive?'var(--gold-2)':'var(--ink)',
         onClick:children?()=>self.setState({menu:S.menu===id?null:id}):()=>self.go(id),
         onEnter:children?()=>self.setState({menu:id}):()=>{},onLeave:children?()=>self.setState({menu:null}):()=>{}};
     };
@@ -96,7 +96,7 @@ export function siteVals(self) {
     const mq=S.mapQ.trim();
     let pts=POINTS.map((p,i)=>({...p,i})).filter(p=>!mq||p.city.includes(mq)||p.name.includes(mq)||p.sub.includes(mq));
     if(S.located) pts=[...pts].sort((a,b)=>parseInt(a.d.replace(/[^\d٠-٩]/g,'').replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)))-parseInt(b.d.replace(/[^\d٠-٩]/g,'').replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d))));
-    const points=pts.map(p=>({...p,showD:S.located,sel:S.selPoint===p.i,bd:S.selPoint===p.i?'var(--gold-3)':'transparent',pin:S.selPoint===p.i?'#D4A843':'var(--ink)',size:S.selPoint===p.i?'18px':'12px',left:p.x+'%',top:p.y+'%',onClick:()=>self.setState({selPoint:p.i})}));
+    const points=pts.map(p=>({...p,showD:S.located,sel:S.selPoint===p.i,bd:S.selPoint===p.i?'var(--gold-3)':'transparent',pin:S.selPoint===p.i?'var(--gold-3)':'var(--ink)',size:S.selPoint===p.i?'18px':'12px',left:p.x+'%',top:p.y+'%',onClick:()=>self.setState({selPoint:p.i})}));
     const noPoints=points.length===0;
 
     const homeStats=[{v:'٢٤ ساعة',l:'ضخٌّ متواصل من البئر عبر مضختين'},{v:'٩٩٫٧٧٪',l:'كفاءة التعقيم بالأشعة فوق البنفسجية'},{v:'+٣٠٬٠٠٠',l:'حافظة لماء زمزم في المسجد الحرام وساحاته'},{v:'١٬٠٧٣',l:'صنبوراً لسقيا ماء زمزم في المسجد الحرام والساحات المحيطة'},{v:'+١١٦ ألف',l:'تحليل مخبري خلال عام واحد'}];
@@ -122,7 +122,7 @@ export function siteVals(self) {
       initials:acct?(()=>{const w=acct.identity.fullName.trim().split(/\s+/).map(x=>x.replace(/^ال(?=..)/,''));return w.length>1?w[0][0]+' '+w[w.length-1][0]:w[0][0];})():'',
       acctSub:acct?(acct.type==='company'&&acct.company?acct.company.name:acct.identity.email):'',
       photoBg:PS.photo?'url('+PS.photo+') center/cover':'var(--gold-soft)',
-      chipBg:PS.photo?'url('+PS.photo+') center/cover':'#996C2E',
+      chipBg:PS.photo?'url('+PS.photo+') center/cover':'var(--gold)',
       hasPhoto:!!PS.photo,
       statusLabel:acct?(acct.status==='approved'?'حساب معتمد':acct.status==='pending'?'قيد المراجعة':'مرفوض'):'',
       statusTone:acct?(acct.status==='approved'?'ok':acct.status==='pending'?'info':'bad'):'info',

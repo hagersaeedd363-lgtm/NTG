@@ -3,12 +3,12 @@ import type { V } from '../../types';
 export function PropertiesPage({ v }: { v: V }) {
   return (
     <>
-      <section data-screen-label="07 خصائص ماء زمزم" style={{ background: 'var(--bg)', padding: '96px 0' }}>
+      <section data-screen-label="07 خصائص ماء زمزم" style={{ background: 'var(--bg)', padding: '40px 0' }}>
         <div
           style={{
-            maxWidth: '1520px',
+            maxWidth: '1440px',
             margin: '0 auto',
-            padding: '0 clamp(16px,2.5vw,32px)',
+            padding: '0 clamp(16px,5.6vw,80px)',
             display: 'flex',
             flexWrap: 'wrap',
             gap: '48px',
@@ -29,19 +29,21 @@ export function PropertiesPage({ v }: { v: V }) {
             <span
               style={{
                 display: 'inline-flex',
-                padding: '6px 14px',
-                borderRadius: '36px',
-                background: 'rgba(130,130,130,.15)',
-                boxShadow: 'inset 0 0 0 1px var(--ink)',
-                fontSize: '14px',
-                fontWeight: '700',
-                lineHeight: '1.08',
+                padding: '0 8px',
+                height: '24px',
+                alignItems: 'center',
+                borderRadius: 'var(--r-sm)',
+                background: 'var(--card-2)',
+                boxShadow: 'inset 0 0 0 1px var(--line)',
+                fontSize: '12px',
+                fontWeight: '500',
+                lineHeight: '18px',
                 color: 'var(--ink)',
               }}
             >
               SASO
             </span>
-            <h2 style={{ margin: '0', fontSize: 'clamp(30px,3.4vw,44px)', fontWeight: '700', lineHeight: '1.2', color: 'var(--ink)' }}>المطابقة للمواصفات</h2>
+            <h2 style={{ margin: '0', fontSize: '30px', fontWeight: '700', lineHeight: '38px', color: 'var(--ink)' }}>المطابقة للمواصفات</h2>
             <p style={{ margin: '0', fontSize: '19px', lineHeight: '1.85', color: 'var(--ink-2)' }}>
               يخضع ماء زمزم للمواصفات القياسية السعودية لمياه الشرب الصادرة عن الهيئة السعودية للمواصفات والمقاييس والجودة (SASO) وتُجرى التحاليل للتحقق من
               المطابقة بشكل دوري.
@@ -49,7 +51,7 @@ export function PropertiesPage({ v }: { v: V }) {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(150px,1fr))', gap: '12px', width: '100%', marginTop: '8px' }}>
               <div
                 style={{
-                  borderRadius: '16px',
+                  borderRadius: 'var(--r-lg)',
                   background: 'var(--card)',
                   boxShadow: 'var(--card-shadow)',
                   padding: '18px',
@@ -63,7 +65,7 @@ export function PropertiesPage({ v }: { v: V }) {
               </div>
               <div
                 style={{
-                  borderRadius: '16px',
+                  borderRadius: 'var(--r-lg)',
                   background: 'var(--card)',
                   boxShadow: 'var(--card-shadow)',
                   padding: '18px',
@@ -77,7 +79,7 @@ export function PropertiesPage({ v }: { v: V }) {
               </div>
               <div
                 style={{
-                  borderRadius: '16px',
+                  borderRadius: 'var(--r-lg)',
                   background: 'var(--card)',
                   boxShadow: 'var(--card-shadow)',
                   padding: '18px',
@@ -95,10 +97,10 @@ export function PropertiesPage({ v }: { v: V }) {
               style={{
                 marginTop: '8px',
                 height: '40px',
-                padding: '7px 24px',
-                borderRadius: '9px',
+                padding: '0 16px',
+                borderRadius: 'var(--r-sm)',
                 background: 'transparent',
-                border: '1px solid var(--line)',
+                border: '1px solid var(--field-bd)',
                 color: 'var(--ink)',
                 fontSize: '16px',
                 cursor: 'pointer',
