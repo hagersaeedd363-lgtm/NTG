@@ -74,7 +74,7 @@ export class Ctx {
     await this.landedHomeThenAccount();
   }
   async landedHomeThenAccount() {
-    await this.see('قلب البئر');
+    await this.see('من البئر إليك');
     await this.p.locator('.zz-header-account').click();
     await this.tick();
     await this.click('حسابي', { role: 'menuitem', exact: true });
