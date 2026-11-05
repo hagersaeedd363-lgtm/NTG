@@ -14,6 +14,7 @@
     {{YEAR}}             e.g. 2026
     {{BANNER_URL}}       absolute https URL of images/banner-f-sand.png (pattern + logo)
     {{FOOTER_BAND_URL}}  absolute https URL of images/banner-h-band.png (pattern band)
+    {{WEBSITE_URL}} {{CONTACT_URL}} {{FAQ_URL}}  footer links (site home, contact page, FAQ page)
   Images must be hosted at public https URLs — email clients block relative paths, SVG and data: images.
   Table layout + inline styles so it renders the same in Outlook, Gmail and Apple Mail.
 -->
@@ -74,8 +75,12 @@
       <img src="{{FOOTER_BAND_URL}}" width="600" alt="" style="display:block;width:100%;max-width:600px;height:auto;border:0;">
     </td></tr>
     <tr><td align="center" style="padding:0 40px 24px;background:#3A3022;" class="px">
-      <div style="font-size:12px;line-height:18px;color:#FFFFFF;">هذه رسالة آلية، يرجى عدم الرد عليها.</div>
-      <div style="margin-top:8px;font-size:12px;line-height:18px;font-weight:600;color:#FFFFFF;">جميع الحقوق محفوظة © {{YEAR}} — مشروع خادم الحرمين الشريفين لسقيا زمزم</div>
+      <div style="font-size:14px;line-height:20px;font-weight:500;">
+        <a href="{{WEBSITE_URL}}" style="color:#D9BF94;text-decoration:underline;">الموقع الإلكتروني</a><span style="color:rgba(255,255,255,.4);padding:0 8px;">·</span><a href="{{CONTACT_URL}}" style="color:#D9BF94;text-decoration:underline;">تواصل معنا</a><span style="color:rgba(255,255,255,.4);padding:0 8px;">·</span><a href="{{FAQ_URL}}" style="color:#D9BF94;text-decoration:underline;">الأسئلة الشائعة</a>
+      </div>
+      <div style="margin-top:16px;font-size:12px;line-height:18px;color:#FFFFFF;">هذه رسالة آلية، يُرجى عدم الرد عليها.</div>
+      <div dir="ltr" style="font-size:12px;line-height:18px;color:#FFFFFF;">This is an automated message, please do not reply.</div>
+      <div style="margin-top:8px;font-size:12px;line-height:18px;color:#FFFFFF;">© {{YEAR}} زمزم. جميع الحقوق محفوظة.</div>
     </td></tr>
 
   </table>
