@@ -92,27 +92,32 @@ function Content() {
   );
 }
 
-function Lineup({ h = 320 }: { h?: number }) {
+/** Product scene: warm sand gradient + glow, a soft arch, a podium; the premium bottle in three (centre tallest) in front of the carton and the 5 L. */
+function Scene({ rounded }: { rounded?: boolean }) {
+  const shadow = 'drop-shadow(0 16px 14px rgba(58,48,34,.30))';
+  const img = (src: string, st: React.CSSProperties) => <img src={src} alt="" style={{ position: 'absolute', objectFit: 'contain', filter: shadow, ...st }} />;
   return (
-    <>
-      {LINEUP.map((p, i) => (
-        <img
-          key={p.id}
-          src={p.img}
-          alt=""
-          style={{
-            width: i === 1 ? '34%' : '26%',
-            maxHeight: i === 1 ? h : h * 0.81,
-            objectFit: 'contain',
-            objectPosition: 'bottom',
-            marginInline: '-2%',
-            position: 'relative',
-            zIndex: i === 1 ? 2 : 1,
-            filter: 'drop-shadow(0 10px 10px rgba(58,48,34,.35))',
-          }}
-        />
-      ))}
-    </>
+    <div
+      aria-hidden="true"
+      style={{
+        position: 'relative',
+        width: '100%',
+        height: '100%',
+        minHeight: 380,
+        overflow: 'hidden',
+        borderRadius: rounded ? 'var(--r-lg)' : 0,
+        background: 'radial-gradient(ellipse 65% 50% at 50% 80%,rgba(212,176,120,.55) 0%,rgba(212,176,120,0) 70%),linear-gradient(170deg,#FBF8F3 0%,#F3EADD 45%,#E6D3B5 100%)',
+      }}
+    >
+      <span style={{ position: 'absolute', left: '50%', bottom: 58, width: '60%', height: '78%', transform: 'translateX(-50%)', borderRadius: '999px 999px 0 0', background: 'linear-gradient(180deg,rgba(255,255,255,.65) 0%,rgba(255,255,255,.15) 100%)', boxShadow: 'inset 0 0 0 1px rgba(146,109,57,.22)' }} />
+      <span style={{ position: 'absolute', left: '50%', bottom: 58, width: '48%', height: '66%', transform: 'translateX(-50%)', borderRadius: '999px 999px 0 0', boxShadow: 'inset 0 0 0 1px rgba(146,109,57,.14)' }} />
+      <span style={{ position: 'absolute', left: '50%', bottom: 26, width: '84%', height: 64, transform: 'translateX(-50%)', borderRadius: '50%', background: 'linear-gradient(180deg,#FFFFFF 0%,#EADBC2 100%)', boxShadow: '0 20px 36px rgba(107,86,57,.25), inset 0 -3px 0 rgba(146,109,57,.18)' }} />
+      {img('assets/zz-pack.png', { left: '13%', bottom: 70, height: '36%', zIndex: 1 })}
+      {img('assets/zz-5l.png', { right: '15%', bottom: 70, height: '46%', zIndex: 1 })}
+      {img('assets/zz-bottle.png', { left: '33%', bottom: 50, height: '46%', zIndex: 2 })}
+      {img('assets/zz-bottle.png', { right: '33%', bottom: 50, height: '46%', zIndex: 2 })}
+      {img('assets/zz-bottle.png', { left: '50%', bottom: 40, height: '60%', transform: 'translateX(-50%)', zIndex: 3 })}
+    </div>
   );
 }
 
@@ -148,20 +153,8 @@ export function BuyBanner() {
           >
             <Content />
           </div>
-          <div
-            aria-hidden="true"
-            style={{
-              flex: '1 1 520px',
-              minHeight: 411,
-              background: "url('assets/da38.jpg') center 58%/cover no-repeat",
-              display: 'flex',
-              alignItems: 'flex-end',
-              justifyContent: 'center',
-              padding: '40px 48px 28px',
-              boxSizing: 'border-box',
-            }}
-          >
-            <Lineup h={250} />
+          <div style={{ flex: '1 1 520px', minHeight: 491, display: 'flex' }}>
+            <Scene />
           </div>
         </section>
       </div>
@@ -181,23 +174,8 @@ export function BuyBanner() {
           }}
         >
           <Content />
-          <div
-            aria-hidden="true"
-            style={{
-              flex: '1 1 420px',
-              maxWidth: 560,
-              height: 380,
-              borderRadius: 'var(--r-lg)',
-              background: "url('assets/da38.jpg') center 58%/cover no-repeat",
-              display: 'flex',
-              alignItems: 'flex-end',
-              justifyContent: 'center',
-              padding: '32px 24px 24px',
-              boxSizing: 'border-box',
-              overflow: 'hidden',
-            }}
-          >
-            <Lineup h={220} />
+          <div style={{ flex: '1 1 420px', maxWidth: 560, height: 400, display: 'flex' }}>
+            <Scene rounded />
           </div>
         </div>
       </Section>
