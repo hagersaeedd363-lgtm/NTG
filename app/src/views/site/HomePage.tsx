@@ -15,6 +15,8 @@ import {
   ShoppingCart01Icon,
   TestTube01Icon,
   ArrowLeft01Icon,
+  AlertCircleIcon,
+  Store01Icon,
   ArrowRight01Icon,
   Location01Icon,
 } from '@hugeicons/core-free-icons';
@@ -209,27 +211,19 @@ export function HomePage({ v }: { v: V }) {
       <BuyBanner v={v} />
 
       {/* Story: DS section header + actions, with the DS Quote component (no free-form image block) */}
+      {/* Story — DS section header (title + secondary action, description) above the DS Quote */}
       <Section band label="قصة زمزم - تمهيد">
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(min(100%,480px),1fr))', alignItems: 'center', gap: 32 }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
-            <SectionHeader
-              title="قصةٌ بدأت قبل أربعة آلاف عام"
-              desc={
-                <>
-                  {P('حين تُرك إسماعيل عليه السلام رضيعاً مع أمه هاجر في وادٍ غير ذي زرع، وسعت بين الصفا والمروة سبعاً بحثاً عن الماء، تفجّرت زمزم. ومنذ ذلك اليوم لم تنقطع.')}
-                  {P('طُمرت واندثر أثرها قروناً، ثم أُعيد حفرها. عظّمها العرب قبل الإسلام، وشرب منها النبي ﷺ، وحملها الصحابة إلى الآفاق، وتعاقب على خدمتها الخلفاء والملوك.')}
-                </>
-              }
-            />
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
-              <DsButton primary onClick={v.go?.story}>
-                تعرّف أكثر
-              </DsButton>
-              <DsButton onClick={v.film?.hagar}>شاهد الفيلم (٣:٣٧)</DsButton>
-            </div>
-          </div>
-          <Quote>قال النبي ﷺ: «خيرُ ماءٍ على وجه الأرض ماءُ زمزم، فيه طعامُ الطُّعم، وشفاءُ السُّقم».</Quote>
-        </div>
+        <SectionHeader
+          title="قصةٌ بدأت قبل أربعة آلاف عام"
+          action={<DsButton onClick={v.go?.story}>تعرّف أكثر</DsButton>}
+          desc={
+            <>
+              {P('حين تُرك إسماعيل عليه السلام رضيعاً مع أمه هاجر في وادٍ غير ذي زرع، وسعت بين الصفا والمروة سبعاً بحثاً عن الماء، تفجّرت زمزم. ومنذ ذلك اليوم لم تنقطع.')}
+              {P('طُمرت واندثر أثرها قروناً، ثم أُعيد حفرها. عظّمها العرب قبل الإسلام، وشرب منها النبي ﷺ، وحملها الصحابة إلى الآفاق، وتعاقب على خدمتها الخلفاء والملوك.')}
+            </>
+          }
+        />
+        <Quote>قال النبي ﷺ: «خيرُ ماءٍ على وجه الأرض ماءُ زمزم، فيه طعامُ الطُّعم، وشفاءُ السُّقم».</Quote>
       </Section>
 
       {/* Films — DGA Service Page "video" pattern: horizontal tab list (one tab per film) above a video frame with a play icon */}
@@ -394,16 +388,30 @@ export function HomePage({ v }: { v: V }) {
         </div>
       </Section>
 
+      {/* Verify — DS section header + three DS cards (featured icon, title, text, one action) */}
       <Section band label="التحقق من المنتج الأصلي - تمهيد">
         <SectionHeader
           title="تأكّد أنك تشرب ماء زمزم الأصلي"
+          action={<DsButton onClick={v.go?.verify}>عرض الكل</DsButton>}
           desc={P('ماء زمزم لا يُعبَّأ إلا في منشآت المشروع، ولا يُوزَّع إلا عبر قنوات معتمدة. أي عبوة تحمل اسم زمزم خارج هذه القنوات لا نضمن مصدرها ولا محتواها.')}
         />
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
-          <DsButton primary onClick={v.go?.verify}>
-            كيف تتحقق
-          </DsButton>
-          <DsButton onClick={v.go?.verifyReport}>بلّغ عن منتج مشتبه به</DsButton>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(min(100%,320px),1fr))', gap: 16 }}>
+          {[
+            { hi: SecurityCheckIcon, t: 'تحقّق من العبوة', d: 'تعرّف على علامات العبوة الأصلية وطرق التحقق منها قبل الشراء.', cta: 'كيف تتحقق', on: v.go?.verify },
+            { hi: Store01Icon, t: 'اشترِ من القنوات المعتمدة', d: 'تطبيق نسك، وصالات المغادرة في المطار، ونقاط البيع المعتمدة.', cta: 'أقرب نقطة بيع', on: v.go?.buyMap },
+            { hi: AlertCircleIcon, t: 'بلّغ عن منتج مشتبه به', d: 'ساعدنا في حماية ضيوف الرحمن بالإبلاغ عن أي عبوة مشكوك فيها.', cta: 'بلّغ الآن', on: v.go?.verifyReport },
+          ].map((c) => (
+            <div key={c.t} style={dsCard}>
+              <FeaturedIcon hi={c.hi} />
+              <span style={{ display: 'flex', flexDirection: 'column', gap: 8, color: 'var(--ink)' }}>
+                <span style={{ fontSize: 18, lineHeight: '28px', fontWeight: 700 }}>{c.t}</span>
+                <span style={{ fontSize: 16, lineHeight: '24px', height: 48, ...clamp(2) }}>{c.d}</span>
+              </span>
+              <div style={{ display: 'flex', marginTop: 'auto' }}>
+                <DsButton primary onClick={c.on}>{c.cta}</DsButton>
+              </div>
+            </div>
+          ))}
         </div>
       </Section>
 
