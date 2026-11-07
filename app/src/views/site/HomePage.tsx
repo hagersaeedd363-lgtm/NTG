@@ -246,7 +246,7 @@ export function HomePage({ v }: { v: V }) {
       <BuyBanner />
 
       {/* News (reference home): three DGA cards — image 250, title cut to one line (full title on hover), text, «قراءة المزيد» */}
-      <Section label="آخر الأخبار">
+      <Section band label="آخر الأخبار">
         <SectionHeader title="الأخبار" action={<DsButton onClick={v.go?.news}>عرض الكل</DsButton>} desc={P('مستجدّات المشروع ومبادراته وإنجازاته')} />
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(300px,1fr))', gap: 16 }}>
           {list(v.latestNews)
@@ -269,7 +269,7 @@ export function HomePage({ v }: { v: V }) {
       </Section>
 
       {/* Journey — DS tabs (icon + station) above a media card: station tag, title, text, detail, prev/next controls */}
-      <Section band label="رحلة ماء زمزم - تمهيد">
+      <Section label="رحلة ماء زمزم - تمهيد">
         <SectionHeader
           title="من البئر إلى يديك"
           action={<DsButton onClick={v.go?.journey}>عرض الكل</DsButton>}
@@ -313,7 +313,7 @@ export function HomePage({ v }: { v: V }) {
       </Section>
 
       {/* Story (reference home): header with the film's text as description, then the film as a DGA card (7 of 12) beside the six chapters as the DGA Accordion (one open at a time) */}
-      <Section label="قصة زمزم - تمهيد">
+      <Section band label="قصة زمزم - تمهيد">
         <SectionHeader
           title="قصة زمزم"
           action={<DsButton onClick={v.go?.story}>عرض الكل</DsButton>}
@@ -353,7 +353,7 @@ export function HomePage({ v }: { v: V }) {
       </Section>
 
       {/* Films — DGA Service Page "video" pattern: horizontal tab list (one tab per film) above a video frame with a play icon */}
-      <Section band label="أفلام زمزم">
+      <Section label="أفلام زمزم">
         <SectionHeader title="أفلام زمزم" action={<DsButton onClick={v.go?.gallery}>عرض الكل</DsButton>} desc={P('أفلام قصيرة تروي قصة زمزم ورحلة مائه المبارك من البئر إلى العالم.')} />
         {filmStyle === 'playlist' ? (
           /* Option B — featured player + playlist (DS media list: thumbnail, title, meta; selected item highlighted) */
@@ -422,7 +422,7 @@ export function HomePage({ v }: { v: V }) {
       </Section>
 
       {/* DS Partner Section: title, then image-only logo cards (98×100, logo area 66×68) between the arrow buttons */}
-      <Section label="الشركاء والجهات ذات العلاقة">
+      <Section band label="الشركاء والجهات ذات العلاقة">
         <SectionHeader title="الشركاء والجهات ذات العلاقة" desc={P('منظومة وطنية')} />
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 20 }}>
           <DsIconButton d={CHEV_RIGHT} label="السابق" onClick={() => scrollPartners(1)} />
@@ -448,7 +448,7 @@ export function HomePage({ v }: { v: V }) {
       </Section>
 
       {/* Verify — DS section header + three DS cards (featured icon, title, text, one action) */}
-      <Section band label="التحقق من المنتج الأصلي - تمهيد">
+      <Section label="التحقق من المنتج الأصلي - تمهيد">
         <SectionHeader
           title="تأكّد أنك تشرب ماء زمزم الأصلي"
           action={<DsButton onClick={v.go?.verify}>عرض الكل</DsButton>}
@@ -475,7 +475,7 @@ export function HomePage({ v }: { v: V }) {
       </Section>
 
       {/* FAQ (reference home): header + DGA Accordion, first question open */}
-      <Section label="الأسئلة الشائعة - مختصر">
+      <Section band label="الأسئلة الشائعة - مختصر">
         <SectionHeader title="نجيب عن تساؤلاتك" action={<DsButton onClick={v.go?.faq}>عرض الكل</DsButton>} desc={P('إجابات واضحة لأكثر الأسئلة تداولًا حول خدمة ماء زمزم، لضمان تجربة سلسة ومعلومات دقيقة قبل تقديم الطلب.')} />
         <AccordionList>
           {HOME_FAQ.map(([q, a], k) => (

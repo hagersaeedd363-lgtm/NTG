@@ -106,12 +106,12 @@ function Scene({ rounded }: { rounded?: boolean }) {
         minHeight: 380,
         overflow: 'hidden',
         borderRadius: rounded ? 'var(--r-lg)' : 0,
-        background: 'radial-gradient(ellipse 65% 50% at 50% 80%,rgba(212,176,120,.55) 0%,rgba(212,176,120,0) 70%),linear-gradient(170deg,#FBF8F3 0%,#F3EADD 45%,#E6D3B5 100%)',
+        background: 'radial-gradient(ellipse 65% 50% at 50% 80%,rgba(180,145,100,.28) 0%,rgba(180,145,100,0) 70%),linear-gradient(170deg,var(--bg-alt) 0%,#EFE6DA 100%)',
       }}
     >
       <span style={{ position: 'absolute', left: '50%', bottom: 58, width: '60%', height: '78%', transform: 'translateX(-50%)', borderRadius: '999px 999px 0 0', background: 'linear-gradient(180deg,rgba(255,255,255,.65) 0%,rgba(255,255,255,.15) 100%)', boxShadow: 'inset 0 0 0 1px rgba(146,109,57,.22)' }} />
       <span style={{ position: 'absolute', left: '50%', bottom: 58, width: '48%', height: '66%', transform: 'translateX(-50%)', borderRadius: '999px 999px 0 0', boxShadow: 'inset 0 0 0 1px rgba(146,109,57,.14)' }} />
-      <span style={{ position: 'absolute', left: '50%', bottom: 26, width: '84%', height: 64, transform: 'translateX(-50%)', borderRadius: '50%', background: 'linear-gradient(180deg,#FFFFFF 0%,#EADBC2 100%)', boxShadow: '0 20px 36px rgba(107,86,57,.25), inset 0 -3px 0 rgba(146,109,57,.18)' }} />
+      <span style={{ position: 'absolute', left: '50%', bottom: 26, width: '84%', height: 64, transform: 'translateX(-50%)', borderRadius: '50%', background: 'linear-gradient(180deg,#FFFFFF 0%,#EFE6DA 100%)', boxShadow: '0 20px 36px rgba(107,86,57,.25), inset 0 -3px 0 rgba(146,109,57,.18)' }} />
       {img('assets/zz-pack.png', { left: '13%', bottom: 70, height: '36%', zIndex: 1 })}
       {img('assets/zz-5l.png', { right: '15%', bottom: 70, height: '46%', zIndex: 1 })}
       {img('assets/zz-bottle.png', { left: '33%', bottom: 50, height: '46%', zIndex: 2 })}
@@ -162,8 +162,8 @@ export function BuyBanner() {
 
   return (
     <div id="buy-pack">
-      {/* Warm sand band of its own: sets the section apart from «خدماتنا» (light neutral band) above and «الأخبار» (white) below */}
-      <section data-screen-label="اقتن عبوة زمزم" style={{ background: 'linear-gradient(180deg,#F6EEE3 0%,#EEE0CB 100%)', padding: '40px 0' }}>
+      {/* White section between the «خدماتنا» and «الأخبار» bands (the home page alternates white and the light sand band) */}
+      <section data-screen-label="اقتن عبوة زمزم" style={{ background: 'var(--bg)', padding: '40px 0' }}>
         <div
           style={{
             ...wrap,
