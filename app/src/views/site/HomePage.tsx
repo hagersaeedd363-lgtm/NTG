@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import {
   Book02Icon,
   Building03Icon,
@@ -98,8 +98,12 @@ function HeroCarousel({ v, extra }: { v: V; extra?: ReactNode }) {
       data-screen-label="01 الرئيسية"
       aria-roledescription="carousel"
       aria-label="القسم الرئيسي"
-      style={{ position: 'relative', background: s.bg, padding: '40px 0', display: 'flex', flexDirection: 'column', gap: 32, boxSizing: 'border-box', minHeight: 560, transition: 'background .4s' }}
+      style={{ position: 'relative', overflow: 'hidden', background: '#2A2217', padding: '40px 0', display: 'flex', flexDirection: 'column', gap: 32, boxSizing: 'border-box', minHeight: 560 }}
     >
+      {/* Slide photos stacked; the current one fades in */}
+      {slides.map((x, k) => (
+        <div key={k} aria-hidden="true" style={{ position: 'absolute', inset: 0, background: x.bg, opacity: k === i ? 1 : 0, transition: 'opacity .6s ease' }} />
+      ))}
       <div aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'rgba(42,34,23,.8)' }} />
       <div style={{ ...wrap, position: 'relative', flex: 1, display: 'flex', flexWrap: 'wrap', alignItems: 'flex-end', justifyContent: 'space-between', gap: 32 }}>
         <div style={{ flex: '1 1 480px', maxWidth: 624, display: 'flex', flexDirection: 'column', gap: 32 }}>
@@ -137,7 +141,19 @@ function HeroCarousel({ v, extra }: { v: V; extra?: ReactNode }) {
           </span>
         </button>
       </div>
-      <div style={{ position: 'relative', height: 20, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div
+        role="group"
+        aria-label="شرائح القسم الرئيسي"
+        onKeyDown={(e) => {
+          const d = e.key === 'ArrowLeft' ? 1 : e.key === 'ArrowRight' ? -1 : 0; /* RTL: left = next */
+          if (!d) return;
+          e.preventDefault();
+          const n = (i + d + slides.length) % slides.length;
+          setI(n);
+          (e.currentTarget.querySelectorAll('button')[n] as HTMLButtonElement | undefined)?.focus();
+        }}
+        style={{ position: 'relative', height: 20, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+      >
         <CarouselDots count={slides.length} index={i} onPick={setI} onColor compact />
       </div>
     </section>
@@ -162,7 +178,7 @@ const HOME_FAQ = [
   ['كيف أتحقق أن العبوة أصلية؟', 'اشترِ من القنوات المعتمدة فقط، وتحقّق من مطابقة العبوة والغطاء والملصق للشكل المعتمد، ومن وجود اسم الجهة ورقم التشغيلة وتاريخ الإنتاج والانتهاء. التفاصيل في صفحة «التحقق من المنتج الأصلي».'],
 ];
 const STAT_LABELS = ['ساعة ضخٌّ متواصل من البئر عبر مضختين', 'كفاءة التعقيم بالأشعة فوق البنفسجية', 'حافظة لماء زمزم في المسجد الحرام وساحاته', 'صنبوراً لسقيا ماء زمزم في المسجد الحرام والساحات المحيطة', 'تحليل مخبري خلال عام واحد'];
-const STAT_VALUES = ['٢٤', '٩٩٫٧٧٪', '+٣٠٬٠٠٠', '١٬٠٧٣', '+١١٦٬٠٠٠'];
+const STAT_VALUES = ['24', '99.77%', '+30,000', '1,073', '+116,000'];
 
 export function HomePage({ v }: { v: V }) {
   const hasActive = activeOrders(usePortal()).length > 0;
@@ -171,6 +187,47 @@ export function HomePage({ v }: { v: V }) {
   const [film, setFilm] = useState(0);
   const [stn, setStn] = useState(0);
   const [chap, setChap] = useState(0);
+  /* Journey scroll story (reference home): on desktop, when the tabs + card fit the screen, they stay pinned while the page
+     scrolls JSTEP px per station, so scrolling moves through the stations; a tab or arrow click scrolls to that station. */
+  const JSTEP = 220;
+  const jPin = useRef<HTMLDivElement>(null);
+  const jBox = useRef<HTMLDivElement>(null);
+  const [jLayout, setJLayout] = useState<{ pinned: boolean; top?: number; h?: number }>({ pinned: false });
+  const N = list(v.stationCards).length || 6;
+  useEffect(() => {
+    let tick = false;
+    const layout = () => {
+      const box = jBox.current;
+      if (!box) return;
+      const bh = box.offsetHeight;
+      const pinned = matchMedia('(min-width: 961px)').matches && innerHeight >= bh + 140;
+      const top = Math.min(200, Math.max(96, Math.round((innerHeight - bh) / 2) + 32));
+      setJLayout(pinned ? { pinned, top, h: bh + N * JSTEP } : { pinned: false });
+    };
+    const onScroll = () => {
+      if (tick) return;
+      tick = true;
+      requestAnimationFrame(() => {
+        tick = false;
+        const pin = jPin.current, box = jBox.current;
+        if (!pin || !box || box.style.position !== 'sticky') return;
+        const p = (parseFloat(box.style.top) - pin.getBoundingClientRect().top) / JSTEP;
+        setStn(Math.max(0, Math.min(N - 1, Math.floor(p))));
+      });
+    };
+    layout();
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', layout);
+    return () => { removeEventListener('scroll', onScroll); removeEventListener('resize', layout); };
+  }, [N]);
+  const jPick = (k: number) => {
+    k = Math.max(0, Math.min(N - 1, k));
+    setStn(k);
+    const pin = jPin.current;
+    if (!jLayout.pinned || !pin || jLayout.top === undefined) return;
+    const y = scrollY + pin.getBoundingClientRect().top - jLayout.top + k * JSTEP + (k ? JSTEP / 3 : 0);
+    scrollTo({ top: y, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  };
   const [faq, setFaq] = useState(0);
   const filmStyle = typeof location !== 'undefined' ? new URLSearchParams(location.search).get('films') : null;
   const stations = list(v.stationCards);
@@ -219,7 +276,7 @@ export function HomePage({ v }: { v: V }) {
           {SERVICE_EXTRA.map((x, i) => {
             const s = { t: x.t, d: x.d, onClick: x.go };
             return (
-              <div key={i} style={dsCard}>
+              <div key={i} className="dga-card-link" style={dsCard}>
                 <FeaturedIcon hi={x.hi} />
                 <span style={{ display: 'flex', flexDirection: 'column', gap: 8, color: 'var(--ink)' }}>
                   <span style={{ fontSize: 18, lineHeight: '28px', fontWeight: 700, ...clamp(1) }}>{s?.t}</span>
@@ -252,7 +309,7 @@ export function HomePage({ v }: { v: V }) {
           {list(v.latestNews)
             .slice(0, 3)
             .map((n: any, k: number) => (
-              <div key={k} style={dsCard}>
+              <div key={k} className="dga-card-link" style={dsCard}>
                 <span role="img" aria-label="" style={css(`display:block;width:100%;height:250px;border-radius:var(--r-md);background:${n?.img ?? ''}`)} />
                 <span style={{ display: 'flex', flexDirection: 'column', gap: 8, color: 'var(--ink)' }}>
                   <span style={{ fontSize: 18, lineHeight: '28px', fontWeight: 700, ...clamp(1) }} title={n?.title}>{n?.title}</span>
@@ -275,8 +332,9 @@ export function HomePage({ v }: { v: V }) {
           action={<DsButton onClick={v.go?.journey}>عرض الكل</DsButton>}
           desc={P('لا يصل ماء زمزم إلى ضيف الرحمن صدفةً. بين البئر واليد ستّ محطات، تمرّ فيها كل قطرة تحت رقابةٍ متصلة لا تتوقف على مدار الساعة')}
         />
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 40 }}>
-          <Tabs label="محطات رحلة ماء زمزم" items={stations.map((s: any, k: number) => ({ label: (<><Hi icon={STATION_ICONS[k]} size={20} />{s?.title}</>), selected: k === stn, onClick: () => setStn(k) }))} />
+        <div ref={jPin} style={{ height: jLayout.pinned ? jLayout.h : undefined }}>
+        <div ref={jBox} style={{ display: 'flex', flexDirection: 'column', gap: 40, position: jLayout.pinned ? 'sticky' : undefined, top: jLayout.top }}>
+          <Tabs label="محطات رحلة ماء زمزم" items={stations.map((s: any, k: number) => ({ label: (<><Hi icon={STATION_ICONS[k]} size={20} />{s?.title}</>), selected: k === stn, onClick: () => jPick(k) }))} />
           {(() => {
             const s: any = stations[stn] || {};
             const ps: string[] = s.ps || [];
@@ -285,7 +343,7 @@ export function HomePage({ v }: { v: V }) {
               const to = stn + dir;
               const off = to < 0 || to >= stations.length;
               return (
-                <button type="button" aria-label={label} disabled={off} onClick={() => setStn(to)} className="dga-btn dga-btn-neutral" style={{ width: 48, height: 48, borderRadius: 'var(--r-sm)', border: '1px solid var(--line)', background: 'var(--card)', color: off ? 'var(--line)' : 'var(--ink)', cursor: off ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <button type="button" aria-label={label} disabled={off} onClick={() => jPick(to)} className="dga-btn dga-btn-neutral" style={{ width: 48, height: 48, borderRadius: 'var(--r-sm)', border: '1px solid var(--line)', background: 'var(--card)', color: off ? 'var(--line)' : 'var(--ink)', cursor: off ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <Hi icon={icon} size={20} />
                 </button>
               );
@@ -309,6 +367,7 @@ export function HomePage({ v }: { v: V }) {
               </div>
             );
           })()}
+        </div>
         </div>
       </Section>
 
@@ -337,7 +396,7 @@ export function HomePage({ v }: { v: V }) {
                 first={k === 0}
                 q={`الفصل ${(k + 1).toLocaleString('ar-EG')}: ${t}`}
                 open={chap === k}
-                onClick={() => setChap(chap === k ? -1 : k)}
+                onClick={() => setChap(k)}
                 a={
                   <span style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 8 }}>
                     <span>{lead}</span>

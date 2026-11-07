@@ -178,7 +178,7 @@ export function Metric({ icon, hi, value, label, bordered }: { icon?: string; hi
     <div style={{ ...dsCard, border: bordered ? '1px solid var(--line)' : 0, alignItems: 'center', textAlign: 'center', padding: bordered ? 24 : 16 }}>
       <FeaturedIcon d={icon} hi={hi} size={56} />
       <span style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center' }}>
-        <span style={{ fontSize: 48, lineHeight: '60px', fontWeight: 400, color: 'var(--gold)', whiteSpace: 'nowrap' }}>{typeof value === 'string' ? <CountUp value={value} /> : value}</span>
+        <span dir={typeof value === 'string' && /[0-9]/.test(value) ? 'ltr' : undefined} style={{ fontSize: 48, lineHeight: '60px', fontWeight: 400, color: 'var(--gold)', whiteSpace: 'nowrap' }}>{typeof value === 'string' ? <CountUp value={value} /> : value}</span>
         <span style={{ fontSize: 16, lineHeight: '24px', minHeight: 48, color: 'var(--ink)', textWrap: 'balance' }}>{label}</span>
       </span>
     </div>
@@ -188,16 +188,18 @@ export function Metric({ icon, hi, value, label, bordered }: { icon?: string; hi
 /** Animates the number inside an Arabic figure (e.g. «+٣٠٬٠٠٠», «٩٩٫٧٧٪», «٢٤ ساعة») from 0 the first time it is seen. */
 const AR_DIGITS = '٠١٢٣٤٥٦٧٨٩';
 export function CountUp({ value, ms = 1400 }: { value: string; ms?: number }) {
-  const m = value.match(/[٠-٩][٠-٩٬٫]*/);
+  const m = value.match(/[٠-٩][٠-٩٬٫]*|[0-9][0-9,.]*/);
   const ref = useRef<HTMLSpanElement>(null);
   const [shown, setShown] = useState(value);
   useEffect(() => {
     if (!m || typeof IntersectionObserver === 'undefined') return;
     if (typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const raw = m[0];
-    const dec = raw.includes('٫') ? raw.split('٫')[1].length : 0;
-    const target = Number(raw.replace(/٬/g, '').replace('٫', '.').replace(/[٠-٩]/g, (d) => String(AR_DIGITS.indexOf(d))));
-    const fmt = (n: number) => n.toLocaleString('ar-EG', { minimumFractionDigits: dec, maximumFractionDigits: dec, useGrouping: raw.includes('٬') });
+    const western = /[0-9]/.test(raw);
+    const [grp, dot] = western ? [',', '.'] : ['٬', '٫'];
+    const dec = raw.includes(dot) ? raw.split(dot)[1].length : 0;
+    const target = Number(raw.split(grp).join('').replace(dot, '.').replace(/[٠-٩]/g, (d) => String(AR_DIGITS.indexOf(d))));
+    const fmt = (n: number) => n.toLocaleString(western ? 'en-US' : 'ar-EG', { minimumFractionDigits: dec, maximumFractionDigits: dec, useGrouping: raw.includes(grp) });
     const el = ref.current;
     if (!el) return;
     setShown(value.replace(raw, fmt(0)));
