@@ -208,7 +208,7 @@ export function HomePage({ v }: { v: V }) {
         </div>
       </Section>
 
-      <BuyBanner v={v} />
+      <BuyBanner />
 
       {/* Story: DS section header + actions, with the DS Quote component (no free-form image block) */}
       {/* Story — DS section header (title + secondary action, description) above the DS Quote */}
