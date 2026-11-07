@@ -62,67 +62,80 @@ const STATION_MEDIA = [
 ];
 const clamp = (lines: number) => ({ display: '-webkit-box', WebkitLineClamp: lines, WebkitBoxOrient: 'vertical' as const, overflow: 'hidden' });
 
-/** DS Hero Section as a carousel: full-bleed photo + dark brand overlay, Display xl title, Text xl copy, ONE on-colour primary action per slide, carousel dots. */
+/**
+ * Hero (reference home): DGA Hero Section with a photo background + 80% overlay, 624px text block (title → 24 → text → 32 → one
+ * on-colour action), three slides switched by the Carousel Controls only (no auto-rotation, WCAG 2.2.2), and a horizontal video
+ * card (thumbnail + play + title) that opens the journey film.
+ */
 function HeroCarousel({ v, extra }: { v: V; extra?: ReactNode }) {
   const slides = [
     {
       bg: 'var(--hero-img) 30% 30%/cover no-repeat',
-      title: 'زمزم .. من البئر إليك',
-      text: 'من بئرٍ لم ينقطع ماؤها منذ آلاف السنين في جوف المسجد الحرام، إلى يد كل قاصدٍ لبيت الله، بمعايير تليق بمكانته.',
-      cta: 'اقتنِ ماء زمزم',
+      title: 'زمزم .. من قلب البئر إلى قلب الإنسان',
+      text: 'من بئرٍ في جوف المسجد الحرام، لم ينقطع ماؤها منذ آلاف السنين، إلى يد كل قاصدٍ لبيت الله.',
+      cta: 'اقتن زمزم',
       onClick: v.go?.buy,
     },
     {
-      bg: "url('assets/news-clock-tower.jpg') center 35%/cover no-repeat",
-      title: 'زمزم .. من مكة للعالم',
-      text: 'فيلمٌ يروي رحلة السقيا التي تحمل ماء زمزم من البئر المباركة إلى ضيوف الرحمن القادمين من شتى أنحاء العالم.',
-      cta: 'شاهد الفيلم',
-      onClick: v.film?.global,
+      bg: "url('assets/da38.jpg') 50% 78%/cover no-repeat",
+      title: 'قصةٌ بدأت قبل أربعة آلاف عام',
+      text: 'حين تُرك إسماعيل عليه السلام رضيعاً مع أمه هاجر في وادٍ غير ذي زرع، وسعت بين الصفا والمروة سبعاً بحثاً عن الماء، تفجّرت زمزم. ومنذ ذلك اليوم لم تنقطع.',
+      cta: 'قصة زمزم',
+      onClick: v.go?.story,
     },
     {
       bg: 'var(--kaaba-img) center 40%/cover no-repeat',
-      title: 'زمزم .. الأصلي المعتمد',
-      text: 'لا يُعبَّأ ماء زمزم إلا في منشآت المشروع ولا يُوزَّع إلا عبر قنوات معتمدة. تعرّف على علامات العبوة الأصلية وطرق التحقق منها.',
-      cta: 'كيف تتحقق',
-      onClick: v.go?.verify,
+      title: 'اقتنِ ماء زمزم من القنوات الرسمية',
+      text: 'ماء زمزم متاح عبر قنوات رسمية معتمدة، مع شحن موثوق داخل المملكة وخارجها. اختر ما يناسبك.',
+      cta: 'اقتنِ ماء زمزم',
+      onClick: v.go?.buy,
     },
   ];
   const [i, setI] = useState(0);
-  const [paused, setPaused] = useState(false);
-  useEffect(() => {
-    if (paused || (typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
-    const t = setInterval(() => setI((n) => (n + 1) % slides.length), 7000);
-    return () => clearInterval(t);
-  }, [paused, slides.length]);
   const s = slides[i];
   return (
     <section
       data-screen-label="01 الرئيسية"
       aria-roledescription="carousel"
-      aria-label="أبرز المحتوى"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onFocus={() => setPaused(true)}
-      onBlur={() => setPaused(false)}
-      style={{ position: 'relative', background: s.bg, padding: '40px 0', display: 'flex', flexDirection: 'column', gap: 32, boxSizing: 'border-box', minHeight: 491, transition: 'background .4s' }}
+      aria-label="القسم الرئيسي"
+      style={{ position: 'relative', background: s.bg, padding: '40px 0', display: 'flex', flexDirection: 'column', gap: 32, boxSizing: 'border-box', minHeight: 560, transition: 'background .4s' }}
     >
       <div aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'rgba(42,34,23,.8)' }} />
-      {/* DS Hero (Figma 24341:267352): 491px; content bottom-anchored 32px above the carousel; title 1 line (60/72), description 2 lines (20/30), one button */}
-      <div style={{ ...wrap, position: 'relative', flex: 1, minHeight: 359, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', gap: 32 }}>
-        <div key={i} aria-roledescription="slide" aria-label={`${i + 1} من ${slides.length}`} style={{ maxWidth: 624, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 32, animation: 'zzfade .35s ease both' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 24, color: '#FFFFFF' }}>
-            {i === 0 ? (
-              <h1 style={{ margin: 0, fontSize: 'clamp(36px,4.2vw,60px)', lineHeight: 1.2, fontWeight: 600, letterSpacing: '-1.2px', whiteSpace: 'nowrap' }}>{s.title}</h1>
-            ) : (
-              <h2 style={{ margin: 0, fontSize: 'clamp(36px,4.2vw,60px)', lineHeight: 1.2, fontWeight: 600, letterSpacing: '-1.2px', whiteSpace: 'nowrap' }}>{s.title}</h2>
-            )}
-            <p style={{ margin: 0, fontSize: 20, lineHeight: '30px', ...clamp(2) }}>{s.text}</p>
+      <div style={{ ...wrap, position: 'relative', flex: 1, display: 'flex', flexWrap: 'wrap', alignItems: 'flex-end', justifyContent: 'space-between', gap: 32 }}>
+        <div style={{ flex: '1 1 480px', maxWidth: 624, display: 'flex', flexDirection: 'column', gap: 32 }}>
+          <div key={i} aria-roledescription="slide" aria-label={`${i + 1} / ${slides.length}`} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 32, animation: 'zzfade .35s ease both' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 24, color: '#FFFFFF' }}>
+              {i === 0 ? (
+                <h1 style={{ margin: 0, fontSize: 'clamp(36px,4.2vw,60px)', lineHeight: 1.2, fontWeight: 700, letterSpacing: '-1.2px' }}>{s.title}</h1>
+              ) : (
+                <h2 style={{ margin: 0, fontSize: 'clamp(36px,4.2vw,60px)', lineHeight: 1.2, fontWeight: 700, letterSpacing: '-1.2px' }}>{s.title}</h2>
+              )}
+              <p style={{ margin: 0, fontSize: 20, lineHeight: '30px' }}>{s.text}</p>
+            </div>
+            <DsButton onColor="primary" onClick={s.onClick}>
+              {s.cta}
+            </DsButton>
           </div>
-          <DsButton onColor="primary" onClick={s.onClick}>
-            {s.cta}
-          </DsButton>
+          {extra ? <div style={{ width: '100%' }}>{extra}</div> : null}
         </div>
-        {extra ? <div style={{ width: '100%', maxWidth: 624 }}>{extra}</div> : null}
+        {/* Video card (DGA Card, horizontal): thumbnail + play badge + title */}
+        <button
+          type="button"
+          onClick={v.openVideo}
+          aria-haspopup="dialog"
+          className="dga-card-link"
+          style={{ display: 'flex', alignItems: 'center', gap: 12, padding: 8, paddingInlineEnd: 20, border: '1px solid rgba(255,255,255,.24)', borderRadius: 'var(--r-lg)', background: 'rgba(255,255,255,.12)', backdropFilter: 'blur(6px)', color: '#FFFFFF', cursor: 'pointer', fontFamily: 'inherit', textAlign: 'start' }}
+        >
+          <span style={{ position: 'relative', width: 112, height: 72, borderRadius: 'var(--r-md)', background: "url('assets/da38.jpg') center 40%/cover no-repeat", display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <span style={{ width: 32, height: 32, borderRadius: 9999, background: '#FFFFFF', color: 'var(--gold)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Hi icon={PlayIcon} size={16} />
+            </span>
+          </span>
+          <span style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <b style={{ fontSize: 16, lineHeight: '24px' }}>فيديو رحلة ماء زمزم</b>
+            <span style={{ fontSize: 14, lineHeight: '20px', opacity: 0.85 }}>من البئر إلى يديك</span>
+          </span>
+        </button>
       </div>
       <div style={{ position: 'relative', height: 20, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <CarouselDots count={slides.length} index={i} onPick={setI} onColor compact />
@@ -131,21 +144,43 @@ function HeroCarousel({ v, extra }: { v: V; extra?: ReactNode }) {
   );
 }
 
+/** Story chapters (reference home): title + one-line lead; the open chapter links to the chapter. */
+const SAGA = [
+  ['نشأة البئر', 'قصة هاجر وإسماعيل عليهما السلام، وتفجّر الماء، وبناء البيت'],
+  ['البئر: الموقع والوصف', 'أين تقع، وما حدودها، ومن أين تُغذّى، وكيف تبدو من الداخل'],
+  ['زمزم قبل الإسلام', 'جرهم، وردم البئر، وإعادة حفرها على يد عبدالمطلب'],
+  ['زمزم في الإسلام', 'مكانة الماء، وما ورد فيه، وموضعه في سيرة النبي ﷺ'],
+  ['تاريخ سقاية الحجاج', 'من عبد المطلب إلى العباس، في العصر الإسلامي، فما قبل العهد السعودي'],
+  ['زمزم في العهد السعودي', 'الزمازمة وسقاية الحجاج، ثم نقلة الصنابير ومحطة التنقية ومشروع الملك عبدالله لسقيا زمزم'],
+];
+/** FAQ (reference home). */
+const HOME_FAQ = [
+  ['ما هو ماء زمزم؟', 'ماء زمزم ماءٌ مبارك ينبع من بئر زمزم داخل المسجد الحرام بمكة المكرمة، وقد تفجّر بأمر الله عند موضع قدمي إسماعيل عليه السلام قبل نحو أربعة آلاف عام، ولم ينقطع منذ ذلك الحين.'],
+  ['هل تُضاف مواد كيميائية إلى ماء زمزم؟', 'لا. يُعقَّم ماء زمزم بالأشعة فوق البنفسجية، وهي تقنية لا تتطلب إضافة أي مواد كيميائية، ولا تُغيّر لون الماء أو طعمه أو رائحته.'],
+  ['كيف يُعقَّم ماء زمزم؟', 'تمرّ المياه عبر مرشّحات تحجز الشوائب والرمال، ثم عبر مواسير غير قابلة للصدأ حتى تصل لخزانات مغلقة، ثم تُسلَّط عليها الأشعة فوق البنفسجية التي تدمّر الحمض النووي للجراثيم والفيروسات بكفاءة تصل إلى ٩٩٫٧٧٪.'],
+  ['من أين أشتري ماء زمزم؟', 'عبر القنوات الرسمية المعتمدة الموضّحة في صفحة «اقتنِ ماء زمزم». نوصي بعدم الشراء من أي قناة غير مدرجة في القائمة.'],
+  ['كيف أتحقق أن العبوة أصلية؟', 'اشترِ من القنوات المعتمدة فقط، وتحقّق من مطابقة العبوة والغطاء والملصق للشكل المعتمد، ومن وجود اسم الجهة ورقم التشغيلة وتاريخ الإنتاج والانتهاء. التفاصيل في صفحة «التحقق من المنتج الأصلي».'],
+];
+const STAT_LABELS = ['ساعة ضخٌّ متواصل من البئر عبر مضختين', 'كفاءة التعقيم بالأشعة فوق البنفسجية', 'حافظة لماء زمزم في المسجد الحرام وساحاته', 'صنبوراً لسقيا ماء زمزم في المسجد الحرام والساحات المحيطة', 'تحليل مخبري خلال عام واحد'];
+const STAT_VALUES = ['٢٤', '٩٩٫٧٧٪', '+٣٠٬٠٠٠', '١٬٠٧٣', '+١١٦٬٠٠٠'];
+
 export function HomePage({ v }: { v: V }) {
   const hasActive = activeOrders(usePortal()).length > 0;
   const scrollPartners = (dir: number) => document.getElementById('partners-row')?.scrollBy({ left: dir * 236, behavior: 'smooth' });
   const P = (t: ReactNode) => <p style={{ margin: 0 }}>{t}</p>;
   const [film, setFilm] = useState(0);
   const [stn, setStn] = useState(0);
+  const [chap, setChap] = useState(0);
+  const [faq, setFaq] = useState(0);
   const filmStyle = typeof location !== 'undefined' ? new URLSearchParams(location.search).get('films') : null;
   const stations = list(v.stationCards);
 
   // Services: the site's four services + tags (DS card: icon, title, text, tags, one primary action — the same «استكشف» on every card).
   const SERVICE_EXTRA = [
-    { hi: Mosque01Icon, tags: ['المسجد الحرام', 'المسجد النبوي'] },
-    { hi: ShoppingCart01Icon, tags: ['للأفراد', 'تطبيق نسك'] },
-    { hi: Building03Icon, tags: ['حكومية', 'خاصة وغير ربحية'] },
-    { hi: Book02Icon, tags: ['تاريخ', 'معرفة'] },
+    { hi: Mosque01Icon, t: 'السقيا في الحرمين الشريفين', d: 'تعبئة وتوزيع ماء زمزم على قاصدي الحرمين الشريفين عبر الحافظات والصنابير والعربات', tags: ['المسجد الحرام', 'المسجد النبوي'], go: v.go?.journey },
+    { hi: ShoppingCart01Icon, t: 'اقتناء ماء زمزم للأفراد', d: 'إتاحة عبوات ماء زمزم للأفراد عبر القنوات الرسمية المعتمدة', tags: ['الأفراد', 'القنوات الرسمية'], go: v.go?.buy },
+    { hi: Building03Icon, t: 'طلبات الجهات', d: 'استقبال طلبات الجهات الحكومية والخاصة وغير الربحية عبر منصة الطلبات الإلكترونية', tags: ['الجهات', 'طلب إلكتروني'], go: v.go?.buy },
+    { hi: Book02Icon, t: 'المحتوى والمعرفة', d: 'مرجع رقمي موثّق عن ماء زمزم تاريخاً وعلماً، متاحٌ للباحثين والإعلاميين والجمهور', tags: ['الباحثون', 'الإعلاميون'], go: v.go?.story },
   ] as const;
 
   const FILMS = [
@@ -162,7 +197,7 @@ export function HomePage({ v }: { v: V }) {
       <Section label="من نحن">
         <SectionHeader
           title="الجهة الرسمية المعنيّة بماء زمزم"
-          action={<DsButton onClick={v.go?.about}>تعرّف أكثر</DsButton>}
+          action={<DsButton onClick={v.go?.about}>عرض الكل</DsButton>}
           desc={
             <>
               {P('مشروع خادم الحرمين الشريفين الملك عبدالله بن عبدالعزيز لسقيا زمزم هو الجهة المسؤولة عن سحب ماء زمزم المبارك من البئر، ومعالجته وتعبئته وتوزيعه على ضيوف الرحمن داخل الحرمين الشريفين وخارجهما.')}
@@ -171,28 +206,28 @@ export function HomePage({ v }: { v: V }) {
           }
         />
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(min(100%,200px),1fr))', gap: 16 }}>
-          {list(v.homeStats).map((s: any, i: number) => (
-            <Metric key={i} hi={STAT_ICONS[i % STAT_ICONS.length]} value={s?.v} label={s?.l} />
+          {STAT_VALUES.map((val, i) => (
+            <Metric key={i} hi={STAT_ICONS[i % STAT_ICONS.length]} value={val} label={STAT_LABELS[i]} />
           ))}
         </div>
       </Section>
 
       {/* DS Services Section: band, header, cards (icon, title, text, tags, primary + secondary actions) */}
       <Section band label="خدماتنا">
-        <SectionHeader title="خدمات سقيا زمزم" desc={P('خدمات المشروع لضيوف الرحمن والأفراد والجهات، من السقيا في الحرمين الشريفين إلى المعرفة الموثّقة عن ماء زمزم.')} />
+        <SectionHeader title="خدماتنا" desc={P('خدمات السقيا والاقتناء وطلبات الجهات والمحتوى المعرفي عن ماء زمزم')} />
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 16 }}>
-          {list(v.services).map((s: any, i: number) => {
-            const x = SERVICE_EXTRA[i % SERVICE_EXTRA.length];
+          {SERVICE_EXTRA.map((x, i) => {
+            const s = { t: x.t, d: x.d, onClick: x.go };
             return (
               <div key={i} style={dsCard}>
                 <FeaturedIcon hi={x.hi} />
                 <span style={{ display: 'flex', flexDirection: 'column', gap: 8, color: 'var(--ink)' }}>
                   <span style={{ fontSize: 18, lineHeight: '28px', fontWeight: 700, ...clamp(1) }}>{s?.t}</span>
-                  <span style={{ fontSize: 16, lineHeight: '24px', height: 48, ...clamp(2) }}>{s?.d}</span>
+                  <span style={{ fontSize: 16, lineHeight: '24px', height: 72, ...clamp(3) }}>{s?.d}</span>
                 </span>
                 <span style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
                   {x.tags.map((t, k) => (
-                    <DsTag key={t} tone={k === 0 ? 'brand' : k === 1 ? 'info' : undefined}>
+                    <DsTag key={t} tone={k === 0 ? 'brand' : undefined}>
                       {t}
                     </DsTag>
                   ))}
@@ -210,24 +245,115 @@ export function HomePage({ v }: { v: V }) {
 
       <BuyBanner />
 
-      {/* Story: DS section header + actions, with the DS Quote component (no free-form image block) */}
-      {/* Story — DS section header (title + secondary action, description) above the DS Quote */}
-      <Section band label="قصة زمزم - تمهيد">
+      {/* News (reference home): three DGA cards — image 250, title cut to one line (full title on hover), text, «قراءة المزيد» */}
+      <Section label="آخر الأخبار">
+        <SectionHeader title="الأخبار" action={<DsButton onClick={v.go?.news}>عرض الكل</DsButton>} desc={P('مستجدّات المشروع ومبادراته وإنجازاته')} />
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(300px,1fr))', gap: 16 }}>
+          {list(v.latestNews)
+            .slice(0, 3)
+            .map((n: any, k: number) => (
+              <div key={k} style={dsCard}>
+                <span role="img" aria-label="" style={css(`display:block;width:100%;height:250px;border-radius:var(--r-md);background:${n?.img ?? ''}`)} />
+                <span style={{ display: 'flex', flexDirection: 'column', gap: 8, color: 'var(--ink)' }}>
+                  <span style={{ fontSize: 18, lineHeight: '28px', fontWeight: 700, ...clamp(1) }} title={n?.title}>{n?.title}</span>
+                  <span style={{ fontSize: 16, lineHeight: '24px', height: 48, ...clamp(2) }}>{n?.body?.[0]}</span>
+                </span>
+                <div style={{ display: 'flex', marginTop: 'auto' }}>
+                  <DsButton primary onClick={n?.onClick}>
+                    قراءة المزيد
+                  </DsButton>
+                </div>
+              </div>
+            ))}
+        </div>
+      </Section>
+
+      {/* Journey — DS tabs (icon + station) above a media card: station tag, title, text, detail, prev/next controls */}
+      <Section band label="رحلة ماء زمزم - تمهيد">
         <SectionHeader
-          title="قصةٌ بدأت قبل أربعة آلاف عام"
-          action={<DsButton onClick={v.go?.story}>تعرّف أكثر</DsButton>}
-          desc={
-            <>
-              {P('حين تُرك إسماعيل عليه السلام رضيعاً مع أمه هاجر في وادٍ غير ذي زرع، وسعت بين الصفا والمروة سبعاً بحثاً عن الماء، تفجّرت زمزم. ومنذ ذلك اليوم لم تنقطع.')}
-              {P('طُمرت واندثر أثرها قروناً، ثم أُعيد حفرها. عظّمها العرب قبل الإسلام، وشرب منها النبي ﷺ، وحملها الصحابة إلى الآفاق، وتعاقب على خدمتها الخلفاء والملوك.')}
-            </>
-          }
+          title="من البئر إلى يديك"
+          action={<DsButton onClick={v.go?.journey}>عرض الكل</DsButton>}
+          desc={P('لا يصل ماء زمزم إلى ضيف الرحمن صدفةً. بين البئر واليد ستّ محطات، تمرّ فيها كل قطرة تحت رقابةٍ متصلة لا تتوقف على مدار الساعة')}
         />
-        <Quote>قال النبي ﷺ: «خيرُ ماءٍ على وجه الأرض ماءُ زمزم، فيه طعامُ الطُّعم، وشفاءُ السُّقم».</Quote>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 40 }}>
+          <Tabs label="محطات رحلة ماء زمزم" items={stations.map((s: any, k: number) => ({ label: (<><Hi icon={STATION_ICONS[k]} size={20} />{s?.title}</>), selected: k === stn, onClick: () => setStn(k) }))} />
+          {(() => {
+            const s: any = stations[stn] || {};
+            const ps: string[] = s.ps || [];
+            const extra = s.bullets ? ps[0] + ' ' + s.bullets.map((b: any) => b.k).join('، ') + '.' : ps[ps.length - 1];
+            const nav = (dir: number, icon: IconSvgElement, label: string) => {
+              const to = stn + dir;
+              const off = to < 0 || to >= stations.length;
+              return (
+                <button type="button" aria-label={label} disabled={off} onClick={() => setStn(to)} className="dga-btn dga-btn-neutral" style={{ width: 48, height: 48, borderRadius: 'var(--r-sm)', border: '1px solid var(--line)', background: 'var(--card)', color: off ? 'var(--line)' : 'var(--ink)', cursor: off ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Hi icon={icon} size={20} />
+                </button>
+              );
+            };
+            return (
+              <div role="tabpanel" key={stn} style={{ display: 'flex', flexWrap: 'wrap', background: 'var(--card)', border: '1px solid var(--line)', borderRadius: 'var(--r-xl, 16px)', overflow: 'hidden', animation: 'zzfade .3s ease both' }}>
+                <div style={{ flex: '1 1 420px', minWidth: 0, boxSizing: 'border-box', padding: 32, display: 'flex', flexDirection: 'column', gap: 16, color: 'var(--ink)' }}>
+                  <span style={{ display: 'flex' }}>
+                    <DsTag tone="brand">المحطة {(stn + 1).toLocaleString('ar-EG')} من {stations.length.toLocaleString('ar-EG')}</DsTag>
+                  </span>
+                  <span style={{ fontSize: 24, lineHeight: '32px', fontWeight: 700 }}>{s.title}</span>
+                  <span style={{ fontSize: 16, lineHeight: '26px', height: 78, ...clamp(3) }}>{s.short}</span>
+                  <span aria-hidden="true" style={{ height: 1, background: 'var(--line)' }} />
+                  <span style={{ fontSize: 16, lineHeight: '26px', color: 'var(--ink-2)', height: 78, ...clamp(3) }}>{extra}</span>
+                  <span style={{ marginTop: 'auto', paddingTop: 16, display: 'flex', gap: 8 }}>
+                    {nav(-1, ArrowRight01Icon, 'المحطة السابقة')}
+                    {nav(1, ArrowLeft01Icon, 'المحطة التالية')}
+                  </span>
+                </div>
+                <div role="img" aria-label={s.title} style={{ flex: '1 1 480px', minHeight: 400, background: STATION_MEDIA[stn] }} />
+              </div>
+            );
+          })()}
+        </div>
+      </Section>
+
+      {/* Story (reference home): header with the film's text as description, then the film as a DGA card (7 of 12) beside the six chapters as the DGA Accordion (one open at a time) */}
+      <Section label="قصة زمزم - تمهيد">
+        <SectionHeader
+          title="قصة زمزم"
+          action={<DsButton onClick={v.go?.story}>عرض الكل</DsButton>}
+          desc={P('قصةٌ بدأت قبل أربعة آلاف عام. حين تُرك إسماعيل عليه السلام رضيعاً مع أمه هاجر في وادٍ غير ذي زرع، وسعت بين الصفا والمروة سبعاً بحثاً عن الماء، تفجّرت زمزم. ومنذ ذلك اليوم لم تنقطع.')}
+        />
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(min(100%,420px),1fr))', gap: 32, alignItems: 'start' }}>
+          <div style={{ ...dsCard, padding: 0, overflow: 'hidden', gridColumn: 'span 1' }}>
+            <button type="button" onClick={v.film?.hagar} aria-label="تشغيل فيلم قصة زمزم" className="zz-film" style={{ position: 'relative', display: 'block', width: '100%', aspectRatio: '16/9', padding: 0, border: 0, background: "url('assets/da38.jpg') center 30%/cover no-repeat", cursor: 'pointer' }}>
+              <span aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'rgba(28,25,21,.2)' }} />
+              <span style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <span style={{ width: 64, height: 64, borderRadius: 9999, background: 'var(--card)', color: 'var(--gold)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 'var(--shadow-lg)' }}>
+                  <Hi icon={PlayIcon} size={28} />
+                </span>
+              </span>
+            </button>
+          </div>
+          <AccordionList>
+            {SAGA.map(([t, lead], k) => (
+              <AccordionItem
+                key={k}
+                first={k === 0}
+                q={`الفصل ${(k + 1).toLocaleString('ar-EG')}: ${t}`}
+                open={chap === k}
+                onClick={() => setChap(chap === k ? -1 : k)}
+                a={
+                  <span style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 8 }}>
+                    <span>{lead}</span>
+                    <button type="button" onClick={() => v.go?.chapter?.(k)} className="dga-link" style={{ padding: 0, border: 0, background: 'none', color: 'var(--gold)', fontWeight: 600, fontSize: 16, lineHeight: '24px', cursor: 'pointer', fontFamily: 'inherit', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                      اقرأ الفصل <Hi icon={ArrowLeft01Icon} size={16} />
+                    </button>
+                  </span>
+                }
+              />
+            ))}
+          </AccordionList>
+        </div>
       </Section>
 
       {/* Films — DGA Service Page "video" pattern: horizontal tab list (one tab per film) above a video frame with a play icon */}
-      <Section label="أفلام زمزم">
+      <Section band label="أفلام زمزم">
         <SectionHeader title="أفلام زمزم" action={<DsButton onClick={v.go?.gallery}>عرض الكل</DsButton>} desc={P('أفلام قصيرة تروي قصة زمزم ورحلة مائه المبارك من البئر إلى العالم.')} />
         {filmStyle === 'playlist' ? (
           /* Option B — featured player + playlist (DS media list: thumbnail, title, meta; selected item highlighted) */
@@ -295,76 +421,9 @@ export function HomePage({ v }: { v: V }) {
         )}
       </Section>
 
-      {/* Journey — DS tabs (icon + station) above a media card: station tag, title, text, detail, prev/next controls */}
-      <Section band label="رحلة ماء زمزم - تمهيد">
-        <SectionHeader
-          title="من البئر إلى يديك"
-          action={<DsButton onClick={v.go?.journey}>الرحلة كاملة</DsButton>}
-          desc={P('لا يصل ماء زمزم إلى ضيف الرحمن صدفةً. بين البئر واليد ستّ محطات، تمرّ فيها كل قطرة تحت رقابةٍ متصلة لا تتوقف على مدار الساعة')}
-        />
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 40 }}>
-          <Tabs label="محطات رحلة ماء زمزم" items={stations.map((s: any, k: number) => ({ label: (<><Hi icon={STATION_ICONS[k]} size={20} />{s?.title}</>), selected: k === stn, onClick: () => setStn(k) }))} />
-          {(() => {
-            const s: any = stations[stn] || {};
-            const ps: string[] = s.ps || [];
-            const extra = s.bullets ? ps[0] + ' ' + s.bullets.map((b: any) => b.k).join('، ') + '.' : ps[ps.length - 1];
-            const nav = (dir: number, icon: IconSvgElement, label: string) => {
-              const to = stn + dir;
-              const off = to < 0 || to >= stations.length;
-              return (
-                <button type="button" aria-label={label} disabled={off} onClick={() => setStn(to)} className="dga-btn dga-btn-neutral" style={{ width: 48, height: 48, borderRadius: 'var(--r-sm)', border: '1px solid var(--line)', background: 'var(--card)', color: off ? 'var(--line)' : 'var(--ink)', cursor: off ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Hi icon={icon} size={20} />
-                </button>
-              );
-            };
-            return (
-              <div role="tabpanel" key={stn} style={{ display: 'flex', flexWrap: 'wrap', background: 'var(--card)', border: '1px solid var(--line)', borderRadius: 'var(--r-xl, 16px)', overflow: 'hidden', animation: 'zzfade .3s ease both' }}>
-                <div style={{ flex: '1 1 420px', minWidth: 0, boxSizing: 'border-box', padding: 32, display: 'flex', flexDirection: 'column', gap: 16, color: 'var(--ink)' }}>
-                  <span style={{ display: 'flex' }}>
-                    <DsTag tone="brand">المحطة {(stn + 1).toLocaleString('ar-EG')} من {stations.length.toLocaleString('ar-EG')}</DsTag>
-                  </span>
-                  <span style={{ fontSize: 24, lineHeight: '32px', fontWeight: 700 }}>{s.title}</span>
-                  <span style={{ fontSize: 16, lineHeight: '26px', height: 78, ...clamp(3) }}>{s.short}</span>
-                  <span aria-hidden="true" style={{ height: 1, background: 'var(--line)' }} />
-                  <span style={{ fontSize: 16, lineHeight: '26px', color: 'var(--ink-2)', height: 78, ...clamp(3) }}>{extra}</span>
-                  <span style={{ marginTop: 'auto', paddingTop: 16, display: 'flex', gap: 8 }}>
-                    {nav(-1, ArrowRight01Icon, 'المحطة السابقة')}
-                    {nav(1, ArrowLeft01Icon, 'المحطة التالية')}
-                  </span>
-                </div>
-                <div role="img" aria-label={s.title} style={{ flex: '1 1 480px', minHeight: 400, background: STATION_MEDIA[stn] }} />
-              </div>
-            );
-          })()}
-        </div>
-      </Section>
-
-      {/* DS Articles and News Section: three cards (image 250, title, text, primary «قراءة المزيد») */}
-      <Section label="آخر الأخبار">
-        <SectionHeader title="آخر الأخبار" action={<DsButton onClick={v.go?.news}>عرض الكل</DsButton>} desc={P('تابع أحدث أخبار سقيا زمزم ومبادراتها وإنجازاتها.')} />
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(300px,1fr))', gap: 16 }}>
-          {list(v.latestNews)
-            .slice(0, 3)
-            .map((n: any, k: number) => (
-              <div key={k} style={dsCard}>
-                <span role="img" aria-label="" style={css(`display:block;width:100%;height:250px;border-radius:var(--r-md);background:${n?.img ?? ''}`)} />
-                <span style={{ display: 'flex', flexDirection: 'column', gap: 8, color: 'var(--ink)' }}>
-                  <span style={{ fontSize: 18, lineHeight: '28px', fontWeight: 700, height: 56, ...clamp(2) }}>{n?.title}</span>
-                  <span style={{ fontSize: 16, lineHeight: '24px', height: 48, ...clamp(2) }}>{n?.body?.[0]}</span>
-                </span>
-                <div style={{ display: 'flex', marginTop: 'auto' }}>
-                  <DsButton primary onClick={n?.onClick}>
-                    قراءة المزيد
-                  </DsButton>
-                </div>
-              </div>
-            ))}
-        </div>
-      </Section>
-
       {/* DS Partner Section: title, then image-only logo cards (98×100, logo area 66×68) between the arrow buttons */}
       <Section label="الشركاء والجهات ذات العلاقة">
-        <h2 style={{ margin: 0, fontSize: 30, lineHeight: '38px', fontWeight: 700, color: 'var(--ink)' }}>الشركاء والجهات ذات العلاقة</h2>
+        <SectionHeader title="الشركاء والجهات ذات العلاقة" desc={P('منظومة وطنية')} />
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 20 }}>
           <DsIconButton d={CHEV_RIGHT} label="السابق" onClick={() => scrollPartners(1)} />
           <div id="partners-row" style={{ flex: 1, minWidth: 0, display: 'flex', justifyContent: 'center', gap: 20, overflowX: 'auto', scrollbarWidth: 'none' }}>
@@ -415,14 +474,22 @@ export function HomePage({ v }: { v: V }) {
         </div>
       </Section>
 
+      {/* FAQ (reference home): header + DGA Accordion, first question open */}
       <Section label="الأسئلة الشائعة - مختصر">
-        <SectionHeader title="الأسئلة الشائعة" action={<DsButton onClick={v.go?.faq}>عرض الكل</DsButton>} desc={P('إجابات مباشرة لأكثر ما يُسأل عنه.')} />
+        <SectionHeader title="نجيب عن تساؤلاتك" action={<DsButton onClick={v.go?.faq}>عرض الكل</DsButton>} desc={P('إجابات واضحة لأكثر الأسئلة تداولًا حول خدمة ماء زمزم، لضمان تجربة سلسة ومعلومات دقيقة قبل تقديم الطلب.')} />
         <AccordionList>
-          {list(v.topFaq).map((f: any, k: number) => (
-            <AccordionItem key={k} first={k === 0} q={f?.q} a={f?.a} open={f?.open} onClick={f?.onClick} />
+          {HOME_FAQ.map(([q, a], k) => (
+            <AccordionItem key={k} first={k === 0} q={q} a={a} open={faq === k} onClick={() => setFaq(faq === k ? -1 : k)} />
           ))}
         </AccordionList>
       </Section>
+
+
+
+
+
+
+
     </>
   );
 }

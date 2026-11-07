@@ -19,6 +19,7 @@ export function siteVals(self) {
     go.aboutStake=()=>self.go('about',{},'stake');
     go.buyMap=()=>self.go('buy',{},'map');
     go.gallery=()=>self.go('media',{mediaTab:3});
+    go.chapter=(i)=>self.go('story',{chapter:i});
     go.stats=()=>self.go('stats',{dataTab:0});go.reports=()=>self.go('stats',{dataTab:1});go.certs=()=>self.go('stats',{dataTab:2});
     go.museumVisit=()=>self.go('museum',{museumTab:2});
     go.museumAxes=()=>self.go('museum',{museumTab:1});
