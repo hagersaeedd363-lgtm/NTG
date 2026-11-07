@@ -101,13 +101,14 @@ function Lineup({ h = 320 }: { h?: number }) {
           src={p.img}
           alt=""
           style={{
-            width: i === 1 ? '44%' : '33%',
+            width: i === 1 ? '34%' : '26%',
             maxHeight: i === 1 ? h : h * 0.81,
             objectFit: 'contain',
             objectPosition: 'bottom',
             marginInline: '-2%',
             position: 'relative',
             zIndex: i === 1 ? 2 : 1,
+            filter: 'drop-shadow(0 10px 10px rgba(58,48,34,.35))',
           }}
         />
       ))}
@@ -152,15 +153,15 @@ export function BuyBanner() {
             style={{
               flex: '1 1 520px',
               minHeight: 411,
-              background: 'var(--bg-alt)',
+              background: "url('assets/da38.jpg') center 58%/cover no-repeat",
               display: 'flex',
               alignItems: 'flex-end',
               justifyContent: 'center',
-              padding: '40px 48px 0',
+              padding: '40px 48px 28px',
               boxSizing: 'border-box',
             }}
           >
-            <Lineup h={360} />
+            <Lineup h={250} />
           </div>
         </section>
       </div>
@@ -187,16 +188,16 @@ export function BuyBanner() {
               maxWidth: 560,
               height: 380,
               borderRadius: 'var(--r-lg)',
-              background: 'var(--bg-alt)',
+              background: "url('assets/da38.jpg') center 58%/cover no-repeat",
               display: 'flex',
               alignItems: 'flex-end',
               justifyContent: 'center',
-              padding: '32px 24px 0',
+              padding: '32px 24px 24px',
               boxSizing: 'border-box',
               overflow: 'hidden',
             }}
           >
-            <Lineup />
+            <Lineup h={220} />
           </div>
         </div>
       </Section>
