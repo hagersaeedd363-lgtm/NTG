@@ -1,7 +1,7 @@
 import { DeliveryTruck01Icon, PackageIcon, SecurityCheckIcon } from '@hugeicons/core-free-icons';
 import { PRODUCTS } from '../../data/portal';
 import { portal } from '../../portal/store';
-import { DsButton, DsTag, FeaturedIcon, Section, type IconSvgElement } from '../ds';
+import { DsButton, DsTag, FeaturedIcon, wrap, type IconSvgElement } from '../ds';
 
 type Product = {
   id: string;
@@ -162,9 +162,11 @@ export function BuyBanner() {
 
   return (
     <div id="buy-pack">
-      <Section label="اقتن عبوة زمزم">
+      {/* Warm sand band of its own: sets the section apart from «خدماتنا» (light neutral band) above and «الأخبار» (white) below */}
+      <section data-screen-label="اقتن عبوة زمزم" style={{ background: 'linear-gradient(180deg,#F6EEE3 0%,#EEE0CB 100%)', padding: '40px 0' }}>
         <div
           style={{
+            ...wrap,
             display: 'flex',
             flexWrap: 'wrap',
             alignItems: 'center',
@@ -178,7 +180,7 @@ export function BuyBanner() {
             <Scene rounded />
           </div>
         </div>
-      </Section>
+      </section>
     </div>
   );
 }
