@@ -73,30 +73,21 @@ export function BuyBanner() {
   );
   return wrap(
     <div style={{ borderRadius: 24, overflow: 'hidden', background: 'var(--card)', boxShadow: 'var(--card-shadow)', display: 'flex', flexWrap: 'wrap-reverse', alignItems: 'stretch' }}>
-      {/* Product scene: warm studio backdrop (soft light behind the range, deeper sand at the base), one fine gold arch,
-          a faint calligraphy watermark and a pale podium; three premium bottles in front (centre tallest), the carton and the 5 L behind */}
+      {/* Product scene: sand backdrop with the gold Zamzam wave pattern, a soft light circle behind the range and a pale podium;
+          three premium bottles (centre tallest) beside the 5 L */}
       <div
         aria-hidden="true"
-        style={{
-          flex: '1 1 380px',
-          minHeight: 380,
-          position: 'relative',
-          overflow: 'hidden',
-          background:
-            'radial-gradient(ellipse 58% 52% at 50% 40%,rgba(255,253,248,.95) 0%,rgba(255,253,248,0) 72%),radial-gradient(ellipse 85% 38% at 50% 100%,rgba(190,152,92,.32) 0%,rgba(190,152,92,0) 72%),linear-gradient(180deg,#F6EEE2 0%,#E9D9C0 100%)',
-        }}
+        style={{ flex: '1 1 380px', minHeight: 380, position: 'relative', overflow: 'hidden', background: 'linear-gradient(180deg,#F4ECDF 0%,#E7D6BA 100%)' }}
       >
-        <span style={{ position: 'absolute', inset: 0, background: 'var(--callig-img) 50% 12%/58% auto no-repeat', opacity: 0.05 }} />
-        <span style={{ position: 'absolute', left: '50%', bottom: 60, width: '56%', height: '74%', transform: 'translateX(-50%)', borderRadius: '999px 999px 0 0', background: 'linear-gradient(180deg,rgba(255,255,255,.7) 0%,rgba(255,255,255,.12) 100%)', boxShadow: 'inset 0 0 0 1px rgba(164,124,28,.32)' }} />
-        <span style={{ position: 'absolute', left: '50%', bottom: 60, width: '47%', height: '65%', transform: 'translateX(-50%)', borderRadius: '999px 999px 0 0', boxShadow: 'inset 0 0 0 1px rgba(164,124,28,.16)' }} />
-        <span style={{ position: 'absolute', left: '50%', bottom: 26, width: '82%', height: 66, transform: 'translateX(-50%)', borderRadius: '50%', background: 'linear-gradient(180deg,#FFFFFF 0%,#EFE3D0 100%)', boxShadow: '0 22px 38px rgba(110,82,40,.24), inset 0 -3px 0 rgba(164,124,28,.16)' }} />
+        <span style={{ position: 'absolute', inset: 0, background: '#B49164', opacity: 0.35, WebkitMask: "url('assets/zz-pattern.svg') left top/auto 120% repeat-x", mask: "url('assets/zz-pattern.svg') left top/auto 120% repeat-x" }} />
+        <span style={{ position: 'absolute', left: '50%', top: '9%', width: '62%', aspectRatio: '1', transform: 'translateX(-50%)', borderRadius: '50%', background: 'radial-gradient(circle,#FFFDF8 0%,#FBF4E8 60%,rgba(251,244,232,0) 72%)' }} />
+        <span style={{ position: 'absolute', left: '50%', bottom: 30, width: '84%', height: 64, transform: 'translateX(-50%)', borderRadius: '50%', background: 'linear-gradient(180deg,#FFFFFF 0%,#EADFCB 100%)', boxShadow: '0 20px 36px rgba(107,86,57,.25)' }} />
         {(
           [
-            ['assets/zz-pack.png', { left: '13%', bottom: 70, height: '36%', zIndex: 1 }],
-            ['assets/zz-5l.png', { right: '15%', bottom: 70, height: '46%', zIndex: 1 }],
-            ['assets/zz-bottle.png', { left: '33%', bottom: 50, height: '46%', zIndex: 2 }],
-            ['assets/zz-bottle.png', { right: '33%', bottom: 50, height: '46%', zIndex: 2 }],
-            ['assets/zz-bottle.png', { left: '50%', bottom: 40, height: '60%', transform: 'translateX(-50%)', zIndex: 3 }],
+            ['assets/zz-5l.png', { right: '17%', bottom: 66, height: '46%', zIndex: 1 }],
+            ['assets/zz-bottle.png', { left: '23%', bottom: 62, height: '44%', zIndex: 2 }],
+            ['assets/zz-bottle.png', { left: '52%', bottom: 62, height: '44%', zIndex: 2 }],
+            ['assets/zz-bottle.png', { left: '44%', bottom: 54, height: '58%', transform: 'translateX(-50%)', zIndex: 3 }],
           ] as Array<[string, CSSProperties]>
         ).map(([src, st], k) => (
           <img key={k} src={src} alt="" style={{ position: 'absolute', objectFit: 'contain', filter: 'drop-shadow(0 16px 14px rgba(58,48,34,.30))', ...st }} />
