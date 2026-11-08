@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import { PRODUCTS } from '../../data/portal';
 import { portal } from '../../portal/store';
 
@@ -63,7 +63,6 @@ const wrap = (children: ReactNode) => (
 
 /** Home «اقتن ماء زمزم» banner: the range together and one «اطلب الآن»; sizes and quantities are chosen in the order. */
 export function BuyBanner() {
-  const lineup = [ITEMS.find((p) => p.id === 'p5000'), ITEMS.find((p) => p.id === 'p330'), ITEMS.find((p) => p.id === 'p500')].filter(Boolean) as Product[];
   const point = (d: string, t: string) => (
     <li style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 16, color: 'var(--ink-2)' }}>
       <span style={{ width: 34, height: 34, flexShrink: 0, borderRadius: 10, background: 'var(--gold-soft)', color: 'var(--gold-on-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -74,79 +73,33 @@ export function BuyBanner() {
   );
   return wrap(
     <div style={{ borderRadius: 24, overflow: 'hidden', background: 'var(--card)', boxShadow: 'var(--card-shadow)', display: 'flex', flexWrap: 'wrap-reverse', alignItems: 'stretch' }}>
+      {/* Product scene: warm studio backdrop (soft light behind the range, deeper sand at the base), one fine gold arch,
+          a faint calligraphy watermark and a pale podium; three premium bottles in front (centre tallest), the carton and the 5 L behind */}
       <div
+        aria-hidden="true"
         style={{
           flex: '1 1 380px',
-          minHeight: 340,
+          minHeight: 380,
           position: 'relative',
           overflow: 'hidden',
-          background: 'radial-gradient(ellipse 70% 55% at 50% 78%,rgba(212,168,67,.38) 0%,rgba(212,168,67,0) 70%),linear-gradient(165deg,var(--card-2) 0%,color-mix(in srgb,var(--card-2) 70%,#D4A843) 100%)',
-          display: 'flex',
-          alignItems: 'flex-end',
-          justifyContent: 'center',
-          padding: '40px 24px 46px',
+          background:
+            'radial-gradient(ellipse 58% 52% at 50% 40%,rgba(255,253,248,.95) 0%,rgba(255,253,248,0) 72%),radial-gradient(ellipse 85% 38% at 50% 100%,rgba(190,152,92,.32) 0%,rgba(190,152,92,0) 72%),linear-gradient(180deg,#F6EEE2 0%,#E9D9C0 100%)',
         }}
       >
-        {/* arch behind the products */}
-        <span
-          aria-hidden="true"
-          style={{
-            position: 'absolute',
-            left: '50%',
-            bottom: 46,
-            width: '58%',
-            height: '76%',
-            transform: 'translateX(-50%)',
-            borderRadius: '999px 999px 0 0',
-            background: 'linear-gradient(180deg,rgba(212,168,67,.28) 0%,rgba(212,168,67,.08) 100%)',
-            boxShadow: 'inset 0 0 0 1px rgba(164,124,28,.28)',
-          }}
-        />
-        <span
-          aria-hidden="true"
-          style={{
-            position: 'absolute',
-            left: '50%',
-            bottom: 46,
-            width: '46%',
-            height: '64%',
-            transform: 'translateX(-50%)',
-            borderRadius: '999px 999px 0 0',
-            boxShadow: 'inset 0 0 0 1px rgba(164,124,28,.18)',
-          }}
-        />
-        <span aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'var(--callig-img) 50% 18%/62% auto no-repeat', opacity: 0.06 }} />
-        {/* podium the products stand on */}
-        <span
-          aria-hidden="true"
-          style={{
-            position: 'absolute',
-            left: '50%',
-            bottom: 20,
-            width: '78%',
-            height: 54,
-            transform: 'translateX(-50%)',
-            borderRadius: '50%',
-            background: 'linear-gradient(180deg,var(--card) 0%,color-mix(in srgb,var(--card-2) 75%,#C9A65C) 100%)',
-            boxShadow: '0 18px 34px rgba(120,90,30,.28), inset 0 -2px 0 rgba(164,124,28,.25)',
-          }}
-        />
-        {lineup.map((p, i) => (
-          <img
-            key={p.id}
-            src={p.img}
-            alt=""
-            style={{
-              width: i === 1 ? '40%' : '32%',
-              maxHeight: i === 1 ? 280 : 220,
-              objectFit: 'contain',
-              objectPosition: 'bottom',
-              marginInline: '-3%',
-              position: 'relative',
-              zIndex: i === 1 ? 2 : 1,
-              filter: 'drop-shadow(0 14px 14px rgba(60,40,10,.28))',
-            }}
-          />
+        <span style={{ position: 'absolute', inset: 0, background: 'var(--callig-img) 50% 12%/58% auto no-repeat', opacity: 0.05 }} />
+        <span style={{ position: 'absolute', left: '50%', bottom: 60, width: '56%', height: '74%', transform: 'translateX(-50%)', borderRadius: '999px 999px 0 0', background: 'linear-gradient(180deg,rgba(255,255,255,.7) 0%,rgba(255,255,255,.12) 100%)', boxShadow: 'inset 0 0 0 1px rgba(164,124,28,.32)' }} />
+        <span style={{ position: 'absolute', left: '50%', bottom: 60, width: '47%', height: '65%', transform: 'translateX(-50%)', borderRadius: '999px 999px 0 0', boxShadow: 'inset 0 0 0 1px rgba(164,124,28,.16)' }} />
+        <span style={{ position: 'absolute', left: '50%', bottom: 26, width: '82%', height: 66, transform: 'translateX(-50%)', borderRadius: '50%', background: 'linear-gradient(180deg,#FFFFFF 0%,#EFE3D0 100%)', boxShadow: '0 22px 38px rgba(110,82,40,.24), inset 0 -3px 0 rgba(164,124,28,.16)' }} />
+        {(
+          [
+            ['assets/zz-pack.png', { left: '13%', bottom: 70, height: '36%', zIndex: 1 }],
+            ['assets/zz-5l.png', { right: '15%', bottom: 70, height: '46%', zIndex: 1 }],
+            ['assets/zz-bottle.png', { left: '33%', bottom: 50, height: '46%', zIndex: 2 }],
+            ['assets/zz-bottle.png', { right: '33%', bottom: 50, height: '46%', zIndex: 2 }],
+            ['assets/zz-bottle.png', { left: '50%', bottom: 40, height: '60%', transform: 'translateX(-50%)', zIndex: 3 }],
+          ] as Array<[string, CSSProperties]>
+        ).map(([src, st], k) => (
+          <img key={k} src={src} alt="" style={{ position: 'absolute', objectFit: 'contain', filter: 'drop-shadow(0 16px 14px rgba(58,48,34,.30))', ...st }} />
         ))}
       </div>
       <div style={{ flex: '1 1 460px', padding: 'clamp(28px,4vw,48px)', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center', gap: 18 }}>
